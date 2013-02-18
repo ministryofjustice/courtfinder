@@ -1,0 +1,5 @@
+<ul>
+<% @courts.each do | court | %>
+  <li><%= link_to(court.name, court_path(court)) %></li>
+<% end %>
+</ul>
