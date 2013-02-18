@@ -11,14 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130215170515) do
+ActiveRecord::Schema.define(:version => 20130218152339) do
 
   create_table "courts", :force => true do |t|
     t.string   "name"
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.integer  "area_id"
+    t.integer  "cci_identifier"
+    t.integer  "cci_code"
+    t.integer  "old_id"
+    t.integer  "old_postal_address_id"
+    t.integer  "old_court_address_id"
+    t.integer  "old_court_type_id"
   end
 
 end
