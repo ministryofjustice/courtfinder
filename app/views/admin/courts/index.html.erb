@@ -15,7 +15,7 @@
     <td><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.info %></td>
-    <td><%= link_to 'Show', court %></td>
+    <td><%= link_to 'Show', admin_court_path(court) %></td>
     <td><%= link_to 'Edit', edit_admin_court_path(court) %></td>
     <td><%= link_to 'Destroy', court, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
