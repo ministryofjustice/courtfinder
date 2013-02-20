@@ -44,99 +44,97 @@ $(function () {
 		left: pos.left
 	});
 	
-	search.keydown(function (e) {
-		var path;
-		switch (e.keyCode) {
-			
-			case 38: // up arrow
-			case 40: // down
-				e.preventDefault();
+	search
+		.keydown(function (e) {
+			var path;
+			switch (e.keyCode) {
 				
-				if (!active) {
-					showResults();
-					return;
-				}
-				
-				selectedResult = results.find('li.' + klass).removeClass(klass);
-				
-				if (selectedResult.length) {
-					switch (e.keyCode) {
-						case 40:
-							selectedResult = selectedResult.next('li');
-							break;
-						case 38:
-							selectedResult = selectedResult.prev('li');
-					}
-				} 
-				// Default to the first item
-				else {
-					selectedResult = results.find('li:first-child');
-				}
-				
-				selectedResult.addClass(klass);
-
-				break;
-			
-			case 13: // enter
-				if (active) {
-					path = results.find('li.selected a').attr('href');
+				case 38: // up arrow
+				case 40: // down
+					e.preventDefault();
 					
-					if (path.length) {
-						e.preventDefault();
-						window.location.href = path;
+					if (!active) {
+						showResults();
+						return;
 					}
-				}
-				break;
-			
-			case 27: // esc
-				hideResults();
-		}
-	});
-	
-	search.keyup(function (e) {
-		var term,
-			k = e.keyCode;
-		
-    	// Allow only characters, numbers, space and hyphen
-		if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
-			return;
-		}
-		
-		term = $(this).val();
+					
+					selectedResult = results.find('li.' + klass).removeClass(klass);
+					
+					if (selectedResult.length) {
+						switch (e.keyCode) {
+							case 40:
+								selectedResult = selectedResult.next('li');
+								break;
+							case 38:
+								selectedResult = selectedResult.prev('li');
+						}
+					} 
+					// Default to the first item
+					else {
+						selectedResult = results.find('li:first-child');
+					}
+					
+					selectedResult.addClass(klass);
 
-		if (term.length > minText) {
-			// Find a match server side
-			$.get('/courts.json', { search: term }, function (courtData) {
-				var court, courts, name, i, len;
-
-				if (courtData.length === 0) {
+					break;
+				
+				case 13: // enter
+					if (active) {
+						path = results.find('li.selected a').attr('href');
+						
+						if (path.length) {
+							e.preventDefault();
+							window.location.href = path;
+						}
+					}
+					break;
+				
+				case 27: // esc
 					hideResults();
-				} else {
-					courts = [];
+			}
+		})
+		.keyup(function (e) {
+			var term,
+				k = e.keyCode;
+			
+	    	// Allow only characters, numbers, space and hyphen
+			if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
+				return;
+			}
+			
+			term = $(this).val();
 
-					for (i = 0; i < courtData.length; i++) {
-						court = courtData[i];
-						name = markMatched(term, court.name);
-						courts.push('<li><a href="/courts/' + court.id + '">' + name + '</a></li>');
+			if (term.length > minText) {
+				// Find a match server side
+				$.get('/courts.json', { search: term }, function (courtData) {
+					var court, courts, name, i, len;
+
+					if (courtData.length === 0) {
+						hideResults();
+					} else {
+						courts = [];
+
+						for (i = 0; i < courtData.length; i++) {
+							court = courtData[i];
+							name = markMatched(term, court.name);
+							courts.push('<li><a href="/courts/' + court.id + '">' + name + '</a></li>');
+						}
+						
+						results.html('<ul>' + courts.join('') + '</ul>');
+						
+						showResults();
 					}
-					
-					results.html('<ul>' + courts.join('') + '</ul>');
-					
-					showResults();
-				}
-			});
-		} else {
+				});
+			} else {
+				hideResults();
+			}
+		})
+		.blur(function () {
 			hideResults();
-		}
-	});
-	
-	search.blur(function () {
-		hideResults();
-	});
-	
-	search.focus(function () {
-		showResults();
-	});
+		})
+		.focus(function () {
+			showResults();
+		});
 	
 	$(document).keyup(function (e) {
 		if (e.keyCode === 191) { // forward slash
