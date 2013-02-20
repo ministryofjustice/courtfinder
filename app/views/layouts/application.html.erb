@@ -1,14 +1,129 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 9]><html class="lte-ie8 " lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en" class="">
+<!--<![endif]-->
 <head>
-  <title>Courtfinder</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Find a court - Service</title>
+<!--[if gt IE 8]><!--><link href="https://assets.digital.cabinet-office.gov.uk/static/application-d0982dedab76c560f854d68dc4929b61.css" media="screen" rel="stylesheet" type="text/css">
+<!--<![endif]-->
+<!--[if IE 6]><link href="https://assets.digital.cabinet-office.gov.uk/static/application-ie6-bf5dd8e61d3924b545bb7c2159f48063.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 7]><link href="https://assets.digital.cabinet-office.gov.uk/static/application-ie7-f466bccf6ea92a55c037efdeb417ff2b.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 8]><link href="https://assets.digital.cabinet-office.gov.uk/static/application-ie8-f87a555a94465c5df4971df60ff39794.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+<link href="https://assets.digital.cabinet-office.gov.uk/static/print-38f7f3b9918b286af8752341482cb58b.css" media="print" rel="stylesheet" type="text/css">
+<!--[if IE 8]>
+<script type="text/javascript">
+  (function(){if(window.opera){return;}
+  setTimeout(function(){var a=document,g,b={families:(g=
+  ["nta"]),urls:["https://assets.digital.cabinet-office.gov.uk/static/fonts-ie8-f9103e511d785c84db8af204fcd72d61.css"]},
+  c="https://assets.digital.cabinet-office.gov.uk/static/libs/goog/webfont-debug-96870cf9f159ed811fd43c39bdf4656b.js",d="script",
+  e=a.createElement(d),f=a.getElementsByTagName(d)[0],h=g.length;WebFontConfig
+  ={custom:b},e.src=c,f.parentNode.insertBefore(e,f);for(;h=h-1;a.documentElement
+  .className+=' wf-'+g[h].replace(/\s/g,'').toLowerCase()+'-n4-loading');},0)
+  })()
+</script>
+<![endif]-->
+<!--[if gte IE 9]><!--><link href="https://assets.digital.cabinet-office.gov.uk/static/fonts-29815e06d4933c40f2a71d27f70654c5.css" media="all" rel="stylesheet" type="text/css">
+<!--<![endif]-->
+<!--[if lt IE 9]>
+      <script src="https://assets.digital.cabinet-office.gov.uk/static/ie-1fc8a3c3d796fe2d351a562d959b809e.js" type="text/javascript"></script>
+    <![endif]-->
+<link rel="shortcut icon" href="https://assets.digital.cabinet-office.gov.uk/static/favicon-447e4ac1ab790342660eacfe3dcce264.ico" type="image/x-icon">
+<!-- For third-generation iPad with high-resolution Retina display: -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-144x144-4e306e01c31e237722b82b7aa7130082.png">
+<!-- For iPhone with high-resolution Retina display: -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-114x114-f1d7ccdc7b86d923386b373a9ba5e3db.png">
+<!-- For first- and second-generation iPad: -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-72x72-2ddbe540853e3ba0d30fbad2a95eab3c.png">
+<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+<link rel="apple-touch-icon-precomposed" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://assets.digital.cabinet-office.gov.uk/frontend/frontend-319e05785e1ff8d688cbe1ccc9ca2e59.js" type="text/javascript"></script>
+<link title="Search" rel="search" type="application/opensearchdescription+xml" href="/search/opensearch.xml">
+<!--[if gt IE 8]><!--><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-32925ba9676b2b61017cc7ecf923de90.css" media="screen" rel="stylesheet" type="text/css">
+<!--<![endif]-->
+<link rel="alternate" type="application/json" href="/find-mobile-library.json?all=true">
+<!--[if IE 6]><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-ie6-7fd6442352f87353dc47460996830397.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 7]><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-ie7-bf5f5ff693f08a14e91440dc8e8e5f5a.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 8]><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-ie8-39d206d43556c5c6f948236e10f95eab.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
 </head>
-<body>
-
-<%= yield %>
-
+<body class="mainstream">
+<script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/functions.js"></script>
+<a href="#content" class="visuallyhidden">Skip to main content</a>
+<header role="banner" class="group" id="global-header">
+  <div class="header-wrapper group"> <a href="#footer" class="visuallyhidden">Skip to footer navigation</a> <a href="/" title="Go to the gov.uk homepage" id="logo" style="Color: #fff; font-size: 2em; text-decoration: none;">Ministry of Justice </a>
+  </div>
+</header>
+<!--end header-->
+<div id="global-cookie-message">
+  <p>GOV.UK uses cookies to make the site simpler. <a href="/support/cookies">Find out more about cookies</a></p>
+</div>
+<div id="global-breadcrumb" class="header-context">
+  <nav role="navigation">
+    <ol class="group">
+      <li><a href="/">Home</a></li>
+      <li><a href="https://www.gov.uk/browse/justice">Crime, justice and the law</a></li>
+      <li>Finder</strong></li>
+    </ol>
+  </nav>
+</div>
+<div id="wrapper" class="local_transaction service">
+  <section id="content" role="main" class="group">
+    <header class="page-header group">
+      <hgroup>
+        <h1> <span>Service</span> Find a court</h1>
+      </hgroup>
+      <nav class="skip-to-related"><a href="#related">Not what you're looking for? ?</a> </nav>
+    </header>
+	<div class="article-container group">
+	<%= yield %>
+    
+      <!-- report_a_problem -->
+      <p class="report-a-problem-toggle"><a href="">Is something wrong with this page?</a></p>
+      <div class="report-a-problem-container">
+        <p>Help us improve GOV.UK by telling us:</p>
+        <form accept-charset="UTF-8" action="/feedback" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="?">
+          </div>
+          <input id="url" name="url" type="hidden" value="https://www.gov.uk/find-mobile-library">
+          <label for="what_doing"> What you were doing
+            <input id="what_doing" name="what_doing" type="text">
+          </label>
+          <label for="what_wrong"> What went wrong
+            <input id="what_wrong" name="what_wrong" type="text">
+          </label>
+          <div>
+             <button name="commit" type="submit" class="button">Send</button>
+          </div>
+        
+        </form>
+      </div>
+      <!-- end report_a_problem -->
+      <div class="meta-data group">
+        <div class="inner">
+          <p class="modified-date">Last updated: 9 January 2013</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<footer class="group" role="contentinfo">
+  <div id="footer-wrapper">
+    <div class="container-wrapper">
+      <div id="footer">
+        
+      </div>
+    </div>
+  </div>
+</footer>
+<!--end footer-->
+<div id="global-app-error" class="app-error hidden"></div>
 </body>
 </html>

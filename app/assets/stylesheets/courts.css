@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/* MOJ footer */
+#footer-wrapper {background-color:#231F20;}
+#footer-wrapper #footer h1 {color:#fff; font-weight:normal; margin-left:30px;}
+#footer-wrapper #footer {background-color:#231F20; border-top: 1px solid #A1ACB2; margin: 0 auto; /*max-width:58%;*/}
+#footer-wrapper #footer a {color:#fff;}
+#footer-wrapper #footer h2 {padding:2em 0 1em 0; color:#fff; border-bottom:solid 1px #fff; width:229px;}
+#footer-wrapper #footer ul {list-style-type:none; color:#fff;}
+#footer-wrapper #footer .box25p, 
+#footer-wrapper #footer .box25p-last {float:left; width:160px; padding-right:8px; padding-bottom: 1em; }
+#footer .box25p-last {padding-right:0;}
+#footer-wrapper #footer .box25p li, #footer-wrapper #footer .box25p-last li{line-height:2.25;}
+#footer-wrapper #footer .f-line{clear:both;}
+
+#global-header #logo {width:auto; height:auto; margin-left:0.9em;}
+
+#wrapper.answer article .inner, #wrapper.transaction article .inner, #wrapper.local_transaction article .inner {padding-right:5em;}
+#wrapper article .inner img {float:right; /*border:solid 2px #eee;*/ margin-left:5px; }
+#wrapper article .inner #address ul {padding:0!important;}
+#wrapper article .inner #address ul li {float:left; width:45%; display:block;}
+#wrapper article .inner #address ul li div.address {padding:5px;}
+#wrapper article .inner section.more {clear:both; padding-bottom:8px; /*border-bottom:1px dotted #BFC1C3;*/ }
+
+/* Postcode search */
+
+#wrapper article form input[type="text"], input[type="search"] {max-width: 16em; margin:0;}
+#wrapper article .type .checkbox {float:none;}
+#wrapper article .type label {margin-right:10px;}
+
+/* Advanced search */
+
+#wrapper article #advanced-search {background: #EAEDEF; min-height: 2em; line-height: 2; margin: 2em -1em 0 -1em; padding: 1em 0.75em 1em 3.5em;
+position: relative;}
+#wrapper article #advanced-search h2 {font-weight:normal;}
+#wrapper article #advanced-search form.more-options h3 {clear:both;}
+#wrapper article #advanced-search form.more-options div.form-item {padding: 6px 0 12px 0;}
+#wrapper article #advanced-search form.more-options div.form-item label {float: left; width: 80px; text-align: right ;padding-right: 10px; padding-top: 3px;}
+#wrapper article #advanced-search form.more-options div.form-item input{ margin:0;}
+#wrapper article #advanced-search form.more-options div.form-item select {padding:4px; max-width: 12.5em;}

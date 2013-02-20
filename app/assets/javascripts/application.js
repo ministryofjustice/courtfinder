@@ -13,3 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+
+ $(document).ready(function() {              
+        $('#advanced-search form').hide();                
+        $('#advanced-search h2 a').click(function() { 
+            $('#advanced-search form').show();
+            //return false;
+        });                
+});
