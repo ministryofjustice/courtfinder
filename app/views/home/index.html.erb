@@ -6,14 +6,15 @@
             </div>
           </section>
           <div class="find-nearest">
-            <form method="post" action="" id="local-locator-form" class="find-location-for-service">
+            <form method="get" action="/courts" id="local-locator-form" class="find-location-for-service">
               <fieldset>
                 <legend class="visuallyhidden">Postcode lookup</legend>
                 <div class="ask_location">
                   <label for="postcode">Enter a UK postcode or Court name <br />
-                    <input class="postcode" value="postcode" id="postcode" name="postcode" type="text">
+                    <input class="postcode" id="search" name="search" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
                   </label>
-                  <button type="submit" name="searchbtn" class="button">Find</button>
+                  <button type="submit" class="button">Find</button>
+                  <div id="results"></div>
                   <!--h3>Search by:</h3>
                   <div class="type">
                     <label for="courtname">Court name

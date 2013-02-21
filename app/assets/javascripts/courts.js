@@ -37,11 +37,12 @@ $(function () {
 		return text.replace(reg, '<b>$&</b>');
 	};
 
+	// Position the predictions under the search box
 	results.css({
 		position: 'absolute',
-		width: search.outerWidth() - parseInt(search.css('borderLeftWidth')) * 2,
+		width: search.outerWidth() - 4,
 		top: pos.top + search.outerHeight() - parseInt(search.css('borderBottomWidth')) - 3,
-		left: pos.left
+		left: pos.left - 1
 	});
 	
 	search
@@ -117,7 +118,7 @@ $(function () {
 						for (i = 0; i < courtData.length; i++) {
 							court = courtData[i];
 							name = markMatched(term, court.name);
-							courts.push('<li><a href="/courts/' + court.id + '">' + name + '</a></li>');
+							courts.push('<li><a href="/courts/' + court.slug + '">' + name + '</a></li>');
 						}
 						
 						results.html('<ul>' + courts.join('') + '</ul>');
