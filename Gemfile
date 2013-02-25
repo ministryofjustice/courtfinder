@@ -23,6 +23,7 @@ end
 gem 'jquery-rails'
 gem 'friendly_id'
 gem 'will_paginate'
+gem 'simple_form'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
