@@ -1,9 +1,14 @@
 Courtfinder::Application.routes.draw do
   get "home/index"
 
-  resources :courts
+  # resources :courts
+  scope 'courts', :controller => :courts do
+    match '/' => :index, :as => :courts
+    match '/:id' => :show, :as => :court
+  end
+  
   namespace :admin do
-	resources :courts
+    resources :courts
   end
 
   # The priority is based upon order of creation:
