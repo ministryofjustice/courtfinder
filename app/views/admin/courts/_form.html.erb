@@ -20,7 +20,6 @@
   <%= f.input :cci_code %>
   <%= f.input :old_id %>
   <%= f.input :old_court_type_id %>
-  <%= f.input :area %>
 
   <%= f.simple_fields_for :addresses do |builder| %>
     <%= render 'address_fields', f: builder %>
