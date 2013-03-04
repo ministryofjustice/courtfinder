@@ -1,4 +1,14 @@
 Courtfinder::Application.routes.draw do
+  resources :addresses
+
+  resources :towns
+
+  resources :counties
+
+  resources :countries
+
+  resources :address_types
+
   get "home/index"
 
   # resources :courts
