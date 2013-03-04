@@ -11,32 +11,60 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221160038) do
+ActiveRecord::Schema.define(:version => 20130301172609) do
+
+  create_table "address_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "addresses", :force => true do |t|
+    t.string   "name"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "address3"
+    t.string   "address4"
+    t.string   "postcode"
+    t.string   "dx"
+    t.integer  "town_id"
+    t.integer  "address_type_id"
+    t.integer  "court_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "addresses", ["address_type_id"], :name => "index_addresses_on_address_type_id"
+  add_index "addresses", ["court_id"], :name => "index_addresses_on_court_id"
+  add_index "addresses", ["town_id"], :name => "index_addresses_on_town_id"
+
+  create_table "counties", :force => true do |t|
+    t.string   "name"
+    t.integer  "country_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "counties", ["country_id"], :name => "index_counties_on_country_id"
+
+  create_table "countries", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "courts", :force => true do |t|
     t.string   "name"
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "area_id"
     t.integer  "cci_identifier"
     t.integer  "cci_code"
     t.integer  "old_id"
-    t.integer  "old_postal_address_id"
-    t.integer  "old_court_address_id"
     t.integer  "old_court_type_id"
     t.string   "area"
-    t.integer  "address_id"
-    t.integer  "old_address_postal_flag"
-    t.string   "address_line_1"
-    t.string   "address_line_2"
-    t.string   "address_line_3"
-    t.string   "address_line_4"
-    t.string   "postcode"
-    t.string   "dx_number"
-    t.integer  "court_town_id"
-    t.string   "court_latitude"
     t.string   "court_longitude"
     t.string   "slug"
   end
@@ -53,5 +81,14 @@ ActiveRecord::Schema.define(:version => 20130221160038) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
+
+  create_table "towns", :force => true do |t|
+    t.string   "name"
+    t.integer  "county_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "towns", ["county_id"], :name => "index_towns_on_county_id"
 
 end

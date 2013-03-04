@@ -14,11 +14,23 @@
 //= require jquery_ujs
 //= require_tree .
 
+$(function() {
+	$('form').on('click', '.remove_fields', function (e) {
+		$(this).prev('input[type=hidden]').val('1');
+		$(this).closest('fieldset').hide();
+		e.preventDefault();
+	});
 
- $(document).ready(function() {              
-        $('#advanced-search form').hide();                
-        $('#advanced-search h2 a').click(function() { 
-            $('#advanced-search form').show();
-            //return false;
-        });                
+	$('form').on('click', '.add_fields', function (e) {
+		var time = new Date().getTime(),
+			regexp = new RegExp($(this).data('id'), 'g');
+		$(this).before($(this).data('fields').replace(regexp, time));
+		e.preventDefault();
+	});
+
+	$('#advanced-search form').hide();                
+	$('#advanced-search h2 a').click(function() { 
+			$('#advanced-search form').show();
+			//return false;
+	});                
 });

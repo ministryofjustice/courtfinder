@@ -1,5 +1,8 @@
 class Court < ActiveRecord::Base
-  attr_accessible :court_number, :info, :name
+  has_many :addresses
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes
+  accepts_nested_attributes_for :addresses, allow_destroy: true
+
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 

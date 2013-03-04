@@ -20,10 +20,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-gem 'friendly_id'
-gem 'will_paginate'
-gem 'simple_form'
+gem 'jquery-rails'      # jQuery
+gem 'friendly_id'       # Custom addresses instead of Ids
+gem 'will_paginate'     # Paging
+gem 'simple_form'       # Build forms with ease
 gem 'rest-client'
 
 # To use ActiveModel has_secure_password

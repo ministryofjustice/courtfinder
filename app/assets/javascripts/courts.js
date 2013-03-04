@@ -37,109 +37,112 @@ $(function () {
 		return text.replace(reg, '<b>$&</b>');
 	};
 
-	// Position the predictions under the search box
-	results.css({
-		position: 'absolute',
-		width: search.outerWidth() - 4,
-		top: pos.top + search.outerHeight() - parseInt(search.css('borderBottomWidth')) - 3,
-		left: pos.left - 1
-	});
-	
-	search
-		.keydown(function (e) {
-			var path;
-			switch (e.keyCode) {
-				
-				case 38: // up arrow
-				case 40: // down
-					e.preventDefault();
-					
-					if (!active) {
-						showResults();
-						return;
-					}
-					
-					selectedResult = results.find('li.' + klass).removeClass(klass);
-					
-					if (selectedResult.length) {
-						switch (e.keyCode) {
-							case 40:
-								selectedResult = selectedResult.next('li');
-								break;
-							case 38:
-								selectedResult = selectedResult.prev('li');
-						}
-					} 
-					// Default to the first item
-					else {
-						selectedResult = results.find('li:first-child');
-					}
-					
-					selectedResult.addClass(klass);
-
-					break;
-				
-				case 13: // enter
-					if (active) {
-						path = results.find('li.selected a').attr('href');
-						
-						if (path.length) {
-							e.preventDefault();
-							window.location.href = path;
-						}
-					}
-					break;
-				
-				case 27: // esc
-					hideResults();
-			}
-		})
-		.keyup(function (e) {
-			var term,
-				k = e.keyCode;
-			
-	    	// Allow only characters, numbers, space and hyphen
-			if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
-				return;
-			}
-			
-			term = $(this).val();
-
-			if (term.length > minText) {
-				// Find a match server side
-				$.get('/courts.json', { search: term }, function (courtData) {
-					var court, courts, name, i, len;
-
-					if (courtData.length === 0) {
-						hideResults();
-					} else {
-						courts = [];
-
-						for (i = 0; i < courtData.length; i++) {
-							court = courtData[i];
-							name = markMatched(term, court.name);
-							courts.push('<li><a href="/courts/' + court.slug + '">' + name + '</a></li>');
-						}
-						
-						results.html('<ul>' + courts.join('') + '</ul>');
-						
-						showResults();
-					}
-				});
-			} else {
-				hideResults();
-			}
-		})
-		.blur(function () {
-			hideResults();
-		})
-		.focus(function () {
-			showResults();
+	// Only run on pages where the search box is found
+	if (search.length) {
+		// Position the predictions under the search box
+		results.css({
+			position: 'absolute',
+			width: search.outerWidth() - 4,
+			top: pos.top + search.outerHeight() - parseInt(search.css('borderBottomWidth')) - 3,
+			left: pos.left - 1
 		});
-	
-	$(document).keyup(function (e) {
-		if (e.keyCode === 191) { // forward slash
-			search.focus();
-		}
-	});
+		
+		search
+			.keydown(function (e) {
+				var path;
+				switch (e.keyCode) {
+					
+					case 38: // up arrow
+					case 40: // down
+						e.preventDefault();
+						
+						if (!active) {
+							showResults();
+							return;
+						}
+						
+						selectedResult = results.find('li.' + klass).removeClass(klass);
+						
+						if (selectedResult.length) {
+							switch (e.keyCode) {
+								case 40:
+									selectedResult = selectedResult.next('li');
+									break;
+								case 38:
+									selectedResult = selectedResult.prev('li');
+							}
+						} 
+						// Default to the first item
+						else {
+							selectedResult = results.find('li:first-child');
+						}
+						
+						selectedResult.addClass(klass);
+
+						break;
+					
+					case 13: // enter
+						if (active) {
+							path = results.find('li.selected a').attr('href');
+							
+							if (path.length) {
+								e.preventDefault();
+								window.location.href = path;
+							}
+						}
+						break;
+					
+					case 27: // esc
+						hideResults();
+				}
+			})
+			.keyup(function (e) {
+				var term,
+					k = e.keyCode;
+				
+		    	// Allow only characters, numbers, space and hyphen
+				if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
+					return;
+				}
+				
+				term = $(this).val();
+
+				if (term.length > minText) {
+					// Find a match server side
+					$.get('/courts.json', { search: term }, function (courtData) {
+						var court, courts, name, i, len;
+
+						if (courtData.length === 0) {
+							hideResults();
+						} else {
+							courts = [];
+
+							for (i = 0; i < courtData.length; i++) {
+								court = courtData[i];
+								name = markMatched(term, court.name);
+								courts.push('<li><a href="/courts/' + court.slug + '">' + name + '</a></li>');
+							}
+							
+							results.html('<ul>' + courts.join('') + '</ul>');
+							
+							showResults();
+						}
+					});
+				} else {
+					hideResults();
+				}
+			})
+			.blur(function () {
+				hideResults();
+			})
+			.focus(function () {
+				showResults();
+			});
+		
+		$(document).keyup(function (e) {
+			if (e.keyCode === 191) { // forward slash
+				search.focus();
+			}
+		});
+	};
 });
