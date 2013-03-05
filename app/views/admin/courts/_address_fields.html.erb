@@ -1,10 +1,12 @@
 
 <fieldset>
   <%= f.association :address_type, :include_blank => false %>
-  <%= f.input :address1 %>
-  <%= f.input :address2 %>
-  <%= f.input :address3 %>
-  <%= f.input :address4 %>
+  <%= f.input :address_line_1 %>
+  <%= f.input :address_line_2 %>
+  <%= f.input :address_line_3 %>
+  <%= f.input :address_line_4 %>
+  <%= f.input :postcode %>
+  <%= f.input :dx %>
   <%= f.association :town %>
   <%= f.check_box :_destroy %>
   <%= f.label :_destroy, "Remove Address" %>

@@ -3,9 +3,6 @@
 <!--[if gt IE 8]><!--><html lang="en" class="">
 <!--<![endif]-->
 <head>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Find a court - Service</title>
 <!--[if gt IE 8]><!--><link href="https://assets.digital.cabinet-office.gov.uk/static/application-d0982dedab76c560f854d68dc4929b61.css" media="screen" rel="stylesheet" type="text/css">
@@ -49,7 +46,9 @@
 <!--[if IE 6]><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-ie6-7fd6442352f87353dc47460996830397.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 <!--[if IE 7]><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-ie7-bf5f5ff693f08a14e91440dc8e8e5f5a.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
 <!--[if IE 8]><link href="https://assets.digital.cabinet-office.gov.uk/frontend/application-ie8-39d206d43556c5c6f948236e10f95eab.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
-
+<%= stylesheet_link_tag    "application", :media => "all" %>
+<%= javascript_include_tag "application" %>
+<%= csrf_meta_tags %>	
 </head>
 <body class="mainstream">
 <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
@@ -68,7 +67,7 @@
     <ol class="group">
       <li><a href="/">Home</a></li>
       <li><a href="https://www.gov.uk/browse/justice">Crime, justice and the law</a></li>
-      <li>Finder</strong></li>
+      <li>Finder</li>
     </ol>
   </nav>
 </div>
@@ -81,8 +80,9 @@
       <nav class="skip-to-related"><a href="#related">Not what you're looking for? ?</a> </nav>
     </header>
 	<div class="article-container group">
-	<%= yield %>
-    
+		<article role="article" class="group">
+			<div class="inner">
+				<%= yield %>
       <!-- report_a_problem -->
       <p class="report-a-problem-toggle"><a href="">Is something wrong with this page?</a></p>
       <div class="report-a-problem-container">
@@ -101,7 +101,6 @@
           <div>
              <button name="commit" type="submit" class="button">Send</button>
           </div>
-        
         </form>
       </div>
       <!-- end report_a_problem -->
@@ -110,6 +109,8 @@
           <p class="modified-date">Last updated: 9 January 2013</p>
         </div>
       </div>
+	  </article>
+	  </div>
     </div>
   </section>
 </div>

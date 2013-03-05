@@ -1,3 +1,4 @@
+<h2>Browse all Courts - A to Z</h2>
 <ul>
 <% @courts.each do | court | %>
   <li><%= link_to(court.name, court_path(court)) %></li>

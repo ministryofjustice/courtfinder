@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305113059) do
+ActiveRecord::Schema.define(:version => 20130304123102) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -21,10 +21,10 @@ ActiveRecord::Schema.define(:version => 20130305113059) do
 
   create_table "addresses", :force => true do |t|
     t.string   "name"
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "address3"
-    t.string   "address4"
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "address_line_3"
+    t.string   "address_line_4"
     t.string   "postcode"
     t.string   "dx"
     t.integer  "town_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130305113059) do
     t.integer  "country_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "old_id"
   end
 
   add_index "counties", ["country_id"], :name => "index_counties_on_country_id"
@@ -51,22 +52,25 @@ ActiveRecord::Schema.define(:version => 20130305113059) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "old_id"
   end
 
   create_table "courts", :force => true do |t|
     t.string   "name"
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
     t.integer  "area_id"
     t.integer  "cci_identifier"
     t.integer  "cci_code"
+    t.decimal  "latitude"
+    t.decimal  "longitude"	
     t.integer  "old_id"
     t.integer  "old_court_type_id"
     t.string   "slug"
-    t.decimal  "latitude"
-    t.decimal  "longitude"
+    t.integer  "old_postal_address_id"
+    t.integer  "old_court_address_id"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
@@ -87,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20130305113059) do
     t.integer  "county_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "old_id"
   end
 
   add_index "towns", ["county_id"], :name => "index_towns_on_county_id"

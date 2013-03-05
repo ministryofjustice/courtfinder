@@ -3,31 +3,18 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Court no.</th>
-    <th>Slug</th>
-    <th>Info</th>
-    <th>CCI Identifier</th>
-    <th>CCI Code</th>
-	<th>Lat</th>
-    <th>Long</th>
-    <th>Area ID</th>
-    <th>Old ID</th>
-    <th>Old Court Type ID</th>	
+    <th>Court number</th>
+    <th>CCI code</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <% @courts.each do |court| %>
   <tr>
     <td><%= court.name %></td>
     <td><%= court.court_number %></td>
-	<td><%= court.slug %></td>
-    <td><%= court.info.html_safe %></td>
-	<td><%= court.cci_identifier %></td>
-	<td><%= court.cci_code %></td>
-	<td><%= court.latitude %></td>
-	<td><%= court.longitude %></td>
-	<td><%= court.area_id %></td>
-	<td><%= court.old_id %></td>
-	<td><%= court.old_court_type_id %></td>
+    <td><%= court.cci_code %></td>
     <td><%= link_to 'Show', admin_court_path(court) %></td>
     <td><%= link_to 'Edit', edit_admin_court_path(court) %></td>
     <td><%= link_to 'Destroy', court, method: :delete, data: { confirm: 'Are you sure?' } %></td>
