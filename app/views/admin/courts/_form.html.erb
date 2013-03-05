@@ -19,21 +19,12 @@
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
   <%= f.input :old_id %>
-  <%= f.input :old_postal_address_id %>
-  <%= f.input :old_court_address_id %>
   <%= f.input :old_court_type_id %>
-  <%= f.input :area %>
-  <%= f.input :address_id %>
-  <%= f.input :old_address_postal_flag %>
-  <%= f.input :address_line_1 %>
-  <%= f.input :address_line_2 %>
-  <%= f.input :address_line_3 %>
-  <%= f.input :address_line_4 %>
-  <%= f.input :postcode %>
-  <%= f.input :dx_number %>
-  <%= f.input :court_town_id %>
-  <%= f.input :court_latitude %>
-  <%= f.input :court_longitude %>
+
+  <%= f.simple_fields_for :addresses do |builder| %>
+    <%= render 'address_fields', f: builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Address", f, :addresses %>
 
   <div class="actions">
     <%= f.submit %>
