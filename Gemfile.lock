@@ -87,7 +87,6 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    silva (0.0.9)
     simple_form (2.0.4)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
@@ -120,7 +119,6 @@ DEPENDENCIES
   rails (= 3.2.12)
   rest-client
   sass-rails (~> 3.2.3)
-  silva
   simple_form
   sqlite3
   uglifier (>= 1.0.3)

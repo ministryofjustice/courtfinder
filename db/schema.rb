@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301172609) do
+ActiveRecord::Schema.define(:version => 20130305113059) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -64,9 +64,9 @@ ActiveRecord::Schema.define(:version => 20130301172609) do
     t.integer  "cci_code"
     t.integer  "old_id"
     t.integer  "old_court_type_id"
-    t.string   "area"
-    t.string   "court_longitude"
     t.string   "slug"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"

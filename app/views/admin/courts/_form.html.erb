@@ -15,12 +15,13 @@
   <%= f.input :court_number %>
   <%= f.input :slug %>
   <%= f.input :info %>
-  <%= f.input :area_id %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
+  <%= f.input :latitude %>
+  <%= f.input :longitude %>
+  <%= f.input :area_id %>  
   <%= f.input :old_id %>
   <%= f.input :old_court_type_id %>
-  <%= f.input :area %>
 
   <%= f.simple_fields_for :addresses do |builder| %>
     <%= render 'address_fields', f: builder %>
