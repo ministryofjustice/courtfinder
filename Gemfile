@@ -24,6 +24,7 @@ gem 'jquery-rails'      # jQuery
 gem 'friendly_id'       # Custom addresses instead of Ids
 gem 'will_paginate'     # Paging
 gem 'simple_form'       # Build forms with ease
+gem 'ckeditor_rails'          # Adds a rich text area
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

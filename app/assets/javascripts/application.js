@@ -12,7 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require ckeditor-jquery
 //= require_tree .
+
 
 $(function() {
 	$('form').on('click', '.remove_fields', function (e) {
