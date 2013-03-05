@@ -1,0 +1,19 @@
+<%= simple_form_for([:admin, @address]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :address_type %>
+    <%= f.input :address_line_1 %>
+    <%= f.input :address_line_2 %>
+    <%= f.input :address_line_3 %>
+    <%= f.input :address_line_4 %>
+    <%= f.input :postcode %>
+    <%= f.input :dx %>
+    <%= f.association :town %>
+    <%#= f.association :court %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
