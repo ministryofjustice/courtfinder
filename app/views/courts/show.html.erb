@@ -1,10 +1,53 @@
 <h1><%= @court.name %></h1>
 <h3>About this court</h3>
+<%= @court.info.html_safe %>
+
 <h3>Contact us</h3>
-<h3>Visiting us</h3>
 
+<% if @court.addresses.length == 1 %>
+	<h3>Visiting and writing to us</h3>
+<% else %>
+	<h3>Visiting us</h3>
+<% end %>
 
-<h3>Writing to us</h3>
+<% visiting = @court.addresses.find_by_address_type_id(1) %>
+<p><%= visiting.address_line_1 %><br />
+
+<% if visiting.address_line_2.present? %>
+	<%= visiting.address_line_2 %><br />
+<% end %>
+<% if visiting.address_line_3.present? %>
+	<%= visiting.address_line_3 %><br />
+<% end %>
+<% if visiting.address_line_4.present? %>
+	<%= visiting.address_line_4 %><br />
+<% end %>
+<%= visiting.postcode %><br />
+<%= visiting.dx %>
+
+</p>
+
+<% if @court.addresses.length == 2 %>
+	<h3>Writing to us</h3>
+		<% postal = @court.addresses.where(:address_type_id => 2) %>
+		<% postal.each do |addr| %>
+			<p><%= addr.address_line_1 %><br />
+
+			<% if addr.address_line_2.present? %>
+				<%= addr.address_line_2 %><br />
+			<% end %>
+			<% if addr.address_line_3.present? %>
+				<%= addr.address_line_3 %><br />
+			<% end %>
+			<% if addr.address_line_4.present? %>
+				<%= addr.address_line_4 %><br />
+			<% end %>
+			<%= addr.postcode %><br />
+			<%= addr.dx %>
+		<% end %>
+<% end %>
+
+</p>
 
 
 <h3>Opening times</h3>
