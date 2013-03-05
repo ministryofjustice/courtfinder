@@ -1,4 +1,26 @@
 <h1><%= @court.name %></h1>
+<h3>About this court</h3>
+<h3>Contact us</h3>
+<h3>Visiting us</h3>
+<p><%= @court.address_line_1 %></p>
+<p><%= @court.address_line_2 %></p>
+<p><%= @court.address_line_3 %></p>
+<p><%= @court.address_line_4 %></p>
+<p><%= @court.area %></p>
+<p><%= @court.postcode %></p>
+
+<h3>Writing to us</h3>
+<p><%= @court.address_line_1 %></p>
+<p><%= @court.address_line_2 %></p>
+<p><%= @court.address_line_3 %></p>
+<p><%= @court.address_line_4 %></p>
+<p><%= @court.area %></p>
+<p><%= @court.dx_number %></p>
+
+<h3>Opening times</h3>
+<h3>Map</h3>
+<h3>Route planner</h3>
+
 <p>Court address id <%= @court.old_court_address_id %></p>
 <p>Area id <%= @court.area_id %></p>
 <p>CCI identifier <%= @court.cci_identifier %></p>
@@ -6,16 +28,8 @@
 <p>old id <%= @court.old_id %></p>
 <p>old postal addr id <%= @court.old_postal_address_id %></p>
 <p>old court address id <%= @court.old_court_address_id %></p>
-<p>court type <%= @court.old_court_type_id %></p>
+<p>court type id <%= @court.old_court_type_id %></p>
 
-<p>court area <%= @court.area %></p>
-<p>addr line 1 <%= @court.address_line_1 %></p>
-<p>addr line 2 <%= @court.address_line_2 %></p>
-<p>addr line 3 <%= @court.address_line_3 %></p>
-<p>addr line 4 <%= @court.address_line_4 %></p>
-
-
-<p>postcode <%= @court.postcode %></p>
 <p>dx number <%= @court.dx_number %></p>
 <p>Town id <%= @court.court_town_id %></p>
 <p>court latitude <%= @court.court_latitude %></p>
