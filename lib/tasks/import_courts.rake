@@ -185,7 +185,7 @@ namespace :import do
     # id, postal flag, line1, line2...
     csv.each do |row|
 
-      if row[1] == 1
+      if row[1].to_f == 1
         court = Court.find_by_old_postal_address_id(row[0])
       else
         court = Court.find_by_old_court_address_id(row[0])
@@ -197,11 +197,12 @@ namespace :import do
 
         addr = Address.new
 
-        if row[1] == 1
-          addr.court_id = Court.find_by_old_postal_address_id(row[0]).id
+        if row[1].to_f == 1
+          # puts "Looking for court with old postal address id of #{row[0]}"
+          addr.court_id = court.id
           addr.address_type_id = 2 # Postal
         else
-          addr.court_id = Court.find_by_old_court_address_id(row[0]).id
+          addr.court_id = court.id
           addr.address_type_id = 1 # Visiting
         end
         addr.address_line_1 = row[2] unless row[2] == 'NULL'
