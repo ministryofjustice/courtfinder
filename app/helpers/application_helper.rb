@@ -8,5 +8,11 @@ module ApplicationHelper
     end
     link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
   end
+
+  def admin_nav
+    if /admin/i =~ request.env['PATH_INFO']
+      render "layouts/admin_nav"
+    end
+  end
   
 end
