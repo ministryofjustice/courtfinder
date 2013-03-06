@@ -20,11 +20,12 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'      # jQuery
-gem 'friendly_id'       # Custom addresses instead of Ids
-gem 'will_paginate'     # Paging
-gem 'simple_form'       # Build forms with ease
-gem 'rest-client'
+gem 'jquery-rails'                          # jQuery
+gem 'friendly_id'                           # Custom addresses instead of Ids
+gem 'will_paginate'                         # Paging
+gem 'simple_form'                           # Build forms with ease
+gem 'rest-client'                           # Accessing HTTP and REST resources (i.e. MoJ postcode lookup)
+gem 'activerecord-postgres-earthdistance'   # Check distances with latitude and longitude using PostgreSQL special indexes
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
