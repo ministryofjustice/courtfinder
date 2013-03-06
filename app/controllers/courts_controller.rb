@@ -2,42 +2,43 @@ class CourtsController < ApplicationController
   
   respond_to :html, :json
   
-  def index 
-    @courts = Court.all
+  def index
+
+    @search = params[:search]
+    page = params[:page]
+    per_page = params[:per_page]
     
-    if params[:search]
-	  reg = /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1}))\d[abd-hjlnp-uw-z]{2})$/i
-	  
-	  # When postcode...
-	  if reg =~ params[:search].strip
+    if @search
 
-	    r = RestClient.post 'http://devcfphp/postcode_finder.php', { :searchtext => params[:search], :searchbtn => 'Submit' }
-        #puts r
-        j = JSON.parse(r)
-        #puts j
-		courts = @courts.map{|c|{'id' => c.id, 'courtname' => c.name, 'lat' => c.latitude.to_f, 'long' => c.longitude.to_f}}
-		puts courts
-	    in_radius = postcode_distance(j[0], courts)
+      # Remove whitespace either side of the string
+      @search.strip
 
-        in_radius = in_radius.sort_by { |k, v| v[:distance] }
-		
-		@courts = in_radius
+      # Postcode pattern
+      postcode = /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1}))\d[abd-hjlnp-uw-z]{2})$/i
+    
+      # When postcode...
+      if postcode =~ @search
+        @distance = params[:distance] || 10 # in miles
 
-        if (in_radius) 		
-	      puts "The courts within a 20 mile radius are:"
-	      in_radius.each do |key, hash|
-	        puts hash[:name] + " at " + hash[:distance].to_s + " miles"
-	      end
-        end
-		
-	  else
-	
-        @courts = Court.search(params[:search], params[:page], params[:per_page] || 15)
-	  
-	  end
-	
-	end
-	
+        # Turn postcode into latitude & longitude using MoJ postcode finder service
+        # beginning = Time.now
+        json = RestClient.post 'http://devcfphp/postcode_finder.php', { :searchtext => params[:search], :searchbtn => 'Submit' }
+        latlon = JSON.parse json
+        # puts latlon
+        # puts "*** Time elapsed #{Time.now - beginning} seconds ***"
+        # latlon = [{'lat' => 51.768305511577, 'long' => -0.57250059493886}]
+
+        # mile_in_meters = 32187
+        # @courts = Court.within_radius(mile_in_meters, latlon[0]['lat'], latlon[0]['long']).all # activerecord-postgres-earthdistance method
+        @courts = Court.near([latlon[0]['lat'], latlon[0]['long']], @distance, :order => :distance).paginate(:page => page, :per_page => per_page)
+      else
+        @courts = Court.search(@search, page, per_page)
+      end
+
+    else
+      @courts = Court.paginate(:page => page, :per_page => per_page)
+    end
+  
     respond_with @courts
   end
   
@@ -51,57 +52,4 @@ class CourtsController < ApplicationController
     end
   end
   
-	def deg2rad(d)
-		d * Math::PI / 180
-	end
-
-	def rad2deg(r)
-		r * 180 / Math::PI
-	end
-
-	def distance (lat1, lon1, lat2, lon2, u = 1)
-		
-		#puts lat1
-		#puts lon1
-		d=Math.sin(deg2rad(lat1))*Math.sin(deg2rad(lat2))+Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.cos(deg2rad(lon1-lon2));
-		d=rad2deg(Math.acos(d));
-		d=d*60*1.1515;
-
-		d=(d*u); # apply unit
-		d=d.round(2)	# optional rounding up of the distance to nearest hundredth of a mile
-			
-		return d;
-	end
-
-	def closest(haystack)
-		
-		inrange = {}
-		
-		haystack.each do |key, hash|
-			if (hash[:distance] < 20)
-				inrange[key] = {:name => hash[:name], :distance => hash[:distance]}
-			end
-		end
-		
-		return inrange;
-	end
-
-	def postcode_distance(coords, courts)
-
-		checkdistance = {}
-
-		courts.each do |hash|
-			#puts coords['lat']
-			court_distance = distance(coords['lat'], coords['long'], hash['lat'], hash['long'])
-			checkdistance[hash['id']] = {:name => hash['courtname'], :distance => court_distance}
-			#puts checkdistance[hash['id']]
-		end
-		
-		
-		withinrange = closest(checkdistance)
-		
-		return withinrange
-		
-	end
-
 end

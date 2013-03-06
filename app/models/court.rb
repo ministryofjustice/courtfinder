@@ -6,13 +6,13 @@ class Court < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 
-  acts_as_geolocated lat: 'latitude', lng: 'longitude'
+  geocoded_by :latitude => :lat, :longitude => :lng
 
   # Text search
   def self.search(search, page, per_page)
     paginate :per_page => per_page,
              :page => page,
-             :conditions => ['name like ?', "%#{search}%"],
+             :conditions => ['LOWER(name) like ?', "%#{search.downcase}%"],
              :order => 'name'
   end
 
