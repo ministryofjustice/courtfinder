@@ -67,10 +67,10 @@ ActiveRecord::Schema.define(:version => 20130305113059) do
     t.integer  "old_id"
     t.integer  "old_court_type_id"
     t.string   "slug"
-    t.decimal  "latitude"
-    t.decimal  "longitude"
     t.integer  "old_postal_address_id"
     t.integer  "old_court_address_id"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
