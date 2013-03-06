@@ -225,5 +225,34 @@ namespace :import do
 
   end
   
+  desc "Import court coordinates"
+  task :coordinates => :environment do
+	puts "Importing court coordinates"
+	
+	require 'csv'
+	
+	csv_file = File.read('db/data/court_coords.csv')
+	
+	csv = CSV.parse(csv_file)
+	
+	counter = 0
+	
+	csv.each do |row|
+	
+	  court = Court.find_by_old_court_address_id(row[0])
+	  
+	  if court	
+		court.latitude = row[1]
+		court.longitude = row[2]
+		court.save!
+		
+		counter += 1
+		
+	  end
+	end
+	
+	puts ">>> #{counter} of #{csv.length} coordinates added"
+		
+  end
   
 end

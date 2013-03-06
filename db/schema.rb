@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304123102) do
+ActiveRecord::Schema.define(:version => 20130305113059) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -64,11 +64,11 @@ ActiveRecord::Schema.define(:version => 20130304123102) do
     t.integer  "area_id"
     t.integer  "cci_identifier"
     t.integer  "cci_code"
-    t.decimal  "latitude"
-    t.decimal  "longitude"	
     t.integer  "old_id"
     t.integer  "old_court_type_id"
     t.string   "slug"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
     t.integer  "old_postal_address_id"
     t.integer  "old_court_address_id"
   end

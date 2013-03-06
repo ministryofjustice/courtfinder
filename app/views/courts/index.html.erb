@@ -1,6 +1,7 @@
 <h2>Browse all Courts - A to Z</h2>
 <ul>
+<!--<%= @courts.inspect %>-->
 <% @courts.each do | court | %>
-  <li><%= link_to(court.name, court_path(court)) %></li>
+  <li><%= link_to(court[1][:name], court_path(court[0])) %> is <%= court[1][:distance] %> miles away</li>
 <% end %>
 </ul>

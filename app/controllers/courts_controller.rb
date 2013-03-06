@@ -12,18 +12,21 @@ class CourtsController < ApplicationController
 	  if reg =~ params[:search].strip
 
 	    r = RestClient.post 'http://devcfphp/postcode_finder.php', { :searchtext => params[:search], :searchbtn => 'Submit' }
-        puts r
+        #puts r
         j = JSON.parse(r)
-        puts j
-
-	    in_radius = postcode_distance(j[0], @courts)
+        #puts j
+		courts = @courts.map{|c|{'id' => c.id, 'courtname' => c.name, 'lat' => c.latitude.to_f, 'long' => c.longitude.to_f}}
+		puts courts
+	    in_radius = postcode_distance(j[0], courts)
 
         in_radius = in_radius.sort_by { |k, v| v[:distance] }
+		
+		@courts = in_radius
 
         if (in_radius) 		
-	      puts "The courts within a 50 mile radius are:"
+	      puts "The courts within a 20 mile radius are:"
 	      in_radius.each do |key, hash|
-	        puts "Court " + hash[:name] + " at " + hash[:distance].to_s + " miles"
+	        puts hash[:name] + " at " + hash[:distance].to_s + " miles"
 	      end
         end
 		
@@ -58,8 +61,8 @@ class CourtsController < ApplicationController
 
 	def distance (lat1, lon1, lat2, lon2, u = 1)
 		
-		puts lat1
-		puts lon1
+		#puts lat1
+		#puts lon1
 		d=Math.sin(deg2rad(lat1))*Math.sin(deg2rad(lat2))+Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.cos(deg2rad(lon1-lon2));
 		d=rad2deg(Math.acos(d));
 		d=d*60*1.1515;
@@ -75,7 +78,7 @@ class CourtsController < ApplicationController
 		inrange = {}
 		
 		haystack.each do |key, hash|
-			if (hash[:distance] < 50)
+			if (hash[:distance] < 20)
 				inrange[key] = {:name => hash[:name], :distance => hash[:distance]}
 			end
 		end
@@ -88,10 +91,10 @@ class CourtsController < ApplicationController
 		checkdistance = {}
 
 		courts.each do |hash|
-			puts coords['lat']
+			#puts coords['lat']
 			court_distance = distance(coords['lat'], coords['long'], hash['lat'], hash['long'])
 			checkdistance[hash['id']] = {:name => hash['courtname'], :distance => court_distance}
-			puts checkdistance[hash['id']]
+			#puts checkdistance[hash['id']]
 		end
 		
 		
