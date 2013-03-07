@@ -12,6 +12,6 @@ class RemoveAddressFromCourt < ActiveRecord::Migration
     remove_column :courts, :dx_number
     remove_column :courts, :court_town_id
     remove_column :courts, :court_latitude
-    remove_column :courts, :court_longitudet
+    remove_column :courts, :court_longitude
   end
 end

@@ -3,7 +3,6 @@ class AddOldIdsToCourts < ActiveRecord::Migration
     add_column :courts, :old_postal_address_id, :integer
     add_column :courts, :old_court_address_id, :integer
     remove_column :courts, :area
-    remove_column :courts, :court_longitude
     rename_column :addresses, :address1, :address_line_1
     rename_column :addresses, :address2, :address_line_2
     rename_column :addresses, :address3, :address_line_3
@@ -17,7 +16,6 @@ class AddOldIdsToCourts < ActiveRecord::Migration
     remove_column :courts, :old_postal_address_id
     remove_column :courts, :old_court_address_id
     add_column :courts, :area, :string
-    add_column :courts, :court_longitude, :string
     rename_column :addresses, :address_line_1, :address1
     rename_column :addresses, :address_line_2, :address2
     rename_column :addresses, :address_line_3, :address3

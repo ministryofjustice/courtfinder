@@ -1,6 +1,14 @@
 <h2>Browse all Courts - A to Z</h2>
-<ul>
-<% @courts.each do | court | %>
-  <li><%= link_to(court.name, court_path(court)) %></li>
+<% if @courts %>
+  <ul>
+    <% @courts.each do | court | %>
+      <li><%= link_to(court.name, court_path(court)) %>
+        <% if @distance %>
+          is <%= court.distance.to_f.round(2) %> miles away
+         <% end %>
+       </li>
+    <% end %>
+  </ul>
+
+  <%= will_paginate @courts %>
 <% end %>
-</ul>

@@ -14,7 +14,12 @@
   <%= f.input :name %>
   <%= f.input :court_number %>
   <%= f.input :slug %>
+<<<<<<< HEAD
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
+  <%= f.input :area_id %>
+=======
+  <%= f.input :info %>
+>>>>>>> postcode_finder
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
   <%= f.input :latitude %>

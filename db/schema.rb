@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304123102) do
+ActiveRecord::Schema.define(:version => 20130306134427) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(:version => 20130304123102) do
     t.string   "slug"
     t.integer  "old_postal_address_id"
     t.integer  "old_court_address_id"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
