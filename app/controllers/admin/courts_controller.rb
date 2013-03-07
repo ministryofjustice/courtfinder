@@ -1,5 +1,7 @@
 class Admin::CourtsController < ApplicationController
-# GET /courts
+  before_filter :authenticate_user!
+  
+  # GET /courts
   # GET /courts.json
   def index
     @courts = Court.all

@@ -30,6 +30,7 @@ gem 'simple_form'           # Build forms with ease
 gem 'rest-client'           # Accessing HTTP and REST resources (i.e. MoJ postcode lookup)
 gem 'ckeditor_rails'        # Adds a rich text area
 gem 'geocoder'              # Check distances with latitude and longitude using PostgreSQL special indexes
+gem 'devise'                # Authentication
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

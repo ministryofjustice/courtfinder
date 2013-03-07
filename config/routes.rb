@@ -1,4 +1,7 @@
 Courtfinder::Application.routes.draw do
+  devise_for :users
+  # devise_for :users, :controllers => { :sessions => "admin/sessions" }
+
   get "home/index"
 
   # resources :courts

@@ -1,4 +1,6 @@
 class Admin::AddressTypesController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /address_types
   # GET /address_types.json
   def index
