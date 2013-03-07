@@ -18,19 +18,25 @@ class CourtsController < ApplicationController
     
       # When postcode...
       if postcode =~ @search
-        @distance = params[:distance] || 10 # in miles
+        service_available = Rails.application.config.postcode_lookup_service_url rescue false
+        
+        if service_available
+          @distance = params[:distance] || 10 # in miles
 
-        # Turn postcode into latitude & longitude using MoJ postcode finder service
-        # beginning = Time.now
-        json = RestClient.post 'http://devcfphp/postcode_finder.php', { :searchtext => params[:search], :searchbtn => 'Submit' }
-        latlon = JSON.parse json
-        # puts latlon
-        # puts "*** Time elapsed #{Time.now - beginning} seconds ***"
-        # latlon = [{'lat' => 51.768305511577, 'long' => -0.57250059493886}]
+          # Turn postcode into latitude & longitude using MoJ postcode finder service
+          # beginning = Time.now
+          json = RestClient.post Rails.application.config.postcode_lookup_service_url, { :searchtext => params[:search], :searchbtn => 'Submit' }
+          latlon = JSON.parse json
+          # puts "*** Time elapsed #{Time.now - beginning} seconds ***"
+          # latlon = [{'lat' => 51.768305511577, 'long' => -0.57250059493886}]
 
-        # mile_in_meters = 32187
-        # @courts = Court.within_radius(mile_in_meters, latlon[0]['lat'], latlon[0]['long']).all # activerecord-postgres-earthdistance method
-        @courts = Court.near([latlon[0]['lat'], latlon[0]['long']], @distance, :order => :distance).paginate(:page => page, :per_page => per_page)
+          # mile_in_meters = 32187
+          # @courts = Court.within_radius(mile_in_meters, latlon[0]['lat'], latlon[0]['long']).all # activerecord-postgres-earthdistance method
+          @courts = Court.near([latlon[0]['lat'], latlon[0]['long']], @distance, :order => :distance).paginate(:page => page, :per_page => per_page)
+        else
+          flash[:notice] = "Post code search unavailable"
+        end
+
       else
         @courts = Court.search(@search, page, per_page)
       end

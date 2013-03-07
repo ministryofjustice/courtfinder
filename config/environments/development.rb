@@ -34,4 +34,7 @@ Courtfinder::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Add 'devcfphp' to your hostfile and point it to 172.22.8.1
+  config.postcode_lookup_service_url = 'http://devcfphp/postcode_finder.php'
 end
