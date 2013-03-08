@@ -1,0 +1,18 @@
+<h1>Editing user</h1>
+
+<%= simple_form_for([:admin, @user]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <%= f.input :admin %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', admin_user_path(@user) %> |
+<%= link_to 'Back', admin_users_path %>

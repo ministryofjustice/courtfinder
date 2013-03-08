@@ -7,9 +7,13 @@ Courtfinder::Application.routes.draw do
   end
   
   # Admin section
+  get "admin" => "home#admin"
+
   devise_for :users, :path_prefix => 'admin'
 
   namespace :admin do
+    resources :users
+
     resources :addresses
 
     resources :towns
