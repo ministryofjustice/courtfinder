@@ -1,15 +1,14 @@
 Courtfinder::Application.routes.draw do
-  devise_for :users
-  # devise_for :users, :controllers => { :sessions => "admin/sessions" }
 
-  get "home/index"
-
-  # resources :courts
+  # Public court pages
   scope 'courts', :controller => :courts do
     match '/' => :index, :as => :courts
     match '/:id' => :show, :as => :court
   end
   
+  # Admin section
+  devise_for :users, :path_prefix => 'admin'
+
   namespace :admin do
     resources :addresses
 
