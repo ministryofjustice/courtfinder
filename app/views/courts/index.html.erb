@@ -1,3 +1,6 @@
+<% if user_signed_in? %>
+  <%= link_to "Edit courts", admin_courts_path %>
+<% end %>
 <h2>Browse all Courts - A to Z</h2>
 <% if @courts %>
   <ul>

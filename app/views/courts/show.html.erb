@@ -1,3 +1,6 @@
+<% if user_signed_in? %>
+  <%= link_to "Edit this court", edit_admin_court_path(@court) %>
+<% end %>
 <h1><%= @court.name %></h1>
 <h3>About this court</h3>
 <%= @court.info.html_safe %>

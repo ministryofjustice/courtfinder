@@ -31,6 +31,7 @@ gem 'rest-client'           # Accessing HTTP and REST resources (i.e. MoJ postco
 gem 'ckeditor_rails'        # Adds a rich text area
 gem 'geocoder'              # Check distances with latitude and longitude using PostgreSQL special indexes
 gem 'devise'                # Authentication
+gem 'devise_invitable'      # Authentication invites
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
