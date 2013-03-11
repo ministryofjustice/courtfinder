@@ -2,7 +2,7 @@ namespace :import do
   
   desc "Import courts"
   task :courts => :environment do
-    puts "Importing courts"
+    puts "Importing courts and their types"
 
     require 'csv'
 
@@ -13,22 +13,22 @@ namespace :import do
     counter = 0
     
     csv.each do |row|
-      o = Court.new
+      court = Court.new
 
       puts "#{row[1]} #{row[2]}"
 
-      o.old_id = row[0]
-      o.name = row[1]
-      o.court_number = row[2]           # court_code
-      o.info = row[3]
-      o.cci_identifier = row[5]
-      o.cci_code = row[6]
-      o.area_id = row[4]                # some have more than one
-      o.old_postal_address_id = row[8]
-      o.old_court_address_id = row[7]
-      o.old_court_type_id = row[9]
+      court.old_id = row[0]
+      court.name = row[1]
+      court.court_number = row[2]           # court_code
+      court.info = row[3]
+      court.cci_identifier = row[5]
+      court.cci_code = row[6]
+      court.area_id = row[4]                # some have more than one
+      court.old_postal_address_id = row[8]
+      court.old_court_address_id = row[7]
+      court.old_court_type_id = row[9]
 
-      o.save!
+      court.save!
       
       counter += 1
     end
@@ -37,11 +37,38 @@ namespace :import do
 
   end
 
+  desc "Import all data"
+  task :all, [:replace] => :environment do | t, args |
+    puts "Importing eveything!"
+    puts "Note: This will ADD all data. To replace all data, use:\n  rake 'import:all_data[replace]'"
+    puts "If you're on a Windows computer, now is a good time to make a cup of tea"
+
+    if args.replace == 'replace'
+      puts "!!! Removing all court data from your database"
+      CourtType.destroy_all
+      Court.destroy_all
+      AddressType.destroy_all
+      Country.destroy_all
+      County.destroy_all
+      Town.destroy_all
+      Address.destroy_all
+    end
+
+    Rake::Task["import:court_types"].invoke
+    Rake::Task["import:courts"].invoke
+    Rake::Task["import:address_types"].invoke
+    Rake::Task["import:countries"].invoke
+    Rake::Task["import:counties"].invoke
+    Rake::Task["import:towns"].invoke
+    Rake::Task["import:addresses"].invoke
+
+    puts ">>> All done, yay!"
+  end
+
   desc "Import all address data"
   task :address_data, [:replace] => :environment do | t, args |
     puts "Importing countries, counties, towns"
     puts "Note: This will ADD address data. To replace address data, use:\n  rake 'import:address_data[replace]'"
-    puts "If you're on a Windows computer, now is a good time to make a cup of tea"
 
     if args.replace == 'replace'
       puts "!!! Removing old address data from your database"
@@ -253,6 +280,31 @@ namespace :import do
 	
 	puts ">>> #{counter} of #{csv.length} coordinates added"
 		
+  end
+  
+  desc "Import court types"
+  task :court_types => :environment do
+    puts "Importing court types"
+
+    require 'csv'
+
+    csv_file = File.read('db/data/court_type.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+    
+    csv.each do |row|
+      type = CourtType.new
+
+      puts "Adding '#{row[1]}'"
+
+      type.old_id = row[0]
+      type.old_description = row[1]
+      type.name = row[1]
+      type.old_ids_split = row[2]
+
+      type.save!
+    end
+
   end
   
 end

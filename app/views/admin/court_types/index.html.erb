@@ -1,0 +1,25 @@
+<h1>Listing court_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Old</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @court_types.each do |court_type| %>
+  <tr>
+    <td><%= court_type.name %></td>
+    <td><%= court_type.old_id %></td>
+    <td><%= link_to 'Show', admin_court_type_path(court_type) %></td>
+    <td><%= link_to 'Edit', edit_admin_court_type_path(court_type) %></td>
+    <td><%= link_to 'Destroy', admin_court_type_path(court_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Court type', new_admin_court_type_path %>

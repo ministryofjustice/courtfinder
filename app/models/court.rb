@@ -1,6 +1,8 @@
 class Court < ActiveRecord::Base
   has_many :addresses
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :lat, :lng
+  has_many :court_types_courts
+  has_many :court_types, :through => :court_types_courts
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids
   accepts_nested_attributes_for :addresses, allow_destroy: true
 
   extend FriendlyId
