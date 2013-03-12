@@ -4,7 +4,7 @@ class Admin::AreasOfLawController < ApplicationController
   # GET /admin/areas_of_law
   # GET /admin/areas_of_law.json
   def index
-    @areas_of_law = AreaOfLaw.all
+    @areas_of_law = AreaOfLaw.order(:name)
 
     respond_to do |format|
       format.html # index.html.erb

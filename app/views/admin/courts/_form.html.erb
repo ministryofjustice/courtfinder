@@ -23,6 +23,7 @@
   <%= f.input :old_id %>
   <%= f.input :old_court_type_id %>
   <%= f.association :court_types %>
+  <%= f.association :areas_of_law %>
 
   <%= f.simple_fields_for :addresses do |builder| %>
     <%= render 'address_fields', f: builder %>
