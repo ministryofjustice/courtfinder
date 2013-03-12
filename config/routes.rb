@@ -27,6 +27,8 @@ Courtfinder::Application.routes.draw do
     resources :courts
 
     resources :court_types
+
+    resources :areas_of_law
   end
 
   # The priority is based upon order of creation:

@@ -1,0 +1,25 @@
+<h1>Listing areas_of_law</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Old</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @areas_of_law.each do |area_of_law| %>
+  <tr>
+    <td><%= area_of_law.name %></td>
+    <td><%= area_of_law.old_id %></td>
+    <td><%= link_to 'Show', admin_area_of_law_path(area_of_law) %></td>
+    <td><%= link_to 'Edit', edit_admin_area_of_law_path(area_of_law) %></td>
+    <td><%= link_to 'Destroy', admin_area_of_law_path(area_of_law), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Area of law', new_admin_area_of_law_path %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311111929) do
+ActiveRecord::Schema.define(:version => 20130312095515) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -37,6 +37,13 @@ ActiveRecord::Schema.define(:version => 20130311111929) do
   add_index "addresses", ["address_type_id"], :name => "index_addresses_on_address_type_id"
   add_index "addresses", ["court_id"], :name => "index_addresses_on_court_id"
   add_index "addresses", ["town_id"], :name => "index_addresses_on_town_id"
+
+  create_table "areas_of_law", :force => true do |t|
+    t.string   "name"
+    t.integer  "old_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "counties", :force => true do |t|
     t.string   "name"
@@ -90,9 +97,20 @@ ActiveRecord::Schema.define(:version => 20130311111929) do
     t.integer  "old_court_address_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
+    t.boolean  "display"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
+
+  create_table "courts_areas_of_law", :force => true do |t|
+    t.integer  "court_id"
+    t.integer  "area_of_law_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "courts_areas_of_law", ["area_of_law_id"], :name => "index_courts_areas_of_law_on_area_of_law_id"
+  add_index "courts_areas_of_law", ["court_id"], :name => "index_courts_areas_of_law_on_court_id"
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false

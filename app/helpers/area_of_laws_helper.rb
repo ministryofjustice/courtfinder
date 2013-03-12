@@ -1,0 +1,2 @@
+module AreaOfLawsHelper
+end

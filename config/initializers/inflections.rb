@@ -10,6 +10,7 @@
 # end
 #
 # These inflection rules are supported but not enabled by default:
-# ActiveSupport::Inflector.inflections do |inflect|
-#   inflect.acronym 'RESTful'
-# end
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'area_of_law', 'areas_of_law'
+  # inflect.acronym 'RESTful'
+end
