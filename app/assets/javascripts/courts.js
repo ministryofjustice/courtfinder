@@ -12,7 +12,7 @@
 
 $(function () {
 	
-	var search = $('#search'),
+	var search = $('#search-main'),
 		results = $('#results'),
 		active = false,
 		selectedResult = null,

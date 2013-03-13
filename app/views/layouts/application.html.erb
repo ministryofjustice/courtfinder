@@ -148,15 +148,17 @@
 		</nav>
 	</div>
 
-	<div id="wrapper" class="group service">
+	<div id="wrapper" class="group <%= yield :type %>">
 		<section id="content" role="main" class="group">
+			<p class="alert"><%= alert %></p>
+			
+			<%= render 'shared/admin_nav' %>
+
 			<header class="page-header group">
 				<hgroup>
-					<p class="alert"><%= alert %></p>
-					<%= admin_nav %>
-					<h1><span>Service</span> Find a court</h1>
+					<h1><%= "<span>#{yield(:type).titlecase}</span> ".html_safe %><%= yield :title %></h1>
 				</hgroup>
-				<nav class="skip-to-related"><a href="#related">Not what you're looking for?</a></nav>
+				<!-- <nav class="skip-to-related"><a href="#related">Not what you're looking for? &darr;</a></nav> -->
 			</header>
 
 			<div class="article-container group">
@@ -180,6 +182,33 @@
 				<% end %>
 			</div>
 		</section>
+
+		<!-- <div class="related-positioning" style="position: fixed;">
+			<div class="related-container">
+
+				<div class="related" id="related">
+					<div class="inner group">
+						<h2>Other relevant links</h2>
+						<nav role="navigation">
+							<ul>
+								<li><a href="/tax-disc">Car tax (tax disc)</a></li>
+								<li class="related-topic"><a href="/browse/driving">More from the <span>Driving, transport and travel</span> category</a></li>
+							</ul>
+						</nav>
+						<nav role="navigation" class="return-to-top"><a href="#content">Return to top &uarr;</a></nav>
+					</div>
+					<div id="legacy-sources">
+						<p>This replaces</p>
+						<ul>
+							<li class="directgov">Directgov</li>
+							<li class="businesslink">Business Link</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div> -->
+
 	</div>
 
 	<footer class="group" id="footer" role="contentinfo">

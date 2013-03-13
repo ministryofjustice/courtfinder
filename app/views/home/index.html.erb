@@ -1,3 +1,6 @@
+<% content_for :type, 'service' %>
+<% content_for :title, 'Find a court' %>
+
 <section class="intro">
 	<div class="get-started-intro">
 		<p>Use this tool to find a Court, Tribunal or other building</p>
@@ -9,8 +12,8 @@
 		<fieldset>
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
-				<label for="postcode">Enter a UK postcode or Court name <br />
-					<input class="postcode" id="search" name="search" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
+				<label for="search-main">Enter a UK postcode or Court name <br />
+					<input class="postcode" id="search-main" name="search" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
 				</label>
 				<button type="submit" class="button">Find</button>
 				<div id="results"></div>
@@ -45,7 +48,7 @@
 			</select>
 		</div>
 		<div class="form-item">
-			<label for="court type">Court type </label>
+			<label for="court-type">Court type </label>
 			<select id="court-type" name="Court type">
 				<option value=""></option>
 			</select>
