@@ -12,7 +12,7 @@
  *= require_tree .
  */
 
-#search {
+#wrapper #search {
   width: 256px;
 }
 #results {
