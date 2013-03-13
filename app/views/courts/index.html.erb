@@ -1,3 +1,9 @@
+<% content_for :nav do %>
+  <li>
+    <a href="/">Court Finder</a>
+  </li>
+<% end %>
+
 <% if user_signed_in? %>
   <%= link_to "Edit courts", admin_courts_path %>
 <% end %>
