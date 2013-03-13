@@ -1,60 +1,58 @@
-    <article role="article" class="group">
-        <div class="inner">
-          <section class="intro">
-            <div class="get-started-intro">
-              <p>Use this tool to find a Court, Tribunal or other building</p>
-            </div>
-          </section>
-          <div class="find-nearest">
-            <form method="get" action="/courts" id="local-locator-form" class="find-location-for-service">
-              <fieldset>
-                <legend class="visuallyhidden">Postcode lookup</legend>
-                <div class="ask_location">
-                  <label for="postcode">Enter a UK postcode or Court name <br />
-                    <input class="postcode" id="search" name="search" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
-                  </label>
-                  <button type="submit" class="button">Find</button>
-                  <div id="results"></div>
-                  <!--h3>Search by:</h3>
-                  <div class="type">
-                    <label for="courtname">Court name
-                      <input class="checkbox" id="" name="courtname" type="checkbox" checked="checked">
-                    </label>
-                    <label for="tribunal ">Tribunal
-                      <input class="checkbox" id="" name="courtname" type="checkbox">
-                    </label>
-                    <label for="registry">Probate registry
-                      <input class="checkbox" id="" name="courtname" type="checkbox">
-                    </label>
-                  </div-->
-                </div>
-              </fieldset>
-            </form>
-          </div>
-          <div id="advanced-search">
-            <h2><a href="#">Need more options?</a></h2>
-            <form method="post" id="advanced" class="more-options">
-              <div class="form-item">
-                <label for="parish">Parish </label>
-                <input class="" id="parish" name="parish" type="text">
-              </div>
-              <div class="form-item">
-                <label for="law">Area of law </label>
-                <select class="" id="law" name="law">
-                  <option value=""></option>
-                </select>
-              </div>
-              <div class="form-item">
-                <label for="court type">Court type </label>
-                <select id="court-type" name="Court type">
-               
-                </select>
-              </div>
-              <br />
-              <div class="form-item">
-                <button type="submit" class="button">Find</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </article>
+<section class="intro">
+	<div class="get-started-intro">
+		<p>Use this tool to find a Court, Tribunal or other building</p>
+	</div>
+</section>
+
+<div class="find-nearest">
+	<form method="get" action="/courts" id="local-locator-form" class="find-location-for-service">
+		<fieldset>
+			<legend class="visuallyhidden">Postcode lookup</legend>
+			<div class="ask_location">
+				<label for="postcode">Enter a UK postcode or Court name <br />
+					<input class="postcode" id="search" name="search" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
+				</label>
+				<button type="submit" class="button">Find</button>
+				<div id="results"></div>
+				<!--h3>Search by:</h3>
+				<div class="type">
+					<label for="courtname">Court name
+						<input class="checkbox" id="" name="courtname" type="checkbox" checked="checked">
+					</label>
+					<label for="tribunal ">Tribunal
+						<input class="checkbox" id="" name="courtname" type="checkbox">
+					</label>
+					<label for="registry">Probate registry
+						<input class="checkbox" id="" name="courtname" type="checkbox">
+					</label>
+				</div-->
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+<div id="advanced-search">
+	<h2><a href="#">Need more options?</a></h2>
+	<form method="post" id="advanced" class="more-options">
+		<div class="form-item">
+			<label for="parish">Parish </label>
+			<input class="" id="parish" name="parish" type="text">
+		</div>
+		<div class="form-item">
+			<label for="law">Area of law </label>
+			<select class="" id="law" name="law">
+				<option value=""></option>
+			</select>
+		</div>
+		<div class="form-item">
+			<label for="court type">Court type </label>
+			<select id="court-type" name="Court type">
+				<option value=""></option>
+			</select>
+		</div>
+		<br />
+		<div class="form-item">
+			<button type="submit" class="button">Find</button>
+		</div>
+	</form>
+</div>

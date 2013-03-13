@@ -165,15 +165,18 @@
 						<%= notice %>
 						<%= yield %>
 
-						<%= render 'shared/report_a_problem' %>
-						
-						<div class="meta-data group">
-							<div class="inner">
-								<p class="modified-date">Last updated: 9 January 2013</p>
-							</div>
-						</div>
 					</div>
 				</article>
+				
+				<%= render 'shared/report_a_problem' %>
+				
+				<% if content_for?(:last_updated) %>
+					<div class="meta-data group">
+						<div class="inner">
+							<p class="modified-date">Last updated: <%= yield :last_updated %></p>
+						</div>
+					</div>
+				<% end %>
 			</div>
 		</section>
 	</div>
