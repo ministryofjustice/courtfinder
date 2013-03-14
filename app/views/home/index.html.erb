@@ -41,21 +41,24 @@
 			<label for="parish">Parish </label>
 			<input class="" id="parish" name="parish" type="text">
 		</div>
-		<div class="form-item">
-			<label for="law">Area of law </label>
-			<select class="" id="law" name="law">
-				<option value=""></option>
-			</select>
-		</div>
-		<div class="form-item">
-			<label for="court-type">Court type </label>
-			<select id="court-type" name="Court type">
-				<option value=""></option>
-			</select>
-		</div>
 		<br />
 		<div class="form-item">
 			<button type="submit" class="button">Find</button>
 		</div>
+
+		<h3>Areas of law</h3>
+		<ul>
+			<% @areas_of_law.each do |area| %>
+				<li><%= link_to area.name, area_of_law_path(area) %></li>
+			<% end %>
+		</ul>
+
+		<h3>Court types</h3>
+		<ul>
+			<% @court_types.each do |type| %>
+				<li><%= link_to type.name, court_type_path(type) %></li>
+			<% end %>
+		</ul>
 	</form>
+
 </div>

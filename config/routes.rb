@@ -5,6 +5,14 @@ Courtfinder::Application.routes.draw do
     match '/' => :index, :as => :courts
     match '/:id' => :show, :as => :court
   end
+  scope 'court-types', :controller => :court_types do
+    match '/' => :index, :as => :court_types
+    match '/:id' => :show, :as => :court_type
+  end
+  scope 'areas-of-law', :controller => :areas_of_law do
+    match '/' => :index, :as => :areas_of_law
+    match '/:id' => :show, :as => :area_of_law
+  end
   
   # Admin section
   get "admin" => "home#admin"
@@ -22,13 +30,13 @@ Courtfinder::Application.routes.draw do
 
     resources :countries
 
-    resources :address_types
+    resources :address_types, :path => '/address-types'
 
     resources :courts
 
     resources :court_types
 
-    resources :areas_of_law
+    resources :areas_of_law, :path => '/areas-of-law'
   end
 
   # The priority is based upon order of creation:

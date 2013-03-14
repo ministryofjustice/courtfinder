@@ -1,7 +1,13 @@
+<% content_for :title, @court.name %>
+<% content_for :nav do %>
+  <li>
+    <%= link_to 'Courts', courts_path %>
+  </li>
+<% end %>
+
 <% if user_signed_in? %>
   <%= link_to "Edit this court", edit_admin_court_path(@court) %>
 <% end %>
-<h1><%= @court.name %></h1>
 <h3>About this court</h3>
 <%= @court.info.html_safe %>
 
@@ -13,7 +19,7 @@
 	<h3>Visiting us</h3>
 <% end %>
 
-<% visiting = @court.addresses.find_by_address_type_id(1) %>
+<% visiting = @court.addresses.first %>
 <p><%= visiting.address_line_1 %><br />
 
 <% if visiting.address_line_2.present? %>
@@ -30,9 +36,9 @@
 
 </p>
 
-<% if @court.addresses.length == 2 %>
+<% if @court.addresses.length > 1 %>
 	<h3>Writing to us</h3>
-		<% postal = @court.addresses.where(:address_type_id => 2) %>
+		<% postal = @court.addresses.where(['id <> ?', visiting.id]) %>
 		<% postal.each do |addr| %>
 			<p><%= addr.address_line_1 %><br />
 

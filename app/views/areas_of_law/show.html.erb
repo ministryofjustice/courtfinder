@@ -1,0 +1,12 @@
+<% content_for :title, @area_of_law.name %>
+<% content_for :nav do %>
+	<li>
+		<%= link_to 'Areas of law', areas_of_law_path %>
+	</li>
+<% end %>
+
+<ul>
+	<% @area_of_law.courts.order(:name).each do |court| %>
+		<li><%= link_to court.name, court_path(court) %></li>
+	<% end %>
+</ul>

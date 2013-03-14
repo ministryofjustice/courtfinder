@@ -1,0 +1,5 @@
+<% content_for :title, 'Court types' %>
+
+<% @court_types.each do |type| %>
+	<li><%= link_to type.name, court_type_path(type) %></li>
+<% end %>

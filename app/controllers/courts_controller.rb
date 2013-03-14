@@ -42,7 +42,7 @@ class CourtsController < ApplicationController
       end
 
     else
-      @courts = Court.paginate(:page => page, :per_page => per_page)
+      @courts = Court.order(:name).paginate(:page => page, :per_page => per_page)
     end
   
     respond_with @courts

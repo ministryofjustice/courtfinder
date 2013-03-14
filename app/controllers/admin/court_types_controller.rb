@@ -4,7 +4,7 @@ class Admin::CourtTypesController < ApplicationController
   # GET /admin/court_types
   # GET /admin/court_types.json
   def index
-    @court_types = CourtType.all
+    @court_types = CourtType.order(:name)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -46,7 +46,7 @@ class Admin::CourtTypesController < ApplicationController
 
     respond_to do |format|
       if @court_type.save
-        format.html { redirect_to admin_court_type(@court_type), notice: 'Court type was successfully created.' }
+        format.html { redirect_to admin_court_type_path(@court_type), notice: 'Court type was successfully created.' }
         format.json { render json: @court_type, status: :created, location: @court_type }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::CourtTypesController < ApplicationController
 
     respond_to do |format|
       if @court_type.update_attributes(params[:court_type])
-        format.html { redirect_to admin_court_type(@court_type), notice: 'Court type was successfully updated.' }
+        format.html { redirect_to admin_court_type_path(@court_type), notice: 'Court type was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

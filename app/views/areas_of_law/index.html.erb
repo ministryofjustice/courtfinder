@@ -1,0 +1,5 @@
+<% content_for :title, 'Areas of law' %>
+
+<% @areas_of_law.each do |area| %>
+	<li><%= link_to area.name, area_of_law_path(area) %></li>
+<% end %>

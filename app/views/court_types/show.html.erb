@@ -1,0 +1,12 @@
+<% content_for :title, @court_type.name %>
+<% content_for :nav do %>
+	<li>
+		<%= link_to 'Court types', court_types_path %>
+	</li>
+<% end %>
+
+<ul>
+	<% @court_type.courts.order(:name).each do |court| %>
+		<li><%= link_to court.name, court_path(court) %></li>
+	<% end %>
+</ul>
