@@ -11,7 +11,7 @@ module ApplicationHelper
 
   def admin_nav
     if /admin/i =~ request.env['PATH_INFO']
-      render "layouts/admin_nav"
+      render "shared/admin_nav"
     end
   end
   
