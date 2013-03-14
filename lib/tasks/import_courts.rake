@@ -52,6 +52,7 @@ namespace :import do
       County.destroy_all
       Town.destroy_all
       Address.destroy_all
+      AreaOfLaw.destroy_all
     end
 
     Rake::Task["import:court_types"].invoke
@@ -61,6 +62,7 @@ namespace :import do
     Rake::Task["import:counties"].invoke
     Rake::Task["import:towns"].invoke
     Rake::Task["import:addresses"].invoke
+    Rake::Task["import:areas_of_law"].invoke
 
     puts ">>> All done, yay!"
   end
