@@ -150,9 +150,11 @@
 
 	<div id="wrapper" class="group <%= yield :type %>">
 		<section id="content" role="main" class="group">
-			<p class="alert"><%= alert %></p>
+			<% if alert.present? %>
+				<p class="alert"><%= alert %></p>
+			<% end %>
 			
-			<%= render 'shared/admin_nav' %>
+			<%= admin_nav %>
 
 			<header class="page-header group">
 				<hgroup>
