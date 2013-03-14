@@ -8,12 +8,12 @@
 </section>
 
 <div class="find-nearest">
-	<form method="get" action="/courts" id="local-locator-form" class="find-location-for-service">
+	<form method="get" action="/search" id="local-locator-form" class="find-location-for-service">
 		<fieldset>
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
 				<label for="search-main">Enter a UK postcode or Court name <br />
-					<input class="postcode" id="search-main" name="search" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
+					<input class="postcode" id="search-main" name="q" type="text" placeholder="Name or Postcde" autocomplete="off" autofocus />
 				</label>
 				<button type="submit" class="button">Find</button>
 				<div id="results"></div>
@@ -45,6 +45,8 @@
 		<div class="form-item">
 			<button type="submit" class="button">Find</button>
 		</div>
+
+		<h3><%= link_to 'Browse courts', courts_path %></h3>
 
 		<h3>Areas of law</h3>
 		<ul>

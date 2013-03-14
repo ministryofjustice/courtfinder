@@ -13,6 +13,9 @@ Courtfinder::Application.routes.draw do
     match '/' => :index, :as => :areas_of_law
     match '/:id' => :show, :as => :area_of_law
   end
+  scope 'search', :controller => :search do
+    match '/' => :index, :as => :search
+  end
   
   # Admin section
   get "admin" => "home#admin"

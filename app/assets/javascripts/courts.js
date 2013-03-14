@@ -109,7 +109,7 @@ $(function () {
 
 				if (term.length > minText) {
 					// Find a match server side
-					$.get('/courts.json', { search: term }, function (courtData) {
+					$.get('/search.json', { q: term }, function (courtData) {
 						var court, courts, name, i, len;
 
 						if (courtData.length === 0) {
