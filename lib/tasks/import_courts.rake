@@ -62,6 +62,7 @@ namespace :import do
     Rake::Task["import:counties"].invoke
     Rake::Task["import:towns"].invoke
     Rake::Task["import:addresses"].invoke
+    Rake::Task["import:coordinates"].invoke
     Rake::Task["import:areas_of_law"].invoke
 
     puts ">>> All done, yay!"
@@ -86,6 +87,7 @@ namespace :import do
     Rake::Task["import:counties"].invoke
     Rake::Task["import:towns"].invoke
     Rake::Task["import:addresses"].invoke
+    Rake::Task["import:coordinates"].invoke
 
     puts ">>> All done, yay!"
   end
@@ -241,8 +243,6 @@ namespace :import do
         addr.postcode = row[6] unless row[6] == 'NULL'
         addr.dx = row[7] unless row[7] == 'NULL'
         addr.town_id = Town.find_by_old_id(row[8]).id
-        # addr.latitude = row[10]
-        # addr.longitude = row[11]
 
         addr.save!
 
@@ -256,32 +256,32 @@ namespace :import do
   
   desc "Import court coordinates"
   task :coordinates => :environment do
-	puts "Importing court coordinates"
-	
-	require 'csv'
-	
-	csv_file = File.read('db/data/court_coords.csv')
-	
-	csv = CSV.parse(csv_file)
-	
-	counter = 0
-	
-	csv.each do |row|
-	
-	  court = Court.find_by_old_court_address_id(row[0])
-	  
-	  if court	
-		court.latitude = row[1]
-		court.longitude = row[2]
-		court.save!
-		
-		counter += 1
-		
-	  end
-	end
-	
-	puts ">>> #{counter} of #{csv.length} coordinates added"
-		
+    puts "Importing court coordinates"
+    
+    require 'csv'
+    
+    csv_file = File.read('db/data/court_coords.csv')
+    
+    csv = CSV.parse(csv_file)
+    
+    counter = 0
+    
+    csv.each do |row|
+    
+    court = Court.find_by_old_court_address_id(row[0])
+      
+    if court
+      puts "Adding #{row[1]}, #{row[2]}"
+
+      court.latitude = row[1]
+      court.longitude = row[2]
+      
+      counter += 1 if court.save!
+    end
+  end
+  
+  puts ">>> #{counter} of #{csv.length} coordinates added"
+    
   end
   
   desc "Import court types"
