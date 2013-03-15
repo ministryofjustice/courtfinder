@@ -5,4 +5,9 @@ class CourtType < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
+  
+  # Text search
+  def self.search(search)
+    where('LOWER(name) like ?', "%#{search.downcase}%").order('name ASC')
+  end
 end

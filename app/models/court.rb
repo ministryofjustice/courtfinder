@@ -13,11 +13,8 @@ class Court < ActiveRecord::Base
   geocoded_by :latitude => :lat, :longitude => :lng
 
   # Text search
-  def self.search(search, page, per_page)
-    paginate :per_page => per_page,
-             :page => page,
-             :conditions => ['LOWER(name) like ?', "%#{search.downcase}%"],
-             :order => 'name'
+  def self.search(search)
+    where('LOWER(name) like ?', "%#{search.downcase}%").order('name ASC')
   end
 
 end
