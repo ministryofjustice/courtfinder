@@ -27,6 +27,7 @@ namespace :import do
       court.old_postal_address_id = row[8]
       court.old_court_address_id = row[7]
       court.old_court_type_id = row[9]
+      court.display = true
 
       court.save!
       

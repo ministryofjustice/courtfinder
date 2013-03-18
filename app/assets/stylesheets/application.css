@@ -43,3 +43,6 @@
   text-decoration: underline;
   background: #ddd;
 }
+#results i {
+  float: right;
+}

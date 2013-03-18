@@ -1,6 +1,8 @@
 <% content_for :title, 'Search results' %>
 
+<p>Your search for <strong><%= params[:q] %></strong> found the follow results:</p>
 <% if @results %>
+  <h2>Courts</h2>
   <ul>
     <% @results[:courts].each do | court | %>
       <li><%= link_to(court.name, court_path(court)) %>
@@ -8,6 +10,18 @@
           is <%= court.distance.to_f.round(2) %> miles away
          <% end %>
        </li>
+    <% end %>
+  </ul>
+  <h2>Court types</h2>
+  <ul>
+    <% @results[:court_types].each do | type | %>
+      <li><%= link_to(type.name, court_type_path(type)) %></li>
+    <% end %>
+  </ul>
+  <h2>Areas of law</h2>
+  <ul>
+    <% @results[:areas_of_law].each do | area | %>
+      <li><%= link_to(area.name, area_of_law_path(area)) %></li>
     <% end %>
   </ul>
 <% end %>

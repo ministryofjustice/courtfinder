@@ -9,12 +9,35 @@ class Court < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
+  
+  include Rails.application.routes.url_helpers
 
   geocoded_by :latitude => :lat, :longitude => :lng
+
+  scope :visible, :conditions => { :display => true }
 
   # Text search
   def self.search(search)
     where('LOWER(name) like ?', "%#{search.downcase}%").order('name ASC')
+  end
+
+  def as_json(options={})
+    {
+      :area_id => self.area_id,
+      :cci_code => self.cci_code,
+      :cci_identifier => self.cci_identifier,
+      :court_number => self.court_number,
+      :created_at => self.created_at,
+      :display => self.display,
+      :id => self.id,
+      :info => self.info,
+      :latitude => self.latitude,
+      :longitude => self.longitude,
+      :name => self.name,
+      :path => court_path(self),
+      :slug => self.slug,
+      :updated_at => self.updated_at
+    }
   end
 
 end

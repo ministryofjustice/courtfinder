@@ -4,6 +4,7 @@ class CourtsController < ApplicationController
   
   def index
     @courts = Court.order(:name).paginate(:page => params[:page], :per_page => params[:per_page])
+    respond_with @courts
   end
   
   def show

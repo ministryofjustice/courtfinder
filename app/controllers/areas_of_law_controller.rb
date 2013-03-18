@@ -4,6 +4,7 @@ class AreasOfLawController < ApplicationController
 
   def index
     @areas_of_law = AreaOfLaw.order(:name)
+    respond_with @areas_of_law
   end
 
   def show

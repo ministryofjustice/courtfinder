@@ -2,10 +2,14 @@ class CourtTypesController < ApplicationController
   
   respond_to :html, :json
 
+  # GET /court-types
   def index
     @court_types = CourtType.order(:name)
+    respond_with @court_types
   end
 
+  # GET /court-types/royal-courts-of-justice
+  # GET /court-types/royal-courts-of-justice.json
   def show
     @court_type = CourtType.find(params[:id])
 

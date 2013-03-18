@@ -110,23 +110,36 @@ $(function () {
 				if (term.length > minText) {
 					// Find a match server side
 					$.get('/search.json', { q: term }, function (courtData) {
-						var court, courts, name, i, len;
+						var court, courts, name, i, x, len, list = [], types = ['courts', 'court_types', 'areas_of_law'];
 
-						if (courtData.length === 0) {
-							hideResults();
-						} else {
-							courts = [];
+						var listResults = function (items, type) {
+							var retval = [];
+							console.log(items)
+							if (items.length) {
 
-							for (i = 0; i < courtData.length; i++) {
-								court = courtData[i];
-								name = markMatched(term, court.name);
-								courts.push('<li><a href="/courts/' + court.slug + '">' + name + '</a></li>');
+								for (i = 0; i < items.length; i++) {
+									item = items[i];
+									name = markMatched(term, item.name);
+
+									retval.push('<li><a href="' + item.path + '"><i>' + type.replace(/_/g,' ') + '</i>' + name + '</a></li>');
+								}
+
+								return retval.join('')
 							}
-							
-							results.html('<ul>' + courts.join('') + '</ul>');
-							
-							showResults();
 						}
+
+						for (x in types) {
+							console.log(types[x])
+ 							list.push(listResults(courtData[types[x]], types[x]))
+						}
+
+						if (list) {
+							results.html('<ul>' + list.join('') + '</ul>');
+							showResults()
+						} else {
+							hideResults()
+						}
+
 					});
 				} else {
 					hideResults();
