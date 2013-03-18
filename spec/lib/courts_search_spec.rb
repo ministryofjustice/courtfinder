@@ -31,4 +31,6 @@ describe CourtSearch do
     @area_of_law = FactoryGirl.create(:area_of_law, :name => 'London crime')
     CourtSearch.new('London').results.should == {:courts => [@court2], :court_types => [], :areas_of_law => [@area_of_law]}
   end
+
+  it "should highlight the search string in the results"
 end
