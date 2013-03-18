@@ -16,7 +16,6 @@ $(function () {
 		results = $('#results'),
 		active = false,
 		selectedResult = null,
-		pos = search.position(),
 		klass = 'selected',
 		minText = 2;
 	
@@ -40,11 +39,12 @@ $(function () {
 	// Only run on pages where the search box is found
 	if (search.length) {
 		// Position the predictions under the search box
+		pos = search.position();
 		results.css({
 			position: 'absolute',
 			width: search.outerWidth() - 4,
-			top: pos.top + search.outerHeight() - parseInt(search.css('borderBottomWidth')) - 3,
-			left: pos.left - 1
+			top: pos.top + search.outerHeight() - parseInt(search.css('borderBottomWidth')) - 1,
+			left: pos.left + parseInt(search.css('marginLeft')) - 1
 		});
 		
 		search
@@ -110,18 +110,17 @@ $(function () {
 				if (term.length > minText) {
 					// Find a match server side
 					$.get('/search.json', { q: term }, function (courtData) {
-						var court, courts, name, i, x, len, list = [], types = ['courts', 'court_types', 'areas_of_law'];
+						var court, courts, name, i, x, len, list = [], types = {courts:'court', court_types:'court type', areas_of_law:'area of law'};
 
 						var listResults = function (items, type) {
 							var retval = [];
-							console.log(items)
 							if (items.length) {
 
 								for (i = 0; i < items.length; i++) {
 									item = items[i];
 									name = markMatched(term, item.name);
 
-									retval.push('<li><a href="' + item.path + '"><i>' + type.replace(/_/g,' ') + '</i>' + name + '</a></li>');
+									retval.push('<li><a href="' + item.path + '"><i>' + type + '</i>' + name + '</a></li>');
 								}
 
 								return retval.join('')
@@ -129,8 +128,7 @@ $(function () {
 						}
 
 						for (x in types) {
-							console.log(types[x])
- 							list.push(listResults(courtData[types[x]], types[x]))
+ 							list.push(listResults(courtData[x], types[x]))
 						}
 
 						if (list) {

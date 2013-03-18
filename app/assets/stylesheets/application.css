@@ -15,6 +15,9 @@
 #wrapper #search {
   width: 256px;
 }
+#search-main {
+  width: 350px;
+}
 #results {
   display: none;
   background: #f6f6f6;
@@ -26,6 +29,7 @@
   padding: 0;
 }
 #results li {
+  margin: 0;
   padding: 0;
   list-style: none;
   font-size: 16px;
