@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @contact_type.name %>
+</p>
+
+<p>
+  <b>Old:</b>
+  <%= @contact_type.old_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_contact_type_path(@contact_type) %> |
+<%= link_to 'Back', admin_contact_types_path %>

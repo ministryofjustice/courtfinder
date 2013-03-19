@@ -42,6 +42,8 @@ Courtfinder::Application.routes.draw do
     resources :areas_of_law, :path => '/areas-of-law'
 
     resources :opening_types
+
+    resources :contact_types
   end
 
   # The priority is based upon order of creation:

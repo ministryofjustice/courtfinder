@@ -408,5 +408,29 @@ namespace :import do
     puts ">>> #{counter} of #{csv.length} opening types added"
 
   end
-  
+
+  desc "Import contact types"
+  task :contact_types => :environment do
+    puts "Importing contact types"
+
+    require 'csv'
+
+    csv_file = File.read('db/data/court_contact_type.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+    
+    csv.each do |row|
+      type = ContactType.new
+
+      puts "Adding '#{row[1]}'"
+      # "court_contact_type_id","court_contact_type_desc"
+
+      type.old_id = row[0]
+      type.name = row[1]
+
+      type.save!
+    end
+
+  end
+
 end
