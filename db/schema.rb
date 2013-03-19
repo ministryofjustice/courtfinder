@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130318181706) do
+ActiveRecord::Schema.define(:version => 20130319093922) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -128,10 +128,22 @@ ActiveRecord::Schema.define(:version => 20130318181706) do
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
+  create_table "opening_times", :force => true do |t|
+    t.string   "name"
+    t.integer  "court_id"
+    t.integer  "opening_type_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "opening_times", ["court_id"], :name => "index_opening_times_on_court_id"
+  add_index "opening_times", ["opening_type_id"], :name => "index_opening_times_on_opening_type_id"
+
   create_table "opening_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "old_id"
   end
 
   create_table "towns", :force => true do |t|

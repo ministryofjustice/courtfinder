@@ -11,6 +11,11 @@
     </div>
   <% end %>
 
+  <p>
+    Old ID: <%= @court.old_id %> :
+    Old Court Type ID: <%= @court.old_court_type_id %>
+  </p>
+
   <%= f.input :name %>
   <%= f.input :court_number %>
   <%= f.input :slug %>
@@ -19,9 +24,6 @@
   <%= f.input :cci_code %>
   <%= f.input :latitude %>
   <%= f.input :longitude %>
-  <%= f.input :area_id %>  
-  <%= f.input :old_id %>
-  <%= f.input :old_court_type_id %>
   <%= f.association :court_types %>
   <%= f.association :areas_of_law %>
 
@@ -29,6 +31,11 @@
     <%= render 'address_fields', f: builder %>
   <% end %>
   <%= link_to_add_fields "Add Address", f, :addresses %>
+
+  <%= f.simple_fields_for :opening_times do |builder| %>
+    <%= render 'opening_time_fields', f: builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Opening Time", f, :opening_times %>
 
   <div class="actions">
     <%= f.submit %>
