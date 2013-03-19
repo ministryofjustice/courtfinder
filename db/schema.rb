@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319151905) do
+ActiveRecord::Schema.define(:version => 20130319161418) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -55,6 +55,20 @@ ActiveRecord::Schema.define(:version => 20130319151905) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "contacts", :force => true do |t|
+    t.string   "name"
+    t.string   "telephone"
+    t.integer  "court_id"
+    t.integer  "contact_type_id"
+    t.boolean  "in_leaflet"
+    t.integer  "sort"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "contacts", ["contact_type_id"], :name => "index_contacts_on_contact_type_id"
+  add_index "contacts", ["court_id"], :name => "index_contacts_on_court_id"
 
   create_table "counties", :force => true do |t|
     t.string   "name"

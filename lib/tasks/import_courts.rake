@@ -56,6 +56,8 @@ namespace :import do
       AreaOfLaw.destroy_all
       OpeningType.destroy_all
       OpeningTime.destroy_all
+      ContactType.destroy_all
+      Contact.destroy_all
     end
 
     Rake::Task["import:court_types"].invoke
@@ -68,6 +70,8 @@ namespace :import do
     Rake::Task["import:coordinates"].invoke
     Rake::Task["import:areas_of_law"].invoke
     Rake::Task["import:opening_times"].invoke
+    Rake::Task["import:contact_types"].invoke
+    Rake::Task["import:contacts"].invoke
 
     puts ">>> All done, yay!"
   end
@@ -430,6 +434,79 @@ namespace :import do
 
       type.save!
     end
+
+  end
+
+  desc "Import contacts"
+  task :contacts => :environment do
+    puts "Importing contacts"
+
+    require 'csv'
+
+    # First add General Contacts
+
+    csv_file = File.read('db/data/court_contacts_general.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      court = Court.find_by_old_id(row[2])
+
+      if court
+        contact = Contact.new
+
+        puts "Adding '#{row[1]}'"
+        # "court_contacts_general_id","court_contacts_general_no","court_id","court_contact_type_id","court_contact_general_order"
+
+        contact.telephone = row[1]
+        contact.court_id = court.id
+        contact.in_leaflet = true
+
+        type = ContactType.find_by_old_id(row[3])
+        contact.contact_type_id = type.id if type
+
+        contact.sort = row[4].to_i
+
+        counter += 1 if contact.save!
+      end
+    end
+
+    puts ">>> #{counter} of #{csv.length} general contacts added"
+
+    # Now add Contacts to same table
+
+    csv_file = File.read('db/data/court_contacts.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      court = Court.find_by_old_id(row[3])
+
+      if court
+        contact = Contact.new
+
+        puts "Adding '#{row[1]}'"
+        # "court_contacts_id","court_contacts_name","court_contacts_no","court_id","court_contact_type_id","court_contacts_order"
+
+        contact.name = row[1].strip if row[1].present? and row[1] != 'NULL'
+        contact.telephone = row[2] if row[1] != 'NULL'
+        contact.court_id = court.id
+        contact.in_leaflet = false
+
+        type = ContactType.find_by_old_id(row[4])
+        contact.contact_type_id = type.id if type
+
+        contact.sort = row[5].to_i + 1000 # added 1000 to make sure contacts appear after general contacts
+
+        counter += 1 if contact.save!
+      end
+    end
+
+    puts ">>> #{counter} of #{csv.length} contacts added"
 
   end
 

@@ -8,10 +8,28 @@
 <% if user_signed_in? %>
   <%= link_to "Edit this court", edit_admin_court_path(@court) %>
 <% end %>
+
+<h3>Areas Of Law</h3>
+<p>
+	<% @court.areas_of_law.each do |area| %>
+		<%= link_to area.name, area_of_law_path(area) %>
+	<% end %>
+</p>
+
+<h3>Court Types</h3>
+<p>
+	<% @court.court_types.each do |type| %>
+		<%= link_to type.name, court_type_path(type) %>
+	<% end %>
+</p>
+
 <h3>About this court</h3>
 <%= @court.info.html_safe %>
 
 <h3>Contact us</h3>
+<% @court.contacts.order(:sort).each do |contact| %>
+	<p><%= contact.contact_type.name if contact.contact_type %><%= " (#{contact.name})" if contact.name.present? %>: <%= contact.telephone %></p>
+<% end %>
 
 <% if @court.addresses.length == 1 %>
 	<h3>Visiting and writing to us</h3>
