@@ -54,6 +54,8 @@ namespace :import do
       Town.destroy_all
       Address.destroy_all
       AreaOfLaw.destroy_all
+      OpeningType.destroy_all
+      OpeningTime.destroy_all
     end
 
     Rake::Task["import:court_types"].invoke
@@ -65,6 +67,7 @@ namespace :import do
     Rake::Task["import:addresses"].invoke
     Rake::Task["import:coordinates"].invoke
     Rake::Task["import:areas_of_law"].invoke
+    Rake::Task["import:opening_times"].invoke
 
     puts ">>> All done, yay!"
   end
@@ -347,6 +350,62 @@ namespace :import do
 
       area.save!
     end
+
+  end
+  
+  desc "Import opening types and opening times"
+  task :opening_times => :environment do
+    puts "Importing opening types and opening times"
+
+    require 'csv'
+
+    csv_file = File.read('db/data/court_opening_type.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      type = OpeningType.new
+
+      puts "Adding '#{row[1]}'"
+      # "court_opening_type_id","court_opening_type_desc"
+
+      type.old_id = row[0]
+      type.name = row[1]
+
+      counter += 1 if type.save!
+    end
+
+    puts ">>> #{counter} of #{csv.length} opening types added"
+
+    csv_file = File.read('db/data/court_opening.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      time = OpeningTime.new
+
+      court = Court.find_by_old_id(row[1])
+
+      puts "Adding '#{row[2]}' to #{court.name}"
+      # "court_opening_id","court_id","court_opening_desc","court_opening_type_id"
+
+      if court
+        time.court_id = court.id
+        time.name = row[2]
+
+        type = OpeningType.find_by_old_id(row[3])
+        time.opening_type_id = type.id if type
+
+        counter += 1 if time.save!
+      end
+
+    end
+
+    puts ">>> #{counter} of #{csv.length} opening types added"
 
   end
   

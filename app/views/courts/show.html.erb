@@ -60,6 +60,10 @@
 
 
 <h3>Opening times</h3>
+<% @court.opening_times.each do |time| %>
+	<p><%= time.opening_type.name %>: <%= time.name %></p>
+<% end %>
+
 <h3>Map</h3>
 <h3>Route planner</h3>
 
