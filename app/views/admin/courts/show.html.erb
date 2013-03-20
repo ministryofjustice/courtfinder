@@ -4,7 +4,14 @@
 
 <p>
   <b>Name:</b>
-  <%= @court.name %>
+  <%= @court.name %> (<%= @court.id %>)
+</p>
+
+<p>
+  <b>Image:</b>
+  <%= @court.image.to_s %>
+  <b>Image file:</b>
+  <%= image_tag @court.image_file %>
 </p>
 
 <p>

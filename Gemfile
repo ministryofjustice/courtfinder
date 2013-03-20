@@ -11,6 +11,7 @@ group :development, :test do
 	gem 'capistrano'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'carrierwave'
 end
 
 # Gems used only for assets and not required

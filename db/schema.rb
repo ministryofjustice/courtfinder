@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320125513) do
+ActiveRecord::Schema.define(:version => 20130320155455) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20130320125513) do
     t.integer  "old_image_id"
     t.string   "image"
     t.string   "image_description"
+    t.string   "image_file"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"

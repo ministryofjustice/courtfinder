@@ -8,7 +8,7 @@ class Court < ActiveRecord::Base
   has_many :court_types, :through => :court_types_courts
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, :court_facilities_attributes
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, :court_facilities_attributes, :image, :image_file
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
@@ -23,6 +23,8 @@ class Court < ActiveRecord::Base
   geocoded_by :latitude => :lat, :longitude => :lng
 
   scope :visible, :conditions => { :display => true }
+
+  mount_uploader :image_file, CourtImagesUploader
 
   # Text search
   def self.search(search)
@@ -46,6 +48,13 @@ class Court < ActiveRecord::Base
       :slug => self.slug,
       :updated_at => self.updated_at
     }
+  end
+
+  def fetch_image_file
+    require 'open-uri'
+    self.image_file = open("http://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{self.image.to_s}") if image.present?
+  rescue
+
   end
 
 end

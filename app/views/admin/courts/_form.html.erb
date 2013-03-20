@@ -1,4 +1,4 @@
-<%= simple_form_for([:admin, @court]) do |f| %>
+<%= simple_form_for([:admin, @court], :html => {:multipart => true}) do |f| %>
   <% if @court.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@court.errors.count, "error") %> prohibited this court from being saved:</h2>
@@ -14,12 +14,15 @@
   <p>
     Old ID: <%= @court.old_id %> :
     Old Court Type ID: <%= @court.old_court_type_id %>
+    Image ref: <%= @court.image %>
   </p>
 
   <%= f.input :name %>
   <%= f.input :court_number %>
   <%= f.input :slug %>
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
+  <%= image_tag @court.image_file %>
+  <%= f.input :image_file %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
   <%= f.input :latitude %>
