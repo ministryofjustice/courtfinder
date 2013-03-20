@@ -1,5 +1,4 @@
 class Facility < ActiveRecord::Base
-  belongs_to :court
-  belongs_to :facility_type
-  attr_accessible :description, :facility_type_id
+  has_many :court_facilities
+  attr_accessible :image, :name
 end

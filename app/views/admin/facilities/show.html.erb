@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @facility.name %>
+</p>
+
+<p>
+  <b>Image:</b>
+  <%= @facility.image %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_facility_path(@facility) %> |
+<%= link_to 'Back', admin_facilities_path %>

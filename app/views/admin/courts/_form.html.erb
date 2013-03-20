@@ -42,10 +42,10 @@
   <% end %>
   <%= link_to_add_fields "Add Email", f, :emails %>
 
-  <%= f.simple_fields_for :facilities do |builder| %>
-    <%= render 'facility_fields', f: builder %>
+  <%= f.simple_fields_for :court_facilities do |builder| %>
+    <%= render 'court_facility_fields', f: builder %>
   <% end %>
-  <%= link_to_add_fields "Add Facility", f, :facilities %>
+  <%= link_to_add_fields "Add Facility", f, :court_facilities %>
 
   <%= f.simple_fields_for :opening_times do |builder| %>
     <%= render 'opening_time_fields', f: builder %>

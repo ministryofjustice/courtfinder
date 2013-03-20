@@ -45,7 +45,7 @@ Courtfinder::Application.routes.draw do
 
     resources :contact_types
 
-    resources :facility_types
+    resources :facilities
   end
 
   # The priority is based upon order of creation:
