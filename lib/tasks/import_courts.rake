@@ -59,6 +59,8 @@ namespace :import do
       ContactType.destroy_all
       Contact.destroy_all
       Email.destroy_all
+      Facility.destroy_all
+      CourtFacility.destroy_all
     end
 
     Rake::Task["import:court_types"].invoke
@@ -74,6 +76,8 @@ namespace :import do
     Rake::Task["import:contact_types"].invoke
     Rake::Task["import:contacts"].invoke
     Rake::Task["import:emails"].invoke
+    Rake::Task["import:images"].invoke
+    Rake::Task["import:court_facility"].invoke
 
     puts ">>> All done, yay!"
   end
@@ -543,6 +547,111 @@ namespace :import do
     end
 
     puts ">>> #{counter} of #{csv.length} emails addresses added"
+
+  end
+
+  desc "Import images"
+  task :images => :environment do
+    puts "Importing images"
+
+    require 'csv'
+
+    # First add the old image IDs to the courts
+
+    csv_file = File.read('db/data/court_images.csv')
+
+    # "court_images_id","image_id","court_id"
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+
+    csv.each do |row|
+      court = Court.find_by_old_id(row[2])
+
+      if court
+        puts "Adding image id #{row[1]} to #{court.name}"
+
+        court.old_image_id = row[1]
+
+        counter += 1 if court.save!
+      end
+
+    end
+
+    puts ">>> #{counter} of #{csv.length} image ids added"
+
+    # Now add the images
+    # For this we are dropping the old 'images' table and adding 'icons' to
+    # the 'facilities' table and the rest to the 'courts' table.
+
+    # "image_id","image_desc","image_url","image_icon_flag"
+    csv_file = File.read('db/data/images.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    facility_counter = 0
+    court_counter = 0
+    
+    csv.each do |row|
+
+      if row[3].to_f == 1 # facility image
+        facility = Facility.new
+
+        facility.old_id = row[0]
+        facility.name = row[1]
+        facility.image_description = row[1]
+        facility.image = row[2]
+
+        facility_counter += 1 if facility.save!
+      else
+        # Multiple courts have no image available (id = 21)
+        courts = Court.where(:old_image_id => row[0])
+
+        courts.each do |court|
+          court.image_description = row[1]
+          court.image = row[2]
+
+          court_counter += 1 if court.save!
+        end
+      end
+
+    end
+
+    puts ">>> #{facility_counter} of #{csv.length} were added as facility images"
+    puts ">>> #{court_counter} of #{csv.length} were added as court images"
+
+  end
+
+  desc "Import court facilities"
+  task :court_facilities => :environment do
+    puts "Importing court facilities"
+
+    require 'csv'
+
+    # "court_access_id","image_id","court_access_desc","court_id"
+    csv_file = File.read('db/data/court_access.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      court = Court.find_by_old_id(row[3])
+
+      if court
+        puts "Adding #{row[1]} to #{court.name}"
+        
+        court_facility = CourtFacility.new
+
+        court_facility.court_id = court.id
+        court_facility.facility_id = Facility.find_by_old_id(row[1]).id
+        court_facility.description = row[2].strip if row[2].present?
+
+        counter += 1 if court_facility.save!
+      end
+    end
+
+    puts ">>> #{counter} of #{csv.length} court facilities added"
 
   end
 

@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Description</th>
     <th>Image</th>
     <th></th>
     <th></th>
@@ -12,6 +13,7 @@
 <% @facilities.each do |facility| %>
   <tr>
     <td><%= facility.name %></td>
+    <td><%= facility.image_description %></td>
     <td><%= facility.image %></td>
     <td><%= link_to 'Show', admin_facility_path(facility) %></td>
     <td><%= link_to 'Edit', edit_admin_facility_path(facility) %></td>
