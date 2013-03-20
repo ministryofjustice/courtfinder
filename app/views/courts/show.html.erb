@@ -30,6 +30,9 @@
 <% @court.contacts.order(:sort).each do |contact| %>
 	<p><%= contact.contact_type.name if contact.contact_type %><%= " (#{contact.name})" if contact.name.present? %>: <%= contact.telephone %></p>
 <% end %>
+<% @court.emails.each do |email| %>
+	<p><%= mail_to email.address %></p>
+<% end %>
 
 <% if @court.addresses.length == 1 %>
 	<h3>Visiting and writing to us</h3>

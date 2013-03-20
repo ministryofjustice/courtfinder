@@ -58,6 +58,7 @@ namespace :import do
       OpeningTime.destroy_all
       ContactType.destroy_all
       Contact.destroy_all
+      Email.destroy_all
     end
 
     Rake::Task["import:court_types"].invoke
@@ -72,6 +73,7 @@ namespace :import do
     Rake::Task["import:opening_times"].invoke
     Rake::Task["import:contact_types"].invoke
     Rake::Task["import:contacts"].invoke
+    Rake::Task["import:emails"].invoke
 
     puts ">>> All done, yay!"
   end
@@ -507,6 +509,40 @@ namespace :import do
     end
 
     puts ">>> #{counter} of #{csv.length} contacts added"
+
+  end
+
+  desc "Import emails"
+  task :emails => :environment do
+    puts "Importing emails"
+
+    require 'csv'
+
+    csv_file = File.read('db/data/court_email.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      court = Court.find_by_old_id(row[3])
+
+      if court
+        email = Email.new
+
+        # "court_email_id","court_email_desc","court_email_addr","court_id"
+        addr = row[2].strip
+        puts "Adding '#{addr}'"
+
+        email.description = row[1].strip if row[1].present?
+        email.address = addr if row[2].present?
+        email.court_id = court.id
+
+        counter += 1 if email.save!
+      end
+    end
+
+    puts ">>> #{counter} of #{csv.length} emails addresses added"
 
   end
 

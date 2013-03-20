@@ -37,6 +37,11 @@
   <% end %>
   <%= link_to_add_fields "Add Contact", f, :contacts %>
 
+  <%= f.simple_fields_for :emails do |builder| %>
+    <%= render 'email_fields', f: builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Email", f, :emails %>
+
   <%= f.simple_fields_for :opening_times do |builder| %>
     <%= render 'opening_time_fields', f: builder %>
   <% end %>
