@@ -3,15 +3,17 @@ class Court < ActiveRecord::Base
   has_many :opening_times
   has_many :contacts
   has_many :emails
+  has_many :facilities
   has_many :court_types_courts
   has_many :court_types, :through => :court_types_courts
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, :facilities_attributes
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
+  accepts_nested_attributes_for :facilities, allow_destroy: true
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]

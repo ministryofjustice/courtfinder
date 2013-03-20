@@ -1,0 +1,25 @@
+<h1>Listing facility_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @facility_types.each do |facility_type| %>
+  <tr>
+    <td><%= facility_type.name %></td>
+    <td><%= facility_type.image %></td>
+    <td><%= link_to 'Show', admin_facility_type_path(facility_type) %></td>
+    <td><%= link_to 'Edit', edit_admin_facility_type_path(facility_type) %></td>
+    <td><%= link_to 'Destroy', admin_facility_type_path(facility_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Facility type', new_admin_facility_type_path %>

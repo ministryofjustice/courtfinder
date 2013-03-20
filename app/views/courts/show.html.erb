@@ -85,6 +85,14 @@
 	<p><%= time.opening_type.name %>: <%= time.name %></p>
 <% end %>
 
+<h3>Facilities</h3>
+<% @court.facilities.each do |facility| %>
+	<dl>
+		<dt><%= facility.facility_type.name if facility.facility_type %></dt>
+		<dd><%= facility.description %></dd>
+	</dl>
+<% end %>
+
 <h3>Map</h3>
 <h3>Route planner</h3>
 

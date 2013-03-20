@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320100225) do
+ActiveRecord::Schema.define(:version => 20130320103533) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -147,6 +147,25 @@ ActiveRecord::Schema.define(:version => 20130320100225) do
   end
 
   add_index "emails", ["court_id"], :name => "index_emails_on_court_id"
+
+  create_table "facilities", :force => true do |t|
+    t.string   "description"
+    t.integer  "court_id"
+    t.integer  "facility_type_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "facilities", ["court_id"], :name => "index_facilities_on_court_id"
+  add_index "facilities", ["facility_type_id"], :name => "index_facilities_on_facility_type_id"
+
+  create_table "facility_types", :force => true do |t|
+    t.string   "name"
+    t.string   "image"
+    t.integer  "old_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
