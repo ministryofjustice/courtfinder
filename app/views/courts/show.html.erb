@@ -4,29 +4,70 @@
     <%= link_to 'Courts', courts_path %>
   </li>
 <% end %>
+<% content_for :title_image, image_tag(@court.image_file, :id => 'title-image') if @court.image_file %>
 
-<% if user_signed_in? %>
-  <%= link_to "Edit this court", edit_admin_court_path(@court) %>
-<% end %>
-
-<%= image_tag @court.image_file if @court.image_file %>
-
-<h3>Areas Of Law</h3>
-<p>
-	<% @court.areas_of_law.each do |area| %>
-		<%= link_to area.name, area_of_law_path(area) %>
-	<% end %>
-</p>
-
-<h3>Court Types</h3>
-<p>
+<%# Court Types %>
+<p class="court-types">
 	<% @court.court_types.each do |type| %>
 		<%= link_to type.name, court_type_path(type) %>
 	<% end %>
 </p>
 
-<h3>About this court</h3>
-<%= @court.info.html_safe %>
+<% if user_signed_in? %>
+  <%#= link_to "Edit this court", edit_admin_court_path(@court) %>
+<% end %>
+
+<% addresses = @court.addresses %>
+<% visiting = addresses.shift %>
+
+<div id="writing">
+	<% if addresses %>
+		<h3>Writing to us</h3>
+			<% addresses.each do |addr| %>
+				<p>
+					<%= addr.address_line_1 %><br />
+
+					<% if addr.address_line_2.present? %>
+						<%= addr.address_line_2 %><br />
+					<% end %>
+					<% if addr.address_line_3.present? %>
+						<%= addr.address_line_3 %><br />
+					<% end %>
+					<% if addr.address_line_4.present? %>
+						<%= addr.address_line_4 %><br />
+					<% end %>
+					<%= addr.postcode %><br />
+					<%= addr.dx %>
+				</p>
+			<% end %>
+	<% end %>
+</div>
+
+<% if addresses.length == 1 %>
+	<h3>Visiting us</h3>
+<% else %>
+	<h3>Visiting and writing to us</h3>
+<% end %>
+
+<p>
+	<%= visiting.address_line_1 %><br />
+	<% if visiting.address_line_2.present? %>
+		<%= visiting.address_line_2 %><br />
+	<% end %>
+	<% if visiting.address_line_3.present? %>
+		<%= visiting.address_line_3 %><br />
+	<% end %>
+	<% if visiting.address_line_4.present? %>
+		<%= visiting.address_line_4 %><br />
+	<% end %>
+	<%= visiting.postcode %><br />
+	<%= visiting.dx %>
+</p>
+
+<!-- <h3>Opening times</h3> -->
+<% @court.opening_times.each do |time| %>
+	<p><%= time.opening_type.name %>: <%= time.name %></p>
+<% end %>
 
 <h3>Contact us</h3>
 <% @court.contacts.order(:sort).each do |contact| %>
@@ -36,56 +77,16 @@
 	<p><%= mail_to email.address %></p>
 <% end %>
 
-<% if @court.addresses.length == 1 %>
-	<h3>Visiting and writing to us</h3>
-<% else %>
-	<h3>Visiting us</h3>
-<% end %>
+<h3>About this court</h3>
+<%= @court.info.html_safe %>
 
-<% visiting = @court.addresses.first %>
-<p><%= visiting.address_line_1 %><br />
-
-<% if visiting.address_line_2.present? %>
-	<%= visiting.address_line_2 %><br />
-<% end %>
-<% if visiting.address_line_3.present? %>
-	<%= visiting.address_line_3 %><br />
-<% end %>
-<% if visiting.address_line_4.present? %>
-	<%= visiting.address_line_4 %><br />
-<% end %>
-<%= visiting.postcode %><br />
-<%= visiting.dx %>
-
+<h3>Areas Of Law</h3>
+<p>
+	<% @court.areas_of_law.each do |area| %>
+		<%= link_to area.name, area_of_law_path(area) %>
+	<% end %>
 </p>
 
-<% if @court.addresses.length > 1 %>
-	<h3>Writing to us</h3>
-		<% postal = @court.addresses.where(['id <> ?', visiting.id]) %>
-		<% postal.each do |addr| %>
-			<p><%= addr.address_line_1 %><br />
-
-			<% if addr.address_line_2.present? %>
-				<%= addr.address_line_2 %><br />
-			<% end %>
-			<% if addr.address_line_3.present? %>
-				<%= addr.address_line_3 %><br />
-			<% end %>
-			<% if addr.address_line_4.present? %>
-				<%= addr.address_line_4 %><br />
-			<% end %>
-			<%= addr.postcode %><br />
-			<%= addr.dx %>
-		<% end %>
-<% end %>
-
-</p>
-
-
-<h3>Opening times</h3>
-<% @court.opening_times.each do |time| %>
-	<p><%= time.opening_type.name %>: <%= time.name %></p>
-<% end %>
 
 <h3>Facilities</h3>
 <% @court.court_facilities.each do |court_facility| %>
@@ -95,16 +96,9 @@
 	</dl>
 <% end %>
 
-<h3>Map</h3>
-<h3>Route planner</h3>
+<!-- <h3>Map</h3> -->
+<!-- <h3>Route planner</h3> -->
 
-<p>Court address id <%= @court.old_court_address_id %></p>
-
-<p>Area id <%= @court.area_id %></p>
-<p>CCI identifier <%= @court.cci_identifier %></p>
-<p>court code <%= @court.cci_code %> </p>
-<p>old id <%= @court.old_id %></p>
-
-<p>old postal addr id <%= @court.old_postal_address_id %></p>
-<p>old court address id <%= @court.old_court_address_id %></p>
-<p>court type id <%= @court.old_court_type_id %></p>
+<!-- <p>Area id <%= @court.area_id %></p> -->
+<!-- <p>CCI identifier <%= @court.cci_identifier %></p> -->
+<!-- <p>court code <%= @court.cci_code %> </p> -->

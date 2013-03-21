@@ -13,7 +13,7 @@ class CourtSearch
   end
 
   def search_postcode
-    Court.near(latlng_from_postcode(@query), @options[:distance] || 25, :order => :distance)
+    Court.near(latlng_from_postcode(@query), @options[:distance] || 20, :order => :distance)
   end
 
   def latlng_from_postcode(postcode)

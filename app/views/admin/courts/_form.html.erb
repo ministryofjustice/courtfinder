@@ -21,7 +21,7 @@
   <%= f.input :court_number %>
   <%= f.input :slug %>
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
-  <%= image_tag @court.image_file %>
+  <%= image_tag @court.image_file, :width => '160px' %>
   <%= f.input :image_file %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>

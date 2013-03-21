@@ -1,4 +1,12 @@
-@charset "utf-8";
-/* CSS Document */
 
-
+#courts-show #title-image {
+  float: right;
+  width: 160px;
+}
+#writing {
+  width: 230px;
+  padding: 10px;
+  border: 1px solid #666;
+  background: #eaedef;
+  float: right;
+}
