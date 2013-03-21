@@ -91,6 +91,7 @@ GEM
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     orm_adapter (0.4.0)
+    pg (0.14.1)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -171,6 +172,7 @@ DEPENDENCIES
   friendly_id
   geocoder
   jquery-rails
+  pg
   rails (= 3.2.12)
   rest-client
   rspec-rails

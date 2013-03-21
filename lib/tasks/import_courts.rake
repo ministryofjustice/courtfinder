@@ -655,4 +655,32 @@ namespace :import do
 
   end
 
+  desc "Import regions"
+  task :regions => :environment do
+    puts "Importing regions"
+
+    require 'csv'
+
+    # "court_region_id","court_region_name"
+    csv_file = File.read('db/data/court_region.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      puts "Adding region: #{row[1]}"
+        
+      region = Region.new
+
+      region.old_id = row[0]
+      region.name = row[1]
+
+      counter += 1 if region.save!
+    end
+
+    puts ">>> #{counter} of #{csv.length} regions added"
+
+  end
+
 end
