@@ -77,7 +77,7 @@ namespace :import do
     Rake::Task["import:contacts"].invoke
     Rake::Task["import:emails"].invoke
     Rake::Task["import:images"].invoke
-    Rake::Task["import:court_facility"].invoke
+    Rake::Task["import:court_facilities"].invoke
 
     puts ">>> All done, yay!"
   end

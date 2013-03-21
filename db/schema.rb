@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320155455) do
+ActiveRecord::Schema.define(:version => 20130321162802) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -88,11 +88,11 @@ ActiveRecord::Schema.define(:version => 20130320155455) do
   end
 
   create_table "court_facilities", :force => true do |t|
-    t.text     "description"
+    t.text     "description", :limit => 255
     t.integer  "court_id"
     t.integer  "facility_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   add_index "court_facilities", ["court_id"], :name => "index_facilities_on_court_id"
@@ -134,11 +134,11 @@ ActiveRecord::Schema.define(:version => 20130320155455) do
     t.integer  "old_court_address_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
-    t.boolean  "display"
     t.integer  "old_image_id"
     t.string   "image"
     t.string   "image_description"
     t.string   "image_file"
+    t.boolean  "display"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
