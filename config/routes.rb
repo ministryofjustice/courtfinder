@@ -48,6 +48,8 @@ Courtfinder::Application.routes.draw do
     resources :facilities
 
     resources :regions
+
+    resources :areas
   end
 
   # The priority is based upon order of creation:

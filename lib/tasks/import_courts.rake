@@ -8,6 +8,7 @@ namespace :import do
 
     csv_file = File.read('db/data/court2.csv')
 
+    # "court_id","court_name","court_code","court_note","court_area_id","court_cci_identifier","court_cci_code","court_addr_id","court_postal_addr_id","court_type_id","borough_search_id","court_code2"
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
@@ -19,11 +20,11 @@ namespace :import do
 
       court.old_id = row[0]
       court.name = row[1]
-      court.court_number = row[2]           # court_code
+      court.court_number = row[2]                     # court_code
       court.info = row[3]
       court.cci_identifier = row[5]
       court.cci_code = row[6]
-      court.area_id = row[4]                # some have more than one
+      court.area_id = Area.find_by_old_id(row[4]).id  # some have more than one
       court.old_postal_address_id = row[8]
       court.old_court_address_id = row[7]
       court.old_court_type_id = row[9]
@@ -46,6 +47,8 @@ namespace :import do
 
     if args.replace == 'replace'
       puts "!!! Removing all court data from your database"
+      Region.destroy_all
+      Area.destroy_all
       CourtType.destroy_all
       Court.destroy_all
       AddressType.destroy_all
@@ -63,6 +66,8 @@ namespace :import do
       CourtFacility.destroy_all
     end
 
+    Rake::Task["import:regions"].invoke
+    Rake::Task["import:areas"].invoke
     Rake::Task["import:court_types"].invoke
     Rake::Task["import:courts"].invoke
     Rake::Task["import:address_types"].invoke
@@ -106,25 +111,25 @@ namespace :import do
     puts ">>> All done, yay!"
   end
   
-  desc "Import areas"
-  task :areas => :environment do
-    puts "Importing areas"
+  # desc "Import areas"
+  # task :areas => :environment do
+  #   puts "Importing areas"
 
-    require 'csv'
+  #   require 'csv'
 
-    csv_file = File.read('db/data/areas.csv')
+  #   csv_file = File.read('db/data/areas.csv')
 
-    csv = CSV.parse(csv_file, :headers => true)
+  #   csv = CSV.parse(csv_file, :headers => true)
     
-    csv.each do |row|
-      Court.where("area_id = ?", row[0]).each do | court | 
-        puts "updating %{court.name}"
-        court.area = row[1]
-        court.save!
-      end
-    end
+  #   csv.each do |row|
+  #     Court.where("area_id = ?", row[0]).each do | court | 
+  #       puts "updating %{court.name}"
+  #       court.area = row[1]
+  #       court.save!
+  #     end
+  #   end
 
-  end
+  # end
   
   desc "Import address types"
   task :address_types => :environment do
@@ -680,6 +685,35 @@ namespace :import do
     end
 
     puts ">>> #{counter} of #{csv.length} regions added"
+
+  end
+
+  desc "Import areas"
+  task :areas => :environment do
+    puts "Importing areas"
+
+    require 'csv'
+
+    # "court_area_id","court_area_name","court_region_id"
+    csv_file = File.read('db/data/court_area.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+    
+    csv.each do |row|
+      puts "Adding area: #{row[1]}"
+        
+      area = Area.new
+
+      area.old_id = row[0]
+      area.name = row[1]
+      area.region_id = Region.find_by_old_id(row[2]).id
+
+      counter += 1 if area.save!
+    end
+
+    puts ">>> #{counter} of #{csv.length} areas added"
 
   end
 

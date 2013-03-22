@@ -29,6 +29,7 @@
   <%= f.input :longitude %>
   <%= f.association :court_types %>
   <%= f.association :areas_of_law %>
+  <%= f.association :area %>
 
   <%= f.simple_fields_for :addresses do |builder| %>
     <%= render 'address_fields', f: builder %>

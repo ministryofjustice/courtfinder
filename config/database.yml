@@ -20,7 +20,7 @@ development:
 #   adapter: postgresql
 #   database: courtfinder_test
 #   host: localhost
-development:
+test:
   adapter: sqlite3
   database: db/test.sqlite3
   pool: 5

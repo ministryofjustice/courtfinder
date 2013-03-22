@@ -1,4 +1,5 @@
 class Court < ActiveRecord::Base
+  belongs_to :area
   has_many :addresses
   has_many :opening_times
   has_many :contacts
