@@ -1,4 +1,5 @@
-<% content_for :title, @court.name %>
+<% content_for :title do %><%= @court.name %> - Gov.uk<% end %>
+<% content_for :last_updated, @court.updated_at.to_s(:standard) %>
 <% content_for :nav do %>
   <li>
     <%= link_to 'Courts', courts_path %>
