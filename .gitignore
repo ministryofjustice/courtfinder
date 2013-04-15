@@ -17,3 +17,5 @@
 *.dat
 
 *.orig
+
+.DS_Store

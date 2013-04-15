@@ -13,10 +13,12 @@ class CourtSearch
   end
 
   def search_postcode
+    # Use the geocoder near method to find venues within the specified radius
     Court.near(latlng_from_postcode(@query), @options[:distance] || 20, :order => :distance)
   end
 
   def latlng_from_postcode(postcode)
+    # Use PHP postcode service to turn postcode into lat/lon
     service_available = Rails.application.config.postcode_lookup_service_url rescue false
     json = RestClient.post Rails.application.config.postcode_lookup_service_url, { :searchtext => postcode, :searchbtn => 'Submit' }
     latlon = JSON.parse json
