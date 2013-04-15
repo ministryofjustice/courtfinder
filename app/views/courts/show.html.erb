@@ -7,16 +7,16 @@
 <% end %>
 <% content_for :title_image, image_tag(@court.image_file, :id => 'title-image') if @court.image_file %>
 
-<%# Court Types %>
-<p class="court-types">
-	<% @court.court_types.each do |type| %>
-		<%= link_to type.name, court_type_path(type) %>
+<% if user_signed_in? %>
+  <%= link_to "Edit this court", edit_admin_court_path(@court) %>
+<% end %>
+
+<h3>Areas Of Law</h3>
+<p>
+	<% @court.areas_of_law.each do |area| %>
+		<%= link_to area.name, area_of_law_path(area) %>
 	<% end %>
 </p>
-
-<% if user_signed_in? %>
-  <%#= link_to "Edit this court", edit_admin_court_path(@court) %>
-<% end %>
 
 <% addresses = @court.addresses %>
 <% visiting = addresses.shift %>
@@ -80,13 +80,6 @@
 
 <h3>About this court</h3>
 <%= @court.info.html_safe %>
-
-<h3>Areas Of Law</h3>
-<p>
-	<% @court.areas_of_law.each do |area| %>
-		<%= link_to area.name, area_of_law_path(area) %>
-	<% end %>
-</p>
 
 
 <h3>Facilities</h3>

@@ -49,7 +49,7 @@ namespace :import do
       puts "!!! Removing all court data from your database"
       Region.destroy_all
       Area.destroy_all
-      CourtType.destroy_all
+      # CourtType.destroy_all
       Court.destroy_all
       AddressType.destroy_all
       Country.destroy_all
@@ -68,7 +68,7 @@ namespace :import do
 
     Rake::Task["import:regions"].invoke
     Rake::Task["import:areas"].invoke
-    Rake::Task["import:court_types"].invoke
+    # Rake::Task["import:court_types"].invoke
     Rake::Task["import:courts"].invoke
     Rake::Task["import:address_types"].invoke
     Rake::Task["import:countries"].invoke

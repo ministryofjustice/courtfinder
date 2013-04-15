@@ -12,12 +12,6 @@
        </li>
     <% end %>
   </ul>
-  <h2>Court types</h2>
-  <ul>
-    <% @results[:court_types].each do | type | %>
-      <li><%= link_to(type.name, court_type_path(type)) %></li>
-    <% end %>
-  </ul>
   <h2>Areas of law</h2>
   <ul>
     <% @results[:areas_of_law].each do | area | %>

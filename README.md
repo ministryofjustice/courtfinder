@@ -10,9 +10,9 @@ To add all court and address data run:
 
     rake import:all
 
-The you need to process the court types by running:
+<!-- Then you need to process the court types by running:
 
-    rake process:court_types
+    rake process:court_types -->
 
 Don't forget you can see a list of individual import takes by running `rake -T`.
 

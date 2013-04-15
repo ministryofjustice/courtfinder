@@ -54,13 +54,6 @@
 				<li><%= link_to area.name, area_of_law_path(area) %></li>
 			<% end %>
 		</ul>
-
-		<h3>Court types</h3>
-		<ul>
-			<% @court_types.each do |type| %>
-				<li><%= link_to type.name, court_type_path(type) %></li>
-			<% end %>
-		</ul>
 	</form>
 
 </div>
