@@ -6,15 +6,15 @@ class CourtSearch
 
   def results
     if postcode_search?
-      {:courts => search_postcode, :court_types => [], :areas_of_law => []}
+      {:courts => search_postcode, :areas_of_law => []}
     else
-      {:courts => Court.search(@query), :court_types => CourtType.search(@query), :areas_of_law => AreaOfLaw.search(@query)}
+      {:courts => Court.search(@query, @options), :areas_of_law => AreaOfLaw.search(@query)}
     end
   end
 
   def search_postcode
     # Use the geocoder near method to find venues within the specified radius
-    Court.near(latlng_from_postcode(@query), @options[:distance] || 20, :order => :distance)
+    Court.by_area_of_law(@options[:area_of_law]).near(latlng_from_postcode(@query), @options[:distance] || 20)
   end
 
   def latlng_from_postcode(postcode)

@@ -23,14 +23,17 @@ class Court < ActiveRecord::Base
 
   geocoded_by :latitude => :lat, :longitude => :lng
 
-  scope :visible, :conditions => { :display => true }
-
   mount_uploader :image_file, CourtImagesUploader
 
   # Text search
-  def self.search(search)
-    where('LOWER(name) like ?', "%#{search.downcase}%").order('name ASC')
-  end
+  default_scope order('courts.name')
+  scope :visible, :conditions => { :display => true }
+  scope :by_area_of_law, lambda { |area_of_law| joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law}) if area_of_law.present? }
+  scope :search, lambda { |q, opts={}| by_area_of_law(opts[:area_of_law]).where('courts.name ilike ?', "%#{q}%") if q.present? }
+
+  # def self.search(search, options = {})
+  #   where('courts.name ilike ?', "%#{search.downcase}%").by_area_of_law(options[:area_of_law])
+  # end
 
   def as_json(options={})
     {

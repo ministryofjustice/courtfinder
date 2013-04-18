@@ -30,9 +30,9 @@ $(function() {
 		e.preventDefault();
 	});
 
-	$('#advanced-search form').hide();
-	$('#advanced-search h2 a').click(function (e) { 
+	var filters = $('#filters').hide();
+	$('#advanced-search').click(function (e) { 
 			e.preventDefault();
-			$('#advanced-search form').show();
+			filters.toggle('fast');
 	});
 });

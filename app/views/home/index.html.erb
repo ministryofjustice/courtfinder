@@ -17,43 +17,13 @@
 				</label>
 				<button type="submit" class="button">Find</button>
 				<div id="results"></div>
-				<!--h3>Search by:</h3>
-				<div class="type">
-					<label for="courtname">Court name
-						<input class="checkbox" id="" name="courtname" type="checkbox" checked="checked">
-					</label>
-					<label for="tribunal ">Tribunal
-						<input class="checkbox" id="" name="courtname" type="checkbox">
-					</label>
-					<label for="registry">Probate registry
-						<input class="checkbox" id="" name="courtname" type="checkbox">
-					</label>
-				</div-->
+				<h2><a href="#" id="advanced-search">Need more options?</a></h2>
+				<div id="filters">
+					<%= select_tag "area_of_law", options_from_collection_for_select(@areas_of_law, "name", "name"), :prompt => 'Filter by area of Law' %>
+				</div>
 			</div>
 		</fieldset>
 	</form>
 </div>
 
-<div id="advanced-search">
-	<h2><a href="#">Need more options?</a></h2>
-	<form method="post" id="advanced" class="more-options">
-		<div class="form-item">
-			<label for="parish">Parish </label>
-			<input class="" id="parish" name="parish" type="text">
-		</div>
-		<br />
-		<div class="form-item">
-			<button type="submit" class="button">Find</button>
-		</div>
-
-		<h3><%= link_to 'Browse courts', courts_path %></h3>
-
-		<h3>Areas of law</h3>
-		<ul>
-			<% @areas_of_law.each do |area| %>
-				<li><%= link_to area.name, area_of_law_path(area) %></li>
-			<% end %>
-		</ul>
-	</form>
-
-</div>
+<!-- <h3><%= link_to 'Browse courts', courts_path %></h3> -->
