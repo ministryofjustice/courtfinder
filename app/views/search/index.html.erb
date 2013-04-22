@@ -1,10 +1,10 @@
 <% content_for :title, 'Search results' %>
 
-<p>Your search for <strong><%= params[:q] %></strong> found the follow results:</p>
-<% if @results %>
+<p>Your search for <strong><%= @court_search.query %></strong> found the follow results:</p>
+<% if @court_search.results %>
   <!-- <h2>Courts</h2> -->
   <ul class="search-results">
-    <% @results[:courts].each do | court | %>
+    <% @court_search.courts.each do | court | %>
       <li>
         <ul class="areas-of-law">
           <% court.areas_of_law.each do |area| %>
@@ -12,24 +12,26 @@
           <% end %>
         </ul>
         <%= link_to(court.name, court_path(court)) %>
-        <% if @distance %>
+        <% if @court_search.postcode_search? %>
           <br /><small><%= court.distance.to_f.round(2) %> miles from <%= params[:q] %></small>
         <% end %>
         <% if court.addresses.count > 0 %>
-          <p><% add = court.addresses.first %>
-                      <%= add.address_line_1 %>,
-                      <%= add.address_line_2 %>,
-                      <%= add.address_line_3 %>,
-                      <%= add.address_line_4 %>,
-                      <%= add.town.name %>,
-                      <%= add.postcode %></p>
+          <% add = court.addresses.first %>
+          <p>
+            <%= add.address_line_1 %>,
+            <%= add.address_line_2 %>,
+            <%= add.address_line_3 %>,
+            <%= add.address_line_4 %>,
+            <%= add.town.name %>,
+            <%= add.postcode %>
+          </p>
         <% end %>
       </li>
     <% end %>
   </ul>
   <!-- <h2>Areas of law</h2>
   <ul>
-    <% @results[:areas_of_law].each do | area | %>
+    <% @court_search.areas_of_law.each do | area | %>
       <li><%= link_to(area.name, area_of_law_path(area)) %></li>
     <% end %>
   </ul> -->

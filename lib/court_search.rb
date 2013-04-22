@@ -1,4 +1,7 @@
 class CourtSearch
+  
+  attr_accessor :query, :options
+  
   def initialize(query, options={})
     @query = query
     @options = options
@@ -10,6 +13,14 @@ class CourtSearch
     else
       {:courts => Court.search(@query, @options), :areas_of_law => AreaOfLaw.search(@query)}
     end
+  end
+
+  def courts
+    results[:courts]
+  end
+
+  def areas_of_law
+    results[:areas_of_law]
   end
 
   def search_postcode
