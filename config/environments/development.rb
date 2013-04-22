@@ -36,7 +36,7 @@ Courtfinder::Application.configure do
   config.assets.debug = true
 
   # Add 'devcfphp' to your hostfile and point it to 172.22.8.1
-  config.postcode_lookup_service_url = 'http://devcfphp/postcode_finder.php'
+  config.postcode_lookup_service_url = 'http://pclookup.cjs.gov.uk/postcode_finder.php'
 
   # Devise requirement
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }

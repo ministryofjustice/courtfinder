@@ -10,7 +10,7 @@ describe CourtSearch do
 
   it "should return courts nearby if postcode search" do
     court_search = CourtSearch.new('hp41du')
-    court_search.stub!(:latlng_from_postcode).and_return([51.768305511577, -0.57250059493886])
+    # court_search.stub!(:latlng_from_postcode).and_return([51.768305511577, -0.57250059493886])
     court_search.results.should == {:courts => [@court1], :areas_of_law => []}
   end
 
