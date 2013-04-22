@@ -50,3 +50,34 @@
 #results i {
   float: right;
 }
+
+/* Search results */
+.search-results {
+  padding: 0;
+  list-style: none;
+}
+.search-results>li {
+  width: 100%;
+  padding: 10px;
+  list-style: none;
+  border: 1px solid #a1acb2;
+  background: #eaedef;
+  overflow: hidden;
+}
+.search-results .areas-of-law {
+  float: right;
+  padding: 0;
+  text-align: right;
+  width: 250px;
+}
+.search-results .areas-of-law li {
+  display: inline;
+  font-size: smaller;
+  padding: 1px 3px;
+  list-style: none;
+  color: #fff;
+  background: #d43783
+}
+.search-results .areas-of-law li:hover {
+  background: #b41763;
+}
