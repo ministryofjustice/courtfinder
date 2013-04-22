@@ -1,0 +1,19 @@
+<% content_for :title, @region.name %>
+<% content_for :nav do %>
+	<li>
+		<%= link_to 'Regions', regions_path %>
+	</li>
+<% end %>
+
+<ul>
+  <% courts = [] %>
+  <% @region.areas.order(:name).each do |area| %>
+    <% area.courts.order(:name).each do |court| %>
+      <% courts.push court %>
+    <% end %>
+  <% end %>
+
+  <% courts.sort_by{ |c| c.name }.each do |court| %>
+    <li><%= link_to court.name, court_path(court) %></li>
+  <% end %>
+</ul>
