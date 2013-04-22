@@ -110,7 +110,7 @@ $(function () {
 				if (term.length > minText) {
 					// Find a match server side
 					$.get('/search.json', { q: term }, function (courtData) {
-						var court, courts, name, i, x, len, list = [], types = {courts:'court', court_types:'court type', areas_of_law:'area of law'};
+						var court, courts, name, i, x, len, list = [], types = {courts:'court', areas_of_law:'area of law'};
 
 						var listResults = function (items, type) {
 							var retval = [];
