@@ -3,7 +3,7 @@ class CourtsController < ApplicationController
   respond_to :html, :json
   
   def index
-    @courts = Court.order(:name).paginate(:page => params[:page], :per_page => params[:per_page])
+    @courts = Court.order(:name)
     respond_with @courts
   end
   

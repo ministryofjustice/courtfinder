@@ -3,17 +3,31 @@
 <% if user_signed_in? %>
   <%= link_to "Edit courts", admin_courts_path %>
 <% end %>
-<h2>Browse all Courts - A to Z</h2>
-<% if @courts %>
-  <ul>
-    <% @courts.each do | court | %>
-      <li><%= link_to(court.name, court_path(court)) %>
-        <% if @distance %>
-          is <%= court.distance.to_f.round(2) %> miles away
-         <% end %>
-       </li>
-    <% end %>
-  </ul>
 
-  <%= will_paginate @courts %>
+<h2>All Courts</h2>
+<% if @courts %>
+  <% letters = @courts.group_by{|s|s.name[0,1]}.map {|letter|letter[0]} %>
+
+  <div id="search-results-tabs">
+    <nav class="js-tabs nav-tabs" role="navigation">
+      <ul id="search-index-navigation">
+        <% letters.each do |l| %>
+          <li><%= link_to l, "#courts-by-#{l.downcase}" %></li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <div class="search-container group js-tab-content tab-content">
+      <% @courts.group_by{|s|s.name[0,1]}.each do |letter| %>
+        <div id="courts-by-<%= letter[0].downcase %>" class="js-tab-pane tab-pane">
+          <h3><%= letter[0] %></h3>
+          <% letter[1].each do |court| %>
+            <br /><%= link_to(court.name, court_path(court)) %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <%#= will_paginate @courts %>
 <% end %>
