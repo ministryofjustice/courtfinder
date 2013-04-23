@@ -31,9 +31,12 @@ class CourtSearch
   def latlng_from_postcode(postcode)
     # Use PHP postcode service to turn postcode into lat/lon
     service_available = Rails.application.config.postcode_lookup_service_url rescue false
-    json = RestClient.get Rails.application.config.postcode_lookup_service_url, :params => { :searchtext => postcode, :searchbtn => 'Search' }
-    results = JSON.parse json
-    [results['primary']['coordinates']['lat'], results['primary']['coordinates']['long']]
+    begin
+      json = RestClient.get Rails.application.config.postcode_lookup_service_url, :params => { :searchtext => postcode, :searchbtn => 'Search' }
+      results = JSON.parse json
+      [results['primary']['coordinates']['lat'], results['primary']['coordinates']['long']]
+    rescue
+    end
   end
 
   def postcode_search?
