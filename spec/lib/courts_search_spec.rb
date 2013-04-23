@@ -8,8 +8,14 @@ describe CourtSearch do
     @court4 = FactoryGirl.create(:court, :name => 'Reading Low Court', :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Family')])
   end
 
-  it "should return courts nearby if postcode search" do
+  it "should return courts nearby if full postcode search" do
     court_search = CourtSearch.new('hp41du')
+    # court_search.stub!(:latlng_from_postcode).and_return([51.768305511577, -0.57250059493886])
+    court_search.results.should == {:courts => [@court1], :areas_of_law => []}
+  end
+
+  it "should return courts nearby if partial postcode" do
+    court_search = CourtSearch.new('hp4')
     # court_search.stub!(:latlng_from_postcode).and_return([51.768305511577, -0.57250059493886])
     court_search.results.should == {:courts => [@court1], :areas_of_law => []}
   end
