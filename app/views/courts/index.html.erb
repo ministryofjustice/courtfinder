@@ -4,7 +4,6 @@
   <%= link_to "Edit courts", admin_courts_path %>
 <% end %>
 
-<h2>All Courts</h2>
 <% if @courts %>
   <% letters = @courts.group_by{|s|s.name[0,1]}.map {|letter|letter[0]} %>
 
