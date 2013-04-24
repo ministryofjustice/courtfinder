@@ -8,8 +8,7 @@
 // done - Prevent fire of search on cursor movement
 // done - Position with input box
 // done - Escape key closes predictions
-// Inifite scroll results
-// Limit results length to ~20
+// done - Limit results length to ~20
 
 $(function () {
 	
@@ -23,9 +22,9 @@ $(function () {
 	
 	var showResults = function () {
 		active = true;
-		if (search.val().length > minText) {
+		// if (search.val().length > minText) {
 			return results.show();
-		}
+		// }
 	};
 	
 	var hideResults = function () {
@@ -111,23 +110,24 @@ $(function () {
 
 				if (term.length > minText) {
 					if (postcode.test(term)) {
-						results.html('<ul><li>Postcode found<br /><small>Please continue by pressing enter</small></li></ul>');
+						results.html('<ul><li>Postcode found<br /><small>Continue by pressing enter</small></li></ul>');
 						showResults()
 					} else {
 						// Find a match client side
 						var patt = new RegExp(term, 'i'),
-							matches = [];
+							matches = [], list;
 
 						var listResults = function (items) {
-							var name, i, results = [];
+							var name, i = 0, results = [];
 
-							for (var i = 0; i < items.length; i++) {
+							while (i < items.length && i < 14) {
 								item = items[i];
 								name = markMatched(term, item[0]);
 								results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
+								i++;
 							}
 
-							return results.join('')
+							return results
 						}
 
 						for (var i = 0; i < moj.courts.length; i++) {
@@ -137,27 +137,34 @@ $(function () {
 						}
 
 						if (matches.length) {
-							results.html('<ul>' + listResults(matches) + '</ul>');
+							list = listResults(matches);
+							if (matches.length > list.length) {
+								list.push('<li style="border-top:1px solid #000">Continue typing to see more results</li>')
+							}
+							results.html('<ul>' + list.join('') + '</ul>');
 							showResults()
 						} else {
 							hideResults()
 						}
 					}
 				} else {
-					hideResults();
+					hideResults()
 				}
 			})
 			.blur(function () {
-				hideResults();
+				hideResults()
 			})
 			.focus(function () {
-				showResults();
+				results.html('<ul><li>Type to quickly find a court</li></ul>');
+				showResults()
 			});
 		
 		$(document).keyup(function (e) {
 			if (e.keyCode === 191) { // forward slash
-				search.focus();
+				search.focus()
 			}
 		});
 	};
+
+	search.focus()
 });
