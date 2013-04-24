@@ -115,15 +115,13 @@ $(function () {
 					var listResults = function (items) {
 						var name, i, results = [];
 
-						if (items.length) {
-							for (var i = 0; i < items.length; i++) {
-								item = items[i];
-								name = markMatched(term, item[0]);
-								results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
-							}
-
-							return results.join('')
+						for (var i = 0; i < items.length; i++) {
+							item = items[i];
+							name = markMatched(term, item[0]);
+							results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
 						}
+
+						return results.join('')
 					}
 
 					for (var i = 0; i < moj.courts.length; i++) {
