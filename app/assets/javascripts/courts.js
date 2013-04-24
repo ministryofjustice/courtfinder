@@ -110,29 +110,26 @@ $(function () {
 				if (term.length > minText) {
 					// Find a match server side
 					$.get('/search.json', { q: term }, function (courtData) {
-						var court, courts, name, i, x, len, list = [], types = {courts:'court', areas_of_law:'area of law'};
 
-						var listResults = function (items, type) {
-							var retval = [];
+						var listResults = function (items) {
+							var name, i, retval = [];
 							if (items.length) {
 
 								for (i = 0; i < items.length; i++) {
 									item = items[i];
 									name = markMatched(term, item.name);
 
-									retval.push('<li><a href="' + item.path + '"><i>' + type + '</i>' + name + '</a></li>');
+									retval.push('<li><a href="' + item.path + '">' + name + '</a></li>');
 								}
 
 								return retval.join('')
 							}
 						}
 
-						for (x in types) {
- 							list.push(listResults(courtData[x], types[x]))
-						}
+						var list = listResults(courtData.courts);
 
 						if (list) {
-							results.html('<ul>' + list.join('') + '</ul>');
+							results.html('<ul>' + list + '</ul>');
 							showResults()
 						} else {
 							hideResults()
