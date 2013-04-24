@@ -1,6 +1,6 @@
 // TODO
-// Recognise Postcode
-// Cache results
+// done - Recognise Postcode
+// done - Cache results
 // done - Display results
 // done - Cursor through results and enter to select
 // done - Match term anywhere (uses Ruby)
@@ -9,6 +9,7 @@
 // done - Position with input box
 // done - Escape key closes predictions
 // Inifite scroll results
+// Limit results length to ~20
 
 $(function () {
 	
@@ -17,7 +18,8 @@ $(function () {
 		active = false,
 		selectedResult = null,
 		klass = 'selected',
-		minText = 0;
+		minText = 0
+		postcode = /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1}))(\d[abd-hjlnp-uw-z]{2})?)$/i;
 	
 	var showResults = function () {
 		active = true;
@@ -108,35 +110,39 @@ $(function () {
 				term = $(this).val();
 
 				if (term.length > minText) {
-					// Find a match client side
-					var patt = new RegExp(term, 'i'),
-						matches = [];
-
-					var listResults = function (items) {
-						var name, i, results = [];
-
-						for (var i = 0; i < items.length; i++) {
-							item = items[i];
-							name = markMatched(term, item[0]);
-							results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
-						}
-
-						return results.join('')
-					}
-
-					for (var i = 0; i < moj.courts.length; i++) {
-						if (patt.test(moj.courts[i][0])) {
-							matches.push(moj.courts[i]);
-						}
-					}
-
-					if (matches.length) {
-						results.html('<ul>' + listResults(matches) + '</ul>');
+					if (postcode.test(term)) {
+						results.html('<ul><li>Postcode found<br /><small>Please continue by pressing enter</small></li></ul>');
 						showResults()
 					} else {
-						hideResults()
-					}
+						// Find a match client side
+						var patt = new RegExp(term, 'i'),
+							matches = [];
 
+						var listResults = function (items) {
+							var name, i, results = [];
+
+							for (var i = 0; i < items.length; i++) {
+								item = items[i];
+								name = markMatched(term, item[0]);
+								results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
+							}
+
+							return results.join('')
+						}
+
+						for (var i = 0; i < moj.courts.length; i++) {
+							if (patt.test(moj.courts[i][0])) {
+								matches.push(moj.courts[i]);
+							}
+						}
+
+						if (matches.length) {
+							results.html('<ul>' + listResults(matches) + '</ul>');
+							showResults()
+						} else {
+							hideResults()
+						}
+					}
 				} else {
 					hideResults();
 				}
