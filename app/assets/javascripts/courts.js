@@ -17,7 +17,7 @@ $(function () {
 		active = false,
 		selectedResult = null,
 		klass = 'selected',
-		minText = 2;
+		minText = 0;
 	
 	var showResults = function () {
 		active = true;
@@ -108,34 +108,37 @@ $(function () {
 				term = $(this).val();
 
 				if (term.length > minText) {
-					// Find a match server side
-					$.get('/search.json', { q: term }, function (courtData) {
+					// Find a match client side
+					var patt = new RegExp(term, 'i'),
+						matches = [];
 
-						var listResults = function (items) {
-							var name, i, retval = [];
-							if (items.length) {
+					var listResults = function (items) {
+						var name, i, results = [];
 
-								for (i = 0; i < items.length; i++) {
-									item = items[i];
-									name = markMatched(term, item.name);
-
-									retval.push('<li><a href="' + item.path + '">' + name + '</a></li>');
-								}
-
-								return retval.join('')
+						if (items.length) {
+							for (var i = 0; i < items.length; i++) {
+								item = items[i];
+								name = markMatched(term, item[0]);
+								results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
 							}
+
+							return results.join('')
 						}
+					}
 
-						var list = listResults(courtData.courts);
-
-						if (list) {
-							results.html('<ul>' + list + '</ul>');
-							showResults()
-						} else {
-							hideResults()
+					for (var i = 0; i < moj.courts.length; i++) {
+						if (patt.test(moj.courts[i][0])) {
+							matches.push(moj.courts[i]);
 						}
+					}
 
-					});
+					if (matches.length) {
+						results.html('<ul>' + listResults(matches) + '</ul>');
+						showResults()
+					} else {
+						hideResults()
+					}
+
 				} else {
 					hideResults();
 				}
