@@ -26,18 +26,8 @@
 		<h3>Writing to us</h3>
 			<% addresses.each do |addr| %>
 				<p>
-					<%= addr.address_line_1 %><br />
-
-					<% if addr.address_line_2.present? %>
-						<%= addr.address_line_2 %><br />
-					<% end %>
-					<% if addr.address_line_3.present? %>
-						<%= addr.address_line_3 %><br />
-					<% end %>
-					<% if addr.address_line_4.present? %>
-						<%= addr.address_line_4 %><br />
-					<% end %>
-					<%= addr.postcode %><br />
+					<%= addr.full('<br />').html_safe %>
+					<br />
 					<%= addr.dx %>
 				</p>
 			<% end %>
@@ -51,17 +41,8 @@
 <% end %>
 
 <p>
-	<%= visiting.address_line_1 %><br />
-	<% if visiting.address_line_2.present? %>
-		<%= visiting.address_line_2 %><br />
-	<% end %>
-	<% if visiting.address_line_3.present? %>
-		<%= visiting.address_line_3 %><br />
-	<% end %>
-	<% if visiting.address_line_4.present? %>
-		<%= visiting.address_line_4 %><br />
-	<% end %>
-	<%= visiting.postcode %><br />
+	<%= visiting.full('<br />').html_safe %>
+	<br />
 	<%= visiting.dx %>
 </p>
 

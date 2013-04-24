@@ -16,15 +16,7 @@
           <br /><small><%= court.distance.to_f.round(2) %> miles from <%= params[:q] %></small>
         <% end %>
         <% if court.addresses.count > 0 %>
-          <% add = court.addresses.first %>
-          <p>
-            <%= add.address_line_1 %>,
-            <%= add.address_line_2 %>,
-            <%= add.address_line_3 %>,
-            <%= add.address_line_4 %>,
-            <%= add.town.name %>,
-            <%= add.postcode %>
-          </p>
+          <p><%= court.addresses.first.full('<br />').html_safe %></p>
         <% end %>
       </li>
     <% end %>
