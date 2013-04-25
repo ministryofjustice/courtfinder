@@ -11,7 +11,6 @@ group :development, :test do
 	gem 'capistrano'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'carrierwave'
 end
 
 # Gems used only for assets and not required
@@ -35,6 +34,7 @@ gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
 gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
+gem 'carrierwave'           # Handles file uploads
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
