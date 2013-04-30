@@ -10,11 +10,16 @@ class Address < ActiveRecord::Base
       address_line_1,
       address_line_2,
       address_line_3,
-      address_line_4,
-      town.name,
-      town.county.name,
-      postcode
+      address_line_4
     ]
-    .select{|i|i.present?}.map{|i|i}.join glue
+
+    if town.present?
+      lines.push town.name, town.county.name
+    end
+
+    lines.push postcode
+    
+    # Remove empty lines and join by parameter
+    lines.select{|i|i.present?}.map{|i|i}.join glue
   end
 end

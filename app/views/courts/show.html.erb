@@ -21,8 +21,8 @@
 <% addresses = @court.addresses %>
 <% visiting = addresses.shift %>
 
-<div id="writing">
-	<% if addresses %>
+<% if addresses.present? %>
+	<div id="writing">
 		<h3>Writing to us</h3>
 			<% addresses.each do |addr| %>
 				<p>
@@ -31,20 +31,22 @@
 					<%= addr.dx %>
 				</p>
 			<% end %>
-	<% end %>
-</div>
-
-<% if addresses.length == 1 %>
-	<h3>Visiting us</h3>
-<% else %>
-	<h3>Visiting and writing to us</h3>
+	</div>
 <% end %>
 
-<p>
-	<%= visiting.full('<br />').html_safe %>
-	<br />
-	<%= visiting.dx %>
-</p>
+<% if addresses.empty? %>
+	<h3>Visiting and writing to us</h3>
+<% else %>
+	<h3>Visiting us</h3>
+<% end %>
+
+<% if visiting.present? %>
+	<p>
+		<%= visiting.full('<br />').html_safe %>
+		<br />
+		<%= visiting.dx %>
+	</p>
+<% end %>
 
 <!-- <h3>Opening times</h3> -->
 <% @court.opening_times.each do |time| %>
