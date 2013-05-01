@@ -6,7 +6,7 @@ namespace :import do
 
     require 'csv'
 
-    csv_file = File.read('db/data/court2.csv')
+    csv_file = File.read('db/data/court.csv')
 
     # "court_id","court_name","court_code","court_note","court_area_id","court_cci_identifier","court_cci_code","court_addr_id","court_postal_addr_id","court_type_id","borough_search_id","court_code2"
     csv = CSV.parse(csv_file, :headers => true)
@@ -21,7 +21,7 @@ namespace :import do
       court.old_id = row[0]
       court.name = row[1]
       court.court_number = row[2]                     # court_code
-      court.info = row[3]
+      court.info = row[3].gsub(/"'/, '"')             # clean-up HTML links which use single quotes, assuming they appear in the data as ""'
       court.cci_identifier = row[5]
       court.cci_code = row[6]
       court.area_id = Area.find_by_old_id(row[4]).id  # some have more than one

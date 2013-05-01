@@ -1,10 +1,12 @@
-Court Finder
-============
+# Court Finder
 
-Set-up
-------
+## Set-up
 
 ### Data
+
+Export from mySQL database and replace the files into /db/data. When exporting use 'Export Method' custom, 'Format' CSV and make sure you check 'Put columns names in the first row'. 
+
+For "court" table also check 'Remove carriage return/line feed characters within columns'. Then replace all instances of `\"` with `""` before importing.
 
 To add all court and address data run:
 
