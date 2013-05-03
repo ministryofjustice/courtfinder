@@ -25,6 +25,13 @@ class Court < ActiveRecord::Base
 
   mount_uploader :image_file, CourtImagesUploader
 
+  acts_as_gmappable
+
+  def gmaps4rails_address
+  #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
+    "#{self.addresses.first.address_line_1}, #{self.addresses.first.town.name}, #{self.addresses.first.town.county.name}"
+  end
+
   # Text search
   default_scope order('courts.name')
   scope :visible, :conditions => { :display => true }
