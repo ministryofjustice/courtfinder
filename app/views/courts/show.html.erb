@@ -73,10 +73,26 @@
 	</dl>
 <% end %>
 
-<%= gmaps4rails @court.to_gmaps4rails %>
+<h3>Map</h3>
 
-<!-- <h3>Map</h3> -->
-<!-- <h3>Route planner</h3> -->
+<form action="<%= court_path(@court) %>" method="get">
+	<%= text_field_tag 'from', params[:from] %>
+	<input type="submit" value="Get directions">
+</form>
+
+<% if params[:from].present? %>
+	<%= gmaps({
+		"direction" => { "data" => { "from" => params[:from], "to" => visiting.full }, "options" => { "display_panel" => true, "panel_id" => "instructions"} }
+	}) %>
+	<h3>Route planner</h3>
+	<div id="instructions"></div>
+<% else %>
+	<%= gmaps({
+		"markers" => {"data" => @court.to_gmaps4rails}, 
+		"map_options" => {"auto_zoom" => false, "zoom" => 15}
+	}) %>
+<% end %>
+
 
 <!-- <p>Area id <%= @court.area_id %></p> -->
 <!-- <p>CCI identifier <%= @court.cci_identifier %></p> -->
