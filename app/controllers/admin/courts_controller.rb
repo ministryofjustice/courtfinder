@@ -37,6 +37,7 @@ class Admin::CourtsController < ApplicationController
   # GET /courts/1/edit
   def edit
     @court = Court.find(params[:id])
+    @court_contacts = @court.contacts.order(:sort)
   end
 
   # POST /courts

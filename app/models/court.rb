@@ -15,6 +15,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
+  validates_presence_of :name
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
@@ -25,7 +26,7 @@ class Court < ActiveRecord::Base
 
   mount_uploader :image_file, CourtImagesUploader
 
-  acts_as_gmappable :process_geocoding => lambda { |obj| !obj.addresses.empty? && obj.latitude.blank? && obj.longitude.blank? }
+  acts_as_gmappable :process_geocoding => lambda { |obj| !obj.addresses.first.address_line_1.blank? }
 
   def gmaps4rails_address
   #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
