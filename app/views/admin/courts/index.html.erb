@@ -1,5 +1,7 @@
 <%= content_for :title, 'Listing courts' %>
 
+<%= link_to 'New Court', new_admin_court_path %>
+
 <table>
   <tr>
     <th>Name</th>
@@ -15,13 +17,9 @@
     <td><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.cci_code %></td>
-    <td><%= link_to 'Show', admin_court_path(court) %></td>
+    <td><%= link_to 'Show', court_path(court) %></td>
     <td><%= link_to 'Edit', edit_admin_court_path(court) %></td>
-    <td><%= link_to 'Destroy', court, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', court, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Court', new_admin_court_path %>

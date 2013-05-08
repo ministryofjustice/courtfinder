@@ -1,3 +1,56 @@
 // Place all the styles related to the admin/courts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+div.input.string,
+div.input.select,
+div.input.decimal,
+div.input.tel,
+div.input.boolean,
+div.input.text,
+div.input.file,
+// div.input.check_boxes,
+div.input.integer {
+  margin-top: 10px;
+
+  label {
+    float: left;
+    width: 150px;
+  }
+  label.boolean {
+    float: none;
+    margin-left: 160px;
+    input {
+      margin-right: 5px;
+    }
+  }
+  input[type=text],
+  input[type=tel],
+  input[type=number],
+  input[type=file] {
+    width: 200px;
+    margin: 0 10px;
+  }
+  textarea {
+    width: 320px;
+    height: 70px;
+    margin: 0 10px;
+  }
+  select {
+    margin: 0 10px;
+    max-width: 400px;
+  }
+}
+
+div.input.court_info {
+  label {
+    float: none;
+  }
+}
+
+form .form-actions {
+  margin-top: 1em;
+  padding: 10px 30px;
+  background: #eee;
+}

@@ -5,9 +5,10 @@
   <%= f.input :address_line_2 %>
   <%= f.input :address_line_3 %>
   <%= f.input :address_line_4 %>
+  <%= f.association :town, :collection => Town.all(:order => 'name') %>
   <%= f.input :postcode %>
   <%= f.input :dx %>
-  <%= f.association :town %>
   <%= f.check_box :_destroy %>
-  <%= f.label :_destroy, "Remove Address" %>
+  <%= f.label :_destroy, "Remove this Address" %>
 </fieldset>
+<hr />

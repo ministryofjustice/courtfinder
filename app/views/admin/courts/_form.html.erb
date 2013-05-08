@@ -11,52 +11,57 @@
     </div>
   <% end %>
 
-  <p>
+  <p class="visuallyhidden">
     Old ID: <%= @court.old_id %> :
     Old Court Type ID: <%= @court.old_court_type_id %>
     Image ref: <%= @court.image %>
   </p>
 
   <%= f.input :name %>
-  <%= f.input :court_number %>
   <%= f.input :slug %>
-  <%= f.input :info, :input_html => { :class => "ckeditor"} %>
-  <%= image_tag @court.image_file, :width => '160px' %>
+  <%= image_tag @court.image_file, :width => '160px' if @court.image_file.present? %>
   <%= f.input :image_file %>
+  <%= f.input :info, :input_html => { :class => "ckeditor"} %>
+  <%= f.input :court_number %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
+  <%= f.association :areas_of_law, :collection => AreaOfLaw.all(:order => 'name') %>
+  <%= f.association :area %>
   <%= f.input :latitude %>
   <%= f.input :longitude %>
   <%#= f.association :court_types %>
-  <%= f.association :areas_of_law %>
-  <%= f.association :area %>
 
+  <h2>Addreeses</h2>
   <%= f.simple_fields_for :addresses do |builder| %>
     <%= render 'address_fields', f: builder %>
   <% end %>
   <%= link_to_add_fields "Add Address", f, :addresses %>
 
+  <h2>Contacts</h2>
   <%= f.simple_fields_for :contacts do |builder| %>
     <%= render 'contact_fields', f: builder %>
   <% end %>
   <%= link_to_add_fields "Add Contact", f, :contacts %>
 
+  <h2>Emails</h2>
   <%= f.simple_fields_for :emails do |builder| %>
     <%= render 'email_fields', f: builder %>
   <% end %>
   <%= link_to_add_fields "Add Email", f, :emails %>
 
+  <h2>Facilities</h2>
   <%= f.simple_fields_for :court_facilities do |builder| %>
     <%= render 'court_facility_fields', f: builder %>
   <% end %>
   <%= link_to_add_fields "Add Facility", f, :court_facilities %>
 
+  <h2>Opening times</h2>
   <%= f.simple_fields_for :opening_times do |builder| %>
     <%= render 'opening_time_fields', f: builder %>
   <% end %>
   <%= link_to_add_fields "Add Opening Time", f, :opening_times %>
 
-  <div class="actions">
+  <div class="form-actions">
     <%= f.submit %>
   </div>
 <% end %>
