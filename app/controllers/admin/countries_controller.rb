@@ -46,7 +46,7 @@ class Admin::CountriesController < ApplicationController
 
     respond_to do |format|
       if @country.save
-        format.html { redirect_to admin_country_path(@country), notice: 'Country was successfully created.' }
+        format.html { redirect_to edit_admin_country_path(@country), notice: 'Country was successfully created.' }
         format.json { render json: @country, status: :created, location: @country }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::CountriesController < ApplicationController
 
     respond_to do |format|
       if @country.update_attributes(params[:country])
-        format.html { redirect_to admin_country_path(@country), notice: 'Country was successfully updated.' }
+        format.html { redirect_to edit_admin_country_path(@country), notice: 'Country was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

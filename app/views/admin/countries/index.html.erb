@@ -1,9 +1,11 @@
-<h1>Listing countries</h1>
+<%= content_for :title, 'Listing Countries' %>
+
+<%= link_to 'New Country', new_admin_country_path %>
 
 <table>
   <tr>
     <th>Name</th>
-    <th></th>
+    <!-- <th></th> -->
     <th></th>
     <th></th>
   </tr>
@@ -11,13 +13,9 @@
 <% @countries.each do |country| %>
   <tr>
     <td><%= country.name %></td>
-    <td><%= link_to 'Show', admin_country_path(country) %></td>
+    <!-- <td><%#= link_to 'Show', admin_country_path(country) %></td> -->
     <td><%= link_to 'Edit', edit_admin_country_path(country) %></td>
-    <td><%= link_to 'Destroy', admin_country_path(country), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', admin_country_path(country), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Country', new_admin_country_path %>

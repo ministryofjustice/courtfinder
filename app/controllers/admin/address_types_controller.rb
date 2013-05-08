@@ -46,7 +46,7 @@ class Admin::AddressTypesController < ApplicationController
 
     respond_to do |format|
       if @address_type.save
-        format.html { redirect_to admin_address_type_path(@address_type), notice: 'Address type was successfully created.' }
+        format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully created.' }
         format.json { render json: @address_type, status: :created, location: @address_type }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::AddressTypesController < ApplicationController
 
     respond_to do |format|
       if @address_type.update_attributes(params[:address_type])
-        format.html { redirect_to admin_address_type_path(@address_type), notice: 'Address type was successfully updated.' }
+        format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

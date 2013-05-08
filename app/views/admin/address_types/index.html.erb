@@ -1,9 +1,11 @@
-<h1>Listing address_types</h1>
+<%= content_for :title, 'Listing Address Types' %>
+
+<%= link_to 'New Address type', new_admin_address_type_path %>
 
 <table>
   <tr>
     <th>Name</th>
-    <th></th>
+    <!-- <th></th> -->
     <th></th>
     <th></th>
   </tr>
@@ -11,13 +13,9 @@
 <% @address_types.each do |address_type| %>
   <tr>
     <td><%= address_type.name %></td>
-    <td><%= link_to 'Show', admin_address_type_path(address_type) %></td>
+    <!-- <td><%#= link_to 'Show', admin_address_type_path(address_type) %></td> -->
     <td><%= link_to 'Edit', edit_admin_address_type_path(address_type) %></td>
-    <td><%= link_to 'Destroy', admin_address_type_path(address_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', admin_address_type_path(address_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Address type', new_admin_address_type_path %>

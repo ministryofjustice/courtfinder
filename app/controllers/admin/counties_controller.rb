@@ -46,7 +46,7 @@ class Admin::CountiesController < ApplicationController
 
     respond_to do |format|
       if @county.save
-        format.html { redirect_to admin_county_path(@county), notice: 'County was successfully created.' }
+        format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully created.' }
         format.json { render json: @county, status: :created, location: @county }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::CountiesController < ApplicationController
 
     respond_to do |format|
       if @county.update_attributes(params[:county])
-        format.html { redirect_to admin_county_path(@county), notice: 'County was successfully updated.' }
+        format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
