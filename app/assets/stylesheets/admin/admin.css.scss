@@ -56,3 +56,33 @@ form .form-actions {
   padding: 10px 30px;
   background: #eee;
 }
+
+.field-group {
+  cursor: pointer;
+}
+
+.sortable {
+  padding: 0;
+  list-style: none;
+
+  .sortable-summary {
+    display: none;
+    cursor: move;
+    background: #eee;
+    border: 1px solid #ccc;
+  }
+
+  .ui-state-highlight {
+  }
+
+  li {
+    min-height: 1em;
+    margin: 0 0 3px 0;
+    padding: 0;
+  }
+
+  .ui-icon {
+    float: left;
+    margin-top: 2px;
+  }
+}
