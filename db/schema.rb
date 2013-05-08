@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130417115000) do
+ActiveRecord::Schema.define(:version => 20130508101703) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20130417115000) do
     t.string   "image_description"
     t.string   "image_file"
     t.boolean  "display"
+    t.boolean  "gmaps"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
