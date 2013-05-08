@@ -46,7 +46,7 @@ class Admin::CourtsController < ApplicationController
 
     respond_to do |format|
       if @court.save
-        format.html { redirect_to admin_court_path(@court), notice: 'Court was successfully created.' }
+        format.html { redirect_to edit_admin_court_path(@court), notice: 'Court was successfully created.' }
         format.json { render json: @court, status: :created, location: @court }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::CourtsController < ApplicationController
 
     respond_to do |format|
       if @court.update_attributes(params[:court])
-        format.html { redirect_to admin_court_path(@court), notice: 'Court was successfully updated.' }
+        format.html { redirect_to edit_admin_court_path(@court), notice: 'Court was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

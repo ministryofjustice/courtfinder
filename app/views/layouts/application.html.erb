@@ -169,7 +169,9 @@
 				<article role="article" class="group">
 					<div class="inner">
 						
-						<%= notice %>
+						<% if notice.present? %>
+							<p id="user-notice"><%= notice %></p>
+						<% end %>
 						<%= yield %>
 
 					</div>

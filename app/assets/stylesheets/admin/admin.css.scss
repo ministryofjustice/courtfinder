@@ -1,7 +1,4 @@
-// Place all the styles related to the admin/courts controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
+// Quick dirty rules to improve layout of admin pages
 
 div.input.string,
 div.input.select,
@@ -51,6 +48,11 @@ div.input.court_info {
 
 form .form-actions {
   margin-top: 1em;
+  padding: 10px 30px;
+  background: #eee;
+}
+
+#user-notice {
   padding: 10px 30px;
   background: #eee;
 }

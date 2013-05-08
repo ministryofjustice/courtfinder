@@ -2,4 +2,12 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      court:
+        image_file: Court photo
+        info: Visitor information
+        cci_identifier: CCI indentifier
+        cci_code: CCI code
+      address:
+        dx: DX
