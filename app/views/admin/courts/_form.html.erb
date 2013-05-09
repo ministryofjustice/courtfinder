@@ -40,12 +40,11 @@
   <h2 id="group-contacts" class="field-group">Contacts</h2>
   <ul class="sortable">
     <%= f.simple_fields_for :contacts do |builder| %>
-      <li>
-        <%= render 'contact_fields', f: builder %>
-      </li>
+      <%= render 'contact_fields', f: builder %>
     <% end %>
   </ul>
-  <%= link_to_add_fields "Add Contact", f, :contacts %>
+  <%= link_to_add_fields "Add Contact", f, :contacts, 'MOJ.initNewContact' %>
+  <%#= link_to_add_fields_new "Add Contact", f, :contacts, 'MOJ.addFields' %>
 
   <h2>Emails</h2>
   <%= f.simple_fields_for :emails do |builder| %>

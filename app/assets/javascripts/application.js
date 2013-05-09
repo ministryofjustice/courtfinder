@@ -29,8 +29,15 @@ $(function() {
 
 	$('form').on('click', '.add_fields', function (e) {
 		var time = new Date().getTime(),
-			regexp = new RegExp($(this).data('id'), 'g');
-		$(this).before($(this).data('fields').replace(regexp, time));
+			regexp = new RegExp($(this).data('id'), 'g'),
+			callback = $(this).data('callback');
+		var obj = $(this).prev('ul').append($(this).data('fields').replace(regexp, time));
+		console.log(callback)
+		MOJ.initNewContact(obj)
+	    if ($.isFunction(callback)) {
+	    	console.log('firing callback')
+	    	callback(obj);
+		}
 		e.preventDefault();
 	});
 
