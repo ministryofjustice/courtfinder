@@ -26,7 +26,8 @@ class Court < ActiveRecord::Base
 
   mount_uploader :image_file, CourtImagesUploader
 
-  acts_as_gmappable :process_geocoding => lambda { |obj| !obj.addresses.first.address_line_1.blank? }
+  acts_as_gmappable :process_geocoding => lambda { |obj| obj.addresses.first.address_line_1.present? },
+                    :validation => false
 
   def gmaps4rails_address
   #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
