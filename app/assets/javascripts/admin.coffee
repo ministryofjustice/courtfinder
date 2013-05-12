@@ -7,13 +7,18 @@ $ ->
     stop: (e, ui) ->
       MOJ.reSort $(this)
 
-  # $('.sortable').find('[class$="sort"]').hide()
+  $('.sortable').find('[class$="sort"]').hide()
 
   # Update the summary
-  $('.court_contacts_telephone input').change ->
+  $('.sortable').on 'change', '.court_contacts_contact_type select', ->
+    val = $(this).find(':selected').text()
+    $(this).closest('li').find('.sortable-summary .type').text val
+  $('.sortable').on 'change', '.court_contacts_name input', ->
     val = $(this).val()
-    # console.log val
-    $(this).closest('li').find('.sortable-summary .tel').text val
+    $(this).closest('li').find('.sortable-summary .name span').text(val).parent()[if val.length then 'show' else 'hide']()
+  $('.sortable').on 'change', '.court_contacts_telephone input', ->
+    val = $(this).val()
+    $(this).closest('li').find('.sortable-summary .tel span').text(val).parent()[if val.length then 'show' else 'hide']()
 
 
 window.MOJ = window.MOJ or {
@@ -28,6 +33,7 @@ window.MOJ = window.MOJ or {
     console.log 'new contact'
     console.log el
     el.closest('.sortable').sortable 'refreshPositions'
+    MOJ.reSort el
 
   # http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string/359910#359910
   executeFunctionByName: (functionName, context) -> #, args
