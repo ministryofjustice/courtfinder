@@ -59,6 +59,17 @@ form .form-actions {
   background: #eee;
 }
 
+.destroy {
+  margin: 5px 0 0 160px;
+  font-size: 1.6rem;
+
+  .undo,
+  input,
+  label {
+    display: none;
+  }
+}
+
 .field-group {
   float: right;
 }

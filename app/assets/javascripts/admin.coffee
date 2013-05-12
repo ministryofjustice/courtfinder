@@ -4,6 +4,17 @@ $ ->
     $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
     $(this).siblings('.add_fields').toggle()
 
+  $('.sortable').on 'click', '.remove', (e) ->
+    e.preventDefault()
+    $(this).closest('.destroy').siblings('div').hide()
+    $(this).hide().siblings('.undo').show()
+    $(this).siblings('input').prop 'checked', true
+  $('.sortable').on 'click', '.undo', (e) ->
+    e.preventDefault()
+    $(this).closest('.destroy').siblings('div').not('[class$="sort"]').show()
+    $(this).hide().siblings('.remove').show()
+    $(this).siblings('input').prop 'checked', false
+
   $('.sortable').sortable
     placeholder: 'ui-state-highlight'
     stop: (e, ui) ->
