@@ -1,13 +1,5 @@
-<div id="user_nav">
-  <% if user_signed_in? %>
-    Logged in as <strong><%= current_user.email %></strong><%= " (administrator)" if current_user.admin? %>.
-    <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-  <% else %>
-    <%= link_to "Sign in", new_user_session_path %>
-  <% end %>
-</div>
 <% if user_signed_in? %>
-  <p>
+  <div>
     <%= link_to 'Courts', admin_courts_path %> |
     <%= link_to 'Address Types', admin_address_types_path %> |
     <%= link_to 'Countries', admin_countries_path %> |
@@ -21,5 +13,5 @@
     <%= link_to 'Regions', admin_regions_path %> |
     <%= link_to 'Areas', admin_areas_path %> |
     <%= link_to_if current_user.admin?, 'Users', admin_users_path %>
-  </p>
+  </div>
 <% end %>

@@ -80,3 +80,11 @@
 .search-results .areas-of-law li:hover {
   background: #b41763;
 }
+
+#user_nav {
+  float: right;
+  color: #fff;
+}
+#user_nav a:link, #user_nav a:visited {
+  color: #fff;
+}

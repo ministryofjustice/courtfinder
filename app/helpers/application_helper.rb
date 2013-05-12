@@ -11,10 +11,8 @@ module ApplicationHelper
     link_to(name, '#', class: "add_fields", data: data)
   end
 
-  def admin_nav
-    if /admin/i =~ request.env['PATH_INFO']
-      render "shared/admin_nav"
-    end
+  def admin_area?
+    /admin/i =~ request.env['PATH_INFO']
   end
   
 end
