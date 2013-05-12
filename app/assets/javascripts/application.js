@@ -32,12 +32,12 @@ $(function() {
 			regexp = new RegExp($(this).data('id'), 'g'),
 			callback = $(this).data('callback');
 		var obj = $(this).prev('ul').append($(this).data('fields').replace(regexp, time));
-		console.log(callback)
-		MOJ.initNewContact(obj)
-	    if ($.isFunction(callback)) {
-	    	console.log('firing callback')
-	    	callback(obj);
-		}
+		// console.log(callback)
+		MOJ.initNewFieldBlock(obj)
+		// if ($.isFunction(callback)) {
+		// 	console.log('firing callback')
+		// 	callback(obj);
+		// }
 		e.preventDefault();
 	});
 

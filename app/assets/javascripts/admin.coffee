@@ -1,13 +1,12 @@
 $ ->
   $('.field-group').click ->
-    $(this).next('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
+    $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
+    $(this).siblings('.add_fields').toggle()
 
   $('.sortable').sortable
     placeholder: 'ui-state-highlight'
     stop: (e, ui) ->
       MOJ.reSort $(this)
-
-  $('.sortable').find('[class$="sort"]').hide()
 
   # Update the summary
   $('.sortable').on 'change', '.court_contacts_contact_type select', ->
@@ -20,6 +19,9 @@ $ ->
     val = $(this).val()
     $(this).closest('li').find('.sortable-summary .tel span').text(val).parent()[if val.length then 'show' else 'hide']()
 
+  # Update the summaries on load
+  $('.court_contacts_contact_type select, .court_contacts_name input, .court_contacts_telephone input').change()
+
 
 window.MOJ = window.MOJ or {
 
@@ -29,9 +31,7 @@ window.MOJ = window.MOJ or {
       $(this).find('.court_contacts_sort input').val items.index($(this))
 
   # Add form partials on the fly (using link_to_add_fields_new)
-  initNewContact: (el) ->
-    console.log 'new contact'
-    console.log el
+  initNewFieldBlock: (el) ->
     el.closest('.sortable').sortable 'refreshPositions'
     MOJ.reSort el
 

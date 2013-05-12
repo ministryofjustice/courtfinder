@@ -88,3 +88,8 @@ form .form-actions {
     margin-top: 2px;
   }
 }
+.js-enabled .sortable {
+    [class$="sort"] {
+      display: none;
+    }
+}
