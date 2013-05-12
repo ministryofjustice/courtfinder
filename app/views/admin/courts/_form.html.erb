@@ -38,7 +38,8 @@
   <%= link_to_add_fields "Add Address", f, :addresses %>
 
   <div>
-    <h2 id="group-contacts" class="field-group">Contacts</h2>
+    <a href="#" class="field-group">reorder contacts</a>
+    <h2 id="group-contacts">Contacts</h2>
     <ul class="sortable">
       <%= f.simple_fields_for :contacts do |builder| %>
         <%= render 'contact_fields', f: builder %>

@@ -1,5 +1,6 @@
 $ ->
-  $('.field-group').click ->
+  $('.field-group').click (e) ->
+    e.preventDefault()
     $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
     $(this).siblings('.add_fields').toggle()
 
