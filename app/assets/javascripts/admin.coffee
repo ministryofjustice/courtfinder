@@ -46,8 +46,16 @@ $ ->
     val = $(this).val()
     $(this).closest('li').find('.sortable-summary .name').text val
 
+  # Update the email summary
+  $('.sortable').on 'change', '.court_emails_description input', ->
+    val = $(this).val()
+    $(this).closest('li').find('.sortable-summary .desc').text val
+  $('.sortable').on 'change', '.court_emails_address input', ->
+    val = $(this).val()
+    $(this).closest('li').find('.sortable-summary .add').text val
+
   # Update the summaries on load
-  $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type').find('input, select').change()
+  $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type, .court_emails_description, .court_emails_address').find('input, select').change()
 
 
 window.moj = window.moj or {

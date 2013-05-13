@@ -50,11 +50,16 @@
     <%= link_to_add_fields "Add contact", f, :contacts, 'moj.initNewFieldBlock' %>
   </div>
 
-  <h2>Emails</h2>
-  <%= f.simple_fields_for :emails do |builder| %>
-    <%= render 'email_fields', f: builder %>
-  <% end %>
-  <%= link_to_add_fields "Add Email", f, :emails %>
+  <div class="group-emails">
+    <a href="#" class="field-group" data-alt="edit emails">reorder emails</a>
+    <h2>Emails</h2>
+    <ul class="sortable">
+      <%= f.simple_fields_for :emails do |builder| %>
+        <%= render 'email_fields', f: builder %>
+      <% end %>
+    </ul>
+    <%= link_to_add_fields "Add email", f, :emails %>
+  </div>
 
   <h2>Facilities</h2>
   <%= f.simple_fields_for :court_facilities do |builder| %>

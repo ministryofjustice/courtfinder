@@ -1,12 +1,19 @@
-
-<fieldset>
-  <%= f.input :address %>
-  <%= f.input :description %>
-  <div class="destroy">
-    <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove this email</a>
-    <a href="#" class="undo"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span>keep this email</a>
-    <%= f.check_box :_destroy %>
-    <%= f.label :_destroy, "Remove this email" %>
+<li>
+  <div class="sortable-summary">
+    <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
+    <span class="desc"></span>: <span class="add"></span>
   </div>
-</fieldset>
-<hr />
+
+  <fieldset>
+    <%= f.input :description %>
+    <%= f.input :address %>
+    <%= f.input :sort %>
+    <div class="destroy">
+      <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove this email</a>
+      <a href="#" class="undo"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span>keep this email</a>
+      <%= f.check_box :_destroy %>
+      <%= f.label :_destroy, "Remove this email" %>
+    </div>
+    <hr />
+  </fieldset>
+</li>

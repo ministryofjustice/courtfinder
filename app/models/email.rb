@@ -1,4 +1,4 @@
 class Email < ActiveRecord::Base
   belongs_to :court
-  attr_accessible :address, :description
+  attr_accessible :address, :description, :sort
 end
