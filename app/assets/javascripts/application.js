@@ -30,8 +30,15 @@ $(function() {
 	$('form').on('click', '.add_fields', function (e) {
 		var time = new Date().getTime(),
 			regexp = new RegExp($(this).data('id'), 'g'),
-			callback = $(this).data('callback');
-		var obj = $(this).prev('ul').append($(this).data('fields').replace(regexp, time));
+			callback = $(this).data('callback'),
+			sortable = $(this).siblings('ul.sortable'),
+			obj;
+		var fields = $(this).data('fields').replace(regexp, time);
+		if (sortable.length) {
+			obj = sortable.append(fields);
+		} else {
+			obj = $(this).before(fields);
+		}
 		// console.log(callback)
 		MOJ.initNewFieldBlock(obj)
 		// if ($.isFunction(callback)) {

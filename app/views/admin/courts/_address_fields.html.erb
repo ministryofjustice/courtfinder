@@ -8,7 +8,12 @@
   <%= f.association :town, :collection => Town.all(:order => 'name') %>
   <%= f.input :postcode %>
   <%= f.input :dx %>
-  <%= f.check_box :_destroy %>
-  <%= f.label :_destroy, "Remove this Address" %>
+
+  <div class="destroy">
+    <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove this address</a>
+    <a href="#" class="undo"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span>keep this address</a>
+    <%= f.check_box :_destroy %>
+    <%= f.label :_destroy, "Remove this Address" %>
+  </div>
 </fieldset>
 <hr />

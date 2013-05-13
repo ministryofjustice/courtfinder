@@ -18,28 +18,30 @@
   </p>
 
   <%= f.input :name %>
-  <%= f.input :slug %>
+  <%= f.input :slug, :wrapper_html => { :class => 'admin-only' } %>
   <%= image_tag @court.image_file, :width => '160px' if @court.image_file.present? %>
   <%= f.input :image_file %>
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
-  <%= f.input :court_number %>
+  <%= f.input :court_number, :wrapper_html => { :class => 'admin-only' } %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
   <%= f.association :areas_of_law, :collection => AreaOfLaw.all(:order => 'name') %>
   <%= f.association :area %>
-  <%= f.input :latitude %>
-  <%= f.input :longitude %>
+  <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } %>
+  <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } %>
   <%#= f.association :court_types %>
 
-  <h2>Addreeses</h2>
-  <%= f.simple_fields_for :addresses do |builder| %>
-    <%= render 'address_fields', f: builder %>
-  <% end %>
-  <%= link_to_add_fields "Add Address", f, :addresses %>
+  <div id="group-addresses">
+    <h2>Addreeses</h2>
+    <%= f.simple_fields_for :addresses do |builder| %>
+      <%= render 'address_fields', f: builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Address", f, :addresses %>
+  </div>
 
-  <div>
-    <a href="#" class="field-group">reorder contacts</a>
-    <h2 id="group-contacts">Contacts</h2>
+  <div id="group-contacts">
+    <a href="#" class="field-group" data-alt="edit contacts">reorder contacts</a>
+    <h2>Contacts</h2>
     <ul class="sortable">
       <%= f.simple_fields_for :contacts do |builder| %>
         <%= render 'contact_fields', f: builder %>

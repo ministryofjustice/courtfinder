@@ -2,7 +2,11 @@
 <fieldset>
   <%= f.association :facility %>
   <%= f.input :description %>
-  <%= f.check_box :_destroy %>
-  <%= f.label :_destroy, "Remove this Facility" %>
+  <div class="destroy">
+    <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove this facility</a>
+    <a href="#" class="undo"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span>keep this facility</a>
+    <%= f.check_box :_destroy %>
+    <%= f.label :_destroy, "Remove this facility" %>
+  </div>
 </fieldset>
 <hr />

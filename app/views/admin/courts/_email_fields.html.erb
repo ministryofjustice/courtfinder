@@ -2,7 +2,11 @@
 <fieldset>
   <%= f.input :address %>
   <%= f.input :description %>
-  <%= f.check_box :_destroy %>
-  <%= f.label :_destroy, "Remove this Email" %>
+  <div class="destroy">
+    <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove this email</a>
+    <a href="#" class="undo"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span>keep this email</a>
+    <%= f.check_box :_destroy %>
+    <%= f.label :_destroy, "Remove this email" %>
+  </div>
 </fieldset>
 <hr />
