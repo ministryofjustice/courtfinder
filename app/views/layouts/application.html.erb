@@ -116,7 +116,7 @@
 </head>
 
 <body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %>">
-	<script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+	<script type="text/javascript">document.body.className = document.body.className + ' js-enabled';</script>
 
 	<a href="#content" class="visuallyhidden">Skip to main content</a>
 
@@ -126,11 +126,15 @@
 
 			<a href="#search" class="button search-toggle">Search</a>
 
-			<form id="search" class="site-search" action="/search" method="get" role="search">
-				<label for="site-search-text" class="visuallyhidden">Search</label>
-				<input type="search" name="q" id="site-search-text" title="Search">
-				<input class="button" type="submit" value="Search" />
-			</form>
+			<% if admin_area? %>
+				<%= render 'shared/admin_user' %>
+			<% else %>
+				<form id="search" class="site-search" action="/search" method="get" role="search">
+					<label for="site-search-text" class="visuallyhidden">Search</label>
+					<input type="search" name="q" id="site-search-text" title="Search">
+					<input class="button" type="submit" value="Search" />
+				</form>
+			<% end %>
 		</div>
 	</header>
 
@@ -141,10 +145,14 @@
 	<% if request.fullpath != '/' %>
 	<div id="global-breadcrumb" class="header-context">
 		<nav role="navigation">
-			<ol class="group">
-				<li><a href="/">Home</a></li>
-				<%= yield :nav if content_for? :nav %>
-			</ol>
+			<% if admin_area? %>
+				<%= render 'shared/admin_nav' %>
+			<% else %>
+				<ol class="group">
+					<li><a href="/">Home</a></li>
+					<%= yield :nav if content_for? :nav %>
+				</ol>
+			<% end %>
 		</nav>
 	</div>
 	<% end %>
@@ -154,8 +162,6 @@
 			<% if alert.present? %>
 				<p class="alert"><%= alert %></p>
 			<% end %>
-			
-			<%= admin_nav %>
 
 			<header class="page-header group">
 				<hgroup>

@@ -8,9 +8,10 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require_tree .
+ *= require jquery.ui.all
  *= require gmaps4rails
+ *= require_self
  */
 
 #wrapper #search {
@@ -78,4 +79,12 @@
 }
 .search-results .areas-of-law li:hover {
   background: #b41763;
+}
+
+#user_nav {
+  float: right;
+  color: #fff;
+}
+#user_nav a:link, #user_nav a:visited {
+  color: #fff;
 }

@@ -36,6 +36,7 @@ gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
 gem 'carrierwave'           # Handles file uploads
 gem 'gmaps4rails'           # Maps and directions
+gem 'jquery-ui-rails'       # jQuery UI assets
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -37,11 +37,16 @@
   <% end %>
   <%= link_to_add_fields "Add Address", f, :addresses %>
 
-  <h2>Contacts</h2>
-  <%= f.simple_fields_for :contacts, @court_contacts do |builder| %>
-    <%= render 'contact_fields', f: builder %>
-  <% end %>
-  <%= link_to_add_fields "Add Contact", f, :contacts %>
+  <div>
+    <a href="#" class="field-group">reorder contacts</a>
+    <h2 id="group-contacts">Contacts</h2>
+    <ul class="sortable">
+      <%= f.simple_fields_for :contacts do |builder| %>
+        <%= render 'contact_fields', f: builder %>
+      <% end %>
+    </ul>
+    <%= link_to_add_fields "Add contact", f, :contacts, 'MOJ.initNewContact' %>
+  </div>
 
   <h2>Emails</h2>
   <%= f.simple_fields_for :emails do |builder| %>

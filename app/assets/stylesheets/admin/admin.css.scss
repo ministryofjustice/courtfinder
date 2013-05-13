@@ -7,6 +7,8 @@ div.input.tel,
 div.input.boolean,
 div.input.text,
 div.input.file,
+div.input.email,
+div.input.password,
 // div.input.check_boxes,
 div.input.integer {
   margin-top: 10px;
@@ -55,4 +57,50 @@ form .form-actions {
 #user-notice {
   padding: 10px 30px;
   background: #eee;
+}
+
+.destroy {
+  margin: 5px 0 0 160px;
+  font-size: 1.6rem;
+
+  .undo,
+  input,
+  label {
+    display: none;
+  }
+}
+
+.field-group {
+  float: right;
+}
+
+.sortable {
+  padding: 0;
+  list-style: none;
+
+  .sortable-summary {
+    display: none;
+    cursor: move;
+    background: #eee;
+    border: 1px solid #ccc;
+  }
+
+  .ui-state-highlight {
+  }
+
+  li {
+    min-height: 1em;
+    margin: 0 0 3px 0;
+    padding: 0;
+  }
+
+  .ui-icon {
+    float: left;
+    margin-top: 2px;
+  }
+}
+.js-enabled .sortable {
+    [class$="sort"] {
+      display: none;
+    }
 }
