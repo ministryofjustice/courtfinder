@@ -3,12 +3,14 @@ $ ->
     e.preventDefault()
     $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
     $(this).siblings('.add_fields').toggle()
-
+    
+    # Change text in re-order toggle link
     alt = $(this).data('alt')
     text = $(this).text()
     $(this).text alt
     $(this).data 'alt', text
 
+  # Hide field sets marked to remove
   $('.simple_form').on 'click', '.destroy .remove', (e) ->
     e.preventDefault()
     $(this).closest('.destroy').siblings('div').hide()
@@ -23,7 +25,7 @@ $ ->
   $('.sortable').sortable
     placeholder: 'ui-state-highlight'
     stop: (e, ui) ->
-      MOJ.reSort $(this)
+      moj.reSort $(this)
 
   # Update the summary
   $('.sortable').on 'change', '.court_contacts_contact_type select', ->
@@ -35,22 +37,30 @@ $ ->
   $('.sortable').on 'change', '.court_contacts_telephone input', ->
     val = $(this).val()
     $(this).closest('li').find('.sortable-summary .tel span').text(val).parent()[if val.length then 'show' else 'hide']()
+  
+  # Update the opening time summary
+  $('.sortable').on 'change', '.court_opening_times_opening_type select', ->
+    val = $(this).find(':selected').text()
+    $(this).closest('li').find('.sortable-summary .type').text val
+  $('.sortable').on 'change', '.court_opening_times_name input', ->
+    val = $(this).val()
+    $(this).closest('li').find('.sortable-summary .name').text val
 
   # Update the summaries on load
-  $('.court_contacts_contact_type select, .court_contacts_name input, .court_contacts_telephone input').change()
+  $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type').find('input, select').change()
 
 
-window.MOJ = window.MOJ or {
+window.moj = window.moj or {
 
   reSort: (list) ->
     items = list.children('li')
     items.each ->
-      $(this).find('.court_contacts_sort input').val items.index($(this))
+      $(this).find('input[id$="_sort"]').val items.index($(this))
 
   # Add form partials on the fly (using link_to_add_fields_new)
   initNewFieldBlock: (el) ->
     el.closest('.sortable').sortable 'refreshPositions'
-    MOJ.reSort el
+    moj.reSort el
 
   # http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string/359910#359910
   executeFunctionByName: (functionName, context) -> #, args

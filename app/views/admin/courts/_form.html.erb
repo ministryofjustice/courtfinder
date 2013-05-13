@@ -36,7 +36,7 @@
     <%= f.simple_fields_for :addresses do |builder| %>
       <%= render 'address_fields', f: builder %>
     <% end %>
-    <%= link_to_add_fields "Add Address", f, :addresses %>
+    <%= link_to_add_fields "Add address", f, :addresses %>
   </div>
 
   <div id="group-contacts">
@@ -47,7 +47,7 @@
         <%= render 'contact_fields', f: builder %>
       <% end %>
     </ul>
-    <%= link_to_add_fields "Add contact", f, :contacts, 'MOJ.initNewContact' %>
+    <%= link_to_add_fields "Add contact", f, :contacts, 'moj.initNewFieldBlock' %>
   </div>
 
   <h2>Emails</h2>
@@ -62,11 +62,16 @@
   <% end %>
   <%= link_to_add_fields "Add Facility", f, :court_facilities %>
 
-  <h2>Opening times</h2>
-  <%= f.simple_fields_for :opening_times do |builder| %>
-    <%= render 'opening_time_fields', f: builder %>
-  <% end %>
-  <%= link_to_add_fields "Add Opening Time", f, :opening_times %>
+  <div id="group-opening-times">
+    <a href="#" class="field-group" data-alt="edit opening times">reorder opening times</a>
+    <h2>Opening times</h2>
+    <ul class="sortable">
+      <%= f.simple_fields_for :opening_times do |builder| %>
+        <%= render 'opening_time_fields', f: builder %>
+      <% end %>
+    </ul>
+    <%= link_to_add_fields "Add opening time", f, :opening_times %>
+  </div>
 
   <div class="form-actions">
     <%= f.submit %>

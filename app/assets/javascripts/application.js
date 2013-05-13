@@ -40,7 +40,7 @@ $(function() {
 			obj = $(this).before(fields);
 		}
 		// console.log(callback)
-		MOJ.initNewFieldBlock(obj)
+		moj.initNewFieldBlock(obj)
 		// if ($.isFunction(callback)) {
 		// 	console.log('firing callback')
 		// 	callback(obj);

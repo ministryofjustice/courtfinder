@@ -106,7 +106,7 @@ form .form-actions {
   }
 }
 .js-enabled .sortable {
-    [class$="sort"] {
+    [class*="sort"] {
       display: none;
     }
 }

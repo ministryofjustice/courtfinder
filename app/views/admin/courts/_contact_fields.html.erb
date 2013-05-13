@@ -1,7 +1,7 @@
 <li>
   <div class="sortable-summary">
     <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
-    <span class="type"><%= f.object.contact_type.name if f.object.contact_type.present? %></span><span class="name"> (<span></span>)</span><span class="tel">: <span><%= f.object.telephone if f.object.telephone.present? %></span></span>
+    <span class="type"></span><span class="name"> (<span></span>)</span><span class="tel">: <span></span></span>
   </div>
   <fieldset>
     <%= f.association :contact_type, :include_blank => false %>

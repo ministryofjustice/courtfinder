@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508101703) do
+ActiveRecord::Schema.define(:version => 20130513165635) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20130508101703) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "image_description"
+    t.string   "image_file"
   end
 
   create_table "friendly_id_slugs", :force => true do |t|
@@ -200,6 +201,7 @@ ActiveRecord::Schema.define(:version => 20130508101703) do
     t.integer  "opening_type_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "sort"
   end
 
   add_index "opening_times", ["court_id"], :name => "index_opening_times_on_court_id"
