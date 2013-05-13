@@ -4,6 +4,11 @@ $ ->
     $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
     $(this).siblings('.add_fields').toggle()
 
+    alt = $(this).data('alt')
+    text = $(this).text()
+    $(this).text alt
+    $(this).data 'alt', text
+
   $('.simple_form').on 'click', '.destroy .remove', (e) ->
     e.preventDefault()
     $(this).closest('.destroy').siblings('div').hide()
