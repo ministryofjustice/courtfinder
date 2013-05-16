@@ -242,7 +242,7 @@ namespace :import do
       end
 
       # Only add the address if a court is found
-      if court
+      if court and row[2] != 'NULL'
         puts "Adding '#{row[2]}'"
 
         addr = Address.new
