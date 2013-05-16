@@ -1,8 +1,7 @@
 <% content_for :title, 'Search results' %>
 
-<p>Your search for <strong><%= @court_search.query %></strong> found the follow results:</p>
-<% if @court_search.results %>
-  <!-- <h2>Courts</h2> -->
+<% if @court_search.courts.present? %>
+  <p>Your search for <strong><%= @court_search.query %></strong> found the follow results:</p>
   <ul class="search-results">
     <% @court_search.courts.each do | court | %>
       <li>
@@ -23,10 +22,7 @@
       </li>
     <% end %>
   </ul>
-  <!-- <h2>Areas of law</h2>
-  <ul>
-    <% @court_search.areas_of_law.each do | area | %>
-      <li><%= link_to(area.name, area_of_law_path(area)) %></li>
-    <% end %>
-  </ul> -->
+<% else %>
+  <p>Your search for <strong><%= @court_search.query %></strong> did not return any results.</p>
+  <p>Please try another postcode of court name.</p>
 <% end %>
