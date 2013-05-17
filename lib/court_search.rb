@@ -10,18 +10,10 @@ class CourtSearch
 
   def results
     if postcode_search?
-      {:courts => search_postcode, :areas_of_law => []}
+      search_postcode
     else
-      {:courts => Court.search(@query, @options), :areas_of_law => AreaOfLaw.search(@query)}
+      Court.search(@query, @options)
     end
-  end
-
-  def courts
-    results[:courts]
-  end
-
-  def areas_of_law
-    results[:areas_of_law]
   end
 
   def search_postcode
