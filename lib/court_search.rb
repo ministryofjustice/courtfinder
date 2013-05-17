@@ -5,6 +5,7 @@ class CourtSearch
   def initialize(query, options={})
     @query = query
     @options = options
+    @errors = []
   end
 
   def results
@@ -25,7 +26,13 @@ class CourtSearch
 
   def search_postcode
     # Use the geocoder near method to find venues within the specified radius
-    Court.by_area_of_law(@options[:area_of_law]).near(latlng_from_postcode(@query), @options[:distance] || 20)
+    latlon = latlng_from_postcode(@query)
+    # if latlon
+      Court.by_area_of_law(@options[:area_of_law]).near(latlon, @options[:distance] || 20)
+    # else
+      # @errors.push 'This is an error'
+      # return nil
+    # end
   end
 
   def latlng_from_postcode(postcode)
@@ -36,6 +43,7 @@ class CourtSearch
       results = JSON.parse json
       [results['primary']['coordinates']['lat'], results['primary']['coordinates']['long']]
     rescue
+
     end
   end
 
@@ -43,6 +51,6 @@ class CourtSearch
     # Allow full postcode (e.g. W4 1SE) only
     # @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1}))\d[abd-hjlnp-uw-z]{2})$/i
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
-    @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1}))(\d[abd-hjlnp-uw-z]{2})?)$/i
+    @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
   end
 end
