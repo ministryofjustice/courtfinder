@@ -62,7 +62,7 @@
 <% end %>
 
 <h3>About this court</h3>
-<%= @court.info.html_safe %>
+<%= @court.info.html_safe unless @court.info.nil? %>
 
 
 <h3>Facilities</h3>
