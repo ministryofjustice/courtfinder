@@ -128,10 +128,10 @@
 
 			<% if admin_area? %>
 				<%= render 'shared/admin_user' %>
-			<% else %>
+			<% elsif request.fullpath != '/' %>
 				<form id="search" class="site-search" action="/search" method="get" role="search">
 					<label for="site-search-text" class="visuallyhidden">Search</label>
-					<input type="search" name="q" id="site-search-text" title="Search">
+					<input type="search" name="q" id="site-search-text" title="Search" value="<%= params[:q] %>" />
 					<input class="button" type="submit" value="Search" />
 				</form>
 			<% end %>
