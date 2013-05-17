@@ -9,5 +9,6 @@ en:
         info: Visitor information
         cci_identifier: CCI indentifier
         cci_code: CCI code
+        display: Open for business
       address:
         dx: DX

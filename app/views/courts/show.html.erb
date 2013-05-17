@@ -5,11 +5,14 @@
     <%= link_to 'Courts', courts_path %>
   </li>
 <% end %>
-<% content_for :title_image, image_tag(@court.image_file, :id => 'title-image') if @court.image_file %>
 
 <% if user_signed_in? %>
   <%= link_to "Edit this court", edit_admin_court_path(@court) %>
 <% end %>
+
+<% if @court.display %>
+
+<% content_for :title_image, image_tag(@court.image_file, :id => 'title-image') if @court.image_file %>
 
 <h3>Areas Of Law</h3>
 <p>
@@ -97,3 +100,9 @@
 <!-- <p>Area id <%= @court.area_id %></p> -->
 <!-- <p>CCI identifier <%= @court.cci_identifier %></p> -->
 <!-- <p>court code <%= @court.cci_code %> </p> -->
+
+<% else %>
+
+<p>This court is no longer in service.</p>
+
+<% end %>

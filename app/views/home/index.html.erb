@@ -33,5 +33,5 @@
 <h3><%= link_to 'Browse regions', regions_path %></h3>
 
 <script id="js">
-	var moj = moj||{}; moj.courts = <%=raw @courts.to_json(:lookup => true) %>;
+	var moj = moj||{}; moj.courts = <%=raw @courts.visible.to_json(:lookup => true) %>;
 </script>

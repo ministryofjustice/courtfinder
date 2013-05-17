@@ -2,10 +2,10 @@ require "spec_helper"
 
 describe CourtSearch do
   before(:each) do
-    @court1 = FactoryGirl.create(:court, :name => 'Aylesbury Court', :latitude => 51.768305511577, :longitude => -0.57250059493886)
-    @court2 = FactoryGirl.create(:court, :name => 'London Court')
-    @court3 = FactoryGirl.create(:court, :name => 'Reading High Court', :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Civil')])
-    @court4 = FactoryGirl.create(:court, :name => 'Reading Low Court', :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Family')])
+    @court1 = FactoryGirl.create(:court, :name => 'Aylesbury Court', :display => true, :latitude => 51.768305511577, :longitude => -0.57250059493886)
+    @court2 = FactoryGirl.create(:court, :name => 'London Court', :display => true)
+    @court3 = FactoryGirl.create(:court, :name => 'Reading High Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Civil')])
+    @court4 = FactoryGirl.create(:court, :name => 'Reading Low Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Family')])
     @court5 = FactoryGirl.create(:court, :name => 'Some Old Court', :display => false)
   end
 
@@ -50,5 +50,10 @@ describe CourtSearch do
     court_search = CourtSearch.new('sl58le', {:area_of_law => 'Civil'})
     court_search.stub!(:latlng_from_postcode).and_return([51.419069727514, -0.69702060464972])
     court_search.results.should == [@court3]
+  end
+
+  it "should return not show courts which are closed" do
+    court_search = CourtSearch.new('court')
+    court_search.results.should_not include(@court5)
   end
 end

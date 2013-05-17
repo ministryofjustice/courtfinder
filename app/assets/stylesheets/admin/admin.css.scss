@@ -79,6 +79,17 @@ form .form-actions {
   margin: 3px 3px 0 0;
 }
 
+.court-closed {
+  margin-top: 3em;
+  padding: 5px 15px 15px;
+  background: #eee;
+  
+  p,
+  div {
+    font-size: .9em;
+  }
+}
+
 .sortable {
   padding: 0;
   list-style: none;
@@ -110,6 +121,8 @@ form .form-actions {
       display: none;
     }
 }
+
+// Disply features for high level admin users only
 .admin-only {
   display: none;
 }

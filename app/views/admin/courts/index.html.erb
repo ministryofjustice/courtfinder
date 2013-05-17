@@ -9,7 +9,7 @@
     <th>CCI code</th>
     <th></th>
     <th></th>
-    <th></th>
+    <th class="admin-only"></th>
   </tr>
 
 <% @courts.each do |court| %>
@@ -19,7 +19,7 @@
     <td><%= court.cci_code %></td>
     <td><%= link_to 'Show', court_path(court) %></td>
     <td><%= link_to 'Edit', edit_admin_court_path(court) %></td>
-    <td><%= link_to 'Delete', court, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td class="admin-only"><%= link_to 'Delete', admin_court_path(court), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

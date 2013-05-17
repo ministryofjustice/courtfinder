@@ -12,7 +12,7 @@ class CourtSearch
     if postcode_search?
       search_postcode
     else
-      Court.search(@query, @options)
+      Court.visible.search(@query, @options)
     end
   end
 
@@ -20,7 +20,7 @@ class CourtSearch
     # Use the geocoder near method to find venues within the specified radius
     latlon = latlng_from_postcode(@query)
     # if latlon
-      Court.by_area_of_law(@options[:area_of_law]).near(latlon, @options[:distance] || 20)
+      Court.visible.by_area_of_law(@options[:area_of_law]).near(latlon, @options[:distance] || 20)
     # else
       # @errors.push 'This is an error'
       # return nil
