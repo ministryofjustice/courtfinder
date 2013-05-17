@@ -18,7 +18,7 @@ $(function () {
 		selectedResult = null,
 		klass = 'selected',
 		minText = 0
-		postcode = /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1}))(\d[abd-hjlnp-uw-z]{2})?)$/i;
+		postcode = /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i;
 	
 	var showResults = function () {
 		active = true;
@@ -110,7 +110,7 @@ $(function () {
 
 				if (term.length > minText) {
 					if (postcode.test(term)) {
-						results.html('<ul><li>Postcode found<br /><small>Continue by pressing enter</small></li></ul>');
+						results.html("<ul><li>It looks you've entered a postcode<br /><small>Press enter to find a court near " + term + "</small></li></ul>");
 						showResults()
 					} else {
 						// Find a match client side
