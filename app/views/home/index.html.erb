@@ -3,7 +3,7 @@
 
 <section class="intro">
 	<div class="get-started-intro">
-		<p>Use this tool to find a Court, Tribunal or other building</p>
+		<p>Use this tool to find a court, tribunal or other building</p>
 	</div>
 </section>
 
@@ -12,15 +12,15 @@
 		<fieldset>
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
-				<label for="search-main">Enter a UK postcode or Court name <br />
-					<input class="postcode" id="search-main" name="q" type="text" placeholder="Name or Postcode" autocomplete="off" />
+				<label for="search-main">Enter a UK postcode or court name <br />
+					<input class="postcode" id="search-main" name="q" type="text" placeholder="e.g. SW1H 9AJ or Luton" autocomplete="off" />
 				</label>
 				<button type="submit" class="button">Find</button>
 				<div id="results"></div>
-				<p><small><a href="#" id="advanced-search">Search filters</a></small></p>
+				
 				<div id="filters">
-					<label for="area_of_law">Area of law<br />
-						<%= select_tag "area_of_law", options_from_collection_for_select(@areas_of_law, "name", "name"), :prompt => 'none' %>
+					<label for="area_of_law">Filter by area of law (optional)<br />
+						<%= select_tag "area_of_law", options_from_collection_for_select(@areas_of_law, "name", "name"), :prompt => 'all' %>
 					</label>
 				</div>
 			</div>

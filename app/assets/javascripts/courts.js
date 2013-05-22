@@ -155,7 +155,6 @@ $(function () {
 				hideResults()
 			})
 			.focus(function () {
-				results.html('<ul><li>Type to quickly find a court</li></ul>');
 				showResults()
 			});
 		

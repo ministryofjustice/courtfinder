@@ -47,10 +47,4 @@ $(function() {
 		// }
 		e.preventDefault();
 	});
-
-	var filters = $('#filters').hide();
-	$('#advanced-search').click(function (e) { 
-			e.preventDefault();
-			filters.toggle('fast');
-	});
 });
