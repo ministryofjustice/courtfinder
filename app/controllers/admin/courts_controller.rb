@@ -4,7 +4,7 @@ class Admin::CourtsController < ApplicationController
   # GET /courts
   # GET /courts.json
   def index
-    @courts = Court.all
+    @courts = Court.order(:name)
 
     respond_to do |format|
       format.html # index.html.erb

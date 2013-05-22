@@ -35,15 +35,23 @@ class Court < ActiveRecord::Base
     "#{self.addresses.first.address_line_1}, #{self.addresses.first.town.name}, #{self.addresses.first.town.county.name}"
   end
 
-  # Text search
-  default_scope order('courts.name')
-  scope :visible, :conditions => { :display => true }
-  scope :by_area_of_law, lambda { |area_of_law| joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law}) if area_of_law.present? }
-  scope :search, lambda { |q, opts={}| by_area_of_law(opts[:area_of_law]).where('courts.name ilike ?', "%#{q}%") if q.present? }
+  # Scope methods
+  def self.visible
+    where(:display => true)
+  end
 
-  # def self.search(search, options = {})
-  #   where('courts.name ilike ?', "%#{search.downcase}%").by_area_of_law(options[:area_of_law])
-  # end
+  def self.by_area_of_law(area_of_law)
+    if area_of_law.present?
+      joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
+    else
+      where('')
+    end
+  end
+
+  def self.search(q)
+    where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
+  end
+
 
   def as_json(options={})
     if options[:lookup]

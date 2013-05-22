@@ -12,7 +12,7 @@ class CourtSearch
     if postcode_search?
       search_postcode
     else
-      Court.visible.search(@query, @options)
+      Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
     end
   end
 
