@@ -28,11 +28,7 @@
 	<div id="writing">
 		<h3>Writing to us</h3>
 			<% addresses.each do |addr| %>
-				<p>
-					<%= addr.full('<br />').html_safe %>
-					<br />
-					<%= addr.dx %>
-				</p>
+        <%= format_address addr %>
 			<% end %>
 	</div>
 <% end %>
@@ -44,11 +40,7 @@
 <% end %>
 
 <% if visiting.present? %>
-	<p>
-		<%= visiting.full('<br />').html_safe %>
-		<br />
-		<%= visiting.dx %>
-	</p>
+  <%= format_address visiting %>
 <% end %>
 
 <!-- <h3>Opening times</h3> -->

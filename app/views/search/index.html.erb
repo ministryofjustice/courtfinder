@@ -17,7 +17,7 @@
           <br /><small><%= court.distance.to_f.round(2) %> miles from <%= params[:q] %></small>
         <% end %>
         <% if court.addresses.count > 0 %>
-          <p><%= court.addresses.first.full('<br />').html_safe %></p>
+          <%= format_address court.addresses.first %>
         <% end %>
       </li>
     <% end %>
