@@ -19,4 +19,12 @@ class AreaOfLaw < ActiveRecord::Base
       path: area_of_law_path(self)
     }
   end
+
+  def self.has_courts
+    includes(:courts).where('courts.id IS NOT NULL')
+  end
+
+  def empty?
+    courts.count.zero?
+  end
 end
