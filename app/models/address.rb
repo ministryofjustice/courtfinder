@@ -6,7 +6,7 @@ class Address < ActiveRecord::Base
   validates_presence_of :address_line_1, :town
 
   # Output address_lines fields of an address separated by comma or specified delimiter
-  def addressLines(glue=',')
+  def address_lines(glue=',')
     lines = [
       address_line_1,
       address_line_2,
@@ -15,17 +15,12 @@ class Address < ActiveRecord::Base
     ]
 
     # Remove empty lines and join by parameter
-    lines.select{|i|i.present?}.map{|i|i}.join glue
+    lines.select{|i|i.present?}.join glue
   end
 
   # Output full address separated by comma or specified delimiter
   def full(glue=',')
-    lines = [
-      address_line_1,
-      address_line_2,
-      address_line_3,
-      address_line_4
-    ]
+    lines = address_lines(glue).split(glue)
 
     if town.present?
       lines.push town.name, town.county.name
