@@ -1,6 +1,6 @@
 <% content_for :title, @court.name %>
 <% content_for :titleMetadata, 'itemprop="name"'.html_safe %>
-<% content_for :contentMetadata, 'itemscope itemtype="http://schema.org/Organization/GovernmentOrganization"'.html_safe %>
+<% content_for :contentMetadata, 'itemscope itemtype="http://schema.org/Courthouse"'.html_safe %>
 <% content_for :last_updated, @court.updated_at.to_s(:standard) %>
 <% content_for :nav do %>
   <li>
