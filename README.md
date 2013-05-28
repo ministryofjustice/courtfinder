@@ -8,15 +8,23 @@ Export from mySQL database and replace the files into /db/data. When exporting u
 
 For "court" table also check 'Remove carriage return/line feed characters within columns'. Then replace all instances of `\"` with `""` before importing.
 
+For opening times ("court_opening") order by court id, then opening type before exporting:
+
+    SELECT * FROM `court_opening` ORDER BY court_id, court_opening_type_id
+
 To add all court and address data run:
 
     rake import:all
 
+You can see a list of individual import tasks by running `rake -T`.
+
+Then source all the court images from the existing website:
+
+    rake source:court_images
+
 <!-- Then you need to process the court types by running:
 
     rake process:court_types -->
-
-Don't forget you can see a list of individual import takes by running `rake -T`.
 
 ### Admin Area
 

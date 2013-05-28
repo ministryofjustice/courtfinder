@@ -3,7 +3,7 @@ class AreasOfLawController < ApplicationController
   respond_to :html, :json
 
   def index
-    @areas_of_law = AreaOfLaw.order(:name)
+    @areas_of_law = AreaOfLaw.has_courts.order('areas_of_law.name')
     respond_with @areas_of_law
   end
 
