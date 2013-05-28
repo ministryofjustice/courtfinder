@@ -1,4 +1,6 @@
 <% content_for :title, @court.name %>
+<% content_for :titleMetadata, 'itemprop="name"'.html_safe %>
+<% content_for :contentMetadata, 'itemscope itemtype="http://schema.org/Courthouse"'.html_safe %>
 <% content_for :last_updated, @court.updated_at.to_s(:standard) %>
 <% content_for :nav do %>
   <li>
@@ -12,7 +14,7 @@
 
 <% if @court.display %>
 
-<% content_for :title_image, image_tag(@court.image_file, :id => 'title-image') if @court.image_file %>
+<% content_for :title_image, image_tag(@court.image_file, :id => 'title-image', :itemprop => 'image') if @court.image_file %>
 
 <h3>Areas Of Law</h3>
 <p>
@@ -28,11 +30,9 @@
 	<div id="writing">
 		<h3>Writing to us</h3>
 			<% addresses.each do |addr| %>
-				<p>
-					<%= addr.full('<br />').html_safe %>
-					<br />
-					<%= addr.dx %>
-				</p>
+        <div itemscope itemtype="http://schema.org/PostalAddress" itemprop="address">
+          <%= format_address addr %>
+        </div>
 			<% end %>
 	</div>
 <% end %>
@@ -44,11 +44,9 @@
 <% end %>
 
 <% if visiting.present? %>
-	<p>
-		<%= visiting.full('<br />').html_safe %>
-		<br />
-		<%= visiting.dx %>
-	</p>
+  <div itemscope itemtype="http://schema.org/PostalAddress" itemprop="location">
+    <%= format_address visiting %>
+  </div>
 <% end %>
 
 <!-- <h3>Opening times</h3> -->
@@ -58,14 +56,25 @@
 
 <h3>Contact us</h3>
 <% @court.contacts.order(:sort).each do |contact| %>
-	<p><%= contact.contact_type.name if contact.contact_type %><%= " (#{contact.name})" if contact.name.present? %>: <%= contact.telephone %></p>
+	<p itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
+    <% if contact.contact_type.present? %><span itemprop="contactType"><%= contact.contact_type.name %></span><% end %>
+    <%= " (#{contact.name})" if contact.name.present? %>: 
+    <span itemprop="telephone"><%= contact.telephone %></span>
+  </p>
 <% end %>
 <% @court.emails.each do |email| %>
-	<p><%= "#{email.description}: " if email.description.present? %><%= mail_to email.address %></p>
+	<p itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
+    <% if email.description.present? %><span itemprop="contactType"><%= "#{email.description}" %></span><% end %>
+    <span itemprop="email"><%= mail_to email.address %></span>
+  </p>
 <% end %>
 
-<h3>About this court</h3>
-<%= @court.info.html_safe unless @court.info.nil? %>
+<% unless @court.info.nil? %>
+  <h3>About this court</h3>
+  <div itemprop="description">
+    <%= @court.info.html_safe %>
+  </div>
+<% end %>
 
 
 <h3>Facilities</h3>
