@@ -158,7 +158,7 @@
 	<% end %>
 
 	<div id="wrapper" class="group <%= yield :type %>">
-		<section id="content" role="main" class="group">
+		<section id="content" role="main" class="group" <%= yield :contentMetadata %>>
 			<% if alert.present? %>
 				<p class="alert"><%= alert %></p>
 			<% end %>
@@ -166,7 +166,7 @@
 			<header class="page-header group">
 				<hgroup>
 					<%= yield :title_image %>
-					<h1><%= "<span>#{yield(:type).titlecase}</span> ".html_safe %><%= yield :title %></h1>
+					<h1 <%= yield :titleMetadata %>><%= "<span>#{yield(:type).titlecase}</span> ".html_safe %><%= yield :title %></h1>
 				</hgroup>
 				<!-- <nav class="skip-to-related"><a href="#related">Not what you're looking for? &darr;</a></nav> -->
 			</header>
