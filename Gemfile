@@ -34,6 +34,7 @@ gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
 gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
+gem 'rmagick'               # Resize uploaded images
 gem 'carrierwave'           # Handles file uploads
 gem 'gmaps4rails'           # Maps and directions
 gem 'jquery-ui-rails'       # jQuery UI assets

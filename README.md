@@ -26,6 +26,12 @@ Then source all the court images from the existing website:
 
     rake process:court_types -->
 
+### Uploads
+
+Court photos are resized when uploaded. This requires an install of ImageMagick on your environment. You can install this using Homebrew:
+
+    brew install imagemagick
+
 ### Admin Area
 
 [Sign-in](http://localhost:3000/admin/users/sign_in)

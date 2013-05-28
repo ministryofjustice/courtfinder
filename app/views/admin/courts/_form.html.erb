@@ -21,6 +21,7 @@
   <%= f.input :slug, :wrapper_html => { :class => 'admin-only' } %>
   <%= image_tag @court.image_file, :width => '160px' if @court.image_file.present? %>
   <%= f.input :image_file %>
+  <div><label><%= f.check_box :remove_image_file %> remove photo</label></div>
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
   <%= f.input :court_number, :wrapper_html => { :class => 'admin-only' } %>
   <%= f.input :cci_identifier %>
