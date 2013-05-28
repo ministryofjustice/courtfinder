@@ -34,6 +34,6 @@ class Address < ActiveRecord::Base
     lines.push postcode
     
     # Remove empty lines and join by parameter
-    lines.select{|i|i.present?}.map{|i|i}.join glue
+    lines.select{|i|i.present?}.join glue
   end
 end
