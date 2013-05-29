@@ -14,7 +14,9 @@
 
 <% if @court.display %>
 
-<% content_for :title_image, image_tag(@court.image_file, :id => 'title-image', :itemprop => 'image') if @court.image_file %>
+<% if @court.image_file_url.present? %>
+	<% content_for :title_image, image_tag(@court.image_file_url.to_s, :id => 'title-image', :itemprop => 'image') if @court.image_file %>
+<% end %>
 
 <h3>Areas Of Law</h3>
 <p>

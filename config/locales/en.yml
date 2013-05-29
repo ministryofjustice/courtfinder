@@ -12,3 +12,7 @@ en:
         display: Open for business
       address:
         dx: DX
+  simple_form:
+    hints:
+      court:
+        image_file: This photo will be forced to fit 350x275 pixels
