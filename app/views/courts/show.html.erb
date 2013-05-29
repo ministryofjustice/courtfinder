@@ -32,7 +32,7 @@
 	<div id="writing">
 		<h3>Writing to us</h3>
 			<% addresses.each do |addr| %>
-        <div itemscope itemtype="http://schema.org/PostalAddress" itemprop="address">
+        <div>
           <%= format_address addr %>
         </div>
 			<% end %>
@@ -46,7 +46,7 @@
 <% end %>
 
 <% if visiting.present? %>
-  <div itemscope itemtype="http://schema.org/PostalAddress" itemprop="location">
+  <div itemscope itemtype="http://schema.org/PostalAddress" itemprop="address">
     <%= format_address visiting %>
   </div>
 <% end %>
