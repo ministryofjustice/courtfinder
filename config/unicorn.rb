@@ -1,7 +1,7 @@
 worker_processes 4
-listen File.absolute_path(File.join(__FILE__, '../../tmp/unicorn.sock')), :backlog => 64
-working_directory File.absolute_path(File.join(__FILE__, '../..'))
-pid File.absolute_path(File.join(__FILE__, '../../tmp/pids/unicorn.pid'))
+listen "/home/courtfinder/application/shared/unicorn.sock", :backlog => 64
+working_directory "/home/courtfinder/application/current"
+pid "/home/courtfinder/application/shared/pids/unicorn.pid"
 timeout 30
 preload_app true
 
