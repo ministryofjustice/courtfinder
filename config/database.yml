@@ -17,7 +17,8 @@ test:
   host: localhost
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  database: courtfinder_production
+  host: localhost
   pool: 5
   timeout: 5000
