@@ -60,9 +60,9 @@
 <% @court.contacts.order(:sort).each do |contact| %>
   <% if contact.contact_type.present? %>
     <% if contact.telephone? %>
-      <p itemprop="telephone"><%= contact.contact_type.name %>: <%= contact.telephone %></p><% end %>  
+      <p itemprop="telephone"><%= contact.contact_type.name %>: <%= contact.telephone %></p>
     <% else %>
-      <p><%= contact.contact_type.name %></p><% end %>  
+      <p><%= contact.contact_type.name %></p>
     <% end %>
   <% end %>
 <% end %>
