@@ -58,16 +58,19 @@
 
 <h3>Contact us</h3>
 <% @court.contacts.order(:sort).each do |contact| %>
-	<p itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
-    <% if contact.contact_type.present? %><span itemprop="contactType"><%= contact.contact_type.name %></span><% end %>
-    <%= " (#{contact.name})" if contact.name.present? %>: 
-    <span itemprop="telephone"><%= contact.telephone %></span>
-  </p>
+  <% if contact.contact_type.present? %>
+    <% if contact.telephone? %>
+      <p itemprop="telephone"><%= contact.contact_type.name %>: <%= contact.telephone %></p><% end %>  
+    <% else %>
+      <p><%= contact.contact_type.name %></p><% end %>  
+    <% end %>
+  <% end %>
 <% end %>
+
 <% @court.emails.each do |email| %>
-	<p itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
-    <% if email.description.present? %><span itemprop="contactType"><%= "#{email.description}" %></span><% end %>
-    <span itemprop="email"><%= mail_to email.address %></span>
+	<p>
+    <% if email.description.present? %><%= "#{email.description}" %><% end %>
+    <%= mail_to email.address %>
   </p>
 <% end %>
 
