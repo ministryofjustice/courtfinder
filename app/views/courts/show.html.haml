@@ -1,0 +1,107 @@
+- content_for :title, @court.name
+- content_for :titleMetadata, 'itemprop="name"'.html_safe
+- content_for :contentMetadata, 'itemscope itemtype="http://schema.org/Courthouse"'.html_safe
+- content_for :last_updated, @court.updated_at.to_s(:standard)
+- content_for :nav do
+  %li
+    = link_to 'Courts', courts_path
+
+
+- if user_signed_in?
+  = link_to "Edit this court", edit_admin_court_path(@court)
+
+
+- if @court.display
+  - if @court.image_file_url.present?
+    - content_for :title_image, image_tag(@court.image_file_url.to_s, :id => 'title-image', :itemprop => 'image') if @court.image_file
+
+  %ul
+    %li= link_to 'Court information leaflet', '#', :class => 'print-link'
+    %li= link_to 'Defence witness leaflet', defence_path(@court)
+    %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
+
+  %h3 Areas Of Law
+
+  %p
+    - @court.areas_of_law.each do |area|
+      = link_to area.name, area_of_law_path(area)
+
+  - addresses = @court.addresses
+  - visiting = addresses.shift
+
+  - if addresses.present?
+    #writing
+
+      %h3 Writing to us
+
+      - addresses.each do |addr|
+        %div
+          = format_address addr
+
+  - if addresses.empty?
+    %h3 Visiting and writing to us
+  - else
+    %h3 Visiting us
+
+  - if visiting.present?
+    %div{:itemprop => "address", :itemscope => "", :itemtype => "http://schema.org/PostalAddress"}
+      = format_address visiting
+
+  / <h3>Opening times</h3>
+  - @court.opening_times.each do |time|
+    %p
+      = time.opening_type.name
+      \: #{time.name}
+
+  %h3 Contact us
+
+  - @court.contacts.order(:sort).each do |contact|
+    - if contact.contact_type.present?
+      - if contact.telephone?
+        %p{:itemprop => "telephone"}
+          = contact.contact_type.name
+          \: #{contact.telephone}
+      - else
+        %p= contact.contact_type.name
+
+  - @court.emails.each do |email|
+    %p
+      - if email.description.present?
+        = "#{email.description}"
+      = mail_to email.address
+
+  - unless @court.info.nil?
+    %h3 About this court
+    %div{:itemprop => "description"}
+      = @court.info.html_safe
+
+  %h3 Facilities
+
+  - @court.court_facilities.each do |court_facility|
+    %dl
+      %dt= court_facility.facility.name if court_facility.facility
+      %dd= court_facility.description
+
+  %h3 Map
+
+  %form{:action => court_path(@court), :method => "get"}
+    = text_field_tag 'from', params[:from]
+    %input{:type => "submit", :value => "Get directions"}/
+
+  - if params[:from].present?
+    = gmaps({                                                                                                                                                |
+      "direction" => { "data" => { "from" => params[:from], "to" => visiting.full }, "options" => { "display_panel" => true, "panel_id" => "instructions"} } |
+      })                                                                                                                                                     |
+    %h3 Route planner
+    #instructions
+  - else
+    = gmaps({                                               |
+      "markers" => {"data" => @court.to_gmaps4rails},       |
+      "map_options" => {"auto_zoom" => false, "zoom" => 15} |
+      })                                                    |
+  / <p>Area id <haml:loud> @court.area_id </haml:loud></p>
+  / <p>CCI identifier <haml:loud> @court.cci_identifier </haml:loud></p>
+  / <p>court code <haml:loud> @court.cci_code </haml:loud> </p>
+
+- else
+  %p This court is no longer in service.
