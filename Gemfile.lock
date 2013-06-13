@@ -64,6 +64,13 @@ GEM
     friendly_id (4.0.9)
     geocoder (1.1.6)
     gmaps4rails (1.5.6)
+    haml (4.0.3)
+      tilt
+    haml-rails (0.4)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (>= 3.1, < 4.1)
+      railties (>= 3.1, < 4.1)
     hike (1.2.1)
     i18n (0.6.4)
     journey (1.0.4)
@@ -109,6 +116,7 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.11.0)
     rake (10.0.3)
+    rdiscount (2.1.6)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
@@ -172,10 +180,12 @@ DEPENDENCIES
   friendly_id
   geocoder
   gmaps4rails
+  haml-rails
   jquery-rails
   jquery-ui-rails
   pg
   rails (= 3.2.12)
+  rdiscount
   rest-client
   rmagick
   rspec-rails

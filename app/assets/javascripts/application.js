@@ -47,4 +47,9 @@ $(function() {
 		// }
 		e.preventDefault();
 	});
+
+	$('.print-link').on('click', function (e) {
+		e.preventDefault();
+		window.print();
+	});
 });
