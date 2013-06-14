@@ -19,18 +19,10 @@
 
   <%= f.input :name %>
   <%= f.input :slug, :wrapper_html => { :class => 'admin-only' } %>
-  <%= image_tag @court.image_file, :width => '160px' if @court.image_file.present? %>
-  <%= f.input :image_file %>
-  <div><label><%= f.check_box :remove_image_file %> remove photo</label></div>
-  <%= f.input :info, :input_html => { :class => "ckeditor"} %>
   <%= f.input :court_number, :wrapper_html => { :class => 'admin-only' } %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
-  <%= f.association :areas_of_law, :collection => AreaOfLaw.all(:order => 'name') %>
   <%= f.association :area %>
-  <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } %>
-  <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } %>
-  <%#= f.association :court_types %>
 
   <div id="group-addresses">
     <h2>Addresses</h2>
@@ -38,6 +30,24 @@
       <%= render 'address_fields', f: builder %>
     <% end %>
     <%= link_to_add_fields "Add address", f, :addresses %>
+  </div>
+  
+  <h2>Photo</h2>
+  <%= image_tag @court.image_file, :width => '160px' if @court.image_file.present? %>
+  <%= f.input :image_file %>
+  <div class="input boolean optional">
+    <label for="court_remove_image_file" class="boolean optional control-label checkbox"><%= f.check_box :remove_image_file %> remove photo</label>
+  </div>
+
+  <div id="group-opening-times">
+    <a href="#" class="field-group" data-alt="edit opening times">reorder opening times</a>
+    <h2>Opening times</h2>
+    <ul class="sortable">
+      <%= f.simple_fields_for :opening_times do |builder| %>
+        <%= render 'opening_time_fields', f: builder %>
+      <% end %>
+    </ul>
+    <%= link_to_add_fields "Add opening time", f, :opening_times %>
   </div>
 
   <div id="group-contacts">
@@ -61,6 +71,9 @@
     </ul>
     <%= link_to_add_fields "Add email", f, :emails %>
   </div>
+  
+  <h2>Areas of law covered</h2>
+  <%= f.association :areas_of_law, :collection => AreaOfLaw.all(:order => 'name') %>
 
   <div class="group-courts-facilities">
     <a href="#" class="field-group" data-alt="edit court facilities">reorder court facilities</a>
@@ -73,21 +86,18 @@
     <%= link_to_add_fields "Add court facility", f, :court_facilities %>
   </div>
 
-  <div id="group-opening-times">
-    <a href="#" class="field-group" data-alt="edit opening times">reorder opening times</a>
-    <h2>Opening times</h2>
-    <ul class="sortable">
-      <%= f.simple_fields_for :opening_times do |builder| %>
-        <%= render 'opening_time_fields', f: builder %>
-      <% end %>
-    </ul>
-    <%= link_to_add_fields "Add opening time", f, :opening_times %>
-  </div>
+  <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } %>
+  <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } %>
+
+  <%= f.input :info, :input_html => { :class => "ckeditor"} %>
 
   <fieldset class="court-closed">
     <p>Un-check this box if this court is no longer in service. Use this rather than deleting the court, so that the web page still exists but informs the public this court is now closed.</p>
     <%= f.input :display %>
   </fieldset>
+
+  <!-- Decomissioned fields -->
+  <%#= f.association :court_types %>
 
   <div class="form-actions">
     <%= f.submit %>

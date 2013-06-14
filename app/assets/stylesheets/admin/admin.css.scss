@@ -17,7 +17,8 @@ div.input.integer {
     float: left;
     width: 150px;
   }
-  label.boolean {
+  label.boolean,
+  span.hint {
     float: none;
     margin-left: 160px;
     input {
