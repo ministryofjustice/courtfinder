@@ -17,9 +17,11 @@
     Image ref: <%= @court.image %>
   </p>
 
+  <p>Items marked * are mandatory</p>
+
   <%= f.input :name %>
-  <%= f.input :slug, :wrapper_html => { :class => 'admin-only' } %>
-  <%= f.input :court_number, :wrapper_html => { :class => 'admin-only' } %>
+  <%= f.input :slug, :wrapper_html => { :class => 'admin-only'}, :hint => '(Admin only) A unique identifier which forms part of the URL. Leave blank for it to auto-generate.' if current_user.admin %>
+  <%= f.input :court_number, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
   <%= f.association :area %>
@@ -86,9 +88,14 @@
     <%= link_to_add_fields "Add court facility", f, :court_facilities %>
   </div>
 
-  <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } %>
-  <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } %>
+  <% if current_user.admin %>
+    <h2>Location of the court</h2>
+    <p>Use these fields to plot the court on a map.</p>
+    <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
+    <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
+  <% end %>
 
+  <h2>Further information</h2>
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
 
   <fieldset class="court-closed">

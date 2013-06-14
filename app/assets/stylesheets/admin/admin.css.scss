@@ -124,6 +124,6 @@ form .form-actions {
 }
 
 // Disply features for high level admin users only
-.admin-only {
-  display: none;
+.admin-only input[type=text] {
+  background: #eee;
 }
