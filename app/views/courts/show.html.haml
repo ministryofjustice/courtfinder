@@ -42,6 +42,8 @@
     %div{:itemprop => "address", :itemscope => "", :itemtype => "http://schema.org/PostalAddress"}
       = format_address visiting
 
+  %a(href="#location") Show this on a map
+
   
   
   -# === Photo ===
@@ -107,7 +109,7 @@
   
 
   -# === Map ===
-  %h3 Location of the court:
+  %h3#location Location of the court:
 
   %form{:action => court_path(@court), :method => "get"}
     = text_field_tag 'from', params[:from]
