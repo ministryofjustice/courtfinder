@@ -1,3 +1,8 @@
+- content_for :title, "You are a Prosecution Witness"
+
+:javascript
+  window.printMe = true;
+
 %ul
   %li
     = link_to 'Return', @court
@@ -5,8 +10,6 @@
     %a(href="#") Print
 
 :markdown
-  # You are a Prosecution Witness
-
   You have been asked to attend court as a Prosecution Witness. This information will help you.
 
   ##  Introduction
