@@ -83,11 +83,6 @@
         = "#{email.description}"
       = mail_to email.address
 
-  - unless @court.info.nil?
-    %h3 About this court
-    %div{:itemprop => "description"}
-      = @court.info.html_safe
-
   
   
   -# === Areas of law ===
@@ -127,6 +122,14 @@
   / <p>Area id <haml:loud> @court.area_id </haml:loud></p>
   / <p>CCI identifier <haml:loud> @court.cci_identifier </haml:loud></p>
   / <p>court code <haml:loud> @court.cci_code </haml:loud> </p>
+
+
+
+  -# === Court info ===
+  - unless @court.info.nil?
+    %h3 About this court:
+    %div{:itemprop => "description"}
+      = @court.info.html_safe
 
 
 - else
