@@ -10,6 +10,7 @@ en:
         cci_identifier: CCI indentifier
         cci_code: CCI code
         display: Open for business
+        alert: Message
       address:
         dx: DX
       opening_time:

@@ -20,6 +20,11 @@
     %li= link_to 'Defence witness leaflet', defence_path(@court)
     %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
 
+
+
+  -# === Alert ===
+  - if @court.alert.present?
+    %p.alert= @court.alert
   
   
   -# === Addresses ===
