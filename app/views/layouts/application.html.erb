@@ -124,8 +124,10 @@
 	<div id="global-cookie-message">
 		<p>GOV.UK uses cookies to make the site simpler. <a href="/support/cookies">Find out more about cookies</a></p>
 	</div>
-	<nav role="navigation"><ol class="group"><br /></nav>
-
+	<div id="global-browser-prompt">
+      <p>For a safer, faster, better experience online you should upgrade your browser. <a href="/support/browsers">Find out more about browsers</a> <a href="#" class="dismiss" title="Dismiss this message">Close</a></p>
+    </div>
+	
 	<% if request.fullpath != '/' %>
 	<div id="global-breadcrumb" class="header-context">
 		<nav role="navigation">
@@ -150,9 +152,9 @@
 			<header class="page-header group">
 				<hgroup>
 					<%= yield :title_image %>
-					<h1 <%= yield :titleMetadata %>><%= "<span>#{yield(:type).titlecase}</span> ".html_safe %><%= yield :title %></h1>
+					<h1 <%= yield :titleMetadata %>><%= "<span>Service</span> ".html_safe %><%= yield :title %></h1>
 				</hgroup>
-				<!-- <nav class="skip-to-related"><a href="#related">Not what you're looking for? &darr;</a></nav> -->
+			
 			</header>
 
 			<div class="article-container group">
@@ -178,7 +180,7 @@
 				<% end %>
 			</div>
 		</section>
-
+		
 		<!-- <div class="related-positioning" style="position: fixed;">
 			<div class="related-container">
 
