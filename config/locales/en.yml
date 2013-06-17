@@ -12,6 +12,8 @@ en:
         display: Open for business
       address:
         dx: DX
+      opening_time:
+        name: Time
   simple_form:
     hints:
       court:

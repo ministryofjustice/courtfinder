@@ -44,6 +44,7 @@
   <div id="group-opening-times">
     <a href="#" class="field-group" data-alt="edit opening times">reorder opening times</a>
     <h2>Opening times</h2>
+    <p>Please adhere to the Gov.uk content design principles when <a href="https://www.gov.uk/designprinciples/styleguide#dates-and-times" rel="ext help">entering dates and times</a>.</p>
     <ul class="sortable">
       <%= f.simple_fields_for :opening_times do |builder| %>
         <%= render 'opening_time_fields', f: builder %>
