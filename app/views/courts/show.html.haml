@@ -70,7 +70,7 @@
   -# === Contacts ===
   %h3 Contact the court:
 
-  - @court.contacts.order(:sort).each do |contact|
+  - @court.contacts.each do |contact|
     - if contact.contact_type.present?
       - if contact.telephone?
         %p{:itemprop => "telephone"}
