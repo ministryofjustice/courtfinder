@@ -411,6 +411,7 @@ namespace :import do
       if court
         time.court_id = court.id
         time.name = row[2]
+        time.sort = counter # default to the order which they are imported
 
         type = OpeningType.find_by_old_id(row[3])
         time.opening_type_id = type.id if type
