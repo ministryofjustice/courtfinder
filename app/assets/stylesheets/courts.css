@@ -1,3 +1,7 @@
+#wrapper {
+background-color: #fff;
+border-bottom: 10px solid #f47738;
+}
 
 #courts-show #title-image {
   float: right;
@@ -9,4 +13,22 @@
   border: 1px solid #666;
   background: #eaedef;
   float: right;
+}
+
+#global-header .header-wrapper .header-logo{
+max-width: 990px;
+margin: 0 auto;
+padding: 0.5em 15px;
+border-bottom: solid 5px #f47738;
+color:#fff;
+font-size: 1.5em;
+}
+
+#global-header .header-wrapper {padding:0;}
+
+small.beta {
+font-size: 75%;
+background-color: #f47738;
+padding: 0 3px;
+margin-left: 1em;
 }
