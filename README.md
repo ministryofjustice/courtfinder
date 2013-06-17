@@ -40,4 +40,6 @@ To get access to the admin area you will then need to create the first user manu
 
     User.invite!(:email => "mat@cjsdigital.org", :name => "Mat Harden")
 
-This will create the user and attempt to send an email invite. Then go to /admin/users/password/new and trigger the password reminder. Go to your server log and find the email output. Copy the invite link paste into your browser. You can enter a password of your own. Doing this will automatically sign you in.
+This will create the user and attempt to send an email invite. Trigger a [password reminder](http://localhost:3000/admin/users/password/new) with the email address you supplied. 
+
+Then back in Rails console, get the `reset_password_token` from the updated details by running `User.last`. Append that to the end of the password reset link (`http://localhost:3000/admin/users/password/edit?reset_password_token=`) and enter a password. Doing this will automatically sign you in.
