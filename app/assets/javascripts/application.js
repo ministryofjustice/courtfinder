@@ -54,7 +54,7 @@ $(function() {
 	});
 
 	// Open external links in a new window (add rel="ext" to the link)
-	$('a[rel*=ext]').on('click', function (e) {
+	$('a[rel*=ext], a[rel*=help]').on('click', function (e) {
 		e.preventDefault();
 		window.open($(this).attr('href'));
 	});

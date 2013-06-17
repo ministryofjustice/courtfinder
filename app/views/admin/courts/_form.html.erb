@@ -24,7 +24,7 @@
   <%= f.input :court_number, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
   <%= f.input :cci_identifier %>
   <%= f.input :cci_code %>
-  <%= f.association :area %>
+  <%= f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>' %>
 
   <div id="group-addresses">
     <h2>Addresses</h2>
@@ -76,6 +76,7 @@
   </div>
   
   <h2>Areas of law covered</h2>
+  <p>Hold <key>CTRL</key> (or <key>CMD</key> on Mac) to select multiple items.</p>
   <%= f.association :areas_of_law, :collection => AreaOfLaw.all(:order => 'name') %>
 
   <div class="group-courts-facilities">
@@ -97,6 +98,7 @@
   <% end %>
 
   <h2>Further information</h2>
+  <p>Please only add concise details about this particular court.</p>
   <%= f.input :info, :input_html => { :class => "ckeditor"} %>
 
   <fieldset class="court-closed">

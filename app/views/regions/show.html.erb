@@ -7,7 +7,7 @@
 
 <ul>
   <% courts = [] %>
-  <% @region.areas.order(:name).each do |area| %>
+  <% @region.areas.each do |area| %>
     <% area.courts.order(:name).each do |court| %>
       <% courts.push court %>
     <% end %>
