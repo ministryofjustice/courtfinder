@@ -4,8 +4,10 @@
   <%= link_to "Edit courts", admin_courts_path %>
 <% end %>
 
-<% if @courts %>
-  <% letters = @courts.group_by{|s|s.name[0,1]}.map {|letter|letter[0]} %>
+<% visible_courts = @courts.visible %>
+
+<% if visible_courts.present? %>
+  <% letters = visible_courts.group_by{|s|s.name[0,1]}.map {|letter|letter[0]} %>
 
   <div id="search-results-tabs">
     <nav class="js-tabs nav-tabs" role="navigation">
@@ -17,7 +19,7 @@
     </nav>
 
     <div class="search-container group js-tab-content tab-content">
-      <% @courts.group_by{|s|s.name[0,1]}.each do |letter| %>
+      <% visible_courts.group_by{|s|s.name[0,1]}.each do |letter| %>
         <div id="courts-by-<%= letter[0].downcase %>" class="js-tab-pane tab-pane">
           <h3><%= letter[0] %></h3>
           <% letter[1].each do |court| %>
@@ -28,5 +30,5 @@
     </div>
   </div>
   
-  <%#= will_paginate @courts %>
+  <%#= will_paginate visible_courts %>
 <% end %>
