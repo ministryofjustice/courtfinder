@@ -20,33 +20,32 @@
     %li= link_to 'Defence witness leaflet', defence_path(@court)
     %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
 
-  
+
   
   -# === Addresses ===
+
   - addresses = @court.addresses
   - visiting = addresses.shift
 
   - if addresses.present?
-    
-    %h3 Write to us:
-    - addresses.each do |addr|
-      %div.postal= format_address addr
-
+    %div.addresses
+      %div.postal
+        %h3 Write to us:
+        - addresses.each do |addr|
+          = format_address addr
       - if addresses.empty?
         %h3 Visit or write to us:
       - else
-        %h3 Visit us:
+        %div.visit
+          %h3 Visit us:
+      - if visiting.present?
+        = format_address visiting
 
-  - if visiting.present?
-    = format_address visiting
-
-  %a(href="#location") Show this on a map
-
+        %a(href="#location") Show this on a map
   
-  
-  -# === Photo ===
-  - if @court.image_file_url.present?
-    = image_tag(@court.image_file_url.to_s, :id => 'title-image', :itemprop => 'image') if @court.image_file
+    -# === Photo ===
+    - if @court.image_file_url.present?
+      = image_tag(@court.image_file_url.to_s, :id => 'title-image', :itemprop => 'image') if @court.image_file
 
 
 
@@ -101,7 +100,9 @@
 
   - @court.court_facilities.each do |court_facility|
     %dl
-      %dt= court_facility.facility.name if court_facility.facility
+      %dt
+        %i.icons{:class => court_facility.facility.image}
+        = court_facility.facility.name
       %dd= court_facility.description
 
   
