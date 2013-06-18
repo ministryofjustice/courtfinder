@@ -6,11 +6,19 @@
 
 Export from mySQL database and replace the files into /db/data. When exporting use 'Export Method' custom, 'Format' CSV and make sure you check 'Put columns names in the first row'. 
 
-For "court" table also check 'Remove carriage return/line feed characters within columns'. Then replace all instances of `\"` with `""` before importing.
+#### Before importing
+
+Some tables contain HTML which needs some simple manipulation before it is imported.
+
+For the "court" table also check 'Remove carriage return/line feed characters within columns'. Then replace all instances of `\"` with `""` before importing.
+
+For the "court_access" table (for facilities), replace `\"\"` with `""` and then `\"` with `""` before importing.
 
 For opening times ("court_opening") order by court id, then opening type before exporting:
 
     SELECT * FROM `court_opening` ORDER BY court_id, court_opening_type_id
+
+### Import
 
 To add all court and address data run:
 

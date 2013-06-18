@@ -5,8 +5,8 @@
   </div>
 
   <fieldset>
-    <%= f.association :facility %>
-    <%= f.input :description %>
+    <%= f.association :facility, :include_blank => false %>
+    <%= f.input :description, :input_html => { :class => :ckeditor } %>
     <%= f.input :sort %>
     <div class="destroy">
       <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove this facility</a>

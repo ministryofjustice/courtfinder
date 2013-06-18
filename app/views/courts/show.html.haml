@@ -109,7 +109,7 @@
   - @court.court_facilities.each do |court_facility|
     %dl
       %dt= court_facility.facility.name if court_facility.facility
-      %dd= court_facility.description
+      %dd= court_facility.description.html_safe
 
   
 
@@ -135,8 +135,7 @@
   -# === Court info ===
   - unless @court.info.nil?
     %h3 Further information:
-    %div{:itemprop => "description"}
-      = @court.info.html_safe
+    %div{:itemprop => "description"}= @court.info.html_safe
 
 
 - else
