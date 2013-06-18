@@ -48,7 +48,7 @@ class CourtImagesUploader < CarrierWave::Uploader::Base
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
   def filename
-    "#{model.name.parameterize.underscore}.#{model.image.split('.').last}" if original_filename
+    "#{model.name.parameterize.underscore}.#{model.image_file.file.extension.downcase}" if original_filename
   end
 
 end
