@@ -116,9 +116,11 @@
   -# === Map ===
   %h3#location Location of the court:
 
-  %form{:action => court_path(@court), :method => "get"}
-    = text_field_tag 'from', params[:from]
-    %input{:type => "submit", :value => "Get directions"}/
+  %form{:action => "http://maps.google.com/maps", :method => "get", :rel => "ext"}
+    %label{:for => "saddr"} Enter your location
+    %input{:name => "saddr", :type => "text", :value => params[:from]}
+    %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
+    %input{:type => "submit", :value => "Get directions"}
 
   - if params[:from].present?
     = gmaps({"direction" => { "data" => { "from" => params[:from], "to" => visiting.full }, "options" => { "display_panel" => true, "panel_id" => "instructions"} } })
