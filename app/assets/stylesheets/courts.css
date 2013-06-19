@@ -29,5 +29,12 @@ form#directions input#from {margin:0 0 1em 0;}
 
 .related {border-top:10px solid #f47738;}
 
-.icons {display:inline-block; width:130px; height:130px; background: url(/assets/icons.png);}
+article dl {height:110px;}
+.icons {display:inline-block; width:130px; height:130px; background: url(/assets/icons.png); margin:0 0 10px 10px; float:left;}
 .icons.parking {background-position: -910px -130px; }
+.icons.guide_dogs {background-position: -0px -140px; }
+.icons.baby {background-position: -560px -140px; }
+.icons.interview {background-position: -420px -0px; }
+.icons.hot_vending {background-position: -850px -140px; }
+.icons.video_conf {background-position: -280px 0px;}
+.icons.disabled {background-position: -140px 0px;}
