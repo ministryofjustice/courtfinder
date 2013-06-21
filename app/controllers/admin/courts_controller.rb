@@ -79,7 +79,7 @@ class Admin::CourtsController < ApplicationController
     @court.destroy
 
     respond_to do |format|
-      format.html { redirect_to courts_url }
+      format.html { redirect_to admin_courts_url }
       format.json { head :no_content }
     end
   end
