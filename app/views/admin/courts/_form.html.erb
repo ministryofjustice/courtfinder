@@ -27,8 +27,8 @@
   <%= f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>' %>
 
   <h2>Temporary alert</h2>
-  <p>Use this field to display a temporary notice of building closure. This is limited to 255 characters including spaces.</p>
-  <%= f.input :alert, :maxlength => 255, :hint => 'Remove all text to hide the alert' %>
+  <p>Use this field to display a temporary notice of building closure. This is limited to 140 characters including spaces.</p>
+  <%= f.input :alert, :maxlength => 140, :hint => 'Remove all text to hide the alert' %>
 
   <div id="group-addresses">
     <h2>Addresses</h2>
