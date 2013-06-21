@@ -54,10 +54,13 @@ div.court_court_facilities_description div.cke {
   margin-left: 160px;
 }
 
-form .form-actions {
-  margin-top: 1em;
-  padding: 10px 30px;
-  background: #eee;
+form {
+  width: 570px;
+  .form-actions {
+    margin-top: 1em;
+    padding: 10px 30px;
+    background: #eee;
+  }
 }
 
 #user-notice {

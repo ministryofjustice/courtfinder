@@ -1,9 +1,8 @@
 - content_for :title, "You are a Prosecution Witness"
 
-:javascript
-  window.printMe = true;
+%p.hidden-print Print this page to take these details with you.
 
-%ul
+%ul.hidden-print
   %li
     = link_to 'Return', @court
   %li.print-link

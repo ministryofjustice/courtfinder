@@ -13,13 +13,6 @@
 
 - if @court.display
 
-  
-  -# === Print links ===
-  %ul
-    %li= link_to 'Court information leaflet', '#', :class => 'print-link'
-    %li= link_to 'Defence witness leaflet', defence_path(@court)
-    %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
-
 
 
   -# === Alert ===
@@ -120,6 +113,15 @@
           %i.icons{:class => court_facility.facility.image}
           = court_facility.facility.name
         %dd= court_facility.description.html_safe
+
+
+
+  -# === Print links ===
+  %h3.icon-print Court information leaflets (ready to print):
+  %ul.unstyled
+    %li= link_to 'Court information leaflet', '#', :class => 'print-link'
+    %li= link_to 'Defence witness leaflet', defence_path(@court)
+    %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
 
   
 
