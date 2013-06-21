@@ -59,10 +59,3 @@ $(function() {
 		window.open($(this).attr('href'));
 	});
 });
-
-$(window).load(function(){
-	// Show print dialog of page load
-	if (printMe) {
-		window.print();
-	}
-})
