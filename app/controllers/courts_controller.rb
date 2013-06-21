@@ -3,7 +3,7 @@ class CourtsController < ApplicationController
   respond_to :html, :json
   
   def index
-    @courts = Court.order(:name)
+    @courts = Court.by_name
     respond_with @courts
   end
   

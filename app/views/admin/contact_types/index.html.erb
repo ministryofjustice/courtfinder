@@ -1,10 +1,12 @@
-<h1>Listing contact_types</h1>
+<%= content_for :title, 'Listing Contact Types' %>
+
+<%= link_to 'New Contact type', new_admin_contact_type_path %>
 
 <table>
   <tr>
     <th>Name</th>
     <th>Old</th>
-    <th></th>
+    <!-- <th></th> -->
     <th></th>
     <th></th>
   </tr>
@@ -13,13 +15,11 @@
   <tr>
     <td><%= contact_type.name %></td>
     <td><%= contact_type.old_id %></td>
-    <td><%= link_to 'Show', admin_contact_type_path(contact_type) %></td>
+    <!-- <td><%= link_to 'Show', admin_contact_type_path(contact_type) %></td> -->
     <td><%= link_to 'Edit', edit_admin_contact_type_path(contact_type) %></td>
-    <td><%= link_to 'Destroy', admin_contact_type_path(contact_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', admin_contact_type_path(contact_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Contact type', new_admin_contact_type_path %>

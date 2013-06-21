@@ -1,9 +1,11 @@
-<h1>Listing opening_types</h1>
+<%= content_for :title, 'Listing Opening Types' %>
+
+<%= link_to 'New Opening type', new_admin_opening_type_path %>
 
 <table>
   <tr>
     <th>Name</th>
-    <th></th>
+    <!-- <th></th> -->
     <th></th>
     <th></th>
   </tr>
@@ -11,13 +13,11 @@
 <% @opening_types.each do |opening_type| %>
   <tr>
     <td><%= opening_type.name %></td>
-    <td><%= link_to 'Show', admin_opening_type_path(opening_type) %></td>
+    <!-- <td><%= link_to 'Show', admin_opening_type_path(opening_type) %></td> -->
     <td><%= link_to 'Edit', edit_admin_opening_type_path(opening_type) %></td>
-    <td><%= link_to 'Destroy', admin_opening_type_path(opening_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Delete', admin_opening_type_path(opening_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Opening type', new_admin_opening_type_path %>

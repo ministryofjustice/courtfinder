@@ -40,6 +40,10 @@ class Court < ActiveRecord::Base
     where(:display => true)
   end
 
+  def self.by_name
+    order('LOWER(name)') # ignore case when sorting
+  end
+
   def self.by_area_of_law(area_of_law)
     if area_of_law.present?
       joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
