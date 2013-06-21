@@ -96,7 +96,7 @@
 
   <% if current_user.admin %>
     <h2>Location of the court</h2>
-    <p>Use these fields to plot the court on a map.</p>
+    <p>Use these fields to plot the court on a map. You can get the latitude/longitude using <a href="http://itouchmap.com/latlong.html" rel="ext">itouchmap</a>.</p>
     <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
     <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
   <% end %>

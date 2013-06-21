@@ -122,15 +122,7 @@
     %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
     %input{:type => "submit", :value => "Get directions"}
 
-  - if params[:from].present?
-    = gmaps({"direction" => { "data" => { "from" => params[:from], "to" => visiting.full }, "options" => { "display_panel" => true, "panel_id" => "instructions"} } })
-    %h3 Route planner
-    #instructions
-  - else
-    = gmaps({"markers" => {"data" => @court.to_gmaps4rails}, "map_options" => {"auto_zoom" => false, "zoom" => 15} })
-  / <p>Area id <haml:loud> @court.area_id </haml:loud></p>
-  / <p>CCI identifier <haml:loud> @court.cci_identifier </haml:loud></p>
-  / <p>court code <haml:loud> @court.cci_code </haml:loud> </p>
+  = gmaps({"markers" => {"data" => @court.to_gmaps4rails}, "map_options" => {"auto_zoom" => false, "zoom" => 15} })
 
 
 
