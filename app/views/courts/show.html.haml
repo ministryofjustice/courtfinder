@@ -25,37 +25,36 @@
   -# === Alert ===
   - if @court.alert.present?
     %p.alert= @court.alert
-  
-  
+
+
+
   -# === Addresses ===
+
   - addresses = @court.addresses
   - visiting = addresses.shift
 
   - if addresses.present?
-    #writing
+    %div.addresses
+      %div.postal
+        %h3 Write to us:
+        - addresses.each do |addr|
+          %div.visit{:property => "address"}
+            = format_address addr
+      - if addresses.empty?
+        %h3 Visit or write to us:
+      - else
+        %div.visit
+          %h3 Visit us:
+      - if visiting.present?
+        %div{:property => "address"}
+          = format_address visiting
 
-      %h3 Write to us:
-      - addresses.each do |addr|
-        %div= format_address addr
-
-  - if addresses.empty?
-    %h3 Visit or write to us:
-  - else
-    %h3 Visit us:
-
-  - if visiting.present?
-    %div{:property => "address", :typeof => "PostalAddress"}
-      = format_address visiting
-
-  %a(href="#location") Show this on a map
-
+        %a(href="#location") Show this on a map
   
   
-  -# === Photo ===
-  - if @court.image_file_url.present?
-    = image_tag(@court.image_file_url.to_s, :id => 'title-image', :property => 'image') if @court.image_file
-
-
+    -# === Photo ===
+    - if @court.image_file_url.present?
+      = image_tag(@court.image_file_url.to_s, :id => 'title-image', :property => 'image') if @court.image_file
 
   -# === Opening times ===
   %h3 Opening hours:
@@ -108,7 +107,9 @@
 
   - @court.court_facilities.each do |court_facility|
     %dl
-      %dt= court_facility.facility.name if court_facility.facility
+      %dt
+        %i.icons{:class => court_facility.facility.image}
+        = court_facility.facility.name
       %dd= court_facility.description.html_safe
 
   
@@ -116,7 +117,7 @@
   -# === Map ===
   %h3#location Location of the court:
 
-  %form{:action => "http://maps.google.com/maps", :method => "get", :rel => "ext"}
+  %form#directions{:action => "http://maps.google.com/maps", :method => "get", :rel => "ext"}
     %label{:for => "saddr"} Enter your location
     %input{:name => "saddr", :type => "text", :value => params[:from]}
     %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
