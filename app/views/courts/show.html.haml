@@ -38,7 +38,7 @@
       %div.postal
         %h3 Write to us:
         - addresses.each do |addr|
-          %div.visit{:property => "address"}
+          %div.visit(property="address")
             = format_address addr
       - if addresses.empty?
         %h3 Visit or write to us:
@@ -46,7 +46,7 @@
         %div.visit
           %h3 Visit us:
       - if visiting.present?
-        %div{:property => "address"}
+        %div(property="address")
           = format_address visiting
 
         %a(href="#location") Show this on a map
