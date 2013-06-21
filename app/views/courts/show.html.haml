@@ -56,60 +56,70 @@
 
 
   -# === Opening times ===
-  %h3 Opening hours:
-  
-  - @court.opening_times.each do |time|
-    %p
-      = time.opening_type.name
-      \: #{time.name}
+  - if @court.opening_times.present?
+
+    %h3 Opening hours:
+    
+    - @court.opening_times.each do |time|
+      %p
+        = time.opening_type.name
+        \: #{time.name}
 
   
 
   -# === Contacts ===
-  %h3 Contact the court:
+  - if @court.contacts.present?
 
-  - @court.contacts.each do |contact|
-    - if contact.contact_type.present?
-      - if contact.telephone?
-        %p{:itemprop => "telephone"}
-          = contact.contact_type.name
-          \: #{contact.telephone}
-      - else
-        %p= contact.contact_type.name
+    %h3 Contact the court:
+
+    - @court.contacts.each do |contact|
+      - if contact.contact_type.present?
+        - if contact.telephone?
+          %p{:itemprop => "telephone"}
+            = contact.contact_type.name
+            \: #{contact.telephone}
+        - else
+          %p= contact.contact_type.name
 
 
 
   -# === Emails ===
-  %h3 Other contact details:
+  - if @court.emails.present?
+    
+    %h3 Other contact details:
 
-  - @court.emails.each do |email|
-    %p
-      - if email.description.present?
-        = "#{email.description}"
-      = mail_to email.address
+    - @court.emails.each do |email|
+      %p
+        - if email.description.present?
+          = "#{email.description}"
+        = mail_to email.address
 
   
   
   -# === Areas of law ===
-  %h3 Areas of law covered:
+  - if @court.areas_of_law.present?
+    
+    %h3 Areas of law covered:
 
-  - areas = []
-  - @court.areas_of_law.each_with_index do |area, i|
-    - areas.push(i > 0 ? area.name.downcase : area.name)
-  
-  %p= areas.join ', '
+    - areas = []
+    - @court.areas_of_law.each_with_index do |area, i|
+      - areas.push(i > 0 ? area.name.downcase : area.name)
+    
+    %p= areas.join ', '
 
 
 
   -# === Facilities ===
-  %h3 Court facilities available:
+  - if @court.court_facilities.present?
+    
+    %h3 Court facilities available:
 
-  - @court.court_facilities.each do |court_facility|
-    %dl
-      %dt
-        %i.icons{:class => court_facility.facility.image}
-        = court_facility.facility.name
-      %dd= court_facility.description.html_safe
+    - @court.court_facilities.each do |court_facility|
+      %dl
+        %dt
+          %i.icons{:class => court_facility.facility.image}
+          = court_facility.facility.name
+        %dd= court_facility.description.html_safe
 
   
 
@@ -128,7 +138,7 @@
 
 
   -# === Court info ===
-  - unless @court.info.nil?
+  - if @court.info.present?
     %h3 Further information:
     %div{:itemprop => "description"}= @court.info.html_safe
 
