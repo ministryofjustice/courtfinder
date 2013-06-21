@@ -57,6 +57,10 @@ class Court < ActiveRecord::Base
   end
 
 
+  def locatable?
+    longitude && latitude
+  end
+
   def as_json(options={})
     if options[:lookup]
       [
