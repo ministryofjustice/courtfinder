@@ -1,34 +1,40 @@
-#wrapper {
-background-color: #fff;
-border-bottom: 10px solid #f47738;
-}
+#wrapper {background-color: #fff;border-bottom: 10px solid #f47738;}
 
-#courts-show #title-image {
-  float: right;
-  width: 160px;
-}
-#writing {
-  width: 230px;
-  padding: 10px;
-  border: 1px solid #666;
-  background: #eaedef;
-  float: right;
-}
+#courts-show #title-image {float: right;width: 320px;margin-top: -15.8em;}
 
-#global-header .header-wrapper .header-logo{
-max-width: 990px;
-margin: 0 auto;
-padding: 0.5em 15px;
-border-bottom: solid 5px #f47738;
-color:#fff;
-font-size: 1.5em;
-}
+#writing {  width: 230px;  padding: 10px;  border: 1px solid #666;  background: #eaedef;  float: right;}
+
+#global-header .header-wrapper .header-logo{max-width: 990px;margin: 0 auto;padding: 0.5em 15px;color:#fff;font-size: 1.8em;}
+
+small.beta {font-size: 55%; background-color: #f47738; padding:3px; margin-left: 1em; font-weight: bold;}
 
 #global-header .header-wrapper {padding:0;}
 
-small.beta {
-font-size: 75%;
-background-color: #f47738;
-padding: 0 3px;
-margin-left: 1em;
-}
+#global-header .header-wrapper #search {display: none;}
+
+#global-breadcrumb nav {border-top: 10px solid #f47738;}
+
+header.page-header hgroup {margin:0;}
+
+#local-locator-form input#search-main {margin-left: 0;}
+
+form.find-location-for-service {background:#eaedef url(https://assets.digital.cabinet-office.gov.uk/static/locator-icon.png) no-repeat 1em 2.7em;}
+form.find-location-for-service select#area_of_law {width:285px;}
+form.find-location-for-service #filters {margin-top:1em;}
+
+.inner div.addresses{background:#eaedef; padding:1em 1em 1em 1.5em; width:63%;}
+.inner div.addresses .postal, .inner div.addresses .visit {width:48%; float:left;}
+
+form#directions input#from {margin:0 0 1em 0;}
+
+.related {border-top:10px solid #f47738;}
+
+article dl {height:110px;}
+.icons {display:inline-block; width:130px; height:130px; background: url(/assets/icons.png); margin:0 0 10px 10px; float:left;}
+.icons.parking {background-position: -910px -130px; }
+.icons.guide_dogs {background-position: -0px -140px; }
+.icons.baby {background-position: -560px -140px; }
+.icons.interview {background-position: -420px -0px; }
+.icons.hot_vending {background-position: -850px -140px; }
+.icons.video_conf {background-position: -280px 0px;}
+.icons.disabled {background-position: -140px 0px;}
