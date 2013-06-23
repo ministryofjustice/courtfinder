@@ -29,8 +29,7 @@ form#directions input#from {margin:0 0 1em 0;}
 
 .related {border-top:10px solid #f47738;}
 
-article dl {height:110px;}
-.icons {display:inline-block; width:130px; height:130px; background: url(/assets/icons.png); margin:0 0 10px 10px; float:left;}
+.icons {display:inline-block; width:130px; height:130px; background: url(/assets/facility_icons.png); margin:0 0 10px 10px; float:left;}
 .icons.parking {background-position: -910px -130px; }
 .icons.guide_dogs {background-position: -0px -140px; }
 .icons.baby {background-position: -560px -140px; }
@@ -38,3 +37,22 @@ article dl {height:110px;}
 .icons.hot_vending {background-position: -850px -140px; }
 .icons.video_conf {background-position: -280px 0px;}
 .icons.disabled {background-position: -140px 0px;}
+
+@mixin column($pos:1) {
+  $block: 60;
+  left: -(10px + (($pos - 1) * $block));
+}
+
+i.icon {
+  float: left; width:50px; height:50px; overflow:hidden; position:relative;
+
+  img {
+    position:absolute; top:-10px; left:-10px; max-width:inherit !important;
+    
+    $top-row: -10px;
+    $bottom-row: -70px;
+    &.disabled { top:$bottom-row; @include column; }
+    &.baby { top:$bottom-row; @include column(6); }
+    &.guide_dogs { top:$bottom-row; @include column(2); }
+  }
+}
