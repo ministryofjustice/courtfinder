@@ -15,4 +15,8 @@ module ApplicationHelper
     /admin/i =~ request.env['PATH_INFO']
   end
   
+  def home_page?
+    request.fullpath == '/'
+  end
+
 end

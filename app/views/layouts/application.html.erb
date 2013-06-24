@@ -63,7 +63,7 @@
 			</div>
 			<% if admin_area? %>
 				<%= render 'shared/admin_user' %>
-			<% elsif request.fullpath != '/' %>
+			<% elsif !home_page? %>
 				<form id="search" class="site-search" action="/search" method="get" role="search">
 					<label for="site-search-text" class="visuallyhidden">Search</label>
 					<input type="search" name="q" id="site-search-text" title="Search" value="<%= params[:q] %>" />
@@ -80,7 +80,7 @@
       <p>For a safer, faster, better experience online you should upgrade your browser. <a href="/support/browsers">Find out more about browsers</a> <a href="#" class="dismiss" title="Dismiss this message">Close</a></p>
     </div>
 	
-	<% if request.fullpath != '/' %>
+	<% unless home_page? %>
 	<div id="global-breadcrumb" class="header-context">
 		<nav role="navigation">
 			<% if admin_area? %>
@@ -104,7 +104,10 @@
 			<header class="page-header group">
 				<hgroup class="full-width">
 					<%= yield :title_image %>
-					<h1 <%= yield :titleMetadata %>><%= "<span>Service</span> ".html_safe %><%= yield :title %></h1>
+					<h1 <%= yield :titleMetadata %>>
+						<%= "<span>Service</span> ".html_safe if home_page? %>
+						<%= yield :title %>
+					</h1>
 				</hgroup>
 			
 			</header>
