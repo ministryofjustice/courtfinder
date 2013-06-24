@@ -35,3 +35,4 @@ gem 'jquery-ui-rails'       # jQuery UI assets
 gem 'unicorn'
 gem 'haml-rails'            # Leaner markup with Haml.info
 gem 'rdiscount'             # Enable Markdown in Haml
+gem 'newrelic_rpm'          # Application performance monitoring.
