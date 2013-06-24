@@ -40,7 +40,8 @@
       - if visiting.present?
         = format_address visiting
 
-        %a(href="#location") Show this on a map
+        - if @court.locatable?
+          %a(href="#location") Show this on a map
   
     -# === Photo ===
     - if @court.image_file_url.present?
