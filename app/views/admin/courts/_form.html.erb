@@ -35,7 +35,7 @@
     <%= f.simple_fields_for :addresses do |builder| %>
       <%= render 'address_fields', f: builder %>
     <% end %>
-    <%= link_to_add_fields "Add address", f, :addresses %>
+    <%= link_to_add_fields "Add address", f, :addresses, 'initNewAddressBlock' %>
   </div>
   
   <h2>Photo</h2>
@@ -54,7 +54,7 @@
         <%= render 'opening_time_fields', f: builder %>
       <% end %>
     </ul>
-    <%= link_to_add_fields "Add opening time", f, :opening_times %>
+    <%= link_to_add_fields "Add opening time", f, :opening_times, 'initNewFieldBlock' %>
   </div>
 
   <div id="group-contacts">
@@ -65,7 +65,7 @@
         <%= render 'contact_fields', f: builder %>
       <% end %>
     </ul>
-    <%= link_to_add_fields "Add contact", f, :contacts, 'moj.initNewFieldBlock' %>
+    <%= link_to_add_fields "Add contact", f, :contacts, 'initNewFieldBlock' %>
   </div>
 
   <div class="group-emails">
@@ -76,7 +76,7 @@
         <%= render 'email_fields', f: builder %>
       <% end %>
     </ul>
-    <%= link_to_add_fields "Add email", f, :emails %>
+    <%= link_to_add_fields "Add email", f, :emails, 'initNewFieldBlock' %>
   </div>
   
   <h2>Areas of law covered</h2>
@@ -91,7 +91,7 @@
         <%= render 'court_facility_fields', f: builder %>
       <% end %>
     </ul>
-    <%= link_to_add_fields "Add court facility", f, :court_facilities %>
+    <%= link_to_add_fields "Add court facility", f, :court_facilities, 'initNewFieldBlock' %>
   </div>
 
   <% if current_user.admin %>

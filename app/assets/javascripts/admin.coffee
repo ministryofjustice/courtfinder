@@ -75,6 +75,15 @@ window.moj = window.moj or {
     el.closest('.sortable').sortable 'refreshPositions'
     moj.reSort el
 
+  initNewAddressBlock: (el, newFields) ->
+    primary = newFields.siblings('fieldset').filter( ->
+      $(this).find('.destroy input[type=checkbox]').prop('checked') is false
+    ).first()
+    
+    if newFields.filter('fieldset')[0] is primary[0]
+      console.log 'I am primary'
+
+
   # http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string/359910#359910
   executeFunctionByName: (functionName, context) -> #, args
     args = Array::slice.call(arguments_).splice(2)

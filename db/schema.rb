@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130617214413) do
+ActiveRecord::Schema.define(:version => 20130624214738) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20130617214413) do
     t.integer  "court_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.boolean  "is_primary"
   end
 
   add_index "addresses", ["address_type_id"], :name => "index_addresses_on_address_type_id"

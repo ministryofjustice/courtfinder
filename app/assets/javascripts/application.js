@@ -22,30 +22,28 @@
 
 $(function() {
 	$('form').on('click', '.remove_fields', function (e) {
+		e.preventDefault();
 		$(this).prev('input[type=hidden]').val('1');
 		$(this).closest('fieldset').hide();
-		e.preventDefault();
 	});
 
 	$('form').on('click', '.add_fields', function (e) {
+		e.preventDefault();
 		var time = new Date().getTime(),
 			regexp = new RegExp($(this).data('id'), 'g'),
 			callback = $(this).data('callback'),
 			sortable = $(this).siblings('ul.sortable'),
 			obj;
-		var fields = $(this).data('fields').replace(regexp, time);
+		var fields = $($(this).data('fields').replace(regexp, time));
 		if (sortable.length) {
 			obj = sortable.append(fields);
 		} else {
 			obj = $(this).before(fields);
 		}
-		// console.log(callback)
-		moj.initNewFieldBlock(obj)
-		// if ($.isFunction(callback)) {
-		// 	console.log('firing callback')
-		// 	callback(obj);
-		// }
-		e.preventDefault();
+
+		if (callback) {
+			moj[callback](obj, fields);
+		}
 	});
 
 	$('.print-link').on('click', function (e) {

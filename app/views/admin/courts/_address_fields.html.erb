@@ -1,5 +1,10 @@
 
 <fieldset>
+  <%= f.input :is_primary, :as => 'hidden' %>
+  <div class="input string hidden">
+    <label class="optional control-label">Address type</label>
+    <span class="input">Physical</span>
+  </div>
   <%= f.association :address_type, :include_blank => false %>
   <%= f.input :address_line_1 %>
   <%= f.input :address_line_2 %>

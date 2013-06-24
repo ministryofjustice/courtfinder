@@ -28,7 +28,8 @@ div.input.integer {
   input[type=text],
   input[type=tel],
   input[type=number],
-  input[type=file] {
+  input[type=file],
+  span.input {
     width: 200px;
     margin: 0 10px;
   }
