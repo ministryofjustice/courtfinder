@@ -135,7 +135,7 @@ namespace :import do
   task :address_types => :environment do
     puts "Importing address types"
 
-    types = ['Visiting','Postal']
+    types = ['Postal']
     
     types.each do |i|
       type = AddressType.new
@@ -250,10 +250,11 @@ namespace :import do
         if row[1].to_f == 1
           # puts "Looking for court with old postal address id of #{row[0]}"
           addr.court_id = court.id
-          addr.address_type_id = 2 # Postal
+          addr.address_type_id = 1 # Postal
         else
           addr.court_id = court.id
-          addr.address_type_id = 1 # Visiting
+          # addr.address_type_id = 1 # Visiting
+          addr.is_primary = true
         end
         addr.address_line_1 = row[2] unless row[2] == 'NULL'
         addr.address_line_2 = row[3] unless row[3] == 'NULL'
