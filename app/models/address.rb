@@ -31,4 +31,8 @@ class Address < ActiveRecord::Base
     # Remove empty lines and join by parameter
     lines.select{|i|i.present?}.join glue
   end
+
+  def self.primary
+    where('is_primary is true')
+  end
 end
