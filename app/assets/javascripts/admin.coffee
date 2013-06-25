@@ -75,13 +75,26 @@ window.moj = window.moj or {
     el.closest('.sortable').sortable 'refreshPositions'
     moj.reSort el
 
-  initNewAddressBlock: (el, newFields) ->
-    primary = newFields.siblings('fieldset').filter( ->
+  isPrimaryAddress: (el) ->
+    primary = el.siblings('fieldset').addBack().filter( ->
       $(this).find('.destroy input[type=checkbox]').prop('checked') is false
     ).first()
+
+    el[0] is primary[0]
+
+  initNewAddressBlock: (el, newFields) ->
+    input = newFields.find '.court_addresses_is_primary input'
+    primary = newFields.find '.court_addresses_primary'
+    type = newFields.find '.court_addresses_address_type'
     
-    if newFields.filter('fieldset')[0] is primary[0]
-      console.log 'I am primary'
+    if @isPrimaryAddress newFields
+      input.val true
+      primary.removeClass 'hidden'
+      type.addClass 'hidden'
+    else
+      input.val false
+      primary.addClass 'hidden'
+      type.removeClass 'hidden'
 
 
   # http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string/359910#359910
