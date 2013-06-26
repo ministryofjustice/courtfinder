@@ -44,7 +44,7 @@
   
     -# === Photo ===
     - if @court.image_file_url.present?
-      = image_tag(@court.image_file_url.to_s, :id => 'title-image', :property => 'photo') if @court.image_file
+      = image_tag(@court.image_file_url.to_s, :id => 'title-image', :property => 'image') if @court.image_file
 
 
 
@@ -82,7 +82,7 @@
     %h3 Other contact details:
 
     - @court.emails.each do |email|
-      %p{:property => "contactPoint"}
+      %p{:property => "contactPoint", :typeof => "ContactPoint"}
         - if email.description.present?
           %span{:property => "contactType"}
             = "#{email.description}"
