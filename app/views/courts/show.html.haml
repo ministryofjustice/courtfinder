@@ -24,28 +24,25 @@
   -# === Addresses ===
 
   - addresses = @court.addresses
-  - visiting = @court.addresses.primary
+  - visiting = addresses.primary
   - postal = addresses.all
-  = postal.inspect
-  - postal.delete(visiting)
-  = postal.inspect
+  - postal.delete visiting
 
   - if addresses.present?
-    %div.addresses
-      %div.postal
-        %h3 Write to us:
-        - addresses.each do |addr|
-          = format_address addr
-      - if addresses.empty?
-        %h3 Visit or write to us:
-      - else
-        %div.visit
-          %h3 Visit us:
-      - if visiting.present?
-        = format_address visiting
+    .addresses
+      .visit
+        %h3= postal.empty? ? 'Visit or write to us:' : 'Visit us:'
+        - if visiting.present?
+          = format_address visiting
 
         - if @court.locatable?
           %a(href="#location") Show this on a map
+      
+      - if postal.present?
+        .postal
+          %h3 Write to us:
+          - postal.each do |addr|
+            = format_address addr
   
     -# === Photo ===
     - if @court.image_file_url.present?
