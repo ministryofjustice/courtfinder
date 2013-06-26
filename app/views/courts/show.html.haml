@@ -84,7 +84,7 @@
     - @court.emails.each do |email|
       %p{:property => "contactPoint"}
         - if email.description.present?
-          %span{:property => "description"}
+          %span{:property => "contactType"}
             = "#{email.description}"
         = format_email_address email.address
 
