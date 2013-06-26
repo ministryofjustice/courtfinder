@@ -24,7 +24,11 @@
   -# === Addresses ===
 
   - addresses = @court.addresses
-  - visiting = addresses.shift
+  - visiting = @court.addresses.primary
+  - postal = addresses.all
+  = postal.inspect
+  - postal.delete(visiting)
+  = postal.inspect
 
   - if addresses.present?
     %div.addresses

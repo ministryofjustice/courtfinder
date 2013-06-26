@@ -33,6 +33,6 @@ class Address < ActiveRecord::Base
   end
 
   def self.primary
-    where('is_primary is true')
+    where('is_primary is true').first
   end
 end
