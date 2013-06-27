@@ -12,6 +12,7 @@
  *= require gmaps4rails
  *= require admin/admin
  *= require courts
+ *= require print
  *= require_self
  */
 
