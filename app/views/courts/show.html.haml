@@ -113,7 +113,8 @@
     - @court.court_facilities.each do |court_facility|
       %dl
         %dt
-          %i.icons{:class => court_facility.facility.image}
+          %i.icon
+            %img{:src => '/assets/facility_icons.png', :class => court_facility.facility.image}
           = court_facility.facility.name
         %dd= court_facility.description.html_safe
 
@@ -145,7 +146,7 @@
   -# === Court info ===
   - if @court.info.present?
     %h3 Further information:
-    %div= @court.info.html_safe
+    %div{:itemprop => "description"}= @court.info.html_safe
 
 
 - else
