@@ -29,29 +29,67 @@ form#directions input#from {margin:0 0 1em 0;}
 
 .related {border-top:10px solid #f47738;}
 
-@mixin column($pos:1) {
-  $block: 60;
-  left: -(10px + (($pos - 1) * $block));
+@mixin column($pos:1, $block:60px, $offset:10px) {
+  left: -($offset + (($pos - 1) * $block));
 }
 
 i.icon {
   float: left; width:50px; height:50px; overflow:hidden; position:relative;
 
   img {
-    position:absolute; top:-10px; left:-10px; max-width:inherit !important;
-    
     $top-row: -10px;
     $bottom-row: -70px;
 
+    position:absolute; top:$top-row; left:-10px; max-width:inherit !important;
+    
     // Top row
     // &.loop_hearing -< default
     &.video_conf { top:$top-row; @include column(2); }
     &.interview { top:$top-row; @include column(3); }
+    // &.eye { top:$top-row; @include column(4); }
+    &.firstaid { top:$top-row; @include column(5); }
+    &.waiting { top:$top-row; @include column(6); }
+    &.hotspot { top:$top-row; @include column(7); }
+    &.children { top:$top-row; @include column(8); }
     
     &.disabled { top:$bottom-row; }
     &.guide_dogs { top:$bottom-row; @include column(2); }
+    &.phone { top:$bottom-row; @include column(3); }
+    &.disabledwc { top:$bottom-row; @include column(4); }
+    &.public_toilets { top:$bottom-row; @include column(5); }
     &.baby { top:$bottom-row; @include column(6); }
+    &.prayer { top:$bottom-row; @include column(7); }
     &.hot_vending { top:$bottom-row; @include column(8); }
     &.parking { top:$bottom-row; @include column(9); }
+  }
+}
+
+// Double icon size for Retina and print
+@media print, (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  i.icon img {
+    $top-row: -65px;
+    $bottom-row: -120px;
+    $block-size: 55px;
+    $block-offset: 5px;
+
+    width:500px; height:175px; top:$top-row; left:-5px;
+    
+    &.video_conf { top:$top-row; @include column(2, $block-size, $block-offset); }
+    &.interview { top:$top-row; @include column(3, $block-size, $block-offset); }
+    // &.eye { top:$top-row; @include column(4, $block-size, $block-offset); }
+    &.firstaid { top:$top-row; @include column(5, $block-size, $block-offset); }
+    &.waiting { top:$top-row; @include column(6, $block-size, $block-offset); }
+    &.hotspot { top:$top-row; @include column(7, $block-size, $block-offset); }
+    &.children { top:$top-row; @include column(8, $block-size, $block-offset); }
+    
+    &.disabled { top:$bottom-row; }
+    &.guide_dogs { top:$bottom-row; left:-60px; }
+    &.phone { top:$bottom-row; @include column(3, $block-size, $block-offset); }
+    &.disabledwc { top:$bottom-row; @include column(4, $block-size, $block-offset); }
+    &.public_toilets { top:$bottom-row; @include column(5, $block-size, $block-offset); }
+    &.baby { top:$bottom-row; @include column(6, $block-size, $block-offset); }
+    &.prayer { top:$bottom-row; @include column(7, $block-size, $block-offset); }
+    &.hot_vending { top:$bottom-row; @include column(8, $block-size, $block-offset); }
+    &.parking { top:$bottom-row; @include column(9, $block-size, $block-offset); }
   }
 }

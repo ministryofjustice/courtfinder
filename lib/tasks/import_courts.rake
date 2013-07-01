@@ -605,9 +605,9 @@ namespace :import do
         facility = Facility.new
 
         facility.old_id = row[0]
-        facility.name = row[1]
+        facility.name = row[1].split(' icon')[0] # strip "icon." off the end
         facility.image_description = row[1]
-        facility.image = row[2]
+        facility.image = row[2].split('.')[0] # strip ".gif" off the end
 
         facility_counter += 1 if facility.save!
       else
