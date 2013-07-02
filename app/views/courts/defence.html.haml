@@ -1,17 +1,19 @@
 - content_for :title, "You are a Defence Witness"
-
-%p.hidden-print Print this page to take these details with you.
-
-%ul.hidden-print
+- content_for :nav do
   %li
-    = link_to 'Return', @court
-  %li.print-link
-    %a(href="#") Print
+    = link_to 'Courts', courts_path
+  %li
+    = link_to @court.name, @court
+
+%p.hidden-print
+  = link_to 'Print this page', '#', :class => 'print-link'
+  to take these details with you.
+
 
 :markdown
   # -DEFENCE INTRO HERE-
 
-= render 'print_details'
+= render 'court_details'
 
 :markdown
   # -DEFENCE CONTENT HERE-

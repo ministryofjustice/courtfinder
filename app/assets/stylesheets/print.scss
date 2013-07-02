@@ -1,0 +1,45 @@
+.hidden-print {
+  display:none;
+}
+
+.visible-print {
+  display:inherit;
+}
+
+// Stuff to hide
+#courts-show, 
+#courts-defence, 
+#courts-prosecution {
+  #global-header {
+    display:none;
+  }
+
+  h1:after {
+    content:none; // remove "GOV.UK" from the leaflets
+  }
+
+  h2 {
+    font-size:19pt;
+    border-bottom:1pt solid #000;
+  }
+}
+
+section#content {
+  max-width:none;
+
+  hgroup {
+    padding:0;
+  }
+
+  h1 {
+    width:auto;
+  }
+}
+
+article[role="article"] {
+  width:auto; margin:0;
+
+  .inner {
+    padding:0;
+  }
+}
