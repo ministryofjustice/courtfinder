@@ -22,8 +22,14 @@ form.find-location-for-service {background:#eaedef url(https://assets.digital.ca
 form.find-location-for-service select#area_of_law {width:285px;}
 form.find-location-for-service #filters {margin-top:1em;}
 
-.inner div.addresses{background:#eaedef; padding:1em 1em 1em 1.5em; width:63%;}
-.inner div.addresses .postal, .inner div.addresses .visit {width:48%; float:left;}
+.inner div.addresses{
+  overflow:hidden; width:63%; padding:1em 1em 1em 1.5em; background:#eaedef;
+  
+  .postal,
+  .visit {
+    width:48%; float:left;
+  }
+}
 
 form#directions input#from {margin:0 0 1em 0;}
 
