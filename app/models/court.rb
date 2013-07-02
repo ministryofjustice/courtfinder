@@ -88,10 +88,10 @@ class Court < ActiveRecord::Base
   end
 
   def fetch_image_file
-    require 'open-uri'
-    self.image_file = open("http://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{self.image.to_s}") if image.present?
-  rescue
-
+    if image.present?
+      self.image_file.download!("http://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{self.image.to_s}")
+      self.image_file.store!
+    end
   end
 
 end
