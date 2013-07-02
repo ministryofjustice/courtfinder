@@ -4,6 +4,7 @@ Courtfinder::Application.routes.draw do
   scope 'courts', :controller => :courts do
     match '/' => :index, :as => :courts
     match '/:id' => :show, :as => :court
+    match '/:id/leaflets' => :information, :as => :information
     match '/:id/leaflets/defence' => :defence, :as => :defence
     match '/:id/leaflets/prosecution' => :prosecution, :as => :prosecution
   end

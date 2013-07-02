@@ -13,7 +13,7 @@
       - if visiting.present?
         = format_address visiting
 
-      - if @court.locatable?
+      - if @court.locatable? && !print_view
         %a.hidden-print(href="#location") Show this on a map
     
     - if postal.present?
@@ -28,9 +28,10 @@
 
 
 
--# === Alert ===
-- if @court.alert.present?
-  %p.help-notice= @court.alert
+- unless print_view
+  -# === Alert ===
+  - if @court.alert.present?
+    %p.help-notice= @court.alert
 
 
 
@@ -104,12 +105,13 @@
 
 
 
--# === Print links ===
-%h2.icon-print.hidden-print Court information leaflets (ready to print):
-%ul.unstyled.hidden-print
-  %li= link_to 'Court information leaflet', '#', :class => 'print-link'
-  %li= link_to 'Defence witness leaflet', defence_path(@court)
-  %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
+- unless print_view
+  -# === Print links ===
+  %h2.icon-print.hidden-print Court information leaflets (ready to print):
+  %ul.unstyled.hidden-print
+    %li= link_to 'Court information leaflet', information_path(@court)
+    %li= link_to 'Defence witness leaflet', defence_path(@court)
+    %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
 
 
 
@@ -117,7 +119,7 @@
 - if @court.locatable?
   %h2#location Location of the court:
 
-  %form#directions{:action => "http://maps.google.com/maps", :method => "get", :rel => "ext"}
+  %form#directions.hidden-print{:action => "http://maps.google.com/maps", :method => "get", :rel => "ext"}
     %label{:for => "saddr"} Enter your location
     %input{:name => "saddr", :type => "text", :value => params[:from]}
     %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}

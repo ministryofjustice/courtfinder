@@ -8,7 +8,7 @@
 
 
 -# Admin only
-= link_to "Edit this court", edit_admin_court_path(@court) if user_signed_in?
+= link_to "Edit this court", edit_admin_court_path(@court), :class => 'hidden-print' if user_signed_in?
 
 
 - if @court.display

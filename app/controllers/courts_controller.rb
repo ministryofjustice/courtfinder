@@ -7,6 +7,16 @@ class CourtsController < ApplicationController
     respond_with @courts
   end
   
+  def information
+    @court = Court.find(params[:id])
+
+    if request.path != information_path(@court, :format => params[:format])
+      redirect_to information_path(@court, :format => params[:format]), status: :moved_permanently
+    else
+      respond_with @court
+    end
+  end
+  
   def defence
     @court = Court.find(params[:id])
 

@@ -1,0 +1,32 @@
+- content_for :title, @court.name
+- content_for :last_updated, @court.updated_at.to_s(:standard)
+- content_for :nav do
+  %li
+    = link_to 'Courts', courts_path
+  %li
+    = link_to @court.name, @court
+
+%p.hidden-print.well
+  = link_to 'Print this page', '#', :class => 'print-link'
+  to take these details with you.
+
+
+= render 'court_details'
+
+:markdown
+
+  ##  Help and advice
+
+  If you have any concerns about coming to court or the court experience please speak to a member of staff. Court staff can advise you on procedures, give you the forms you need and help you fill them in. They cannot however give you legal advice. You may be able to get free legal advice from a law centre, a Citizens Advice Bureau or consumer advice centre or alternatively you can contact the Legal Aid Agency, www.gov.uk/legal-aid. County Courts only: If you want to settle your dispute without going to court, find a civil mediation provider at www.civilmediation.justice.gov.uk/.
+
+  ## What additional help is available for court users with a disability?
+
+  If you have a disability which makes going to court or communicating difficult, please contact a member of staff at the court. If you are deaf or hard of hearing and require assistance the following services can help you once you have obtained the relevant court telephone number:
+
+  * Textphone users calling voicephones or textphones - dial 18001
+  * Voicephone users calling textphones or voicephones - dial 18002
+  * Text relay service on 0870 240 5152
+
+  ## Personal belongings
+
+  Court staff cannot look after your personal belongings and cannot be held responsible for their safety. Do not leave bags unattended. Please also note that court users are not permitted to use recording equipment, photography, mobile telephones and pagers in courtrooms. Security at court is of paramount importance to HMCTS and we work to ensure that all visitors to court, including victims and witnesses are in a safe and secure environment. Sharp objects such as knives are not allowed in the court building and if brought to court they will be removed by security and will not be returned when you leave. If carrying a kirpan this must be concealed and the overall length must not exceed 6 inches, (2 inches handle, 4 inches blade).

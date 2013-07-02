@@ -1,4 +1,5 @@
 - content_for :title, "You are a prosecution witness"
+- content_for :last_updated, @court.updated_at.to_s(:standard)
 - content_for :nav do
   %li
     = link_to 'Courts', courts_path
@@ -11,7 +12,7 @@
 
 
 :markdown
-  You have been asked to attend court as a Prosecution Witness. This information will help you.
+  You have been asked to attend court as a prosecution witness. This information will help you.
 
   ##  Introduction
 
