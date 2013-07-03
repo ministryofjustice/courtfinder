@@ -48,9 +48,10 @@
 	<%= stylesheet_link_tag    "application", :media => "all" %>
 	<%= stylesheet_link_tag    "print", :media => "print" %>
 	<%= javascript_include_tag "application" %>
+	<%= javascript_include_tag "admin" if admin_area? %>
 </head>
 
-<body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %>">
+<body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %>"><%= request.env['PATH_INFO'] %>
 	<script type="text/javascript">document.body.className = document.body.className + ' js-enabled';</script>
 
 	<a href="#content" class="visuallyhidden">Skip to main content</a>

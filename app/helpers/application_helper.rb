@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def admin_area?
-    /admin/i =~ request.env['PATH_INFO']
+    /\/admin\//i =~ request.env['PATH_INFO']
   end
   
   def home_page?

@@ -11,13 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
-//= require jquery.ui.core
-//= require jquery.ui.widget
-//= require jquery.ui.mouse
-//= require jquery.ui.sortable
-//= require ckeditor-jquery
-//= require_tree .
+//= require search
+//= require_tree ./gmaps4rails
 
 
 $(function() {

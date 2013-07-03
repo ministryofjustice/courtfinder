@@ -97,16 +97,4 @@ window.moj = window.moj or {
       type.removeClass 'hidden'
 
 
-  # http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string/359910#359910
-  executeFunctionByName: (functionName, context) -> #, args
-    args = Array::slice.call(arguments_).splice(2)
-    namespaces = functionName.split(".")
-    func = namespaces.pop()
-    i = 0
-
-    while i < namespaces.length
-      context = context[namespaces[i]]
-      i++
-    context[func].apply this, args
-
 }
