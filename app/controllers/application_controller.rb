@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
-
   WillPaginate.per_page = 50
 
   def after_sign_in_path_for(resource)
