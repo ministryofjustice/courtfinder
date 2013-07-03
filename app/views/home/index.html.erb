@@ -3,7 +3,7 @@
 
 <section class="intro">
 	<div class="get-started-intro">
-		<p>Use this tool to find a court or tribunal in England or Wales.</p>
+		<p>Use this tool to find a court in England or Wales, or a tribunal in England, Wales and Scotland.</p>
 	</div>
 </section>
 
@@ -12,15 +12,15 @@
 		<fieldset>
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
-				<label for="search-main">Enter a UK postcode, town or city <br />
-					<input class="postcode" id="search-main" name="q" type="text" placeholder="e.g. SW1H 9AJ or Luton" autocomplete="off" />
+				<label for="search-main">Enter a UK postcode, town or city<br />
+					<input class="postcode" id="search-main" name="q" type="text" placeholder="eg SW1H 9AJ or Luton" autocomplete="off" />
 				</label>
 				
 				<div id="results"></div>
 				
 				<div id="filters">
-					<label for="area_of_law">Legal problem (eg divorce)<br />
-						<%= select_tag "area_of_law", options_from_collection_for_select(@areas_of_law, "name", "name"), :prompt => 'All categories' %>
+					<label for="area_of_law">Area of law (optional)<br />
+						<%= select_tag "area_of_law", options_from_collection_for_select(@areas_of_law, "name", "name"), :prompt => 'All law' %>
 					</label>
 					<button type="submit" class="button">Search</button>
 				</div>
@@ -31,7 +31,7 @@
 <h3>Other search options</h3>
 <p><%= link_to 'View all courts and tribunals', courts_path %></p>
 <p><%= link_to 'View by region', regions_path %></p>
-<p><%= link_to 'View by legal category', areas_of_law_path %></p>
+<p><%= link_to 'View by areas of law', areas_of_law_path %></p>
 
 <script id="js">
 	var moj = moj||{}; moj.courts = <%=raw @courts.visible.to_json(:lookup => true) %>;
