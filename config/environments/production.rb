@@ -69,5 +69,5 @@ Courtfinder::Application.configure do
   config.postcode_lookup_service_url = 'http://pclookup.cjs.gov.uk/postcode_finder.php'
   
   # Devise requirement for sending user emails
-  config.action_mailer.default_url_options = { :host => 'courtfinder.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'courttribunalfinder.service.gov.uk' }
 end
