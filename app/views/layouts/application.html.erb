@@ -71,14 +71,11 @@
 	<% unless home_page? %>
 	<div id="global-breadcrumb" class="header-context">
 		<nav role="navigation">
-			<% if admin_area? %>
-				<%= render 'shared/admin_nav' %>
-			<% else %>
-				<ol class="group">
-					<li><a href="/">Home</a></li>
-					<%= yield :nav if content_for? :nav %>
-				</ol>
-			<% end %>
+			<%= render 'shared/admin_user' if admin_area? %>
+			<ol class="group">
+				<li><a href="/">Home</a></li>
+				<%= yield :nav if content_for? :nav %>
+			</ol>
 		</nav>
 	</div>
 	<% end %>
