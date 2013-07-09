@@ -36,15 +36,15 @@
 	<link rel="apple-touch-icon-precomposed" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-          
-          ga('create', 'UA-37377084-3', 'service.gov.uk');
-          ga('send', 'pageview');
-        </script>
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-37377084-3', 'service.gov.uk');
+		ga('send', 'pageview');
+	</script>
 	<%= stylesheet_link_tag    "application", :media => "all" %>
 	<%= stylesheet_link_tag    "admin", :media => "all" if admin_area? %>
 	<%= stylesheet_link_tag    "print", :media => "print" %>
@@ -52,34 +52,19 @@
 	<%= javascript_include_tag "admin" if admin_area? %>
 </head>
 
-<body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %>">
+<body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %> beta">
 	<script type="text/javascript">document.body.className = document.body.className + ' js-enabled';</script>
 
 	<a href="#content" class="visuallyhidden">Skip to main content</a>
 
-	<header role="banner" class="group" id="global-header">
-		<div class="header-wrapper group">
-			<div class="header-logo">
-				Court and tribunal finder  <small class="beta">BETA</small>
-			</div>
-			<% if admin_area? %>
-				<%= render 'shared/admin_user' %>
-			<% elsif !home_page? %>
-				<form id="search" class="site-search" action="/search" method="get" role="search">
-					<label for="site-search-text" class="visuallyhidden">Search</label>
-					<input type="search" name="q" id="site-search-text" title="Search" value="<%= params[:q] %>" />
-					<input class="button" type="submit" value="Search" />
-				</form>
-			<% end %>
-		</div>
-	</header>
+	<%= render 'shared/header' %>
 
 	<div id="global-cookie-message">
 		<p>GOV.UK uses cookies to make the site simpler. <a href="/support/cookies">Find out more about cookies</a></p>
 	</div>
 	<div id="global-browser-prompt">
-      <p>For a safer, faster, better experience online you should upgrade your browser. <a href="/support/browsers">Find out more about browsers</a> <a href="#" class="dismiss" title="Dismiss this message">Close</a></p>
-    </div>
+		<p>For a safer, faster, better experience online you should upgrade your browser. <a href="/support/browsers">Find out more about browsers</a> <a href="#" class="dismiss" title="Dismiss this message">Close</a></p>
+	</div>
 	
 	<% unless home_page? %>
 	<div id="global-breadcrumb" class="header-context">
@@ -95,6 +80,10 @@
 		</nav>
 	</div>
 	<% end %>
+
+	<div id="phase-notice">
+		<p><strong>Beta:</strong> This is a new service - your feedback will help us to improve it</p>
+	</div>
 
 	<div id="wrapper" class="group <%= yield :type %>">
 		<section id="content" role="main" class="group" <%= yield :contentMetadata %>>
@@ -165,9 +154,7 @@
 
 	</div>
 
-	<footer class="group" id="footer" role="contentinfo">
-		<%= render 'shared/footer' %>
-	</footer>
+	<%= render 'shared/footer' %>
 
 	<div id="global-app-error" class="app-error hidden"></div>
 
