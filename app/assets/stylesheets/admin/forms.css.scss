@@ -1,4 +1,11 @@
-// Quick dirty rules to improve layout of admin pages
+
+#user_nav {
+  float: right;
+  color: #fff;
+}
+#user_nav a:link, #user_nav a:visited {
+  color: #fff;
+}
 
 div.input.string,
 div.input.select,
@@ -132,7 +139,7 @@ form {
     }
 }
 
-// Disply features for high level admin users only
+// Display features for high level admin users only
 .admin-only input {
   background: #eee;
 }
