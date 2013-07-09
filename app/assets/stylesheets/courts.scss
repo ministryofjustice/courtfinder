@@ -18,23 +18,9 @@ $grey:#eaedef;
   padding:.5em .75em; background:$grey;
 }
 
-.beta #wrapper {
-  border-bottom-color:#f47738;
-}
-
-// #global-header .header-wrapper .header-logo{max-width: 990px;margin: 0 auto;padding: 0.5em 15px;color:#fff;font-size: 1.8em;}
-
-// small.beta {font-size: 55%; background-color: #f47738; padding:3px; margin-left: 1em; font-weight: bold;}
-
-// #global-header .header-wrapper {padding:0;}
-
-// #global-header .header-wrapper #search {display: none;}
-
-// #global-breadcrumb nav {border-top: 10px solid #f47738;}
-
 #local-locator-form input#search-main {margin-left: 0;}
 
-form.find-location-for-service {background:#eaedef url(https://assets.digital.cabinet-office.gov.uk/static/locator-icon.png) no-repeat 1em 2.7em;}
+form.find-location-for-service {background:$grey url(https://assets.digital.cabinet-office.gov.uk/static/locator-icon.png) no-repeat 1em 2.7em;}
 form.find-location-for-service select#area_of_law {width:285px;}
 form.find-location-for-service #filters {margin-top:1em;}
 

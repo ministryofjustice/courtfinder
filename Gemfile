@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
 gem 'rails', '3.2.12'
 
@@ -36,3 +37,4 @@ gem 'unicorn'
 gem 'haml-rails'            # Leaner markup with Haml.info
 gem 'rdiscount'             # Enable Markdown in Haml
 gem 'newrelic_rpm'          # Application performance monitoring.
+gem 'govuk_frontend_toolkit'# Sass helpers
