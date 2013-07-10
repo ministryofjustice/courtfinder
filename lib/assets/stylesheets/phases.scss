@@ -4,8 +4,8 @@ $beta-colour:$orange;
   #proposition-name {
     small {
       vertical-align:3px;
-      margin-left:16px;
-      padding:3px 5px;
+      margin-left:10px;
+      padding:3px 5px 1px;
       background-color:$beta-colour;
 
       @include core-16;
@@ -21,7 +21,7 @@ $beta-colour:$orange;
     border-bottom-color:$beta-colour;
   }
   
-  #global-breadcrumb nav {
+  #global-breadcrumb ol {
     border-top:0;
   }
 
@@ -41,6 +41,12 @@ $beta-colour:$orange;
     }
     strong {
       text-transform: uppercase;
+    }
+  }
+
+  @media print {
+    #phase-notice {
+      display:none;
     }
   }
 }
