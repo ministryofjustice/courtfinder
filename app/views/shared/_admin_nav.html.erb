@@ -1,17 +1,17 @@
 <% if user_signed_in? %>
-  <div>
-    <%= link_to 'Courts', admin_courts_path %> |
-    <%= link_to 'Address Types', admin_address_types_path %> |
-    <%= link_to 'Countries', admin_countries_path %> |
-    <%= link_to 'Counties', admin_counties_path %> |
-    <%= link_to 'Towns', admin_towns_path %> |
-    <%#= link_to 'Court Types', admin_court_types_path %>
-    <%= link_to 'Areas of law', admin_areas_of_law_path %> |
-    <%= link_to 'Opening Types', admin_opening_types_path %> |
-    <%= link_to 'Contact Types', admin_contact_types_path %> |
-    <%= link_to 'Facilities', admin_facilities_path %> |
-    <%= link_to 'Regions', admin_regions_path %> |
-    <%= link_to 'Areas', admin_areas_path %> |
-    <%= link_to_if current_user.admin?, 'Users', admin_users_path %>
-  </div>
+  <ul id="proposition-links">
+    <li><%= link_to 'Courts', admin_courts_path %></li>
+    <li><%= link_to 'Address Types', admin_address_types_path %></li>
+    <li><%= link_to 'Countries', admin_countries_path %></li>
+    <li><%= link_to 'Counties', admin_counties_path %></li>
+    <li><%= link_to 'Towns', admin_towns_path %></li>
+    <!-- <li><%#= link_to 'Court Types', admin_court_types_path %></li> -->
+    <li><%= link_to 'Areas of law', admin_areas_of_law_path %></li>
+    <li><%= link_to 'Opening Types', admin_opening_types_path %></li>
+    <li><%= link_to 'Contact Types', admin_contact_types_path %></li>
+    <li><%= link_to 'Facilities', admin_facilities_path %></li>
+    <li><%= link_to 'Regions', admin_regions_path %></li>
+    <li><%= link_to 'Areas', admin_areas_path %></li>
+    <li><%= link_to_if current_user.admin?, 'Users', admin_users_path %></li>
+  </ul>
 <% end %>

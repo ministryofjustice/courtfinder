@@ -1,0 +1,30 @@
+$beta-colour:$orange;
+
+.beta {
+  #wrapper {
+    border-bottom-color:$beta-colour;
+  }
+  
+  #global-breadcrumb nav {
+    border-top:0;
+  }
+
+  #phase-notice {
+    p {
+      padding: .5em 2em;
+      max-width: 940px;
+      margin: 0 auto;
+      font-size:1.6rem;
+      background: $beta-colour;
+      @include media-down(mobile) {
+        padding: .5em 1em;
+      }
+    }
+    a {
+      color: $black;
+    }
+    strong {
+      text-transform: uppercase;
+    }
+  }
+}

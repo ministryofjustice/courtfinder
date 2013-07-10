@@ -25,7 +25,7 @@ Courtfinder::Application.routes.draw do
   end
   
   # Admin section
-  get "admin" => "home#admin"
+  get 'admin', to: redirect('/admin/courts')
 
   devise_for :users, :path_prefix => 'admin'
 
