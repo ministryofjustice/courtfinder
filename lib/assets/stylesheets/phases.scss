@@ -1,6 +1,22 @@
 $beta-colour:$orange;
 
 .beta {
+  #proposition-name {
+    small {
+      vertical-align:3px;
+      margin-left:16px;
+      padding:3px 5px;
+      background-color:$beta-colour;
+
+      @include core-16;
+      color:$white;
+      font-weight:bold;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      -webkit-font-smoothing:subpixel-antialiased;
+    }
+  }
+  
   #wrapper {
     border-bottom-color:$beta-colour;
   }
