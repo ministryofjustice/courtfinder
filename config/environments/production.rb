@@ -49,7 +49,7 @@ Courtfinder::Application.configure do
   # config.assets.precompile += %w( search.js )
 
   # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Enable threaded mode
   # config.threadsafe!
@@ -70,4 +70,13 @@ Courtfinder::Application.configure do
   
   # Devise requirement for sending user emails
   config.action_mailer.default_url_options = { :host => 'courttribunalfinder.service.gov.uk' }
+
+  config.action_mailer.smtp_settings = {
+    address: ENV['SMTP_HOSTNAME'],
+    port: 465,
+    domain: ENV['SMTP_DOMAIN'],
+    user_name: ENV['SMTP_USERNAME'],
+    password: ENV['SMTP_PASSWORD'],
+    authentication: :login
+  }
 end
