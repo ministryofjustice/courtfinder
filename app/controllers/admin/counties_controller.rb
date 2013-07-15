@@ -1,6 +1,4 @@
-class Admin::CountiesController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::CountiesController < Admin::ApplicationController
   # GET /counties
   # GET /counties.json
   def index

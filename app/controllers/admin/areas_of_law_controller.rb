@@ -1,6 +1,4 @@
-class Admin::AreasOfLawController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::AreasOfLawController < Admin::ApplicationController
   # GET /admin/areas_of_law
   # GET /admin/areas_of_law.json
   def index

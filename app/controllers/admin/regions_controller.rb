@@ -1,6 +1,4 @@
-class Admin::RegionsController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::RegionsController < Admin::ApplicationController
   # GET /admin/regions
   # GET /admin/regions.json
   def index

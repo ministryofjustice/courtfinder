@@ -1,6 +1,4 @@
-class Admin::FacilitiesController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::FacilitiesController < Admin::ApplicationController
   # GET /admin/facilities
   # GET /admin/facilities.json
   def index

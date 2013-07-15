@@ -1,5 +1,5 @@
-class Admin::UsersController < ApplicationController
-  before_filter :authenticate_user!, :authorised?
+class Admin::UsersController < Admin::ApplicationController
+  before_filter :authorised?
 
   respond_to :html, :json
 

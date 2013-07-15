@@ -1,6 +1,4 @@
-class Admin::AreasController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::AreasController < Admin::ApplicationController
   # GET /admin/areas
   # GET /admin/areas.json
   def index

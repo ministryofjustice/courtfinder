@@ -1,6 +1,4 @@
-class Admin::ContactTypesController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::ContactTypesController < Admin::ApplicationController
   # GET /admin/contact_types
   # GET /admin/contact_types.json
   def index

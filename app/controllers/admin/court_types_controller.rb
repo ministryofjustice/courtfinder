@@ -1,6 +1,4 @@
-class Admin::CourtTypesController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::CourtTypesController < Admin::ApplicationController
   # GET /admin/court_types
   # GET /admin/court_types.json
   def index

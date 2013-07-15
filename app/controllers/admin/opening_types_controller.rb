@@ -1,6 +1,4 @@
-class Admin::OpeningTypesController < ApplicationController
-  before_filter :authenticate_user!
-
+class Admin::OpeningTypesController < Admin::ApplicationController
   # GET /admin/opening_types
   # GET /admin/opening_types.json
   def index
