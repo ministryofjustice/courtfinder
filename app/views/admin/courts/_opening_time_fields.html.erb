@@ -6,7 +6,7 @@
 
   <fieldset>
     <%= f.association :opening_type, :include_blank => false %>
-    <%= f.input :name %>
+    <%= f.input :name, :input_html => { :placeholder => 'eg 9am to 5:30pm' } %>
     <%= f.input :sort %>
     <div class="destroy">
       <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove these opening times</a>

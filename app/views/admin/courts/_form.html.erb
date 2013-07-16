@@ -26,7 +26,7 @@
   <%= f.input :cci_code %>
   <%= f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>' %>
 
-  <h2>Temporary alert</h2>
+  <h2>Urgent notice</h2>
   <p>Use this field to display a temporary notice of building closure. This is limited to 140 characters including spaces.</p>
   <%= f.input :alert, :maxlength => 140, :hint => 'Remove all text to hide the alert' %>
 
@@ -48,7 +48,7 @@
   <div id="group-opening-times">
     <a href="#" class="field-group" data-alt="edit opening times">reorder opening times</a>
     <h2>Opening times</h2>
-    <p>Please adhere to the Gov.uk content design principles when <a href="https://www.gov.uk/designprinciples/styleguide#dates-and-times" rel="ext help">entering dates and times</a>.</p>
+    <p>Please adhere to the GOV.UK content design principles when <a href="https://www.gov.uk/designprinciples/styleguide#dates-and-times" rel="ext help">entering dates and times</a>.</p>
     <ul class="sortable">
       <%= f.simple_fields_for :opening_times do |builder| %>
         <%= render 'opening_time_fields', f: builder %>
@@ -103,7 +103,7 @@
 
   <h2>Further information</h2>
   <p><strong>Note:</strong> Not currently displayed.</p>
-  <p>Please only add concise details about this particular court.</p>
+  <p>Please only add concise details about this particular court, no contact details or guidance on going to court.</p>
   <%= f.input :info, :input_html => { :disabled => 'disabled' } %><%# Set :input_html :class back to 'ckeditor' when enabled %>
 
   <fieldset class="court-closed">
