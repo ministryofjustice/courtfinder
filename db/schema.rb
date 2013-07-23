@@ -185,7 +185,6 @@ ActiveRecord::Schema.define(:version => 20130624214738) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "image_description"
-    t.string   "image_file"
   end
 
   create_table "friendly_id_slugs", :force => true do |t|
