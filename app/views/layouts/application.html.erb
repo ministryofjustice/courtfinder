@@ -47,11 +47,18 @@
 		ga('create', 'UA-37377084-3', 'service.gov.uk');
 		ga('send', 'pageview');
 	</script>
-	<%= stylesheet_link_tag    "application", :media => "all" %>
-	<%= stylesheet_link_tag    "admin", :media => "all" if admin_area? %>
-	<%= stylesheet_link_tag    "print", :media => "print" %>
-	<%= javascript_include_tag "application" %>
-	<%= javascript_include_tag "admin" if admin_area? %>
+        <%= stylesheet_link_tag    "application", :media => "all" %>
+        <%- if admin_area? %>
+        <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.base.css" rel="stylesheet" type="text/css"/>
+        <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.theme.css" rel="stylesheet" type="text/css"/>
+        <% end %>
+        <%= stylesheet_link_tag    "admin", :media => "all" if admin_area? %>
+        <%= stylesheet_link_tag    "print", :media => "print" %>
+        <%= javascript_include_tag "application" %>
+        <%- if admin_area? %>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+        <%= javascript_include_tag "admin" %>
+        <% end %>
 </head>
 
 <body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %> beta">

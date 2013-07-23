@@ -19,7 +19,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'          # jQuery
 gem 'friendly_id'           # Custom addresses instead of Ids
 gem 'will_paginate'         # Paging
 gem 'simple_form'           # Build forms with ease
@@ -32,7 +31,6 @@ gem 'rmagick'               # Resize uploaded images
 gem 'carrierwave', :git => 'https://github.com/carrierwaveuploader/carrierwave.git', :branch => 'master'           # Handles file uploads
 gem 'fog'                   # Talks to cloud providers (e.g. S3)
 gem 'gmaps4rails'           # Maps and directions
-gem 'jquery-ui-rails'       # jQuery UI assets
 gem 'unicorn'
 gem 'haml-rails'            # Leaner markup with Haml.info
 gem 'rdiscount'             # Enable Markdown in Haml
