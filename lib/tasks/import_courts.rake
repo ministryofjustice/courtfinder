@@ -240,7 +240,7 @@ namespace :import do
       end
 
       # Only add the address if a court is found
-      if court and row[2] != 'NULL'
+      if court and !row[2].empty?
         puts "Adding '#{row[2]}'"
 
         addr = Address.new
@@ -619,7 +619,7 @@ namespace :import do
         court_facility = CourtFacility.new
 
         court_facility.court_id = court.id
-        court_facility.facility_id = Facility.find_by_old_id(row[1]).id
+        court_facility.facility_id = (Facility.find_by_old_id(row[1]) || next).id
         court_facility.description = row[2].strip if row[2].present?
 
         counter += 1 if court_facility.save!
