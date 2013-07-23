@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery-migrate
 //= require search
 //= require_tree ./gmaps4rails
 
