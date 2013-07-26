@@ -83,6 +83,7 @@ GEM
     formatador (0.2.4)
     friendly_id (4.0.9)
     geocoder (1.1.6)
+    global_phone (1.0.1)
     gmaps4rails (1.5.6)
     govuk_frontend_toolkit (0.31.0)
       rails (>= 3.1.0)
@@ -202,6 +203,7 @@ DEPENDENCIES
   fog
   friendly_id
   geocoder
+  global_phone
   gmaps4rails
   govuk_frontend_toolkit
   haml-rails
