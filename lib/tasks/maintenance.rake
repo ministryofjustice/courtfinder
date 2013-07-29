@@ -4,7 +4,7 @@ namespace :maintenance do
       Contact.find_each do |c|
         puts c.telephone
         if number = GlobalPhone.parse(c.telephone, :gb)
-          c.telephone = number.normalized
+          c.telephone = number.national_format
           c.save!
         end
         puts c.telephone
