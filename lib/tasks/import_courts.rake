@@ -576,7 +576,7 @@ namespace :import do
     
     csv.each do |row|
 
-      if row[3].to_i == 1 # facility image
+      if row[3] == 'true'
         facility = Facility.new
 
         facility.old_id = row[0]
