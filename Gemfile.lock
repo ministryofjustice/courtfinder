@@ -208,6 +208,7 @@ DEPENDENCIES
   govuk_frontend_toolkit
   haml-rails
   newrelic_rpm
+  nokogiri
   pg
   rails (= 3.2.13)
   rdiscount

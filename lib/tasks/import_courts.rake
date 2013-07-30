@@ -449,6 +449,9 @@ namespace :import do
         # "court_contacts_general_id","court_contacts_general_no","court_id","court_contact_type_id","court_contact_general_order"
 
         contact.telephone = row[1]
+        if number = GlobalPhone.parse(contact.telephone, :gb)
+          contact.telephone = number.national_format
+        end
         contact.court_id = court.id
         contact.in_leaflet = true
 
@@ -627,7 +630,7 @@ namespace :import do
 
         court_facility.court_id = court.id
         court_facility.facility_id = (Facility.find_by_old_id(row[1]) || next).id
-        court_facility.description = row[2].strip if row[2].present?
+        court_facility.description = Nokogiri::HTML(row[2].strip).inner_text if row[2].present?
 
         counter += 1 if court_facility.save!
       end
