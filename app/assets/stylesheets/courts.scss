@@ -38,12 +38,16 @@ form#directions input#from {margin:0 0 1em 0;}
 .related {border-top:10px solid #f47738;}
 
 .facilities {
-    dt {
-        float:left; clear:left; margin:0.2em 0;
+  dt {
+    float:left; clear:left; width:50px; height:50px; margin:0 0 10px;
+  }
+  dd {
+    min-height:50px; margin:0; padding:10px 0 0 60px;
+
+    p {
+      margin:0;
     }
-    dd {
-        float:left; margin-left:1em;
-    }
+  }
 }
 
 @mixin column($pos:1, $block:60px, $offset:10px) {
