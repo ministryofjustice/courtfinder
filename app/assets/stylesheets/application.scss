@@ -12,3 +12,13 @@
 // Application
 @import "home";
 @import "courts";
+
+// Temporary fixes
+#footer .footer-meta nav {
+  display: inline-block;
+  width: 75%;
+  
+  p {
+    font-size: 1.6rem;
+  }
+}
