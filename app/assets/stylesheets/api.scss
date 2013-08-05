@@ -1,0 +1,37 @@
+
+@import "_typography";
+@import "gmaps4rails";
+
+body { float: left; }
+
+#court-info {
+  float:left;
+  font-family: "nta",Arial,sans-serif;
+  #address { 
+    span {
+      display:block;
+    }
+    width: 220px;
+    float:left;
+  }
+  #areas-of-law {
+    span {
+      display:block;
+    }
+    width: 200px;
+    float:left;
+  }
+
+  .map_container {
+    float:left;
+    width: 300px;
+    #map {
+      width: 300px;
+      height: 200px;
+    }
+  }
+
+
+}
+
+h4 { text-decoration: underline; }
