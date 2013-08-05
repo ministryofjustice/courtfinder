@@ -133,8 +133,7 @@
 
 
 -# === Court info ===
--# Removed until proven necessary
--# if @court.info.present?
--#  %h2 Further information:
--#  %div{:itemprop => "description"}= @court.info.html_safe
+- if @court.info.present?
+  %h2 Further information:
+  %div{:itemprop => "description"}= @court.info.html_safe
 
