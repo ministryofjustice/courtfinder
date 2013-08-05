@@ -55,6 +55,15 @@ module Courtfinder
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    config.assets.precompile += %w(
+      govuk-static/application.css
+      govuk-static/application-ie6.css
+      govuk-static/application-ie7.css
+      govuk-static/application-ie8.css
+      govuk-static/fonts-ie8.css
+      govuk-static/fonts.css
+      govuk-static/print.css
+    )
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
