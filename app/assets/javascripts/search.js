@@ -29,7 +29,7 @@ $(function () {
 	
 	var hideResults = function () {
 		active = false;
-		return results.delay(100).fadeOut(0); // add delay so we have time to click links before they disappear. use fade, as delay needs to work with an animation so hide doesn't work.
+		return results.delay(200).fadeOut(0); // add delay so we have time to click links before they disappear. use fade, as delay needs to work with an animation so hide doesn't work.
 	};
 	
 	var markMatched = function (term, text) {
@@ -118,7 +118,7 @@ $(function () {
 							matches = [], list;
 
 						var listResults = function (items) {
-							var name, i = 0, results = [];
+							var name, i = 0, results = [], item;
 
 							while (i < items.length && i < 14) {
 								item = items[i];
