@@ -103,7 +103,7 @@
       %dt
         %i.icon
           %img{:src => '/assets/facility_icons.png', :class => court_facility.facility.image, :alt => court_facility.facility.image_description, :title => court_facility.facility.name}
-      %dd= court_facility.description
+      %dd= court_facility.description.html_safe
 
 
 
