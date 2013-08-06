@@ -14,6 +14,10 @@
 @import "courts";
 
 // Temporary fixes
+article .inner {
+  padding:0;
+}
+
 #footer .footer-meta nav {
   display: inline-block;
   width: 75%;

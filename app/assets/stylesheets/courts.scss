@@ -1,8 +1,17 @@
 $grey:#eaedef;
 
 .courts {
-  h2 {
-    clear:left;
+  article .inner {
+    padding:0 30px;
+
+    h2 {
+      clear:left;
+      margin-bottom:0;
+    }
+
+    p {
+      margin:0;
+    }
   }
 
   .help-notice {
@@ -24,8 +33,8 @@ form.find-location-for-service {background:$grey url(https://assets.digital.cabi
 form.find-location-for-service select#area_of_law {width:285px;}
 form.find-location-for-service #filters {margin-top:1em;}
 
-.inner div.addresses{
-  overflow:hidden; width:63%; padding:1em 1em 1em 1.5em; background:$grey;
+.inner div.addresses {
+  width:620px; min-height:275px; margin-left:-30px; padding-left:30px; background:$grey;
   
   .postal,
   .visit {
@@ -33,9 +42,9 @@ form.find-location-for-service #filters {margin-top:1em;}
   }
 }
 
-form#directions input#from {margin:0 0 1em 0;}
+#court-photo { float:right; margin-right:-30px; }
 
-.related {border-top:10px solid #f47738;}
+form#directions input#from {margin:0 0 1em 0;}
 
 .facilities {
   dt {
@@ -43,10 +52,6 @@ form#directions input#from {margin:0 0 1em 0;}
   }
   dd {
     min-height:50px; margin:0; padding:10px 0 0 60px;
-
-    p {
-      margin:0;
-    }
   }
 }
 
