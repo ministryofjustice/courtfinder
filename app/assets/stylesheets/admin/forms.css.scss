@@ -2,7 +2,15 @@
 #user_nav {
   float: right;
   line-height: 1.25;
+  margin-right: 30px;
   padding: .75em 0;
+}
+
+$page-width:960px;
+$table-margins:16px * 2;
+
+article table {
+  width: $page-width + $table-margins;
 }
 
 div.input.string,
