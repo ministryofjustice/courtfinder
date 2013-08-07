@@ -19,6 +19,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'jquery-rails', '~> 2.1'# Rails unobtrusive scripting adapter for jQuery
 gem 'friendly_id'           # Custom addresses instead of Ids
 gem 'will_paginate'         # Paging
 gem 'simple_form'           # Build forms with ease
