@@ -12,6 +12,10 @@ $grey:#eaedef;
     p {
       margin:0;
     }
+
+    .well {
+      margin-bottom:1em; padding:.5em .75em; background:$grey;
+    }
   }
 
   .help-notice {
@@ -21,10 +25,6 @@ $grey:#eaedef;
   header.page-header hgroup {
     margin:0;
   }
-}
-
-.well {
-  padding:.5em .75em; background:$grey;
 }
 
 #local-locator-form input#search-main {margin-left: 0;}
