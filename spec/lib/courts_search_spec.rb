@@ -58,10 +58,14 @@ describe CourtSearch do
   end
 
   it "should propagate exceptions to the controller" do
-    RestClient::Resource.should_receive(:new).and_raise(StandardError)
-    court_search = CourtSearch.new('irrelevant')
+    RestClient::Resource.any_instance.should_receive(:get).and_raise(StandardError)
     expect {
-      court_search.latlng_from_postcode('lolcode')
+      CourtSearch.new('EC1M 5UQ').results
     }.to raise_error(StandardError)
+  end
+
+  it "should get initialized with proper timeout values" do
+    RestClient::Resource.should_receive(:new).with('http://pclookup.cjs.gov.uk/postcode_finder.php', timeout: 3, open_timeout: 1).once
+    CourtSearch.new('irrelevant')
   end
 end

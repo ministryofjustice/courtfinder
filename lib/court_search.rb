@@ -6,6 +6,7 @@ class CourtSearch
     @query = query
     @options = options
     @errors = []
+    @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
   end
 
   def results
@@ -30,7 +31,7 @@ class CourtSearch
   def latlng_from_postcode(postcode)
     # Use PHP postcode service to turn postcode into lat/lon
     service_available = Rails.application.config.postcode_lookup_service_url rescue false
-    json = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url).get(:params => { :searchtext => postcode, :searchbtn => 'Search' })
+    json = @restclient.get(:params => { :searchtext => postcode, :searchbtn => 'Search' })
     results = JSON.parse json
     [results['primary']['coordinates']['lat'], results['primary']['coordinates']['long']]
   end
