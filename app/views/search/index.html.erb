@@ -1,9 +1,9 @@
 <% content_for :title, 'Search results' %>
 
-<% if @court_search.results.present? %>
+<% if @results.any? %>
   <p>Your search for <strong><%= @court_search.query %></strong> found the follow results:</p>
   <ul class="search-results">
-    <% @court_search.results.each do |court| %>
+    <% @results.each do |court| %>
       <li>
         <ul class="areas-of-law">
           <% court.areas_of_law.each do |area| %>
@@ -23,6 +23,13 @@
     <% end %>
   </ul>
 <% else %>
-  <p>Your search for <strong><%= @court_search.query %></strong> did not return any results.</p>
-  <p>Please try another postcode or court name.</p>
+  <% if @timeout %>
+    <p>Your search has timed out. Please try again in a few minutes.</p>
+    <script>
+      ga('send', 'event', 'Error', 'Timeout', '<%= @query %>');
+    </script>
+  <% else %>
+    <p>Your search for <strong><%= @court_search.query %></strong> did not return any results.</p>
+    <p>Please try another postcode or court name.</p>
+  <% end %>
 <% end %>

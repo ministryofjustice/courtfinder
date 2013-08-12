@@ -56,4 +56,12 @@ describe CourtSearch do
     court_search = CourtSearch.new('court')
     court_search.results.should_not include(@court5)
   end
+
+  it "should propagate exceptions to the controller" do
+    RestClient::Resource.should_receive(:new).and_raise(StandardError)
+    court_search = CourtSearch.new('irrelevant')
+    expect {
+      court_search.latlng_from_postcode('lolcode')
+    }.to raise_error(StandardError)
+  end
 end
