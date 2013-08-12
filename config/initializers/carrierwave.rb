@@ -9,5 +9,4 @@ Fog.credentials = {
 CarrierWave.configure do |config|
   config.fog_credentials = { provider: 'AWS' }
   config.fog_directory = ENV['APP_S3_BUCKET']
-  config.fog_use_ssl_for_aws = false
 end
