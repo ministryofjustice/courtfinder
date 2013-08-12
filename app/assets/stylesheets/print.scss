@@ -37,10 +37,16 @@ section#content {
   }
 }
 
-article[role="article"] {
-  width:auto; margin:0;
+.courts {
+  article[role="article"] {
+    width:auto; margin:0;
 
-  .inner {
-    padding:0;
+    .inner {
+      padding:0;
+
+      p {
+        margin:0.75em 0;
+      }
+    }
   }
 }
