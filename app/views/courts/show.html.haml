@@ -1,7 +1,8 @@
 - content_for :title do
   = @court.name
   -# Admin only
-  %small= link_to "edit this court", edit_admin_court_path(@court), :class => 'hidden-print' if user_signed_in?
+  - if user_signed_in?
+    %small= link_to "edit this court", edit_admin_court_path(@court), :class => 'hidden-print'
 - content_for :titleMetadata, 'property="name"'.html_safe
 - content_for :contentMetadata, 'vocab="http://schema.org/" typeof="Courthouse GovernmentOrganization"'.html_safe
 - content_for :last_updated, @court.updated_at.to_s(:standard)
