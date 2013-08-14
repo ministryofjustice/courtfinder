@@ -57,6 +57,9 @@
         - if contact.telephone?
           %p{:property => "telephone"}
             = precede contact.contact_type.name do
+              - if contact.name.present?
+                = surround ' (', ')' do
+                  = contact.name
               \: #{link_to(contact.telephone, ['tel:', GlobalPhone.normalize(contact.telephone, :gb)].join)}
         - else
           %p= contact.contact_type.name
