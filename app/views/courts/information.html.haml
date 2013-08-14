@@ -1,13 +1,13 @@
-- content_for :title do
-  %b.leaflet-code EX104
-  = @court.name
-
+- content_for :title, @court.name
 - content_for :last_updated, @court.updated_at.to_s(:standard)
 - content_for :nav do
   %li
     = link_to 'Courts', courts_path
   %li
     = link_to @court.name, @court
+
+%p
+  %strong Local information Ex104
 
 %p.hidden-print.well
   = link_to 'Print this page', '#', :class => 'print-link'
