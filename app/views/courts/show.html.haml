@@ -9,9 +9,6 @@
 
 - if @court.display
 
-  -# Admin only
-  %p= link_to "edit this court", edit_admin_court_path(@court), :class => 'hidden-print' if user_signed_in?
-
   = render 'court_details'
 
 - else
