@@ -1,9 +1,17 @@
 require 'spec_helper'
 
 describe SearchController do
+  render_views
+
   describe "GET index" do
     it "responds with a list of courts" do
       CourtSearch.any_instance.should_receive(:results).and_return([])
+      get :index
+      response.should be_success
+    end
+
+    it "doesn't blow up when results are nil" do 
+      CourtSearch.any_instance.should_receive(:results).and_return(nil)
       get :index
       response.should be_success
     end
