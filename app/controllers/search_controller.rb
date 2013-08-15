@@ -4,6 +4,7 @@ class SearchController < ApplicationController
     @court_search = CourtSearch.new(@query = params[:q], {:area_of_law => params[:area_of_law]})
     begin
       @results = @court_search.results
+      @errors = @court_search.errors
     rescue RestClient::RequestTimeout
       @results = []
       @timeout = true

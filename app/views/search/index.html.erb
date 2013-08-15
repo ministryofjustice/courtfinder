@@ -28,6 +28,11 @@
     <script>
       ga('send', 'event', 'Error', 'Timeout', '<%= @query %>');
     </script>
+  <% elsif @errors.present? %>
+    <h2>There was a problem submitting the form</h2>
+    <% @errors.each do |error| %>
+      <p><%= error %></p>
+    <% end %>
   <% else %>
     <p>Your search for <strong><%= @court_search.query %></strong> did not return any results.</p>
     <p>Please try another postcode or court name.</p>
