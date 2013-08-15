@@ -80,7 +80,9 @@
 		<nav role="navigation">
 			<%= render 'shared/admin_user' if admin_area? %>
 			<ol class="group">
-				<li><a href="/">Home</a></li>
+				<% unless admin_area? %>
+					<li><a href="/">Home</a></li>
+				<% end %>
 				<%= yield :nav if content_for? :nav %>
 			</ol>
 		</nav>
