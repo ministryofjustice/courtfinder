@@ -14,16 +14,16 @@ class CourtSearch
   end
 
   def results
-    if @query.blank?
+    if @query.empty?
       @errors << 'A search term must be provided'
-      return
+      []
     else
       if postcode_search?
         if latlng = latlng_from_postcode(@query)
           Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 20)
         else
           @errors << "We couldn't find that post code. Please try again."
-          return
+          []
         end
       else
         Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)

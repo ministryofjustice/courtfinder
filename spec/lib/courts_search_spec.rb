@@ -57,13 +57,17 @@ describe CourtSearch do
     CourtSearch.new('irrelevant')
   end
 
-  it "should return nothing when the search string is blank" do
-    CourtSearch.new('').results.should be_nil
-  end
-
   it "should return an error when the search string is blank" do
     cs = CourtSearch.new('')
-    cs.results
-    cs.should have_at_least(1).errors
+    cs.results.should be_empty
+    cs.should have(1).errors
+  end
+
+  it "should return an error when the postcode cannot be found" do
+    cs = CourtSearch.new('irrelevant')
+    cs.should_receive(:postcode_search?).and_return(true)
+    cs.should_receive(:latlng_from_postcode).and_return(false)
+    cs.results.should be_empty
+    cs.should have(1).errors
   end
 end
