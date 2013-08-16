@@ -3,6 +3,8 @@ class AreaOfLaw < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :courts, :through => :courts_areas_of_law
 
+  default_scope :order => 'areas_of_law.name'
+
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
   

@@ -80,7 +80,7 @@
   </div>
   
   <h2>Areas of law covered</h2>
-  <%= f.association :areas_of_law, :collection => AreaOfLaw.all(:order => 'name'), :as => :check_boxes, :label => false %>
+  <%= f.association :areas_of_law, :collection => AreaOfLaw.all, :as => :check_boxes, :label => false %>
 
   <div class="group-courts-facilities">
     <a href="#" class="field-group" data-alt="edit court facilities">reorder court facilities</a>
