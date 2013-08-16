@@ -72,4 +72,10 @@ describe CourtSearch do
   it "should return nothing when the search string is blank" do
     CourtSearch.new('').results.should be_nil
   end
+
+  it "should return an error when the search string is blank" do
+    cs = CourtSearch.new('')
+    cs.results
+    cs.should have_at_least(1).errors
+  end
 end
