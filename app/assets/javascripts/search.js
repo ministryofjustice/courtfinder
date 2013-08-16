@@ -166,8 +166,9 @@ $(function () {
 	var form = $('#local-locator-form'),
 	  submit = $('[type=submit]', form);
 
+	// test whether we allow the form to be submitted
 	var submitable = function () {
-		$.trim(search.val()).length;
+		return !!$.trim(search.val()).length;
 	};
 
 	// disable form until search box contains a string
@@ -179,7 +180,7 @@ $(function () {
 
 	// disable submit button until search box contains a string
 	search.on('keyup', function (e) {
-		submit.attr('disabled', !submitable);
+		submit.attr('disabled', !submitable());
 	}).keyup();
 
 	search.focus()
