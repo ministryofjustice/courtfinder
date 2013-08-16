@@ -11,13 +11,11 @@ describe CourtSearch do
 
   it "should return courts nearby if full postcode search" do
     court_search = CourtSearch.new('hp41du')
-    # court_search.stub!(:latlng_from_postcode).and_return([51.768305511577, -0.57250059493886])
     court_search.results.should == [@court1]
   end
 
   it "should return courts nearby if partial postcode" do
     court_search = CourtSearch.new('hp4')
-    # court_search.stub!(:latlng_from_postcode).and_return([51.768305511577, -0.57250059493886])
     court_search.results.should == [@court1]
   end
 
@@ -30,16 +28,6 @@ describe CourtSearch do
   it "should return courts by name if search is not a postcode" do
     CourtSearch.new('London').results.should == [@court2]
   end
-
-  # it "should return courts by name and court type if both match" do
-  #   @court_type = FactoryGirl.create(:court_type, :name => 'London courts')
-  #   CourtSearch.new('London').results.should == {:courts => [@court2], :court_types => [@court_type], :areas_of_law => []}
-  # end
-
-  # it "should return courts by name and areas of law if both match" do
-  #   @area_of_law = FactoryGirl.create(:area_of_law, :name => 'London crime')
-  #   CourtSearch.new('London').results.should == {:courts => [@court2], :court_types => [], :areas_of_law => [@area_of_law]}
-  # end
 
   it "should limit results to area of law when specified" do
     # should return court 3 and not court 4
