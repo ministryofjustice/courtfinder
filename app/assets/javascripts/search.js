@@ -22,9 +22,7 @@ $(function () {
 	
 	var showResults = function () {
 		active = true;
-		// if (search.val().length > minText) {
-			return results.show();
-		// }
+		return results.show();
 	};
 	
 	var hideResults = function () {
@@ -164,6 +162,26 @@ $(function () {
 			}
 		});
 	};
+
+	var form = $('#local-locator-form'),
+	  submit = $('[type=submit]', form);
+
+	// test whether we allow the form to be submitted
+	var submitable = function () {
+		return !!$.trim(search.val()).length;
+	};
+
+	// disable form until search box contains a string
+	form.on('submit', function (e) {
+		if (!submitable()) {
+			e.preventDefault();
+		};
+	});
+
+	// disable submit button until search box contains a string
+	search.on('keyup', function (e) {
+		submit.attr('disabled', !submitable());
+	}).keyup();
 
 	search.focus()
 });

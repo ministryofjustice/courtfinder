@@ -9,11 +9,20 @@ class CourtSearch
     @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
   end
 
+  def errors
+    @errors
+  end
+
   def results
-    if postcode_search?
-      search_postcode
+    if @query.blank?
+      @errors << 'A search term must be provided'
+      return
     else
-      Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
+      if postcode_search?
+        search_postcode
+      else
+        Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
+      end
     end
   end
 

@@ -68,4 +68,14 @@ describe CourtSearch do
     RestClient::Resource.should_receive(:new).with('http://pclookup.cjs.gov.uk/postcode_finder.php', timeout: 3, open_timeout: 1).once
     CourtSearch.new('irrelevant')
   end
+
+  it "should return nothing when the search string is blank" do
+    CourtSearch.new('').results.should be_nil
+  end
+
+  it "should return an error when the search string is blank" do
+    cs = CourtSearch.new('')
+    cs.results
+    cs.should have_at_least(1).errors
+  end
 end
