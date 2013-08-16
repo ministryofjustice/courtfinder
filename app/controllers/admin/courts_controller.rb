@@ -61,7 +61,7 @@ class Admin::CourtsController < Admin::ApplicationController
 
     respond_to do |format|
       if @court.update_attributes(params[:court])
-        format.html { redirect_to edit_admin_court_path(@court), notice: 'Court was successfully updated.' }
+        format.html { redirect_to edit_admin_court_path(@court), notice: ('Court was successfully updated. Changes may take up to 1.5 hours before becoming public. <a href="'+court_path(@court, {nocache: :true})+'">Preview changes</a>.').html_safe }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
