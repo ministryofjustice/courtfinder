@@ -57,6 +57,11 @@ div.input.integer {
   }
 }
 
+div.court_areas_of_law {
+  label { width:50%; display:inline-block; }
+  input { margin-right:3px; }
+}
+
 div.input.court_info {
   label {
     float: none;
