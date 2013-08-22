@@ -1,5 +1,7 @@
 class SearchController < ApplicationController
 
+  skip_before_filter :set_page_expiration
+
   def index
     @court_search = CourtSearch.new(@query = params[:q], {:area_of_law => params[:area_of_law]})
     begin
