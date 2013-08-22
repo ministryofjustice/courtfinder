@@ -42,6 +42,9 @@ GEM
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
+    byebug (1.8.2)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     ckeditor_rails (4.0.2)
       railties (>= 3.0)
     coffee-rails (3.2.2)
@@ -51,6 +54,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.1)
+    columnize (0.3.6)
+    debugger-linecache (1.2.0)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -199,6 +204,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   carrierwave!
   ckeditor_rails
   coffee-rails (~> 3.2.1)

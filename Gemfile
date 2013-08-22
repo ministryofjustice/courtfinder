@@ -6,6 +6,7 @@ gem 'rails', '3.2.14'
 gem 'pg'
 
 group :development, :test do
+  gem 'byebug'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
