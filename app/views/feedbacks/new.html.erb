@@ -1,0 +1,23 @@
+<% content_for :type, 'service' %>
+<% content_for :title, 'Send feedback' %>
+
+<div class="send-feedback">
+  <%= render "feedbacks/form" %>
+</div>
+
+<% if ENV['APP_PLATFORM'] == 'production' %>
+<script type="text/javascript">
+  $('#feedback-form').submit(function(){
+    var rating = $('input[name="feedback[rating]"]:checked').val();
+    if(typeof(rating) !== "undefined" && $.trim(feedback)) {
+      ga('send', {
+        'hitType': 'event', 
+        'eventCategory': 'feedback',
+        'eventAction': 'submit',
+        'eventLabel': 'rating',
+        'eventValue': rating
+      }); 
+    }
+  });
+</script>
+<% end %>

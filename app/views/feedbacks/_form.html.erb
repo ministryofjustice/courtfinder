@@ -1,0 +1,35 @@
+<%= form_for @feedback, :url => feedback_path, :id=>"feedback-form" do |f| %>
+  <% if @feedback.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@feedback.errors.count, "error") %> prohibited your feedback from being sent:</h2>
+      <ul>
+      <% @feedback.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <fieldset>
+    <legend>How would you rate your experience with this service?</legend>
+    <%= f.radio_button :rating, "5" %>
+    <%= f.label :rating, "Very good", :value=>"5", :class=>"radio" %>
+    <%= f.radio_button :rating, "4" %>
+    <%= f.label :rating, "Good", :value=>"4", :class=>"radio" %>
+    <%= f.radio_button :rating, "3" %>
+    <%= f.label :rating, "Unsure", :value=>"3", :class=>"radio" %>
+    <%= f.radio_button :rating, "2" %>
+    <%= f.label :rating, "Bad", :value=>"2", :class=>"radio" %>
+    <%= f.radio_button :rating, "1" %>
+    <%= f.label :rating, "Very bad", :value=>"1", :class=>"radio" %>
+    <div>
+    <br/> 
+    <%= f.label :text, "Please take a moment to tell us about your experience, what worked and what didn't." %>
+    <%= f.text_area :text, :id => "text", :cols => 50, :rows => 5 %>
+    </div>
+    <div>
+      <br/>             
+      <input type ="hidden" name="referrer" value="<%= params[:referrer] %>" />
+      <%= f.submit "Send", :class => "button" %>
+    </div>
+  </fieldset>
+<% end %>
