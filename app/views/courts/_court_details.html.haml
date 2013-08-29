@@ -49,7 +49,7 @@
 -# === Contacts ===
 - if @court.contacts.present?
 
-  %h2 Contact the court:
+  %h2 Contact us:
 
   - @court.contacts.each do |contact|
     - if (print_view && contact.in_leaflet) || !print_view
