@@ -18,5 +18,4 @@ module ApplicationHelper
   def home_page?
     request.fullpath == '/'
   end
-
 end

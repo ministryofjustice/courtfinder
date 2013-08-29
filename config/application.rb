@@ -56,13 +56,12 @@ module Courtfinder
     # Enable the asset pipeline
     config.assets.enabled = true
     config.assets.precompile += %w(
-      govuk-static/application.css
-      govuk-static/application-ie6.css
-      govuk-static/application-ie7.css
-      govuk-static/application-ie8.css
-      govuk-static/fonts-ie8.css
-      govuk-static/fonts.css
-      govuk-static/print.css
+      gov-static/gov-goodbrowsers.css
+      gov-static/gov-ie6.css
+      gov-static/gov-ie7.css
+      gov-static/gov-ie8.css
+      moj-base.css
+      gov-static/gov-ie.js
     )
 
     # Version of your assets, change this if you want to expire all your assets
@@ -70,5 +69,23 @@ module Courtfinder
 
     # Devise suggests we use this
     config.assets.initialize_on_precompile = false
+
+    # MOJ Toolkit
+
+    # app title appears in the header bar
+    config.app_title = 'Court and tribunal finder'
+
+    # phase governs text indicators and highlight colours
+    # presumed values: alpha, beta, live
+    config.phase = 'beta'
+
+    # known values: information, service
+    config.product_type = 'service'
+
+    # govbranding switches on or off the crown logo, full footer and NTA font
+    config.govbranding = true
+
+    # feedback_email is the address linked in the alpha/beta bar asking for feedback
+    config.feedback_email = 'test@example.com'
   end
 end
