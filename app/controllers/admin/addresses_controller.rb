@@ -44,6 +44,7 @@ class Admin::AddressesController < Admin::ApplicationController
 
     respond_to do |format|
       if @address.save
+        purge_all_pages
         format.html { redirect_to admin_address_path(@address), notice: 'Address was successfully created.' }
         format.json { render json: @address, status: :created, location: @address }
       else
@@ -60,6 +61,7 @@ class Admin::AddressesController < Admin::ApplicationController
 
     respond_to do |format|
       if @address.update_attributes(params[:address])
+        purge_all_pages
         format.html { redirect_to admin_address_path(@address), notice: 'Address was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::AddressesController < Admin::ApplicationController
   def destroy
     @address = Address.find(params[:id])
     @address.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_addresses_url }

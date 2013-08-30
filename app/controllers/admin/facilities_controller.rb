@@ -44,6 +44,7 @@ class Admin::FacilitiesController < Admin::ApplicationController
 
     respond_to do |format|
       if @facility.save
+        purge_all_pages
         format.html { redirect_to admin_facility_path(@facility), notice: 'Facility type was successfully created.' }
         format.json { render json: @facility, status: :created, location: @facility }
       else
@@ -60,6 +61,7 @@ class Admin::FacilitiesController < Admin::ApplicationController
 
     respond_to do |format|
       if @facility.update_attributes(params[:facility])
+        purge_all_pages
         format.html { redirect_to admin_facility_path(@facility), notice: 'Facility type was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::FacilitiesController < Admin::ApplicationController
   def destroy
     @facility = Facility.find(params[:id])
     @facility.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_facilities_url }

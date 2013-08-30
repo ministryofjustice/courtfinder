@@ -195,6 +195,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    varnish-client (0.0.1)
     warden (1.2.3)
       rack (>= 1.0)
     will_paginate (3.0.4)
@@ -231,4 +232,5 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 1.0.3)
   unicorn
+  varnish-client
   will_paginate

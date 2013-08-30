@@ -44,6 +44,7 @@ class Admin::AddressTypesController < Admin::ApplicationController
 
     respond_to do |format|
       if @address_type.save
+        purge_all_pages
         format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully created.' }
         format.json { render json: @address_type, status: :created, location: @address_type }
       else
@@ -60,6 +61,7 @@ class Admin::AddressTypesController < Admin::ApplicationController
 
     respond_to do |format|
       if @address_type.update_attributes(params[:address_type])
+        purge_all_pages
         format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::AddressTypesController < Admin::ApplicationController
   def destroy
     @address_type = AddressType.find(params[:id])
     @address_type.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_address_types_url }
