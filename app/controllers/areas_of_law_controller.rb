@@ -1,4 +1,6 @@
 class AreasOfLawController < ApplicationController
+
+  before_filter :set_page_expiration
   
   respond_to :html, :json
 

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Admin::CourtsController do
   render_views
 
-  after :each do
-    response.headers['Cache-Control'].should be_nil
+  before :each do
+    controller.should_receive(:set_page_expiration).never
   end
 
   it "displays a list of courts" do

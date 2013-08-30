@@ -3,6 +3,10 @@ require 'spec_helper'
 describe SearchController do
   render_views
 
+  before :each do
+    controller.should_receive(:set_page_expiration).never
+  end
+
   describe "GET index" do
     it "responds with a list of courts" do
       CourtSearch.any_instance.should_receive(:results).and_return([])

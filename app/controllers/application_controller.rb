@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   WillPaginate.per_page = 50
 
-  before_filter :set_page_expiration
-
   def after_sign_in_path_for(resource)
     admin_path
   end
@@ -13,5 +11,6 @@ class ApplicationController < ActionController::Base
 
   def set_page_expiration
     expires_in(3.hours, public: true)
+    headers['X-Varnish-Enable'] = '1'
   end
 end
