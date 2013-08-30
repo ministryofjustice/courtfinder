@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <%= javascript_include_tag "api" %>
+    <%= stylesheet_link_tag 'api' %>
+    <%= yield :scripts %>
+  </head>
+  <body>
+    <%= yield  %>
+  </body>
+</html>

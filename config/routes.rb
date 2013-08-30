@@ -23,6 +23,13 @@ Courtfinder::Application.routes.draw do
     match '/' => :index, :as => :regions
     match '/:id' => :show, :as => :region
   end
+
+  # stubbing an HTML API
+  namespace :api do
+    scope 'courts', :controller => :courts do
+      match '/:id' => :show
+    end
+  end
   
   # Admin section
   get 'admin', to: redirect('/admin/courts')
