@@ -44,6 +44,7 @@ class Admin::RegionsController < Admin::ApplicationController
 
     respond_to do |format|
       if @region.save
+        purge_all_pages
         format.html { redirect_to admin_region_path(@region), notice: 'Region was successfully created.' }
         format.json { render json: @region, status: :created, location: @region }
       else
@@ -60,6 +61,7 @@ class Admin::RegionsController < Admin::ApplicationController
 
     respond_to do |format|
       if @region.update_attributes(params[:region])
+        purge_all_pages
         format.html { redirect_to admin_region_path(@region), notice: 'Region was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::RegionsController < Admin::ApplicationController
   def destroy
     @region = Region.find(params[:id])
     @region.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_regions_url }

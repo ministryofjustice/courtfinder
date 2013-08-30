@@ -44,6 +44,7 @@ class Admin::ContactTypesController < Admin::ApplicationController
 
     respond_to do |format|
       if @contact_type.save
+        purge_all_pages
         format.html { redirect_to admin_contact_type_path(@contact_type), notice: 'Contact type was successfully created.' }
         format.json { render json: @contact_type, status: :created, location: @contact_type }
       else
@@ -60,6 +61,7 @@ class Admin::ContactTypesController < Admin::ApplicationController
 
     respond_to do |format|
       if @contact_type.update_attributes(params[:contact_type])
+        purge_all_pages
         format.html { redirect_to admin_contact_type_path(@contact_type), notice: 'Contact type was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::ContactTypesController < Admin::ApplicationController
   def destroy
     @contact_type = ContactType.find(params[:id])
     @contact_type.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_contact_types_url }

@@ -44,6 +44,7 @@ class Admin::TownsController < Admin::ApplicationController
 
     respond_to do |format|
       if @town.save
+        purge_all_pages
         format.html { redirect_to admin_town_path(@town), notice: 'Town was successfully created.' }
         format.json { render json: @town, status: :created, location: @town }
       else
@@ -60,6 +61,7 @@ class Admin::TownsController < Admin::ApplicationController
 
     respond_to do |format|
       if @town.update_attributes(params[:town])
+        purge_all_pages
         format.html { redirect_to admin_town_path(@town), notice: 'Town was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::TownsController < Admin::ApplicationController
   def destroy
     @town = Town.find(params[:id])
     @town.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_towns_url }

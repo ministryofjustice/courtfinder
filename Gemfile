@@ -40,3 +40,5 @@ gem 'newrelic_rpm'          # Application performance monitoring.
 gem 'govuk_frontend_toolkit'# Sass helpers
 gem 'global_phone'          # Phone number validation and formatting
 gem 'nokogiri'              # HTML processing
+gem 'varnish-client', require: 'varnish/client'
+
