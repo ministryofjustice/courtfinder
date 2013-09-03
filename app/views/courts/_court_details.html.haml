@@ -93,7 +93,10 @@
 
 -# === Facilities ===
 - if @court.court_facilities.present?
-  %h2 Facilities available:
+  %h2 Building facilities:
+
+  %p
+    If you have a disability and need help coming to a hearing, please contact the court or tribunal to make sure the facilities meet your specific needs or to discuss a reasonable adjustment you need.
 
   %dl.facilities
     - @court.court_facilities.each do |court_facility|
