@@ -14,7 +14,6 @@
 //= require search
 //= require_tree ./gmaps4rails
 
-
 $(function() {
 	$('form').on('click', '.remove_fields', function (e) {
 		e.preventDefault();

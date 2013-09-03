@@ -7,4 +7,7 @@ FactoryGirl.define do
 
   factory :area_of_law do
   end
+
+  factory :feedback do
+  end
 end
