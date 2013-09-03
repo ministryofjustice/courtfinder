@@ -9,6 +9,7 @@ describe FeedbacksController do
 
   before :each do
     @feedback_params = FactoryGirl.attributes_for(:feedback, {"rating" => 5, "text" => "what a beautiful site"})
+    NotificationsMailer.default to: "test@dsd.io", from: "test@dsd.io"
   end
 
   it "redirects to show page on successful feedback submission" do

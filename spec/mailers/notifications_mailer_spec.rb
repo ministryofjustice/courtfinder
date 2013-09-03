@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe NotificationsMailer do
+  before :each do
+    NotificationsMailer.default to: "test@dsd.io", from: "test@dsd.io"
+  end
+
   it "composes mail that contains user-submitted feedback form values" do
     form_params = {
         :feedback => {
