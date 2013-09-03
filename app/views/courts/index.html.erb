@@ -1,4 +1,4 @@
-<% content_for :title, 'Courts' %>
+<% content_for :title, 'Courts and Tribunals' %>
 
 <% if @courts.visible.present? %>
   <% letters = @courts.visible.group_by{|s|s.name[0,1].upcase}.map {|letter|letter[0]} %>
