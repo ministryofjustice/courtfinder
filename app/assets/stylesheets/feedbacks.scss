@@ -1,0 +1,14 @@
+form.new_feedback {
+  padding: 20px;
+  background: #eaedef;
+  fieldset {
+    padding:10px;
+  }
+  label.radio {
+    padding-right: 10px;
+  }
+  #char-limit {
+    font-size: 10px;
+    color: #444444;
+  }
+}
