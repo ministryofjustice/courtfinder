@@ -12,6 +12,7 @@
 // Application
 @import "home";
 @import "courts";
+@import "feedbacks";
 
 // Temporary fixes
 article .inner {
@@ -25,8 +26,4 @@ article .inner {
   p {
     font-size: 1.6rem;
   }
-}
-
-label.radio {
-  padding-right: 10px;
 }

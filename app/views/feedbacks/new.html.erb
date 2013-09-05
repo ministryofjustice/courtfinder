@@ -5,18 +5,22 @@
   <%= render "feedbacks/form" %>
 </div>
 
+<script type="text/javascript">
+$('#text').keyup(function(){
+  var charlimit = 2000;
+  if($(this).val().length > charlimit) {
+    $(this).val($(this).val().substr(0, charlimit));
+    $('#text').css('outline', 'solid 3px #ff0000')
+    $('#char-limit').css('color', '#ff0000')  }
+});
+</script>
+
 <% if ENV['APP_PLATFORM'] == 'production' %>
 <script type="text/javascript">
   $('#feedback-form').submit(function(){
     var rating = $('input[name="feedback[rating]"]:checked').val();
     if(typeof(rating) !== "undefined" && $.trim(feedback)) {
-      ga('send', {
-        'hitType': 'event', 
-        'eventCategory': 'feedback',
-        'eventAction': 'submit',
-        'eventLabel': 'rating',
-        'eventValue': rating
-      }); 
+      ga('send', 'event', 'feedback', 'rating', rating);
     }
   });
 </script>
