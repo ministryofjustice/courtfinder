@@ -18,7 +18,7 @@ $('#text').keyup(function(){
 <% if ENV['APP_PLATFORM'] == 'production' %>
 <script type="text/javascript">
   $('#feedback-form').submit(function(){
-    var rating = $('input[name="feedback[rating]"]:checked').val();
+    var rating = $('input:checked').val();
     if(typeof(rating) !== "undefined" && $.trim(feedback)) {
       ga('send', 'event', 'feedback', 'rating', rating);
     }
