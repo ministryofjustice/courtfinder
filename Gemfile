@@ -18,6 +18,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'therubyracer', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
+  gem 'turbo-sprockets-rails3'
 end
 
 gem 'jquery-rails', '~> 2.1'# Rails unobtrusive scripting adapter for jQuery
@@ -41,4 +42,3 @@ gem 'govuk_frontend_toolkit'# Sass helpers
 gem 'global_phone'          # Phone number validation and formatting
 gem 'nokogiri'              # HTML processing
 gem 'varnish-client', require: 'varnish/client'
-
