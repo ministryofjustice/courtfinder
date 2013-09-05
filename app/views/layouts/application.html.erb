@@ -4,30 +4,18 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-	<%= render 'shared/head', :title => (content_for?(:title) ? yield(:title) + " - Gov.uk" : "GOV.UK - The best place to find government services and information") %>
-
-	<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		ga('create', 'UA-37377084-3', 'service.gov.uk');
-		ga('send', 'pageview');
-	</script>
+	<%= render 'shared/head', :title => (content_for?(:title) ? yield(:title) + " - GOV.UK" : "GOV.UK - The best place to find government services and information") %>
+	<%= render 'shared/ga' %>
 
 	<%- if admin_area? %>
-	<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.base.css" rel="stylesheet" type="text/css"/>
-	<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.theme.css" rel="stylesheet" type="text/css"/>
+		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.base.css" rel="stylesheet" type="text/css"/>
+		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.theme.css" rel="stylesheet" type="text/css"/>
 	<% end %>
-	<%= stylesheet_link_tag    "admin", :media => "all" if admin_area? %>
-	<%= stylesheet_link_tag    "print", :media => "print" %>
-	<%= javascript_include_tag "application" %>
-	<%- if admin_area? %>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
-	<%= javascript_include_tag "admin" %>
-        <%= csrf_meta_tags %>
-	<% end %>
+	<%= stylesheet_link_tag "admin", :media => "all" if admin_area? %>
+	<%= stylesheet_link_tag "print", :media => "print" %>
+	
+	<%= csrf_meta_tags if admin_area? %>
+	
 	<!--[if lte IE 7]>
 	<style type="text/css">
 		.inner div.addresses{width:560px}
@@ -110,6 +98,12 @@
 
 	<div id="global-app-error" class="app-error hidden"></div>
 
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<%= javascript_include_tag "application" %>
+	<%- if admin_area? %>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+		<%= javascript_include_tag "admin" %>
+	<% end %>
 	<%= yield :scripts %>
 </body>
 </html>
