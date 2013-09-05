@@ -44,6 +44,7 @@ class Admin::OpeningTypesController < Admin::ApplicationController
 
     respond_to do |format|
       if @opening_type.save
+        purge_all_pages
         format.html { redirect_to admin_opening_type_path(@opening_type), notice: 'Opening type was successfully created.' }
         format.json { render json: @opening_type, status: :created, location: @opening_type }
       else
@@ -60,6 +61,7 @@ class Admin::OpeningTypesController < Admin::ApplicationController
 
     respond_to do |format|
       if @opening_type.update_attributes(params[:opening_type])
+        purge_all_pages
         format.html { redirect_to admin_opening_type_path(@opening_type), notice: 'Opening type was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::OpeningTypesController < Admin::ApplicationController
   def destroy
     @opening_type = OpeningType.find(params[:id])
     @opening_type.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_opening_types_url }

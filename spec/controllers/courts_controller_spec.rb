@@ -7,8 +7,8 @@ describe CourtsController do
     @court = Court.create!(:name => 'A court of LAW')
   end
 
-  after :each do
-    response['Cache-Control'].should == 'max-age=10800, public'
+  before :each do
+    controller.should_receive(:set_page_expiration)
   end
 
   it "a list of courts" do

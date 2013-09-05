@@ -44,6 +44,7 @@ class Admin::AreasController < Admin::ApplicationController
 
     respond_to do |format|
       if @area.save
+        purge_all_pages
         format.html { redirect_to edit_admin_area_path(@area), notice: 'Area was successfully created.' }
         format.json { render json: @area, status: :created, location: @area }
       else
@@ -60,6 +61,7 @@ class Admin::AreasController < Admin::ApplicationController
 
     respond_to do |format|
       if @area.update_attributes(params[:area])
+        purge_all_pages
         format.html { redirect_to edit_admin_area_path(@area), notice: 'Area was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::AreasController < Admin::ApplicationController
   def destroy
     @area = Area.find(params[:id])
     @area.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_areas_url }

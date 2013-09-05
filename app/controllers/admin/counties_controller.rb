@@ -44,6 +44,7 @@ class Admin::CountiesController < Admin::ApplicationController
 
     respond_to do |format|
       if @county.save
+        purge_all_pages
         format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully created.' }
         format.json { render json: @county, status: :created, location: @county }
       else
@@ -60,6 +61,7 @@ class Admin::CountiesController < Admin::ApplicationController
 
     respond_to do |format|
       if @county.update_attributes(params[:county])
+        purge_all_pages
         format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::CountiesController < Admin::ApplicationController
   def destroy
     @county = County.find(params[:id])
     @county.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_counties_url }

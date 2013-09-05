@@ -1,8 +1,6 @@
-
 -# === Photo ===
 - if @court.image_file_url.present?
   = image_tag(@court.image_file_url.to_s, :id => 'court-photo', :property => 'image') if @court.image_file
-
 
 -# === Addresses ===
 - addresses = @court.addresses
@@ -95,11 +93,10 @@
 
 -# === Facilities ===
 - if @court.court_facilities.present?
-  
   %h2 Building facilities:
 
   %p
-    If you need help coming to a hearing, please contact the court or tribunal to make sure the facilities meet your specific needs.
+    If you have a disability and need help coming to a hearing, please contact the court or tribunal to make sure the facilities meet your specific needs or to discuss a reasonable adjustment you need.
 
   %dl.facilities
     - @court.court_facilities.each do |court_facility|

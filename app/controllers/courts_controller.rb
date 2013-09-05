@@ -1,6 +1,8 @@
 class CourtsController < ApplicationController
   
   respond_to :html, :json
+
+  before_filter :set_page_expiration
   
   def index
     @courts = Court.by_name

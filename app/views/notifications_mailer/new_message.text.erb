@@ -1,0 +1,8 @@
+A user has submitted new feedback for:
+
+Date: <%= Time.now %>
+Service name: <%= @message["service"] %>
+Page: <%= @message["referrer"] %>
+Browser: <%= @message["browser"] %>
+User satisfaction rating: <%= @message[:feedback]["rating"] %>
+Feedback: <%= @message[:feedback]["text"] %>

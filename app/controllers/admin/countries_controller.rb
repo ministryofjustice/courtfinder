@@ -44,6 +44,7 @@ class Admin::CountriesController < Admin::ApplicationController
 
     respond_to do |format|
       if @country.save
+        purge_all_pages
         format.html { redirect_to edit_admin_country_path(@country), notice: 'Country was successfully created.' }
         format.json { render json: @country, status: :created, location: @country }
       else
@@ -60,6 +61,7 @@ class Admin::CountriesController < Admin::ApplicationController
 
     respond_to do |format|
       if @country.update_attributes(params[:country])
+        purge_all_pages
         format.html { redirect_to edit_admin_country_path(@country), notice: 'Country was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,6 +76,7 @@ class Admin::CountriesController < Admin::ApplicationController
   def destroy
     @country = Country.find(params[:id])
     @country.destroy
+    purge_all_pages
 
     respond_to do |format|
       format.html { redirect_to admin_countries_url }

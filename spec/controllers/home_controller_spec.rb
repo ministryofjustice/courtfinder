@@ -1,6 +1,19 @@
 require 'spec_helper'
 
 describe HomeController do
+  render_views
+  
+  context "landing page" do
+    before :each do
+      controller.should_receive(:set_page_expiration)
+    end
+
+    it "displays the landing page" do
+      get :index
+      response.should be_success
+    end
+  end
+
   context "legacy url redirection" do
     it "redirects by court_id" do
       court = Court.create!(old_id: 1, name: "A court of L.A.W.")

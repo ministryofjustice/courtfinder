@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+
+  before_filter :set_page_expiration
+
   def index
     if leaflet_id = params[:court_leaflets_id]
       redirect_to("http://hmctsformfinder.justice.gov.uk/HMCTS/GetLeaflet.do?court_leaflets_id=#{leaflet_id}")
@@ -13,7 +16,6 @@ class HomeController < ApplicationController
     end
 
     @courts = Court.order(:name)
-    # @court_types = CourtType.order(:name)
     @areas_of_law = AreaOfLaw.has_courts
   end
 end

@@ -81,6 +81,7 @@ i.icon {
     &.waiting { top:$top-row; @include column(6); }
     &.hotspot { top:$top-row; @include column(7); }
     &.children { top:$top-row; @include column(8); }
+    &.no-parking { top:$top-row; @include column(9); }
     
     &.disabled { top:$bottom-row; }
     &.guide_dogs { top:$bottom-row; @include column(2); }
@@ -111,6 +112,7 @@ i.icon {
     &.waiting { top:$top-row; @include column(6, $block-size, $block-offset); }
     &.hotspot { top:$top-row; @include column(7, $block-size, $block-offset); }
     &.children { top:$top-row; @include column(8, $block-size, $block-offset); }
+    &.no-parking { top:$top-row; @include column(9, $block-size, $block-offset); }
     
     &.disabled { top:$bottom-row; }
     &.guide_dogs { top:$bottom-row; left:-60px; }

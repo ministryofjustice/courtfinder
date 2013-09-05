@@ -2,5 +2,14 @@ class Admin::ApplicationController < ::ApplicationController
   protect_from_forgery
 
   before_filter :authenticate_user!
-  skip_before_filter :set_page_expiration
+
+  def purge_cache(regex_as_string)
+    unless Rails.env.development?
+      Varnish::Client.new('127.0.0.1', 80, ['http://', request.host].join).purge(regex_as_string)
+    end
+  end
+
+  def purge_all_pages
+    purge_cache('.*')
+  end
 end
