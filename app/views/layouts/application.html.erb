@@ -23,7 +23,7 @@
 	<![endif]-->
 </head>
 
-<body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %> beta">
+<body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %> service beta full-width">
 	<script type="text/javascript">document.body.className = document.body.className + ' js-enabled';</script>
 
 	<a href="#content" class="visuallyhidden">Skip to main content</a>
@@ -60,14 +60,11 @@
 			<% end %>
 
 			<header class="page-header group">
-				<hgroup class="full-width">
-					<%= yield :title_image %>
-					<h1 <%= yield :titleMetadata %>>
-						<%= "<span>Service</span> ".html_safe if home_page? %>
-						<%= yield :title %>
-					</h1>
-				</hgroup>
-			
+				<%= yield :title_image %>
+				<h1 <%= yield :titleMetadata %>>
+					<%= "<span>Service</span> ".html_safe if home_page? %>
+					<%= yield :title %>
+				</h1>
 			</header>
 
 			<div class="browse-container full-width group">
