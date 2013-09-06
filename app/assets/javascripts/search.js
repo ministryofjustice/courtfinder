@@ -17,7 +17,7 @@ $(function () {
 		active = false,
 		selectedResult = null,
 		klass = 'selected',
-		minText = 0
+		minText = 0,
 		postcode = /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i;
 	
 	var showResults = function () {

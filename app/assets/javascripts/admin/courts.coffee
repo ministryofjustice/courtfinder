@@ -63,38 +63,33 @@ $ ->
   $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type, .court_emails_description, .court_emails_address, .court_court_facilities_facility').find('input, select').change()
 
 
-window.moj = window.moj or {
+window.moj.reSort = (list) ->
+  items = list.children('li')
+  items.each ->
+    $(this).find('input[id$="_sort"]').val items.index($(this))
 
-  reSort: (list) ->
-    items = list.children('li')
-    items.each ->
-      $(this).find('input[id$="_sort"]').val items.index($(this))
+# Add form partials on the fly (using link_to_add_fields_new)
+window.moj.initNewFieldBlock = (el) ->
+  el.closest('.sortable').sortable 'refreshPositions'
+  moj.reSort el
 
-  # Add form partials on the fly (using link_to_add_fields_new)
-  initNewFieldBlock: (el) ->
-    el.closest('.sortable').sortable 'refreshPositions'
-    moj.reSort el
+window.moj.isPrimaryAddress = (el) ->
+  primary = el.siblings('fieldset').addBack().filter( ->
+    $(this).find('.destroy input[type=checkbox]').prop('checked') is false
+  ).first()
 
-  isPrimaryAddress: (el) ->
-    primary = el.siblings('fieldset').addBack().filter( ->
-      $(this).find('.destroy input[type=checkbox]').prop('checked') is false
-    ).first()
+  el[0] is primary[0]
 
-    el[0] is primary[0]
-
-  initNewAddressBlock: (el, newFields) ->
-    input = newFields.find '.court_addresses_is_primary input'
-    primary = newFields.find '.court_addresses_primary'
-    type = newFields.find '.court_addresses_address_type'
-    
-    if @isPrimaryAddress newFields
-      input.val true
-      primary.removeClass 'hidden'
-      type.addClass 'hidden'
-    else
-      input.val false
-      primary.addClass 'hidden'
-      type.removeClass 'hidden'
-
-
-}
+window.moj.initNewAddressBlock = (el, newFields) ->
+  input = newFields.find '.court_addresses_is_primary input'
+  primary = newFields.find '.court_addresses_primary'
+  type = newFields.find '.court_addresses_address_type'
+  
+  if @isPrimaryAddress newFields
+    input.val true
+    primary.removeClass 'hidden'
+    type.addClass 'hidden'
+  else
+    input.val false
+    primary.addClass 'hidden'
+    type.removeClass 'hidden'
