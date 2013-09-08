@@ -18,7 +18,7 @@ $('form').on 'click', '.add_fields', (e) ->
   else
     obj = $(this).before fields
 
-  moj[callback] obj, fields if callback
+  moj.Modules.admin[callback] obj, fields if callback
 
 $('.field-group').click (e) ->
   e.preventDefault()
@@ -46,7 +46,7 @@ $('.simple_form').on 'click', '.destroy .undo', (e) ->
 $('.sortable').sortable
   placeholder: 'ui-state-highlight'
   stop: (e, ui) ->
-    moj.reSort $(this)
+    moj.Modules.admin.reSort $(this)
 
 # Update the summary
 $('.sortable').on 'change', '.court_contacts_contact_type select', ->
@@ -84,36 +84,39 @@ $('.sortable').on 'change', '.court_emails_address input', ->
 $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type, .court_emails_description, .court_emails_address, .court_court_facilities_facility').find('input, select').change()
 
 
-# Re-assign sorting numbers to each item in list based on position in DOM
-window.moj.reSort = (list) ->
-  items = list.children('li')
-  items.each ->
-    $(this).find('input[id$="_sort"]').val items.index($(this))
+# Admin module
+moj.Modules.admin =
 
-# Add form partials on the fly (using link_to_add_fields_new)
-window.moj.initNewFieldBlock = (el) ->
-  el.closest('.sortable').sortable 'refreshPositions'
-  moj.reSort el
+  # Re-assign sorting numbers to each item in list based on position in DOM
+  reSort: (list) ->
+    items = list.children('li')
+    items.each ->
+      $(this).find('input[id$="_sort"]').val items.index($(this))
 
-# Determine whether the provided item is the first in the list which is not marked for deletion
-window.moj.isPrimaryAddress = (el) ->
-  primary = el.siblings('fieldset').addBack().filter( ->
-    $(this).find('.destroy input[type=checkbox]').prop('checked') is false
-  ).first()
-  # return true if the supplied argument matches the above test
-  el[0] is primary[0]
+  # Add form partials on the fly (using link_to_add_fields_new)
+  initNewFieldBlock: (el) ->
+    el.closest('.sortable').sortable 'refreshPositions'
+    moj.Modules.admin.reSort el
 
-# Add address partials on the fly (using link_to_add_fields_new)
-window.moj.initNewAddressBlock = (el, newFields) ->
-  input = newFields.find '.court_addresses_is_primary input'
-  primary = newFields.find '.court_addresses_primary'
-  type = newFields.find '.court_addresses_address_type'
-  
-  if @isPrimaryAddress newFields
-    input.val true
-    primary.removeClass 'hidden'
-    type.addClass 'hidden'
-  else
-    input.val false
-    primary.addClass 'hidden'
-    type.removeClass 'hidden'
+  # Determine whether the provided item is the first in the list which is not marked for deletion
+  isPrimaryAddress: (el) ->
+    primary = el.siblings('fieldset').addBack().filter( ->
+      $(this).find('.destroy input[type=checkbox]').prop('checked') is false
+    ).first()
+    # return true if the supplied argument matches the above test
+    el[0] is primary[0]
+
+  # Add address partials on the fly (using link_to_add_fields_new)
+  initNewAddressBlock: (el, newFields) ->
+    input = newFields.find '.court_addresses_is_primary input'
+    primary = newFields.find '.court_addresses_primary'
+    type = newFields.find '.court_addresses_address_type'
+    
+    if @isPrimaryAddress newFields
+      input.val true
+      primary.removeClass 'hidden'
+      type.addClass 'hidden'
+    else
+      input.val false
+      primary.addClass 'hidden'
+      type.removeClass 'hidden'
