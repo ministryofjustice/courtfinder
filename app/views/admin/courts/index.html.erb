@@ -2,6 +2,12 @@
 
 <%= link_to 'New Court or Tribunal', new_admin_court_path %>
 
+<% ('a'..'z').each do |letter| %>
+  <ul>
+    <li><%= link_to letter.upcase, "#courts-by-#{letter}" %></li>
+  </ul>
+<% end %>
+
 <table>
   <tr>
     <th>Name</th>
@@ -14,9 +20,10 @@
     <% end %>
   </tr>
 
+<% last_letter = nil %>
 <% @courts.each do |court| %>
   <tr>
-    <td><%= court.name %></td>
+    <td><a name="courts-by-<%= court.name.first.downcase %>"/><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.cci_code %></td>
     <td><%= link_to 'Show', court_path(court) %></td>
