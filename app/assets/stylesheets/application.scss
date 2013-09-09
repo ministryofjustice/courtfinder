@@ -35,24 +35,11 @@ header.page-header {
   }
 }
 
+// Allow for content boxes to align with phase indicator
 section#content {
-  width:auto;
   max-width:1020px;
-}
-
-.indicator {
-  width:auto;
-  max-width:960px;
-  padding:0 30px;
-  p {
-    padding:8px 0;
-  }
 }
 
 article .inner {
   padding:0;
-}
-
-#global-breadcrumb ol {
-  border-top:0;
 }

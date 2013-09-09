@@ -10,8 +10,8 @@ GIT
 
 GIT
   remote: https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git
-  revision: cbdf833296b8cb8b093b2ce86d1d7e42ca2aa013
-  tag: v0.0.25
+  revision: 0b5dbb97256cd750dfd7ecf2a0d4f490244f1d95
+  tag: v0.0.33
   specs:
     moj_frontend_toolkit_gem (0.0.1)
 
