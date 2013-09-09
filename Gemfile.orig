@@ -1,51 +1,48 @@
 source 'https://rubygems.org'
+source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '3.2.12'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rails', '3.2.14'
 
 gem 'pg'
 
+group :development, :test do
+  gem 'byebug'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
+  gem 'therubyracer', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
+  gem 'turbo-sprockets-rails3'
 end
 
-<<<<<<< HEAD
-gem 'jquery-rails'      # jQuery
-gem 'friendly_id'       # Custom addresses instead of Ids
-gem 'will_paginate'     # Paging
-gem 'simple_form'       # Build forms with ease
-gem 'ckeditor_rails'          # Adds a rich text area
-=======
-gem 'jquery-rails'          # jQuery
+gem 'jquery-rails', '~> 2.1'# Rails unobtrusive scripting adapter for jQuery
 gem 'friendly_id'           # Custom addresses instead of Ids
 gem 'will_paginate'         # Paging
 gem 'simple_form'           # Build forms with ease
 gem 'rest-client'           # Accessing HTTP and REST resources (i.e. MoJ postcode lookup)
-gem 'geocoder'              # Check distances with latitude and longitude using PostgreSQL special indexes
->>>>>>> postcode_finder
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
+gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
+gem 'geocoder'              # Check distances with latitude and longitude
+gem 'devise'                # Authentication
+gem 'devise_invitable'      # Authentication invites
+gem 'rmagick'               # Resize uploaded images
+gem 'carrierwave', :git => 'https://github.com/carrierwaveuploader/carrierwave.git', :branch => 'master'           # Handles file uploads
+gem 'fog'                   # Talks to cloud providers (e.g. S3)
+gem 'gmaps4rails'           # Maps and directions
+gem 'unicorn'
+gem 'haml-rails'            # Leaner markup with Haml.info
+gem 'rdiscount'             # Enable Markdown in Haml
+gem 'newrelic_rpm'          # Application performance monitoring.
+gem 'govuk_frontend_toolkit'# Sass helpers
+gem 'global_phone'          # Phone number validation and formatting
+gem 'nokogiri'              # HTML processing
+<<<<<<< HEAD
+gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git', tag: 'v0.0.25'
+=======
+gem 'varnish-client', require: 'varnish/client'
+>>>>>>> master

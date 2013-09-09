@@ -1,5 +1,10 @@
 <% content_for :type, 'service' %>
 <% content_for :title, 'Find a court or tribunal' %>
+<% content_for :scripts do %>
+<script>
+  <%= raw("moj.courts = #{@courts.visible.to_json(:lookup => true)};") %>
+</script>
+<% end %>
 
 <section class="intro">
 	<div class="get-started-intro">
@@ -32,7 +37,3 @@
 <p><%= link_to 'View all courts and tribunals', courts_path %></p>
 <p><%= link_to 'View by region', regions_path %></p>
 <p><%= link_to 'View by areas of law', areas_of_law_path %></p>
-
-<script id="js">
-	var moj = moj||{}; moj.courts = <%=raw @courts.visible.to_json(:lookup => true) %>;
-</script>

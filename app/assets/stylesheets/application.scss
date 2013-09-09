@@ -1,3 +1,6 @@
+// MOJ Toolkit
+@import "moj-base";
+
 // GOV.UK Toolkit
 @import "_colours";
 @import "_typography";
@@ -7,23 +10,49 @@
 
 // Lib
 @import "conditionals";
-@import "phases";
 
 // Application
 @import "home";
 @import "courts";
 @import "feedbacks";
 
-// Temporary fixes
+// MOJ Toolkit overrides
+header.page-header {
+  padding:1em 2em 2em;
+
+  h1 {
+    font-size:48px;
+    margin-top:7px;
+    margin-bottom:13px;
+
+    .full-width & {
+      margin-right:0;
+    }
+  }
+
+  span {
+    margin-bottom:.25em;
+  }
+}
+
+section#content {
+  width:auto;
+  max-width:1020px;
+}
+
+.indicator {
+  width:auto;
+  max-width:960px;
+  padding:0 30px;
+  p {
+    padding:8px 0;
+  }
+}
+
 article .inner {
   padding:0;
 }
 
-#footer .footer-meta nav {
-  display: inline-block;
-  width: 75%;
-  
-  p {
-    font-size: 1.6rem;
-  }
+#global-breadcrumb ol {
+  border-top:0;
 }
