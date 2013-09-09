@@ -1,0 +1,48 @@
+.tabs-nav {
+  ul {
+    padding:0;
+    list-style:none;
+  }
+
+  li {
+    @extend ul;
+    float:left;
+    margin-left:0; // for small screens
+  }
+
+  a,
+  del {
+    @include core-27;
+    float:left;
+    width:1.852em;
+    height:1.852em;
+    line-height:1.852em;
+    margin-right:.740em;
+    font-weight:bold;
+    text-align:center;
+    border:1px solid $grey-1;
+
+    @media (max-width: 640px) {
+      line-height:1.852em;
+    }
+
+    &.is-active {
+      text-decoration:none;
+      background:transparentize($link-hover-colour, .8);
+    }
+  }
+
+  del {
+    color:$grey-2;
+    text-decoration:none;
+    border-color:$grey-2;
+  }
+}
+
+.tabs-content {
+  h2 {
+    @include core-36;
+    font-weight:bold;
+    border-bottom:1px solid $grey-2;
+  }
+}
