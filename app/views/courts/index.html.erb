@@ -17,7 +17,10 @@
         <div id="courts-by-<%= letter[0].downcase %>" class="js-tab-pane tab-pane">
           <h3><%= letter[0] %></h3>
           <% letter[1].each do |court| %>
-            <br /><%= link_to(court.name, court_path(court)) %>
+            <br /><%= link_to(court.name, court_path(court)) %> 
+            <% if court.court_number.present? %>
+            (Court/tribunal no. <%= court.court_number %>)
+            <% end %>
           <% end %>
         </div>
       <% end %>
