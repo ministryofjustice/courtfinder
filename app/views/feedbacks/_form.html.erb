@@ -28,6 +28,11 @@
     <br/><span id="char-limit">2000 characters max</span>
     </div>
     <div>
+      <%= f.label :email, "Your email address (optional)" %>
+      <br/><%= f.email_field :email %>
+    </div>
+    <div>
+      <br/>
       <input type ="hidden" name="referrer" value="<%= params[:referrer] %>" />
       <%= f.submit "Send", :class => "button" %>
     </div>
