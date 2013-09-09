@@ -3,7 +3,7 @@ class Feedback
   include ActiveModel::Conversion
   include ActiveModel::Naming
 
-  attr_accessor :rating, :text, :email
+  attr_accessor :rating, :text, :email, :ip
   validates :rating, :text, :presence => true
 
   def initialize(attributes = {})

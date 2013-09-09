@@ -4,6 +4,7 @@ Date: <%= Time.now %>
 Service name: <%= @message["service"] %>
 Page: <%= @message["referrer"] %>
 Browser: <%= @message["browser"] %>
+IP: <%= @message["ip"] %>
 User satisfaction rating: <%= @message[:feedback]["rating"] %>
 Feedback: <%= @message[:feedback]["text"] %>
 User email: <%= @message[:feedback]["email"] %>
