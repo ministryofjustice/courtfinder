@@ -60,6 +60,9 @@ module Courtfinder
       gov-static/gov-ie6.css
       gov-static/gov-ie7.css
       gov-static/gov-ie8.css
+      gov-static/gov-fonts.css
+      gov-static/gov-fonts-ie8.css
+      gov-static/gov-print.css
       moj-base.css
       gov-static/gov-ie.js
     )
