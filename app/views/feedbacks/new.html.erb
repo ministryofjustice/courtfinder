@@ -17,16 +17,15 @@
   });
 
   <% if ENV['APP_PLATFORM'] == 'production' %>
-      $('#feedback-form').submit(function(){
-        var rating = $('input:checked').attr('value');
-        if(typeof(rating) !== "undefined") {
-          ga('send', 'event', 'Feedback', 'Rating', rating);
-        }
-      });
+    $('#new_feedback').submit(function(){
+      var rating = $('input:checked').attr('value');
+      if(rating !== undefined) {
+        ga('send', 'event', 'Feedback', 'Rating', rating);
+      }
+    });
   <% end %>
   </script>
 <% end %>
-
 <div class="send-feedback">
   <%= render "feedbacks/form" %>
 </div>
