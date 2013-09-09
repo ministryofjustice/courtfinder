@@ -1,7 +1,7 @@
 <% content_for :title, 'Search results' %>
 
 <% if @results.present? %>
-  <p>Your search for <strong><%= @court_search.query %></strong> found the follow results:</p>
+  <p>Your search for <strong><%= @court_search.query %></strong> found the following results:</p>
   <ul class="search-results">
     <% @results.each do |court| %>
       <li>
