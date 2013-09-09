@@ -19,7 +19,7 @@
           <% letter[1].each do |court| %>
             <br /><%= link_to(court.name, court_path(court)) %> 
             <% if court.court_number.present? && court.court_number != 0 %>
-            (Court/tribunal no. <%= court.court_number %>)
+            (#<%= court.court_number %>)
             <% end %>
           <% end %>
         </div>
