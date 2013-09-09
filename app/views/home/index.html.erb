@@ -1,5 +1,5 @@
 <% content_for :type, 'service' %>
-<% content_for :title, 'Find a court or tribunal' %>
+<% content_for :title, 'Court or tribunal finder' %>
 <% content_for :scripts do %>
 <script>
   <%= raw("moj.courts = #{@courts.visible.to_json(:lookup => true)};") %>
