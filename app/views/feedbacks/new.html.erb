@@ -20,7 +20,7 @@
     $('#new_feedback').submit(function(){
       var rating = $('input:checked').attr('value');
       if(rating !== undefined) {
-        ga('send', 'event', 'Feedback', 'Rating', rating);
+        ga('send', 'event', 'Feedback', 'Rating', parseInt(rating));
       }
     });
   <% end %>
