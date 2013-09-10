@@ -1,21 +1,23 @@
-<% content_for :title, 'Courts and Tribunals' %>
+<% content_for :title, 'Courts and tribunals' %>
+
+<p>An A to Z list of all the courts and tribunals in England and Wales</p>
 
 <% if @courts.visible.present? %>
   <% letters = @courts.visible.group_by{|s|s.name[0,1].upcase}.map {|letter|letter[0]} %>
 
-  <div id="search-results-tabs">
-    <nav class="js-tabs nav-tabs" role="navigation">
-      <ul id="search-index-navigation">
+  <div id="search-results-tabs" class="js-tabs">
+    <nav class="tabs-nav" role="navigation">
+      <ul id="search-index-navigation" class="cf">
         <% letters.each do |l| %>
           <li><%= link_to l, "#courts-by-#{l.downcase}" %></li>
         <% end %>
       </ul>
     </nav>
 
-    <div class="search-container group js-tab-content tab-content">
+    <div class="search-container group js-tabs-content tabs-content">
       <% @courts.visible.group_by{|s|s.name[0,1].upcase}.each do |letter| %>
-        <div id="courts-by-<%= letter[0].downcase %>" class="js-tab-pane tab-pane">
-          <h3><%= letter[0] %></h3>
+        <div id="courts-by-<%= letter[0].downcase %>">
+          <h2><%= letter[0] %></h2>
           <% letter[1].each do |court| %>
             <br /><%= link_to(court.name, court_path(court)) %> 
             <% if court.court_number.present? && court.court_number != 0 %>

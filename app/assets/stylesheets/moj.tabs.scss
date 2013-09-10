@@ -1,0 +1,40 @@
+.tabs-nav {
+  ul {
+    padding:0;
+    list-style:none;
+  }
+
+  li {
+    @extend ul;
+    float:left;
+    margin-left:0; // for small screens
+  }
+
+  a {
+    @include core-27;
+    float:left;
+    width:1.852em;
+    height:1.852em;
+    line-height:1.852em;
+    margin-right:.740em;
+    font-weight:bold;
+    text-align:center;
+    border:1px solid #555;
+
+    @media (max-width: 640px) {
+      line-height:1.852em;
+    }
+
+    &.is-active {
+      background:$grey-3;
+    }
+  }
+}
+
+.tabs-content {
+  h2 {
+    @include core-36;
+    font-weight:bold;
+    border-bottom:1px solid #a1a1a1;
+  }
+}
