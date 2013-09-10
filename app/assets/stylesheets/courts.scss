@@ -22,12 +22,16 @@ $grey:#eaedef;
     float:right; padding:.25em 50px .25em .5em; max-width:50%; background-position:98%;
   }
 
-  header.page-header hgroup {
-    margin:0;
+  header.page-header {
+    padding-bottom:0;
   }
 
   .leaflet-code {
     float:right;
+  }
+
+  .intro {
+    padding:0 0 1em 0;
   }
 }
 
