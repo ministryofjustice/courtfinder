@@ -1,17 +1,18 @@
-<%= content_for :title, 'Listing Courts and Tribunals' %>
+<%= content_for :title, 'Listing courts and tribunals' %>
 
-<%= link_to 'New Court or Tribunal', new_admin_court_path %>
+<%= link_to 'New court or tribunal', new_admin_court_path %>
 
-<% ('a'..'z').each do |letter| %>
-  <ul>
-    <li><%= link_to letter.upcase, "#courts-by-#{letter}" %></li>
+<% letters = @courts.group_by{|s|s.name[0,1].upcase}.map {|letter|letter[0]} %>
+<% letters.each do |letter| %>
+  <ul class="tabs-nav">
+    <li><%= link_to letter, "#courts-by-#{letter.downcase}" %></li>
   </ul>
 <% end %>
 
 <table>
   <tr>
     <th>Name</th>
-    <th>Court or Tribunal number</th>
+    <th>Court or tribunal number</th>
     <th>CCI code</th>
     <th></th>
     <th></th>
@@ -20,10 +21,12 @@
     <% end %>
   </tr>
 
-<% last_letter = nil %>
+<% last_letter = '' %>
 <% @courts.each do |court| %>
+  <% this_letter = court.name.first.downcase %>
+  <% id = (this_letter === last_letter) ? '' : " id=\"courts-by-#{this_letter}\"" %>
   <tr>
-    <td><a name="courts-by-<%= court.name.first.downcase %>"/><%= court.name %></td>
+    <td<%= id.html_safe %>><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.cci_code %></td>
     <td><%= link_to 'Show', court_path(court) %></td>
@@ -32,5 +35,6 @@
       <td class="admin-only"><%= link_to 'Delete', admin_court_path(court), method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
   </tr>
+  <% last_letter = this_letter %>
 <% end %>
 </table>
