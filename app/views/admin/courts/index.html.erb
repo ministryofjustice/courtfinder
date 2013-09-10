@@ -24,9 +24,8 @@
 <% last_letter = '' %>
 <% @courts.each do |court| %>
   <% this_letter = court.name.first.downcase %>
-  <% id = (this_letter === last_letter) ? '' : " id=\"courts-by-#{this_letter}\"" %>
   <tr>
-    <td<%= id.html_safe %>><%= court.name %></td>
+    <td<%= (this_letter === last_letter ? '' : " id=\"courts-by-#{this_letter}\"").html_safe %>><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.cci_code %></td>
     <td><%= link_to 'Show', court_path(court) %></td>
