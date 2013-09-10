@@ -9,7 +9,9 @@ class Court < ActiveRecord::Base
   has_many :court_types, :through => :court_types_courts
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
+                  :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet
+
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
@@ -94,4 +96,16 @@ class Court < ActiveRecord::Base
     end
   end
 
+  def leaflets
+    @leaflets || begin
+      @leaflets = []
+      if self.court_types.empty? || self.court_types.pluck(:name).any? {|ct| ct != "Family Proceedings Court" && ct != "County Court" && ct != "Tribunal"}
+        @leaflets.push("defence", "prosecution")
+      end
+      if self.court_types.pluck(:name).any? {|ct| ct == "Crown Court"}
+        @leaflets << "juror"
+      end
+      @leaflets
+    end
+  end
 end

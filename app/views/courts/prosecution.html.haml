@@ -12,113 +12,191 @@
 
 
 :markdown
-  You have been asked to attend court as a prosecution witness. This information will help you.
+  You have been asked to attend court as a prosecution witness. This information 
+  will help you.
 
   ##  Introduction
 
-  You may be a witness, victim or a parent of a child witness/victim. The following information in these pages will help answer some of the questions you may have about going to court and will help you understand what happens at court.
+  You may be a witness, victim or a parent of a child witness/victim. The following 
+  information in these pages will help answer some of the questions you may have 
+  about going to court and will help you understand what happens at court.
 
 = render 'court_details'
+
+- if @court.prosecution_leaflet.present?
+  %h2 Update
+  %p
+    = @court.prosecution_leaflet
 
 :markdown
 
   ##  Roles and Responsibilities
 
-  **The Witness Care Unit:** The Witness Care Unit is part of the joint Police and Crown Prosecution team and is responsible for providing you, with support, information on the progress of your case and making the arrangements for you to attend Court. The Witness Care Unit should be your first point of contact.
+  **The Witness Care Unit:** The Witness Care Unit is part of the joint Police and 
+  Crown Prosecution team and is responsible for providing you, with support, information 
+  on the progress of your case and making the arrangements for you to attend Court. 
+  The Witness Care Unit should be your first point of contact.
 
-  **The Witness Service:** The Witness Service helps witnesses and victims, their families and friends before, during and after a court hearing. It is a national charity, which helps people cope with crime. If you come to court to give evidence a Witness Service representative will offer you support.
+  **The Witness Service:** The Witness Service helps witnesses and victims, their families 
+  and friends before, during and after a court hearing. It is a national charity, which 
+  helps people cope with crime. If you come to court to give evidence a Witness Service 
+  representative will offer you support.
 
   ##  Before you arrive
 
-  You can arrange with the Witness Service or Witness Care Unit to visit the Court in advance of the trial.
-  This may make you feel more confident about attending Court to give evidence. If you think this might help, please call the Witness Service or the Witness Care Unit using the contact details provided.
+  You can arrange with the Witness Service or Witness Care Unit to visit the Court in advance 
+  of the trial.
+  This may make you feel more confident about attending Court to give evidence. If you think 
+  this might help, please call the Witness Service or the Witness Care Unit using the contact 
+  details provided.
 
-  If you feel you need to wait away from the public area please tell the Court Usher or Witness Service representative who will try to make alternative arrangements. Family and friends attending with you may not be allowed to wait in the witness waiting areas, in which case they will be seated elsewhere away from the defendant wherever possible. Ask the Witness Service before attending
+  If you feel you need to wait away from the public area please tell the Court Usher or 
+  Witness Service representative who will try to make alternative arrangements. Family and 
+  friends attending with you may not be allowed to wait in the witness waiting areas, in which 
+  case they will be seated elsewhere away from the defendant wherever possible. Ask the Witness 
+  Service before attending
 
-  If you have particular needs, possibly arising out of a disability or religious observance, please let someone know in advance of the day you are due to attend by contacting the Witness Care Unit or by calling the Witness Service - please see contact details for information.
+  If you have particular needs, possibly arising out of a disability or religious observance, 
+  please let someone know in advance of the day you are due to attend by contacting the Witness 
+  Care Unit or by calling the Witness Service - please see contact details for information.
 
-  If you are a child or young witness, special arrangements for your needs will be made by the Witness Care Unit.
+  If you are a child or young witness, special arrangements for your needs will be made by the 
+  Witness Care Unit.
 
-  There are no facilities for children, who are not witnesses, to be looked after at court so avoid bringing children with you if possible. If you wish to discuss alternative care arrangements please contact the Witness Care Unit.
+  There are no facilities for children, who are not witnesses, to be looked after at court so 
+  avoid bringing children with you if possible. If you wish to discuss alternative care 
+  arrangements please contact the Witness Care Unit.
 
-  If you have to bring your child to court, please bring an adult friend or relative to sit with them whilst you give your evidence, as Court staff are unable to help.
+  If you have to bring your child to court, please bring an adult friend or relative to sit with 
+  them whilst you give your evidence, as Court staff are unable to help.
 
-  It is important to inform the Witness Care Unit if you have any difficulties attending on the date you have been asked to attend. Please ensure that you have confirmed in advance with the Witness Care Unit that you will be attending on the date and at the time specified.
+  It is important to inform the Witness Care Unit if you have any difficulties attending on the 
+  date you have been asked to attend. Please ensure that you have confirmed in advance with the 
+  Witness Care Unit that you will be attending on the date and at the time specified.
 
-  Please let the Witness Care Unit, know preferably in advance of the trial if you have any commitments during the day which cannot be changed, for example, children at school who need to be collected.
+  Please let the Witness Care Unit, know preferably in advance of the trial if you have any 
+  commitments during the day which cannot be changed, for example, children at school who need 
+  to be collected.
 
   ##  On arrival
 
-  You should arrive at Court at the time notified to you by the Witness Care Unit which is usually 30 minutes before the trial or hearing is due to start. If you anticipate any difficulties with getting to the court on time on the day, please notify the Witness Care Unit immediately. It is important that the Court knows of any possible delay otherwise it may think that you are not coming.
+  You should arrive at Court at the time notified to you by the Witness Care Unit which is 
+  usually 30 minutes before the trial or hearing is due to start. If you anticipate any 
+  difficulties with getting to the court on time on the day, please notify the Witness Care Unit 
+  immediately. It is important that the Court knows of any possible delay otherwise it may think 
+  that you are not coming.
 
   You, as with other court users, will be required to undergo standard security checks.
 
-  Unless special arrangements have been made for you, when you arrive at court please go straight to the reception point, tell the receptionist your name and that you are a prosecution witness.
+  Unless special arrangements have been made for you, when you arrive at court please go straight 
+  to the reception point, tell the receptionist your name and that you are a prosecution witness.
 
-  If you have asked for support from the Witness Service, you will be introduced to their representative who will take you to a waiting area.
+  If you have asked for support from the Witness Service, you will be introduced to their 
+  representative who will take you to a waiting area.
 
   ##  Before you give evidence
 
-  Arrangements can be made for you to see where you will be giving evidence. Generally this is done at a pre-trial visit, although this may occasionally be possible on the day. Please ask the Court Usher or the Witness Service representative.
+  Arrangements can be made for you to see where you will be giving evidence. Generally this is 
+  done at a pre-trial visit, although this may occasionally be possible on the day. Please ask 
+  the Court Usher or the Witness Service representative.
 
-  You will give evidence in a courtroom, or in a room away from the court if special arrangements have been made for you i.e video links.
+  You will give evidence in a courtroom, or in a room away from the court if special arrangements 
+  have been made for you i.e video links.
 
-  It might be a while since you have seen the written or video statement which you made to the police. You should be given the chance to see it again before you give evidence. If not, then please ask the Crown Prosecution Service representative at court. It might help to refresh your memory.
+  It might be a while since you have seen the written or video statement which you made to the 
+  police. You should be given the chance to see it again before you give evidence. If not, then 
+  please ask the Crown Prosecution Service representative at court. It might help to refresh your 
+  memory.
 
-  Oath taking procedures will be explained to you and you will be asked whether you want to swear to tell the truth on the holy book of your religion or whether you wish to make an affirmation, which is a non-religious way of swearing to tell the truth. If you are a witness in a Youth Court you will promise to tell the truth or affirm. You will be asked about other rituals and practices you may want to observe before giving evidence.
+  Oath taking procedures will be explained to you and you will be asked whether you want to swear 
+  to tell the truth on the holy book of your religion or whether you wish to make an affirmation, 
+  which is a non-religious way of swearing to tell the truth. If you are a witness in a Youth Court 
+  you will promise to tell the truth or affirm. You will be asked about other rituals and practices 
+  you may want to observe before giving evidence.
 
-  Light refreshments may be available for you to buy. See the facilities section for more information.
+  Light refreshments may be available for you to buy. See the facilities section for more 
+  information.
 
-  You may have access to en-suite toilet facilities or toilets within close proximity to your waiting area.
+  You may have access to en-suite toilet facilities or toilets within close proximity to your 
+  waiting area.
 
-  We aim to call you to give your evidence within two hours of the start time, although this is not always possible.
+  We aim to call you to give your evidence within two hours of the start time, although this is 
+  not always possible.
 
-  We will provide you with regular updates on the progress of the case and explain the reasons for any delay, where possible. If you are likely to have to wait a long time, the court will consider letting you leave court to return at a later time.
+  We will provide you with regular updates on the progress of the case and explain the reasons for 
+  any delay, where possible. If you are likely to have to wait a long time, the court will 
+  consider letting you leave court to return at a later time.
 
   ##  Giving your evidence
 
-  **You will** be accompanied usually by the court usher or a member of the Witness Service to the courtroom, where you are going to give your evidence.
+  **You will** be accompanied usually by the court usher or a member of the Witness Service to the 
+  courtroom, where you are going to give your evidence.
 
-  In the courtroom, you will be asked by the Court Usher to take the oath or affirm in accordance with the procedures already explained.
+  In the courtroom, you will be asked by the Court Usher to take the oath or affirm in accordance 
+  with the procedures already explained.
 
   If you are not required to give evidence the reason for this will be explained to you.
 
   ##  After you have given your evidence
 
-  When you have finished giving your evidence you will be thanked for attending and will be told whether you are allowed to leave. If you wish to stay and watch the rest of the case, this will be arranged if the Court agrees.
+  When you have finished giving your evidence you will be thanked for attending and will be told 
+  whether you are allowed to leave. If you wish to stay and watch the rest of the case, this will 
+  be arranged if the Court agrees.
 
   ##  After your case has finished
 
-  You will be told the result of your case by the Witness Care Unit who will also be able to provide you with information about any further support you may need.
+  You will be told the result of your case by the Witness Care Unit who will also be able to 
+  provide you with information about any further support you may need.
 
-  You may be able to claim the cost of having to come to court. You can ask the Witness Care Unit which has asked you to come to court for an application form before the trial. You can also request a claim form from the CPS representative at court or the Witness Care Unit after your trial. If you have receipts, you should send these with your claim.
+  You may be able to claim the cost of having to come to court. You can ask the Witness Care Unit 
+  which has asked you to come to court for an application form before the trial. You can also 
+  request a claim form from the CPS representative at court or the Witness Care Unit after your 
+  trial. If you have receipts, you should send these with your claim.
 
-  If the defendant appeals against the decision of the Court, the Witness Care Unit will tell you about this and will explain the procedures involved.
+  If the defendant appeals against the decision of the Court, the Witness Care Unit will tell you 
+  about this and will explain the procedures involved.
 
   ##  Feedback and complaints
 
-  Your comments are important to us. If you wish to provide any feedback on the service you received when attending court or wish to make suggestions as to how we might improve our service, please write to the Court Manager at the Court you have attended - please see contact details for further information.
+  Your comments are important to us. If you wish to provide any feedback on the service you received 
+  when attending court or wish to make suggestions as to how we might improve our service, please 
+  write to the Court Manager at the Court you have attended - please see contact details for further 
+  information.
 
-  If you wish to make a complaint about the service you received, please ask a member of staff at the court or the Court Manager for an EX343 'Complaints leaflet', which you can fill in with the details of your complaint. If you have any comments on this leaflet you can email your comments to [victim.witnessbranch@hmcts.gsi.gov.uk](mailto:victim.witnessbranch@hmcts.gsi.gov.uk).
+  If you wish to make a complaint about the service you received, please ask a member of staff at 
+  the court or the Court Manager for an EX343 'Complaints leaflet', which you can fill in with 
+  the details of your complaint. If you have any comments on this leaflet you can email your 
+  comments to [victim.witnessbranch@hmcts.gsi.gov.uk](mailto:victim.witnessbranch@hmcts.gsi.gov.uk).
 
   ##  What additional help is available for court users with a disability?
 
-  If you have a disability which makes going to court or communicating difficult, please contact a member of staff at the court. If you are deaf or hard of hearing and require assistance the following services can help you once you have obtained the relevant court telephone number: Textphone users calling voicephones or textphones dial 18001, Voicephone users calling textphones or voicephones dial 18002, Text relay service on 0870 240 5152.
+  If you have a disability which makes going to court or communicating difficult, please contact a 
+  member of staff at the court. If you are deaf or hard of hearing and require assistance the 
+  following services can help you once you have obtained the relevant court telephone number: 
+  Textphone users calling voicephones or textphones dial 18001, Voicephone users calling textphones 
+  or voicephones dial 18002, Text relay service on 0870 240 5152.
 
   ##  More information
 
   Further information on going to court can be obtained from:
 
-  **Website:** [www.justice.gov.uk](http://www.justice.gov.uk) - visit the web page on 'Being a Witness'
+  **Website:** [www.justice.gov.uk](http://www.justice.gov.uk) - visit the web page on 
+  'Being a Witness'
 
-  **DVD:** 'Going to Court - A step by step guide to being witness' is available at [http://www.youtube.com/watch?v=aUOc0Sa1WMM&list=TLFjqN6RUpB1o](http://www.youtube.com/watch?v=aUOc0Sa1WMM&list=TLFjqN6RUpB1o)
+  **DVD:** 'Going to Court - A step by step guide to being witness' is available at 
+  [http://www.youtube.com/watch?v=aUOc0Sa1WMM&list=TLFjqN6RUpB1o](http://www.youtube.com/watch?v=aUOc0Sa1WMM&list=TLFjqN6RUpB1o)
 
   **Large print versions of this leaflet are available**
 
-  A generic version of this leaflet (i.e this will not include a map of the local court you have been asked to attend) is available in the following languages: English large print, Welsh, Arabic, Bengali, Cantonese, Gujarati, Hindi, Polish, Punjabi and Urdu.
+  A generic version of this leaflet (i.e this will not include a map of the local court you have 
+  been asked to attend) is available in the following languages: English large print, Welsh, 
+  Arabic, Bengali, Cantonese, Gujarati, Hindi, Polish, Punjabi and Urdu.
 
   ##  Getting to the court
 
-  To plan your route to this court, please visit the Court Information and Addresses section of the Justice Website #{root_url}
-  
-  Choose **#{@court.name}** from the Court Name Search and select Get Court Details. On the Court Information page enter your postcode on the Route Planner on the right- hand side to get a detailed description of your journey by bus, train or car.
+  To plan your route to this court, please visit the Court Information and Addresses section of 
+  the Justice Website #{root_url}
+
+  Choose **#{@court.name}** from the Court Name Search and select Get Court Details. On the 
+  Court Information page enter your postcode on the Route Planner on the right- hand side to get a 
+  detailed description of your journey by bus, train or car.
