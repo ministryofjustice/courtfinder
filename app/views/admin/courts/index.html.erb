@@ -2,12 +2,9 @@
 
 <%= link_to 'New court or tribunal', new_admin_court_path %>
 
-<% letters = @courts.group_by{|s|s.name[0,1].upcase}.map {|letter|letter[0]} %>
-<% letters.each do |letter| %>
-  <ul class="tabs-nav">
-    <li><%= link_to letter, "#courts-by-#{letter.downcase}" %></li>
-  </ul>
-<% end %>
+<ul class="tabs-nav">
+  <%= a_to_z(initial_list @courts).html_safe %>
+</ul>
 
 <table>
   <tr>

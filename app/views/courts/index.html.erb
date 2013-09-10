@@ -3,21 +3,17 @@
 <p>An A to Z list of all the courts and tribunals in England and Wales</p>
 
 <% if @courts.visible.present? %>
-  <% letters = @courts.visible.group_by{|s|s.name[0,1].upcase}.map {|letter|letter[0]} %>
-
   <div id="search-results-tabs" class="js-tabs">
     <nav class="tabs-nav" role="navigation">
       <ul id="search-index-navigation" class="cf">
-        <% letters.each do |l| %>
-          <li><%= link_to l, "#courts-by-#{l.downcase}" %></li>
-        <% end %>
+        <%= a_to_z(initial_list @courts.visible).html_safe %>
       </ul>
     </nav>
 
     <div class="search-container group js-tabs-content tabs-content">
-      <% @courts.visible.group_by{|s|s.name[0,1].upcase}.each do |letter| %>
-        <div id="courts-by-<%= letter[0].downcase %>">
-          <h2><%= letter[0] %></h2>
+      <% initial_list(@courts.visible).each do |letter| %>
+        <div id="courts-by-<%= letter.first.downcase %>">
+          <h2><%= letter.first %></h2>
           <% letter[1].each do |court| %>
             <br /><%= link_to(court.name, court_path(court)) %> 
             <% if court.court_number.present? && court.court_number != 0 %>
