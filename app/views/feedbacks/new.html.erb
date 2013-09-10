@@ -17,16 +17,19 @@
   });
 
   <% if ENV['APP_PLATFORM'] == 'production' %>
-    $('#new_feedback').submit(function(){
-      var rating = $('input:checked').attr('value');
-      if(rating !== undefined) {
-        ga('send', 'event', 'Feedback', 'Rating', parseInt(rating));
-      }
-    });
+
+  $('#submit-button').click(function(e){
+    e.preventDefault();
+    var rating = $('input:checked').attr('value');
+    var form = $(this).parents('form');
+    if(rating !== undefined) {
+      ga('send', 'event', 'Feedback', 'Rating', parseInt(rating), { hitCallback: function() { form.submit(); } });
+    }
+  });
+
   <% end %>
   </script>
 <% end %>
 <div class="send-feedback">
   <%= render "feedbacks/form" %>
 </div>
-
