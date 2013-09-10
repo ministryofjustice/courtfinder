@@ -281,27 +281,43 @@ namespace :import do
   
   desc "Import court types"
   task :court_types => :environment do
+    puts "Deleting existing Court types records"
+    CourtType.destroy_all
+
     puts "Importing court types"
 
     require 'csv'
 
     csv_file = File.read('db/data/court_type.csv')
-
     csv = CSV.parse(csv_file, :headers => true)
+
+    #These are the old ids for comnbined court types:
+    combined_old_ids = [2,17,19,20,22,23,25,26]
+    #2 - Combined Crown and County Court 
+    #17 - Crown and County Court
+    #19 - Family Proceedings Court, County Court, High Court 
+    #20 - Family Proceedings Court, County Court
+    #22 - County and Magistrates' Court
+    #23 - County Court and the Crown Court sitting at Warrington
+    #25 - County Court and District Registry
+    #26 - Combined Crown, County and Magistrate's Court
     
     csv.each do |row|
-      type = CourtType.new
+      unless combined_old_ids.include? row[0].to_i
+        type = CourtType.new
 
-      puts "Adding '#{row[1]}'"
+        puts "Adding '#{row[1]}'"
 
-      type.old_id = row[0]
-      type.old_description = row[1]
-      type.name = row[1]
-      type.old_ids_split = row[2]
+        type.old_id = row[0]
+        type.old_description = row[1]
+        type.name = row[1]
+        type.old_ids_split = row[2]
 
-      type.save!
+        type.save!
+      end
     end
-
+    puts "Adding 'Tribunal'"
+    CourtType.create!(:name => "Tribunal")
   end
   
   desc "Import areas of law"

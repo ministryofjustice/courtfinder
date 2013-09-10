@@ -153,6 +153,10 @@ ActiveRecord::Schema.define(:version => 20130912143658) do
     t.boolean  "display"
     t.boolean  "gmaps"
     t.string   "alert"
+    t.text     "info_leaflet"
+    t.text     "defence_leaflet"
+    t.text     "prosecution_leaflet"
+    t.text     "juror_leaflet"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
