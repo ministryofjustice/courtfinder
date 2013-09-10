@@ -10,7 +10,8 @@
     margin-left:0; // for small screens
   }
 
-  a {
+  a,
+  del {
     @include core-27;
     float:left;
     width:1.852em;
@@ -19,15 +20,22 @@
     margin-right:.740em;
     font-weight:bold;
     text-align:center;
-    border:1px solid #555;
+    border:1px solid $grey-1;
 
     @media (max-width: 640px) {
       line-height:1.852em;
     }
 
     &.is-active {
-      background:$grey-3;
+      text-decoration:none;
+      background:transparentize($link-hover-colour, .8);
     }
+  }
+
+  del {
+    color:$grey-2;
+    text-decoration:none;
+    border-color:$grey-2;
   }
 }
 
@@ -35,6 +43,6 @@
   h2 {
     @include core-36;
     font-weight:bold;
-    border-bottom:1px solid #a1a1a1;
+    border-bottom:1px solid $grey-2;
   }
 }
