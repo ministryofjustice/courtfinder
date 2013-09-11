@@ -3,7 +3,7 @@ class CourtSearch
   attr_accessor :query, :options
   
   def initialize(query, options={})
-    @query = query
+    @query = query && query.strip
     @options = options
     @errors = []
     @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
@@ -20,7 +20,7 @@ class CourtSearch
     else
       if postcode_search?
         if latlng = latlng_from_postcode(@query)
-          Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 20)
+          Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
         else
           @errors << "We couldn't find that post code. Please try again."
           []
