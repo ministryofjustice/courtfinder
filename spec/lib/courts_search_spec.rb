@@ -7,22 +7,18 @@ describe CourtSearch do
     @court3 = FactoryGirl.create(:court, :name => 'Reading High Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Civil')])
     @court4 = FactoryGirl.create(:court, :name => 'Reading Low Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Family')])
     @court5 = FactoryGirl.create(:court, :name => 'Some Old Court', :display => false)
-  end
+    @court6 = FactoryGirl.create(:court, :name => 'Yorkshire court', :display => true, :latitude => 54.337246, :longitude => -1.434219)
+    20.times { FactoryGirl.create(:court, :name => 'Just one more court', :display => true, :latitude => 51.41906972756, :longitude => -0.69702060464972) }
+end
 
   it "should return courts nearby if full postcode search" do
-    court_search = CourtSearch.new('hp41du')
-    court_search.results.should == [@court1]
+    court_search = CourtSearch.new('NE12 8AQ')
+    court_search.results.should == [@court6]
   end
 
   it "should return courts nearby if partial postcode" do
-    court_search = CourtSearch.new('hp4')
-    court_search.results.should == [@court1]
-  end
-
-  it "should not return courts outside of postcode range if postcode search" do
-    court_search = CourtSearch.new('e26bh')
-    court_search.stub!(:latlng_from_postcode).and_return([51.5274089226, -0.0679536547126])
-    court_search.results.should == []
+    court_search = CourtSearch.new('NE12')
+    court_search.results.should == [@court6]
   end
 
   it "should return courts by name if search is not a postcode" do
@@ -69,5 +65,10 @@ describe CourtSearch do
     cs.should_receive(:latlng_from_postcode).and_return(false)
     cs.results.should be_empty
     cs.should have(1).errors
+  end
+
+  it "should limit search to a maximum of 20 results" do
+    cs = CourtSearch.new('SE1 9NH')
+    cs.results.length.should == 20
   end
 end
