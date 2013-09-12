@@ -4,7 +4,7 @@ describe RegionsController do
   render_views
 
   before :each do
-    @region = Region.create!
+    @region = Region.create!(name: 'hobbiton')
     controller.should_receive(:set_page_expiration)
   end
 
@@ -13,8 +13,8 @@ describe RegionsController do
     response.should be_success
   end
 
-  it "displays a particular region" do
-    get :show, id: @region.id
+  it "displays a particular region by slug" do
+    get :show, id: @region.slug
     response.should be_success
   end
 end
