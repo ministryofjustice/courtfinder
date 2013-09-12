@@ -1,7 +1,11 @@
 <% content_for :title, 'Search results' %>
 
 <% if @results.present? %>
-  <p>Your search for <strong><%= @court_search.query %></strong> found the following results:</p>
+  <% if @court_search.postcode_search? %>
+    <p>Results are ordered by distance closest to <strong><%= @court_search.query %></strong>. Your search found the following <%= @results.count %> results:</p>
+  <% else %>
+    <p>Your search for <strong><%= @court_search.query %></strong> found the following <%= @results.count %> results:</p>
+  <% end %>
   <ul class="search-results">
     <% @results.each do |court| %>
       <li>
