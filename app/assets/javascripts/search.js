@@ -104,7 +104,7 @@ $(function () {
 					return;
 				}
 				
-				term = $(this).val();
+				term = $.trim($(this).val());
 
 				if (term.length > minText) {
 					if (postcode.test(term)) {
