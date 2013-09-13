@@ -107,7 +107,7 @@ $(function () {
 				term = $(this).val();
 
 				if (term.length > minText) {
-					if (postcode.test($.trim(term))) {
+					if (postcode.test(term)) {
 						results.html("<ul><li>It looks you've entered a postcode<br /><small>Press enter to find a court near " + term + "</small></li></ul>");
 						showResults()
 					} else {
