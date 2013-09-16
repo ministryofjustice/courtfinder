@@ -124,8 +124,8 @@
 -# === Map ===
 - if @court.locatable?
   %h2#location Location of the building:
-  %meta{:property => "map", :content => "http://maps.google.com/maps?q=loc:#{@court.latitude}+#{@court.longitude}" }
-  %form#directions.hidden-print{:action => "http://maps.google.com/maps", :method => "get", :rel => "ext"}
+  %meta{:property => "map", :content => "http://maps.google.co.uk/maps?q=loc:#{@court.latitude}+#{@court.longitude}" }
+  %form#directions.hidden-print{:action => "http://maps.google.co.uk/maps", :method => "get", :rel => "ext"}
     %label{:for => "saddr"} Enter your location
     %input{:name => "saddr", :type => "text", :value => params[:from]}
     %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
