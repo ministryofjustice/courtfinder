@@ -1,0 +1,50 @@
+- content_for :title, "Local information for Jurors"
+- content_for :last_updated, @court.updated_at.to_s(:standard)
+- content_for :nav do
+  %li
+    = link_to 'Courts', courts_path
+  %li
+    = link_to @court.name, @court
+
+%p.hidden-print.well
+  = link_to 'Print this page', '#', :class => 'print-link'
+  to take these details with you.
+
+
+:markdown
+
+  ## Contacting the court
+
+  Before you start your jury service: For any queries about your jury service in 
+  the week before you are due to attend, please contact the court directly and not 
+  the Jury Central Summoning Bureau. Please contact the jury team at the court.
+
+  When you are on jury service: If you become ill, please telephone the court for 
+  advice. Do not obtain a medical certificate unless the court asks for one. If 
+  someone needs to contact you urgently, a message may be left on the above number.
+
+
+  ## Attendance at court
+  
+  For information on when to arrive, please refer to the time on your confirmation 
+  letter. For subsequent days, you will be told when to arrive at court. The court 
+  normally sits from 10.00am to 4.30pm each day. However, depending on the way the 
+  trial progresses, the judge may ask you to sit longer or shorter hours on a daily 
+  basis. You will be notified by court staff about timings for lunch.
+  
+
+  ## Important information whilst at court
+
+  In the unlikely event of an emergency, court staff may ask you to provide a contact 
+  name and number of a family member or friend.
+
+  Please do not bring:
+
+  * The use of cameras or recording equipment is prohibited within all court buildings. 
+  Mobile phones with features such as cameras or recording equipment are permitted, but 
+  the additional features must not be used in the court building.
+
+  * Sharp objects such as knives are not allowed in the court building and if brought 
+  to court they will be removed by security and will not be returned when you leave. 
+  If carrying a kirpan this must be concealed and the overall length must not exceed 6 
+  inches, (2 inches handle, 4 inches blade).
