@@ -109,17 +109,9 @@
       - if court_facility.description.present?
         %dd= court_facility.description.html_safe
 
-
-
 - unless print_view
   -# === Print links ===
-  %h2.icon-print.hidden-print Information leaflets (ready to print):
-  %ul.unstyled.hidden-print
-    %li= link_to 'Local information leaflet', information_path(@court)
-    %li= link_to 'Defence witness leaflet', defence_path(@court)
-    %li= link_to 'Prosecution witness leaflet', prosecution_path(@court)
-
-
+  = render 'court_leaflets'
 
 -# === Map ===
 - if @court.locatable?

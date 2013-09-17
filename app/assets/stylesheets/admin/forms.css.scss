@@ -151,6 +151,13 @@ form {
 }
 
 // Display features for high level admin users only
+textarea.admin-only,
 .admin-only input {
   background: #eee;
+}
+
+textarea.leaflet {
+  width: 568px;
+  height: 100px;
+  resize: none;
 }

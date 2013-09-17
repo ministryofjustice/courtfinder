@@ -39,6 +39,16 @@ class CourtsController < ApplicationController
     end
   end
   
+  def juror
+    @court = Court.find(params[:id])
+
+    if request.path != juror_path(@court, :format => params[:format])
+      redirect_to juror_path(@court, :format => params[:format]), status: :moved_permanently
+    else
+      respond_with @court
+    end
+  end
+
   def show
     @court = Court.find(params[:id])
 
