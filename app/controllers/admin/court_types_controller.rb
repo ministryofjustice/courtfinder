@@ -45,7 +45,7 @@ class Admin::CourtTypesController < Admin::ApplicationController
     respond_to do |format|
       if @court_type.save
         purge_all_pages
-        format.html { redirect_to admin_court_type_path(@court_type), notice: 'Court type was successfully created.' }
+        format.html { redirect_to edit_admin_court_type_path(@court_type), notice: 'Court type was successfully created.' }
         format.json { render json: @court_type, status: :created, location: @court_type }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::CourtTypesController < Admin::ApplicationController
     respond_to do |format|
       if @court_type.update_attributes(params[:court_type])
         purge_all_pages
-        format.html { redirect_to admin_court_type_path(@court_type), notice: 'Court type was successfully updated.' }
+        format.html { redirect_to edit_admin_court_type_path(@court_type), notice: 'Court type was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
