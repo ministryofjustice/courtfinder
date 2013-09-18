@@ -4,7 +4,7 @@
 
 ### Data
 
-Export from mySQL database and replace the files into /db/data. When exporting use 'Export Method' custom, 'Format' CSV and make sure you check 'Put columns names in the first row'. 
+Export from mySQL database and replace the files into /db/data. When exporting use 'Export Method' custom, 'Format' CSV and make sure you check 'Put columns names in the first row'.
 
 #### Before importing
 
@@ -44,10 +44,6 @@ Court photos are resized when uploaded. This requires an install of ImageMagick 
 
 [Sign-in](http://localhost:3000/admin/users/sign_in)
 
-To get access to the admin area you will then need to create the first user manually via the Rails console (`rails console`)
+To get access to the admin area you will then need to create the first user manually via the rake task:
 
-    User.invite!(:email => "mat@cjsdigital.org", :name => "Mat Harden")
-
-This will create the user and attempt to send an email invite. Trigger a [password reminder](http://localhost:3000/admin/users/password/new) with the email address you supplied. 
-
-Then back in Rails console, get the `reset_password_token` from the updated details by running `User.last`. Append that to the end of the password reset link (`http://localhost:3000/admin/users/password/edit?reset_password_token=`) and enter a password. Doing this will automatically sign you in.
+    rake "admin:create[mat@cjsdigital.org, the_password, Mat Harden]"
