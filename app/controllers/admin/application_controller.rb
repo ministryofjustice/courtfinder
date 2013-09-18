@@ -12,4 +12,9 @@ class Admin::ApplicationController < ::ApplicationController
   def purge_all_pages
     purge_cache('.*')
   end
+
+  private  
+  def authorised?
+    redirect_to admin_path unless current_user.admin?
+  end
 end

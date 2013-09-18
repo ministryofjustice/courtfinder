@@ -37,10 +37,4 @@ class Admin::UsersController < Admin::ApplicationController
       format.html { redirect_to admin_users_url }
     end
   end
-
-private
-  
-  def authorised?
-    redirect_to admin_path unless current_user.admin?
-  end
 end

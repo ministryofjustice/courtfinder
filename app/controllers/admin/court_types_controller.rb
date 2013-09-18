@@ -1,4 +1,5 @@
 class Admin::CourtTypesController < Admin::ApplicationController
+  before_filter :authorised?
   # GET /admin/court_types
   # GET /admin/court_types.json
   def index
