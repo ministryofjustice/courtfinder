@@ -39,4 +39,8 @@ describe NotificationsMailer do
   it "feedback notification email contains referrer" do
     @feedback_email.body.raw_source.should include(@form_params["referrer"])
   end
+
+  it "feedback notification email subject contains referrer" do
+    @feedback_email.subject.should include(@form_params["referrer"])
+  end
 end
