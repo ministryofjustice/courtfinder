@@ -5,16 +5,5 @@
   <%= @court_type.name %>
 </p>
 
-<p>
-  <b>Old:</b>
-  <%= @court_type.old_id %>
-</p>
-
-<p>
-  <b>Old description:</b>
-  <%= @court_type.old_description %>
-</p>
-
-
 <%= link_to 'Edit', edit_admin_court_type_path(@court_type) %> |
 <%= link_to 'Back', admin_court_types_path %>
