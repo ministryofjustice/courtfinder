@@ -1,5 +1,6 @@
 // MOJ Toolkit
 @import "moj-base";
+@import "modules/moj.tabs";
 
 // GOV.UK Toolkit
 @import "_colours";
@@ -15,7 +16,7 @@
 @import "home";
 @import "courts";
 @import "feedbacks";
-@import "moj.tabs";
+@import "courts-list";
 
 // MOJ Toolkit overrides
 header.page-header {
