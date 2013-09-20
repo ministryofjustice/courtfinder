@@ -1,4 +1,5 @@
 namespace :admin do
+
   desc "Creates an admin user with given name, email and password."
   task :create, [:email, :password, :name] => :environment do |t, args|
     args.with_defaults(email: 'admin@test.com', password: '123123123', name: "Admin email")
