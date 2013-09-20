@@ -5,7 +5,7 @@ describe AreasOfLawController do
 
   before :each do
     controller.should_receive(:enable_varnish)
-    @area = AreaOfLaw.create!
+    @area = AreaOfLaw.create!.reload
   end
 
   it "displays a list of areas of law" do

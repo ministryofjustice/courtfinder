@@ -4,7 +4,7 @@ describe CourtTypesController do
   render_views
 
   before :each do
-    @court_type = CourtType.create!
+    @court_type = CourtType.create!.reload
     controller.should_receive(:enable_varnish)
     controller.should_receive(:set_cache_control).with(@court_type.updated_at)
   end

@@ -4,7 +4,7 @@ describe RegionsController do
   render_views
 
   before :each do
-    @region = Region.create!(name: 'hobbiton')
+    @region = Region.create!(name: 'hobbiton').reload
     controller.should_receive(:enable_varnish)
     controller.should_receive(:set_cache_control).with(@region.updated_at).once
   end

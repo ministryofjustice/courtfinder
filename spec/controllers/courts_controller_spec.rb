@@ -4,7 +4,7 @@ describe CourtsController do
   render_views
 
   before :each do
-    @court = FactoryGirl.create(:court, :name => 'A court of LAW')
+    @court = FactoryGirl.create(:court, :name => 'A court of LAW').reload
   end
 
   before :each do
