@@ -1,16 +1,18 @@
 class RegionsController < ApplicationController
 
-  before_filter :set_page_expiration
+  before_filter :enable_varnish
   
   respond_to :html, :json
 
   def index
     @regions = Region.order(:name)
+    set_cache_control(@regions.maximum(:updated_at))
     respond_with @regions
   end
 
   def show
     @region = Region.find(params[:id])
+    set_cache_control(@region.updated_at)
 
     if request.path != region_path(@region, :format => params[:format])
       redirect_to region_path(@region, :format => params[:format]), status: :moved_permanently

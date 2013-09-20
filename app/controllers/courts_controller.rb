@@ -2,16 +2,17 @@ class CourtsController < ApplicationController
   
   respond_to :html, :json
 
-  before_filter :set_page_expiration
+  before_filter :enable_varnish
+  before_filter :find_court, except: :index
+  before_filter :set_page_expiration, except: :index
   
   def index
+    set_cache_control(Court.maximum(:updated_at))
     @courts = Court.by_name
     respond_with @courts
   end
   
   def information
-    @court = Court.find(params[:id])
-
     if request.path != information_path(@court, :format => params[:format])
       redirect_to information_path(@court, :format => params[:format]), status: :moved_permanently
     else
@@ -20,8 +21,6 @@ class CourtsController < ApplicationController
   end
   
   def defence
-    @court = Court.find(params[:id])
-
     if request.path != defence_path(@court, :format => params[:format])
       redirect_to defence_path(@court, :format => params[:format]), status: :moved_permanently
     else
@@ -30,8 +29,6 @@ class CourtsController < ApplicationController
   end
   
   def prosecution
-    @court = Court.find(params[:id])
-
     if request.path != prosecution_path(@court, :format => params[:format])
       redirect_to prosecution_path(@court, :format => params[:format]), status: :moved_permanently
     else
@@ -40,8 +37,6 @@ class CourtsController < ApplicationController
   end
   
   def juror
-    @court = Court.find(params[:id])
-
     if request.path != juror_path(@court, :format => params[:format])
       redirect_to juror_path(@court, :format => params[:format]), status: :moved_permanently
     else
@@ -50,13 +45,19 @@ class CourtsController < ApplicationController
   end
 
   def show
-    @court = Court.find(params[:id])
-
     if request.path != court_path(@court, :format => params[:format])
       redirect_to court_path(@court, :format => params[:format]), status: :moved_permanently
     else
       respond_with @court
     end
   end
+
+  private
+  def find_court
+    @court = Court.find(params[:id])
+  end
   
+  def set_page_expiration
+    set_cache_control(@court.updated_at)
+  end
 end

@@ -4,7 +4,7 @@ describe SearchController do
   render_views
 
   before :each do
-    controller.should_receive(:set_page_expiration).never
+    controller.should_receive(:enable_varnish).never
   end
 
   describe "GET index" do

@@ -62,6 +62,7 @@ GEM
       execjs
     coffee-script-source (1.6.1)
     columnize (0.3.6)
+    database_cleaner (1.0.1)
     debugger-linecache (1.2.0)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
@@ -222,6 +223,7 @@ DEPENDENCIES
   carrierwave!
   ckeditor_rails
   coffee-rails (~> 3.2.1)
+  database_cleaner
   devise
   devise_invitable
   factory_girl_rails

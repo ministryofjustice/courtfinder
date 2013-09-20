@@ -2,23 +2,28 @@ require 'spec_helper'
 
 describe HomeController do
   render_views
+
+  before :all do
+    @court = Court.create!(old_id: 1, name: "A court of L.A.W.")
+  end
   
   context "landing page" do
-    before :each do
-      controller.should_receive(:set_page_expiration)
-    end
-
     it "displays the landing page" do
+      controller.should_receive(:enable_varnish)
+      controller.should_receive(:set_cache_control).with(@court.updated_at)
       get :index
       response.should be_success
     end
   end
 
   context "legacy url redirection" do
+    before :each do
+      controller.should_receive(:set_cache_control).never
+    end
+
     it "redirects by court_id" do
-      court = Court.create!(old_id: 1, name: "A court of L.A.W.")
-      get :index, court_id: court.old_id
-      response.should redirect_to(court_path(court))
+      get :index, court_id: @court.old_id
+      response.should redirect_to(court_path(@court))
     end
 
     it "redirects to a legacy formfinder leaflet" do

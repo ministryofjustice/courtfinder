@@ -5,7 +5,8 @@ describe RegionsController do
 
   before :each do
     @region = Region.create!(name: 'hobbiton')
-    controller.should_receive(:set_page_expiration)
+    controller.should_receive(:enable_varnish)
+    controller.should_receive(:set_cache_control).with(@region.updated_at).once
   end
 
   it "displays a list of regions" do
