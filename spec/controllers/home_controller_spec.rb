@@ -6,11 +6,11 @@ describe HomeController do
   before :all do
     @court = Court.create!(old_id: 1, name: "A court of L.A.W.")
   end
-  
+
   context "landing page" do
     it "displays the landing page" do
       controller.should_receive(:enable_varnish)
-      controller.should_receive(:set_cache_control).with(@court.updated_at)
+      controller.should_receive(:set_cache_control).with(@court.updated_at.to_time)
       get :index
       response.should be_success
     end

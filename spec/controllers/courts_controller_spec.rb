@@ -14,7 +14,7 @@ describe CourtsController do
   context "enable_varnish" do
     it "calls set_cache_control" do
       # This isn't great.
-      controller.should_receive(:set_cache_control).with(@court.updated_at).once
+      controller.should_receive(:set_cache_control).with(@court.updated_at.to_time).once
       get :show, id: @court.id
     end
   end
@@ -39,7 +39,7 @@ describe CourtsController do
       get :show, id: @court.id
       response.should redirect_to(court_path(@court))
     end
-    
+
     it "displays a particular court" do
       get :show, id: @court.slug
       response.should be_successful
@@ -52,25 +52,25 @@ describe CourtsController do
         @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
         @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
         @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
-        @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court', 
+        @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
                                            :info_leaflet => "some useful info",
                                            :court_type_ids => [@ct_county.id], :display => true)
-        @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court', 
+        @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
                                            :info_leaflet => "some useful info",
                                            :court_type_ids => [@ct_family.id], :display => true)
-        @tribunal = FactoryGirl.create(:court, :name => 'Capita Tribunal', 
+        @tribunal = FactoryGirl.create(:court, :name => 'Capita Tribunal',
                                        :info_leaflet => "some useful info",
                                        :court_type_ids => [@ct_tribunal.id], :display => true)
-        @magistrates_court = FactoryGirl.create(:court, :name => 'Capita Magistrates Court', 
+        @magistrates_court = FactoryGirl.create(:court, :name => 'Capita Magistrates Court',
                                                 :info_leaflet => "some useful info",
                                                 :court_type_ids => [@ct_magistrate.id], :display => true)
-        @crown_court = FactoryGirl.create(:court, :name => 'Capita Crown Court', 
+        @crown_court = FactoryGirl.create(:court, :name => 'Capita Crown Court',
                                           :info_leaflet => "some useful info",
                                           :court_type_ids => [@ct_crown.id], :display => true)
-        @combined_court = FactoryGirl.create(:court, :name => 'Capita Combined Court', 
+        @combined_court = FactoryGirl.create(:court, :name => 'Capita Combined Court',
                                              :info_leaflet => "some useful info",
                                              :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
-        @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court', 
+        @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
                                              :info_leaflet => "some useful info",
                                              :display => true)
 
@@ -80,12 +80,12 @@ describe CourtsController do
         get :defence, id: @court.id
         response.should redirect_to(defence_path(@court))
       end
-      
+
       it "displays a defence leaflet" do
         get :defence, id: @court.slug
         response.should be_successful
       end
-      
+
       it "redirects to a slug of a prosecution leaflet" do
         get :prosecution, id: @court.id
         response.should redirect_to(prosecution_path(@court))
@@ -95,7 +95,7 @@ describe CourtsController do
         get :prosecution, id: @court.slug
         response.should be_successful
       end
-      
+
       it "redirects to a slug of an information leaflet" do
         get :information, id: @court.id
         response.should redirect_to(information_path(@court))
@@ -244,12 +244,12 @@ describe CourtsController do
         get :show, id: @court.slug, format: :json
         response.should be_successful
       end
-      
+
       it "json api returns correct information" do
         get :show, id: @court.slug, format: :json
         JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, "@id"=>"http://test.host/courts/a-court-of-law.json/a-court-of-law", "name"=>"A court of LAW", "@type"=>["GovernmentOrganization", "Courthouse"]}
       end
-      
+
       it "json api returns correct extra information" do
         @court.update_attributes(:info => 'some information')
         get :show, id: @court.slug, format: :json
