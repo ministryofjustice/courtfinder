@@ -33,6 +33,34 @@ describe CourtsController do
   context "a court exists" do
     before :each do
       controller.should_receive(:find_court).and_call_original
+      @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
+      @at_postal = FactoryGirl.create(:address_type, :name => "Postal")      
+      @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
+      @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
+      @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
+      @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
+      @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
+      @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
+                                         :info_leaflet => "some useful info",
+                                         :court_type_ids => [@ct_county.id], :display => true)
+      @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
+                                         :info_leaflet => "some useful info",
+                                         :court_type_ids => [@ct_family.id], :display => true)
+      @tribunal = FactoryGirl.create(:court, :name => 'Capita Tribunal',
+                                     :info_leaflet => "some useful info",
+                                     :court_type_ids => [@ct_tribunal.id], :display => true)
+      @magistrates_court = FactoryGirl.create(:court, :name => 'Capita Magistrates Court',
+                                              :info_leaflet => "some useful info",
+                                              :court_type_ids => [@ct_magistrate.id], :display => true)
+      @crown_court = FactoryGirl.create(:court, :name => 'Capita Crown Court',
+                                        :info_leaflet => "some useful info",
+                                        :court_type_ids => [@ct_crown.id], :display => true)
+      @combined_court = FactoryGirl.create(:court, :name => 'Capita Combined Court',
+                                           :info_leaflet => "some useful info",
+                                           :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
+      @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
+                                           :info_leaflet => "some useful info",
+                                           :display => true)      
     end
 
     it "redirects to a slug of a particular court" do
@@ -46,36 +74,6 @@ describe CourtsController do
     end
 
     context "leaflets" do
-      before :all do
-        @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
-        @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
-        @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
-        @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
-        @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
-        @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
-                                           :info_leaflet => "some useful info",
-                                           :court_type_ids => [@ct_county.id], :display => true)
-        @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
-                                           :info_leaflet => "some useful info",
-                                           :court_type_ids => [@ct_family.id], :display => true)
-        @tribunal = FactoryGirl.create(:court, :name => 'Capita Tribunal',
-                                       :info_leaflet => "some useful info",
-                                       :court_type_ids => [@ct_tribunal.id], :display => true)
-        @magistrates_court = FactoryGirl.create(:court, :name => 'Capita Magistrates Court',
-                                                :info_leaflet => "some useful info",
-                                                :court_type_ids => [@ct_magistrate.id], :display => true)
-        @crown_court = FactoryGirl.create(:court, :name => 'Capita Crown Court',
-                                          :info_leaflet => "some useful info",
-                                          :court_type_ids => [@ct_crown.id], :display => true)
-        @combined_court = FactoryGirl.create(:court, :name => 'Capita Combined Court',
-                                             :info_leaflet => "some useful info",
-                                             :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
-        @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
-                                             :info_leaflet => "some useful info",
-                                             :display => true)
-
-      end
-
       it "redirects to a slug of a defence leaflet" do
         get :defence, id: @court.id
         response.should redirect_to(defence_path(@court))

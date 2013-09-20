@@ -6,16 +6,13 @@
   = image_tag(@court.image_file_url.to_s, :id => 'court-photo', :property => 'image') if @court.image_file
 
 -# === Addresses ===
-- addresses = @court.addresses
-- visiting = addresses.primary
-- postal = addresses.all
-- postal.delete visiting
-
-- if addresses.present?
+- if @court.addresses.present?
+  - visiting = @court.addresses.visiting
+  - postal = @court.addresses.postal
   .addresses
     .visit
-      %h3= postal.empty? ? 'Visit or write to us:' : 'Visit us:'
       - if visiting.present?
+        %h3= postal.present? ? 'Visit us:' : 'Visit or write to us:'
         = format_address visiting
 
       - if @court.locatable? && !print_view
@@ -24,8 +21,7 @@
     - if postal.present?
       .postal
         %h3 Write to us:
-        - postal.each do |addr|
-          = format_address addr
+        = format_address postal
 
 
 - unless print_view
