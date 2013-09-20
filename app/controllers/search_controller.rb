@@ -1,7 +1,5 @@
 class SearchController < ApplicationController
 
-  skip_before_filter :set_page_expiration
-
   def index
     if params[:area_of_law] == 'Designated money claims'
       redirect_to(court_path('county-court-money-claims-centre'))

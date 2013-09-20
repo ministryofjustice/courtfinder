@@ -5,7 +5,8 @@ describe CourtTypesController do
 
   before :each do
     @court_type = CourtType.create!
-    controller.should_receive(:set_page_expiration)
+    controller.should_receive(:enable_varnish)
+    controller.should_receive(:set_cache_control).with(@court_type.updated_at)
   end
 
   it "displays a list of court types" do

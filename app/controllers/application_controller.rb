@@ -9,8 +9,11 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def set_page_expiration
-    expires_in(3.hours, public: true)
+  def enable_varnish
     headers['X-Varnish-Enable'] = '1'
+  end
+
+  def set_cache_control(timestamp)
+    fresh_when(last_modified: timestamp, public: true)
   end
 end
