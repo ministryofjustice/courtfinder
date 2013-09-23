@@ -10,6 +10,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'awesome_print'
 end
 
 # Gems used only for assets and not required
@@ -45,3 +46,4 @@ gem 'nokogiri'              # HTML processing
 gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git', tag: 'v0.0.39'
 gem 'varnish-client', require: 'varnish/client'
 gem 'jbuilder'              # json api templating
+gem 'httparty'
