@@ -1,3 +1,4 @@
+require 'yaml'
 module Location
  class LocationGenerator
     attr_reader :modified_courts, :ignored_courts, :not_found_court_postcode
@@ -34,6 +35,15 @@ module Location
     def process(courts)
       courts.each do |court|
         generate_location_for(court) if missing_location?(court)
+      end
+    end
+
+    def load(filename)
+      courts = YAML.load_file(filename)
+      courts.each  do |info|
+        Court.find_by_name(info["name"]).update_attributes({latitude: info["latitude"], longitude: info["longitude"]})
+        @modified_courts << info["name"]
+        @not_found_court_postcode.delete(info["name"])
       end
     end
   end
