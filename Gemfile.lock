@@ -47,6 +47,7 @@ GEM
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     arel (3.0.2)
+    awesome_print (1.1.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
     byebug (1.8.2)
@@ -109,6 +110,9 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hike (1.2.3)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     i18n (0.6.5)
     jbuilder (1.5.1)
       activesupport (>= 3.0.0)
@@ -126,6 +130,7 @@ GEM
     mime-types (1.24)
     mini_portile (0.5.1)
     multi_json (1.7.9)
+    multi_xml (0.5.5)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
@@ -219,6 +224,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   byebug
   carrierwave!
   ckeditor_rails
@@ -234,6 +240,7 @@ DEPENDENCIES
   gmaps4rails
   govuk_frontend_toolkit
   haml-rails
+  httparty
   jbuilder
   jquery-rails (~> 2.1)
   moj_frontend_toolkit_gem!
