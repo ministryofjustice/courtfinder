@@ -84,4 +84,35 @@ describe Location::LocationGenerator do
       location_generator.process([court])
     end
   end
+
+  describe "#load" do
+    let(:file_with_one_entry) { File.expand_path('../../../../fixtures/manual_map_location.yml', __FILE__) }
+    let(:file_with_two_entries) { File.expand_path('../../../../fixtures/manual_map_locations.yml', __FILE__) }
+    let(:court) { double('court').as_null_object }
+
+    describe 'when there is one court' do
+      it "should find a court" do
+        Court.should_receive(:find_by_name).with('County Court Money Claims Centre').and_return(court)
+        location_generator.load(file_with_one_entry)
+      end
+
+      it "should update the longitude and latitude" do
+        Court.stub(:find_by_name).with('County Court Money Claims Centre').and_return(court)
+        court.should_receive(:update_attributes).with({latitude: 53.48150, longitude: -2.28044}).and_return(:true)
+        location_generator.load(file_with_one_entry)
+      end
+    end
+
+    describe 'when there is more courts' do
+      it "should find two courts" do
+        Court.should_receive(:find_by_name).twice.and_return(court)
+        location_generator.load(file_with_two_entries)
+      end
+      it "should update the longitude and latitude" do
+          Court.stub(:find_by_name).and_return(court)
+          court.should_receive(:update_attributes).twice.and_return(:true)
+          location_generator.load(file_with_two_entries)
+        end
+    end
+  end
 end
