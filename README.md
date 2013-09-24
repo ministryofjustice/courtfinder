@@ -30,6 +30,17 @@ Then source all the court images from the existing website:
 
     rake source:court_images
 
+### Generating Map Locations
+
+After court data has been imported, some courts may be missing their map locations. The locations can be generated from their post codes of the visiting addresses and imported by running:
+
+    RAILS_ENV=production rake import:map_location
+
+Some post codes are not recognised by the default map location provider. For them, please use Google Maps Labs and enter their location manually in the file below before re-running the script.
+
+    db/data/manual_map_locations.yml
+
+
 <!-- Then you need to process the court types by running:
 
     rake process:court_types -->
