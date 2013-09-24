@@ -42,6 +42,8 @@ module Location
       courts = YAML.load_file(filename)
       courts.each  do |info|
         Court.find_by_name(info["name"]).update_attributes({latitude: info["latitude"], longitude: info["longitude"]})
+        @modified_courts << info["name"]
+        @not_found_court_postcode.delete(info["name"])
       end
     end
   end

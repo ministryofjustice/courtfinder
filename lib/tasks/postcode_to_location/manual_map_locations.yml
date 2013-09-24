@@ -1,0 +1,22 @@
+- name: "Scunthorpe Magistrates' Court"
+  latitude: 53.67071
+  longitude:  -0.6380
+- name: 'Hampshire & the Isle of Wight Fixed Penalty Office'
+  latitude: 51.06788
+  longitude: -1.29723
+- name: 'West Yorkshire Enforcement Office'
+  latitude: 53.74395
+  longitude: -1.59931
+- name: 'Sussex Fines & Enforcement Unit'
+  latitude: 50.82668
+  longitude: -0.14081
+- name: 'Greater Manchester Central Accounts and Enforcement Unit'
+  latitude: 53.48762
+  longitude: -2.22725
+- name: 'Wales Enforcement Contact and Compliance Centre'
+  latitude: 51.65464
+  longitude: -3.02298
+- name: 'Cheshire and Merseyside Central Payment and Enforcement Centre'
+  latitude: 53.32607
+  longitude: -2.69446
+
