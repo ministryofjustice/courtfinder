@@ -9,7 +9,7 @@ namespace :import do
     map_location_generator = Location::LocationGenerator.new(locations)
     map_location_generator.process(Court.all)
 
-    manual_map_file = File.expand_path('../manual_map_locations.yml', __FILE__)
+    manual_map_file = File.expand_path('../../../../db/data/manual_map_locations.yml', __FILE__)
     map_location_generator.load(manual_map_file)
 
     puts "The total number of courts in the system is: #{Court.all.size}"
