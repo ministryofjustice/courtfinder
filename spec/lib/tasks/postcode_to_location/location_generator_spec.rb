@@ -86,8 +86,8 @@ describe Location::LocationGenerator do
   end
 
   describe "#load" do
-    let(:file_with_one_entry) { File.expand_path('../../../../fixtures/manual_map_location.yml', __FILE__) }
-    let(:file_with_two_entries) { File.expand_path('../../../../fixtures/manual_map_locations.yml', __FILE__) }
+    let(:file_with_one_entry) { "spec/fixtures/manual_map_location.yml" }
+    let(:file_with_two_entries) { "spec/fixtures/manual_map_locations.yml" }
     let(:court) { double('court').as_null_object }
 
     describe 'when there is one court' do
