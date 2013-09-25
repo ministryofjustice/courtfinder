@@ -57,4 +57,4 @@ Court photos are resized when uploaded. This requires an install of ImageMagick 
 
 To get access to the admin area you will then need to create the first user manually via the rake task:
 
-    rake "admin:create[mat@cjsdigital.org, the_password, Mat Harden]"
+    rake "admin:create[sue@example.com, the_password, Sue Denim]"
