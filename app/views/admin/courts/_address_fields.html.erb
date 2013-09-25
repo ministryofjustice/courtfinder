@@ -1,11 +1,6 @@
-
 <fieldset>
   <%= f.input :is_primary, :as => 'hidden', :value => f.object.is_primary %>
-  <div class="input string court_addresses_primary <%= 'hidden' unless f.object.is_primary %>">
-    <label class="optional control-label">Address type</label>
-    <span class="input">Visiting address</span>
-  </div>
-  <%= f.association :address_type, :include_blank => false, :wrapper_html => { :class => ('hidden' if f.object.is_primary) } %>
+  <%= f.association :address_type, :include_blank => false %>
   <%= f.input :address_line_1 %>
   <%= f.input :address_line_2 %>
   <%= f.input :address_line_3 %>

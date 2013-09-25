@@ -40,8 +40,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do

@@ -5,6 +5,9 @@ class Address < ActiveRecord::Base
   attr_accessible :address_line_1, :address_line_2, :address_line_3, :address_line_4, :dx, :name, :postcode, :town_id, :address_type_id, :is_primary, :town
   validates_presence_of :address_line_1, :town
 
+  scope :visiting, ->() { where(:address_type_id => AddressType.find_by_name("Visiting").id) }
+  scope :postal, ->() { where(:address_type_id => AddressType.find_by_name("Postal").id) }
+  
   # Output address_lines fields of an address separated by comma or specified delimiter
   def address_lines(glue=',')
     lines = [

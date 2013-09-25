@@ -17,4 +17,10 @@ namespace :process do
       court.update_attributes(:court_type_ids => court_type_ids)
     end
   end
+
+  desc "Assign type 'Visiting' to all addresses marked as primary"
+  task :court_addresses => :environment do
+    v = AddressType.find_or_create_by_name("Visiting")
+    Address.where(is_primary: true).each { |ad| ad.update_attributes(:address_type_id => v.id) }
+  end
 end
