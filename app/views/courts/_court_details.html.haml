@@ -7,8 +7,8 @@
 
 -# === Addresses ===
 - if @court.addresses.present?
-  - visiting = @court.addresses.visiting
-  - postal = @court.addresses.postal
+  - visiting = @court.addresses.visiting.first
+  - postal = @court.addresses.postal.first
   .addresses
     .visit
       - if visiting.present?
