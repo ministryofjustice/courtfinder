@@ -47,3 +47,4 @@ gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_f
 gem 'varnish-client', require: 'varnish/client'
 gem 'jbuilder'              # json api templating
 gem 'httparty'
+gem 'appsignal'
