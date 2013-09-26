@@ -60,7 +60,7 @@ class Court < ActiveRecord::Base
 
 
   def locatable?
-    longitude && latitude
+    longitude && latitude && !addresses.visiting.empty?
   end
 
   def as_json(options={})

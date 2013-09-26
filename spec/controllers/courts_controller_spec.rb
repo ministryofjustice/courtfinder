@@ -43,6 +43,7 @@ describe CourtsController do
       @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
       @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
                                          :info_leaflet => "some useful info",
+                                         :latitude => 51.379743, :longitude => -0.104515,
                                          :court_type_ids => [@ct_county.id], :display => true) do |court|
         @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @at_visiting.id, :town_id => @town.id)
         @postal_address = court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
@@ -58,7 +59,9 @@ describe CourtsController do
                                               :court_type_ids => [@ct_magistrate.id], :display => true)
       @crown_court = FactoryGirl.create(:court, :name => 'Capita Crown Court',
                                         :info_leaflet => "some useful info",
-                                        :court_type_ids => [@ct_crown.id], :display => true)
+                                        :court_type_ids => [@ct_crown.id], :display => true) do |court|
+        court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+      end
       @combined_court = FactoryGirl.create(:court, :name => 'Capita Combined Court',
                                            :info_leaflet => "some useful info",
                                            :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
@@ -75,6 +78,18 @@ describe CourtsController do
     it "displays a particular court" do
       get :show, id: @county_court.slug
       response.should be_successful
+    end
+
+    context "map" do
+      it "displays a map for a court which has latitude, longitude and a visiting address" do
+        get :show, id: @county_court.slug
+        expect(response.body).to match /Location of the building/m
+      end
+
+      it "does not display a map for a court which doesn't have a visiting address" do
+        get :show, id: @crown_court.slug
+        expect(response.body).not_to match /Location of the building/m
+      end
     end
 
     context "leaflets" do

@@ -1,5 +1,5 @@
 <% content_for :type, 'service' %>
-<% content_for :title, 'Court or tribunal finder' %>
+<% content_for :title, 'Court finder' %>
 <% content_for :scripts do %>
 <script>
   <%= raw("moj.courts = #{@courts.visible.to_json(:lookup => true)};") %>
@@ -8,7 +8,8 @@
 
 <section class="intro">
 	<div class="get-started-intro">
-		<p>Use this tool to find a court in England or Wales, or a tribunal in England, Wales and Scotland.</p>
+		<p>Search for a court or probate office in England and Wales.</p>
+		<p>(Please note that we are adding tribunal information.)</p>
 	</div>
 </section>
 

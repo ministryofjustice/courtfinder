@@ -14,12 +14,16 @@ describe Court do
 
     @town = FactoryGirl.create(:town, :name => "London")
 
-    @county_court = FactoryGirl.create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id]) do |court|
+    @county_court = FactoryGirl.create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id],
+                                        :latitude => 51.379743, :longitude => -0.104515) do |court|
       @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @at_visiting.id, :town_id => @town.id)
       @postal_address = court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
     end
 
-    @crown_court = FactoryGirl.create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id])
+    @crown_court = FactoryGirl.create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id]) do |court|
+      court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+    end
+
     @magistrates_court = FactoryGirl.create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
     @tribunal = FactoryGirl.create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
   end
@@ -52,5 +56,13 @@ describe Court do
 
   it "should return a postal address" do
     @county_court.addresses.postal.first.should == @postal_address
+  end
+
+  it "should not be locatable if it doesn't have a visiting address" do
+    @crown_court.locatable?.should be_nil
+  end
+
+  it "should be locatable if it has a latitude, longitude and visiting address" do
+    @county_court.locatable?.should_not be_nil
   end
 end
