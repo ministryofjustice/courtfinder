@@ -14,19 +14,19 @@ json.set! "@type", [ "GovernmentOrganization", "Courthouse" ]
 json.set! "geo:latitude", @court.latitude if @court.latitude?
 json.set! "geo:longitude", @court.longitude if @court.longitude?
 
-if @court.addresses.primary
-  visiting = @court.addresses.primary
+addresses = @court.addresses
+if address = (addresses.postal.first || addresses.visiting.first)
   json.set! :address do
     json.set! "@type", 'PostalAddress'
-    json.postalCode visiting.postcode if visiting.postcode?
-    json.addressRegion visiting.town.county.name if visiting.town.county.name?
-    json.town visiting.town.name if visiting.town.name?
+    json.postalCode address.postcode if address.postcode?
+    json.addressRegion address.town.county.name if address.town.county.name?
+    json.town address.town.name if address.town.name?
     street_address = []
-    street_address.push visiting.address_line_1 if visiting.address_line_1?
-    street_address.push visiting.address_line_2 if visiting.address_line_2?
-    street_address.push visiting.address_line_3 if visiting.address_line_3?
-    street_address.push visiting.address_line_4 if visiting.address_line_4?
-    street_address.push visiting.dx if visiting.dx?
+    street_address.push address.address_line_1 if address.address_line_1?
+    street_address.push address.address_line_2 if address.address_line_2?
+    street_address.push address.address_line_3 if address.address_line_3?
+    street_address.push address.address_line_4 if address.address_line_4?
+    street_address.push address.dx if address.dx?
     json.streetAddress street_address.join(', ')
   end
 end
