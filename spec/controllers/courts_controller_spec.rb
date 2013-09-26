@@ -35,6 +35,7 @@ describe CourtsController do
       controller.should_receive(:find_court).and_call_original
       @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
       @at_postal = FactoryGirl.create(:address_type, :name => "Postal")      
+      @town = FactoryGirl.create(:town, :name => "London")
       @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
       @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
       @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
@@ -42,7 +43,10 @@ describe CourtsController do
       @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
       @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
                                          :info_leaflet => "some useful info",
-                                         :court_type_ids => [@ct_county.id], :display => true)
+                                         :court_type_ids => [@ct_county.id], :display => true) do |court|
+        @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @at_visiting.id, :town_id => @town.id)
+        @postal_address = court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+      end
       @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
                                          :info_leaflet => "some useful info",
                                          :court_type_ids => [@ct_family.id], :display => true)
@@ -64,12 +68,12 @@ describe CourtsController do
     end
 
     it "redirects to a slug of a particular court" do
-      get :show, id: @court.id
-      response.should redirect_to(court_path(@court))
+      get :show, id: @county_court.id
+      response.should redirect_to(court_path(@county_court))
     end
 
     it "displays a particular court" do
-      get :show, id: @court.slug
+      get :show, id: @county_court.slug
       response.should be_successful
     end
 
