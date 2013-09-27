@@ -76,7 +76,7 @@ module Courtfinder
     # MOJ Toolkit
 
     # app title appears in the header bar
-    config.app_title = 'Court and tribunal finder'
+    config.app_title = 'Court finder'
 
     # phase governs text indicators and highlight colours
     # presumed values: alpha, beta, live
