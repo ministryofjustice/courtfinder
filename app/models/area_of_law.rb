@@ -29,4 +29,9 @@ class AreaOfLaw < ActiveRecord::Base
   def empty?
     courts.count.zero?
   end
+
+  def is_possession?
+    # 407 is the id for 'Possessions'. Using id instead of the name because the name is likely to change.
+    id == 407
+  end
 end

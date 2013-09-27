@@ -10,6 +10,7 @@ class SearchController < ApplicationController
     begin
       @results = @court_search.results
       @errors = @court_search.errors
+      @chosen_area_of_law = AreaOfLaw.find_by_name(params[:area_of_law])
     rescue RestClient::RequestTimeout
       @results = []
       @timeout = true
