@@ -16,10 +16,10 @@ $grey:#eaedef;
     .well {
       margin-bottom:1em; padding:.5em .75em; background:$grey;
     }
-  }
 
-  .help-notice {
-    float:right; padding:.25em 50px .25em .5em; max-width:50%; background-position:98%;
+    .help-notice {
+      float:right; margin:1em 0; padding:.25em 50px .25em .5em; max-width:50%; background-position:98%;
+    }
   }
 
   header.page-header {
