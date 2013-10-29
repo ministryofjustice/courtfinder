@@ -2,6 +2,18 @@
 
 ## Set-up
 
+### ImageMagick
+
+Court photos are resized when uploaded. This requires an install of ImageMagick on your environment. Install manually using from [http://www.imagemagick.org/script/index.php] or [http://cactuslab.com/imagemagick/].
+
+Then run:
+
+    which convert
+
+Note the path to ImageMagick and run the following line (replacing with your path to ImageMagick) before running bundle install. The below example is based on a `which convert` output of `/opt/ImageMagick/bin/convert`:
+
+    export PKG_CONFIG_PATH="/opt/ImageMagick/lib/pkgconfig:$PKG_CONFIG_PATH"
+
 ### Data
 
 Export from mySQL database and replace the files into /db/data. When exporting use 'Export Method' custom, 'Format' CSV and make sure you check 'Put columns names in the first row'.
@@ -44,12 +56,6 @@ Some post codes are not recognised by the default map location provider. For the
 <!-- Then you need to process the court types by running:
 
     rake process:court_types -->
-
-### Uploads
-
-Court photos are resized when uploaded. This requires an install of ImageMagick on your environment. You can install this using Homebrew:
-
-    brew install imagemagick
 
 ### Admin Area
 
