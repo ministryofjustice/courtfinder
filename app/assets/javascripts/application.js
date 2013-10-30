@@ -15,6 +15,7 @@
 //= require gmaps4rails/gmaps4rails.googlemaps
 //
 //= require moj
+//= require modules/moj.cookie-message
 //= require modules/moj.tabs
 //= require search
 //= require main

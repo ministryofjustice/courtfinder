@@ -43,7 +43,7 @@ gem 'newrelic_rpm'          # Application performance monitoring.
 gem 'govuk_frontend_toolkit'# Sass helpers
 gem 'global_phone'          # Phone number validation and formatting
 gem 'nokogiri'              # HTML processing
-gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git', tag: 'v0.0.41'
+gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git', tag: 'v0.1.0'
 gem 'varnish-client', require: 'varnish/client'
 gem 'jbuilder'              # json api templating
 gem 'httparty'
