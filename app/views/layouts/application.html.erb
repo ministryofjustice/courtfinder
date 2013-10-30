@@ -14,7 +14,7 @@
 	<% end %>
 	<%= stylesheet_link_tag "admin", :media => "all" if admin_area? %>
 	<%= stylesheet_link_tag "print", :media => "print" %>
-	
+
 	<!--[if lte IE 7]>
 	<style type="text/css">
 		.inner div.addresses{width:560px}
@@ -27,17 +27,15 @@
 
 	<a href="#content" class="visuallyhidden">Skip to main content</a>
 
-	<%= render 'shared/header' %>
+  <%= render 'shared/header' %>
+  <%= render 'shared/cookie_message' %>
 
-	<div id="global-cookie-message">
-		<p>GOV.UK uses cookies to make the site simpler. <a href="/support/cookies">Find out more about cookies</a></p>
-	</div>
 	<div id="global-browser-prompt">
 		<p>For a safer, faster, better experience online you should upgrade your browser. <a href="/support/browsers">Find out more about browsers</a> <a href="#" class="dismiss" title="Dismiss this message">Close</a></p>
 	</div>
 
 	<%= render 'shared/phase_indicator' %>
-	
+
 	<% unless home_page? %>
 	<div id="global-breadcrumb" class="header-context">
 		<nav role="navigation">
@@ -69,7 +67,7 @@
 			<div class="browse-container full-width group">
 				<article role="article" class="group">
 					<div class="inner">
-						
+
 						<% if notice.present? %>
 							<p id="user-notice"><%= notice %></p>
 						<% end %>
@@ -77,7 +75,7 @@
 
 					</div>
 				</article>
-				
+
 				<% if content_for?(:last_updated) %>
 					<div class="meta-data group">
 						<div class="inner">
@@ -87,7 +85,7 @@
 				<% end %>
 			</div>
 		</section>
-		
+
 	</div>
 
 	<%= render 'shared/footer' %>
