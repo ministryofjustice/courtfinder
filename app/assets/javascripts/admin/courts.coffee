@@ -83,7 +83,6 @@ $('.sortable').on 'change', '.court_emails_address input', ->
 # Update the summaries on load
 $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type, .court_emails_description, .court_emails_address, .court_court_facilities_facility').find('input, select').change()
 
-
 # Admin module
 moj.Modules.admin =
 
