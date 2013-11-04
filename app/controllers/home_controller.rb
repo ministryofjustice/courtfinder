@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     end
 
     if court_id = params[:court_id]
-      redirect_to(court_path(Court.find_by_old_id(court_id))) && return
+      redirect_to(court_path(Court.find_by_old_id(court_id)), status: 301) && return
     end
 
     @courts = Court.order(:name)
