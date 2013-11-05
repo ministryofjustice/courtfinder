@@ -32,7 +32,6 @@ describe CourtsController do
 
   context "a court exists" do
     before :each do
-      controller.should_receive(:find_court).and_call_original
       @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
       @at_postal = FactoryGirl.create(:address_type, :name => "Postal")      
       @town = FactoryGirl.create(:town, :name => "London")
@@ -257,6 +256,12 @@ describe CourtsController do
     end
 
     context "API" do
+      it "returns a list of courts suitable for autocompletion" do
+        get :index, format: :json, compact: 1
+        response.should be_successful
+        response.content_type.should == 'application/json'
+      end
+
       it "returns information if asked for json" do
         get :show, id: @court.slug, format: :json
         response.should be_successful
