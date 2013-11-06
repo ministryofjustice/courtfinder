@@ -1,10 +1,5 @@
 <% content_for :type, 'service' %>
 <% content_for :title, 'Court finder' %>
-<% content_for :scripts do %>
-<script>
-  <%= raw("moj.courts = #{@courts.visible.to_json(:lookup => true)};") %>
-</script>
-<% end %>
 
 <section class="intro">
 	<div class="get-started-intro">
