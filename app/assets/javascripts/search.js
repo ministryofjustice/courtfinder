@@ -155,6 +155,15 @@ $(function () {
                             // This is a workaround for Chrome on Android.
                             var term = $.trim($(this).val());
 		            processTextualInput(term);
+                        }).keyup(function(e) {
+                            var term, k = e.keyCode;
+                            // Allow only characters, numbers, space and hyphen
+                            if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
+                                return;
+                            }
+
+                            term = $.trim($(this).val());
+                            processTextualInput(term);
                         })
 			.blur(function () {
 				hideResults()
