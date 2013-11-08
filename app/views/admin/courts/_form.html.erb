@@ -41,13 +41,12 @@
     <%= link_to_add_fields "Add address", f, :addresses, 'initNewAddressBlock' %>
   </div>
   
-  <% if current_user.admin %>
-    <h2>Location</h2>
-    <p>Use these fields to plot the court on a map. You can get the latitude/longitude using <a href="http://itouchmap.com/latlong.html" rel="ext">itouchmap</a>.</p>
-    <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
-    <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } if current_user.admin %>
-  <% end %>
- 
+
+  <h2>Location</h2>
+  <p>Use these fields to plot the court on a map. You can get the latitude/longitude using <a href="http://itouchmap.com/latlong.html" rel="ext">itouchmap</a>.</p>
+  <%= f.input :latitude, :wrapper_html => { :class => 'admin-only' } %>
+  <%= f.input :longitude, :wrapper_html => { :class => 'admin-only' } %>
+
   <h2>Photo</h2>
   <%= image_tag @court.image_file, :width => '160px' if @court.image_file.present? %>
   <%= f.input :image_file %>
