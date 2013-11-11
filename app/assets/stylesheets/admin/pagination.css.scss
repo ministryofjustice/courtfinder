@@ -1,0 +1,54 @@
+@import "_colours";
+
+.pagination-row {
+  padding: 1em 0;
+  .page-entries {
+    float: left;
+    padding-top: 0.2em;
+  }
+  .pagination {
+    border: 0;
+    float: right;
+    margin: 0;
+  }
+
+  a, span, em {
+    padding: 0.2em 0.5em 0.1em;
+    display: block;
+    float: left;
+    margin-right: 1px;
+  }
+  .disabled {
+    color: $grey-3;
+    border: 1px solid $grey-3;
+  }
+  .current {
+    font-style: normal;
+    font-weight: bold;
+    background: $grey-2;
+    color: white;
+    border: 1px solid $grey-2;
+  }
+  a {
+    text-decoration: none;
+    color: $link-colour;
+    border: 1px solid $grey-3;
+    &:hover, &:focus {
+      color: $link-hover-colour;
+      border-color: $link-hover-colour;
+    }
+  }
+  .page_info {
+    background: $grey-2;
+    color: white;
+    padding: 0.4em 0.6em;
+    width: 22em;
+    margin-bottom: 0.3em;
+    text-align: center;
+    b {
+      color: $grey-1;
+      background: $grey-2 + 60;
+      padding: 0.1em 0.25em;
+    }
+  }
+}

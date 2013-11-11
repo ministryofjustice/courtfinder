@@ -1,3 +1,8 @@
+.manage_all_courts {
+  article .inner {
+    padding: 0 30px;
+  }
+}
 
 #user_nav {
   float: right;
@@ -11,6 +16,16 @@ $table-margins:16px * 2;
 
 article table {
   width: $page-width + $table-margins;
+  &.allcourts {
+    margin: 2em auto;
+    width: auto;
+    th, td {
+      font-size: 12px;
+      &.c {
+        text-align: center;
+      }
+    }
+  }
 }
 
 div.input.string,

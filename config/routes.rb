@@ -43,7 +43,12 @@ Courtfinder::Application.routes.draw do
 
     resources :address_types, :path => '/address-types'
 
-    resources :courts
+    resources :courts do
+      collection do
+        get :areas_of_law
+        get :court_types
+      end
+    end
 
     resources :court_types
 
