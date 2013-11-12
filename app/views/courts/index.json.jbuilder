@@ -13,8 +13,6 @@ json.courts do
     json.image court.image_file_url if court.image_file_url
     json.name court.name if court.name?
     
-    json.description court.info if court.info?
-    
     json.set! "@type", [ "Courthouse" ]
     json.set! "geo:latitude", court.latitude if court.latitude?
     json.set! "geo:longitude", court.longitude if court.longitude?
