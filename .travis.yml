@@ -1,0 +1,8 @@
+rvm:
+  - 2.0.0
+before_script:
+  - psql -c 'create database courtfinder_test;' -U postgres
+services: postgres
+script:
+  - bundle exec rake db:migrate
+  - bundle exec rake spec
