@@ -1,5 +1,7 @@
 # Court Finder
 
+[![Build Status](https://travis-ci.org/ministryofjustice/courtfinder.png?branch=master)](https://travis-ci.org/ministryofjustice/courtfinder)
+
 ## Set-up
 
 ### ImageMagick
