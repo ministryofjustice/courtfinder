@@ -63,32 +63,6 @@ class Court < ActiveRecord::Base
     longitude && latitude && !addresses.visiting.empty?
   end
 
-  def as_json(options={})
-    if options[:lookup]
-      [
-        self.name,
-        self.slug
-      ]
-    else
-      {
-        :area_id => self.area_id,
-        :cci_code => self.cci_code,
-        :cci_identifier => self.cci_identifier,
-        :court_number => self.court_number,
-        :created_at => self.created_at,
-        :display => self.display,
-        :id => self.id,
-        :info => self.info,
-        :latitude => self.latitude,
-        :longitude => self.longitude,
-        :name => self.name,
-        :path => court_path(self),
-        :slug => self.slug,
-        :updated_at => self.updated_at
-      }
-    end
-  end
-
   def fetch_image_file
     if image.present?
       self.image_file.download!("http://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{self.image.to_s}")

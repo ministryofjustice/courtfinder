@@ -9,11 +9,7 @@ class CourtsController < ApplicationController
   def index
     set_cache_control(Court.maximum(:updated_at)) && return
     @courts = Court.by_name
-    if params[:compact]
-      respond_with @courts.visible.as_json(lookup: true)
-    else
-      respond_with @courts
-    end
+    respond_with @courts
   end
   
   def information
