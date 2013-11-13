@@ -55,3 +55,7 @@ else
     end
   end
 end  
+<<<<<<< HEAD
+=======
+  
+>>>>>>> don't use as_json, since we have jbuilder
