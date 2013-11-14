@@ -8,7 +8,7 @@ describe CourtsController do
   end
 
   before :each do
-    controller.should_receive(:enable_varnish)
+    controller.should_receive(:enable_varnish).at_least(1)
   end
 
   context "enable_varnish" do
@@ -260,6 +260,10 @@ describe CourtsController do
         get :index, format: :json, compact: 1
         response.should be_successful
         response.content_type.should == 'application/json'
+
+        request.env['HTTP_IF_MODIFIED_SINCE'] = response['Last-Modified']
+        get :index, {format: :json, compact: 1}
+        response.status.should == 304
       end
 
       it "returns information if asked for json" do

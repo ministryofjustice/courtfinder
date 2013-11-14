@@ -7,14 +7,13 @@ class CourtsController < ApplicationController
   before_filter :set_page_expiration, except: :index
   
   def index
-    set_cache_control(Court.maximum(:updated_at))
+    set_cache_control(Court.maximum(:updated_at)) && return
     @courts = Court.by_name
     if params[:compact]
       respond_with @courts.visible.as_json(lookup: true)
     else
       respond_with @courts
     end
-    return
   end
   
   def information
