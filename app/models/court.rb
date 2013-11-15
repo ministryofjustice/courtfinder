@@ -21,8 +21,6 @@ class Court < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-  
-  include Rails.application.routes.url_helpers
 
   geocoded_by :latitude => :lat, :longitude => :lng
 
