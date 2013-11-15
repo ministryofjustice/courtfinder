@@ -17,7 +17,11 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json
+      format.json do
+        if @errors.any?
+          head :bad_request and return
+        end
+      end
     end
   end
 
