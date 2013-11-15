@@ -16,8 +16,8 @@ class SearchController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json # index.json.jbuilder
+      format.html
+      format.json
     end
   end
 
