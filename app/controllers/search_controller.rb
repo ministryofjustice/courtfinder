@@ -19,7 +19,7 @@ class SearchController < ApplicationController
       format.html
       format.json do
         if @errors.any?
-          head :bad_request and return
+          head :bad_request && return
         end
       end
     end
