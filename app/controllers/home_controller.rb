@@ -16,7 +16,7 @@ class HomeController < ApplicationController
     end
 
     @courts = Court.order(:name)
-    set_cache_control(@courts.maximum(:updated_at))
+    set_cache_control(@courts.maximum(:updated_at)) && return
     @areas_of_law = AreaOfLaw.has_courts
   end
 end

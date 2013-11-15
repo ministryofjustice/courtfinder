@@ -5,17 +5,25 @@ describe RegionsController do
 
   before :each do
     @region = Region.create!(name: 'hobbiton').reload
-    controller.should_receive(:enable_varnish)
-    controller.should_receive(:set_cache_control).with(@region.updated_at).once
+    controller.should_receive(:enable_varnish).twice
+    controller.should_receive(:set_cache_control).with(@region.updated_at).twice.and_call_original
   end
 
   it "displays a list of regions" do
     get :index
     response.should be_success
+
+    request.env['HTTP_IF_MODIFIED_SINCE'] = response['Last-Modified']
+    get :index
+    response.status.should == 304
   end
 
   it "displays a particular region by slug" do
     get :show, id: @region.slug
     response.should be_success
+
+    request.env['HTTP_IF_MODIFIED_SINCE'] = response['Last-Modified']
+    get :show, id: @region.slug
+    response.status.should == 304
   end
 end
