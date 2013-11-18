@@ -7,6 +7,7 @@ describe AreasOfLawController do
     controller.should_receive(:enable_varnish).twice
     @area = AreaOfLaw.create!.reload
     controller.should_receive(:set_cache_control).with(@area.updated_at).twice.and_call_original
+    controller.should_receive(:set_vary_accept).twice
   end
 
   it "displays a list of areas of law" do

@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
   def set_cache_control(timestamp)
     fresh_when(last_modified: timestamp, public: true)
   end
+
+  def set_vary_accept
+    headers['Vary'] = 'Accept'
+  end
 end

@@ -7,6 +7,7 @@ describe CourtTypesController do
     @court_type = CourtType.create!.reload
     controller.should_receive(:enable_varnish).twice
     controller.should_receive(:set_cache_control).with(@court_type.updated_at).twice.and_call_original
+    controller.should_receive(:set_vary_accept).twice
   end
 
   it "displays a list of court types" do

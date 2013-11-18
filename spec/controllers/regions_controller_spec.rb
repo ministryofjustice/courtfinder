@@ -7,6 +7,7 @@ describe RegionsController do
     @region = Region.create!(name: 'hobbiton').reload
     controller.should_receive(:enable_varnish).twice
     controller.should_receive(:set_cache_control).with(@region.updated_at).twice.and_call_original
+    controller.should_receive(:set_vary_accept).twice
   end
 
   it "displays a list of regions" do
