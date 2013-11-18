@@ -9,7 +9,7 @@ describe CourtSearch do
     @court5 = FactoryGirl.create(:court, :name => 'Some Old Court', :display => false)
     @court6 = FactoryGirl.create(:court, :name => 'Yorkshire court', :display => true, :latitude => 54.337246, :longitude => -1.434219)
     20.times { FactoryGirl.create(:court, :name => 'Just one more court', :display => true, :latitude => 51.41906972756, :longitude => -0.69702060464972) }
-end
+  end
 
   it "should return courts nearby if full postcode search" do
     court_search = CourtSearch.new('NE12 8AQ')
@@ -70,5 +70,9 @@ end
   it "should limit search to a maximum of 20 results" do
     cs = CourtSearch.new('SE1 9NH')
     cs.results.length.should == 20
+  end
+
+  context "Chosen area of law is Possession" do
+      pending "add some examples"
   end
 end

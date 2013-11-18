@@ -9,7 +9,11 @@ class Court < ActiveRecord::Base
   has_many :court_types, :through => :court_types_courts
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
+  has_many :postcode_courts
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, 
+                  :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, 
+                  :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, 
+                  :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
@@ -51,6 +55,18 @@ class Court < ActiveRecord::Base
       joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
     else
       where('')
+    end
+  end
+
+  def self.by_postcode_court_mapping(postcode)
+    if postcode.present?
+      if postcode_court = PostcodeCourt.where("? ilike postcode || '%'", postcode.gsub(/\s+/, "")).order('-length(postcode)').first
+        where(:court_number => postcode_court.court_number).limit(1)
+      else
+        []
+      end
+    else
+      where('')      
     end
   end
 

@@ -14,21 +14,31 @@ class CourtSearch
   end
 
   def results
+    courts = []
     if @query.empty?
       @errors << 'A search term must be provided'
-      []
     else
       if postcode_search?
-        if latlng = latlng_from_postcode(@query)
-          Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
+        latlng = latlng_from_postcode(@query)
+        if @options[:area_of_law] == "Possession"
+          courts = Court.visible.by_postcode_court_mapping(@query)
+          if latlng
+            if courts.present?            
+              #calling near just so that court.distance works in the view
+              courts = courts.near(latlng, 200) 
+            else 
+              courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
+            end
+          end
         else
-          @errors << "We couldn't find that post code. Please try again."
-          []
+          courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
         end
+        @errors << "We couldn't find that post code. Please try again." if courts.empty?
       else
-        Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
+        courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
       end
     end
+    courts
   end
 
   def latlng_from_postcode(postcode)

@@ -689,4 +689,22 @@ namespace :import do
 
   end
 
+  desc "Import PCOL postcode to court mappings"
+  task :postcode_courts => :environment do
+    require 'csv'
+    puts "Deleting PostcodeCourt records"
+    PostcodeCourt.destroy_all
+    puts "Importing PCOL_postcode_to_court_mapping.csv"
+    csv_file = File.read('db/data/PCOL_postcode_to_court_mapping.csv')
+    csv = CSV.parse(csv_file, :headers => true)
+    csv.each do |row|
+      puts "Adding postcode to court mapping: #{row[0]}"
+      postcode_court = PostcodeCourt.new
+      postcode_court.postcode = row[0]
+      postcode_court.court_number = row[1]
+      postcode_court.court_name = row[2]
+    end
+    puts "Finished adding postcode to court mappings."
+  end
+
 end
