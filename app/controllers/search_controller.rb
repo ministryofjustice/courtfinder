@@ -16,8 +16,12 @@ class SearchController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @results }
+      format.html
+      format.json do
+        if @errors.any?
+          head :bad_request and return
+        end
+      end
     end
   end
 

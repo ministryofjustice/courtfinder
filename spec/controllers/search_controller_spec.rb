@@ -3,10 +3,6 @@ require 'spec_helper'
 describe SearchController do
   render_views
 
-  before :each do
-    controller.should_receive(:enable_varnish).never
-  end
-
   describe "GET index" do
     it "responds with a list of courts" do
       CourtSearch.any_instance.should_receive(:results).and_return([])
@@ -38,4 +34,25 @@ describe SearchController do
       response.should redirect_to('/courts/county-court-money-claims-centre')
     end
   end
+
+
+  describe "GET index (json)" do
+    
+    before :each do
+      @court = FactoryGirl.create(:court)
+    end
+
+    it "responds with a bad request if there's no search term" do
+      get :index, format: :json
+      response.status.should == 400
+    end
+
+    it "returns a list of courts as a json array" do
+      get :index, format: :json, q: 'court'
+      response.should be_success
+      response.content_type.should == 'application/json'
+      JSON.parse(response.body).should == [{"@id" => court_path(@court), "name" => @court.name}]
+    end
+  end
+
 end
