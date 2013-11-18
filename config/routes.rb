@@ -24,7 +24,7 @@ Courtfinder::Application.routes.draw do
     match '/' => :index, :as => :regions
     match '/:id' => :show, :as => :region
   end
-  
+
   # Admin section
   get 'admin', to: redirect('/admin/courts')
 
@@ -47,6 +47,7 @@ Courtfinder::Application.routes.draw do
       collection do
         get :areas_of_law
         get :court_types
+        get :postcode
       end
     end
 

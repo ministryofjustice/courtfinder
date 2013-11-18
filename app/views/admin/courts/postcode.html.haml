@@ -1,0 +1,43 @@
+= content_for :title, 'Manage All Courts'
+%p
+  Courts: #{@courts.count}
+%p
+  Areas of law: #{@areas_of_law.count}
+
+%div
+  %div
+    %ul
+      %li
+        %a{:href => areas_of_law_admin_courts_path} By areas of law
+      %li
+        %a{:href => court_types_admin_courts_path} By court type
+      %li
+        By post code
+  %div
+    %div
+      %h2 By post code
+      %table
+        %thead
+          %tr
+            %th
+              Court no.
+            %th
+              Court name
+            %th
+              Post codes
+        %tbody
+          - @courts.each do |court|
+            %tr{:class => cycle('even', 'odd')}
+              %td
+                = court.court_number
+              %td
+                = link_to(court.name, "")
+              %td.tagbox
+                = form_for court, url: "", :data => {:remote => true}, method: :put, as: :court do |c|
+                  -#= c.text_field :postcode, :class => 'tags'
+                  = c.submit 'Save', :class => 'button'
+
+.pagination-row.cf
+  .page-entries
+    = page_entries_info @courts
+  = will_paginate @courts
