@@ -22,6 +22,7 @@ describe CourtsController do
   context "a list of courts" do
     before :each do
       controller.should_receive(:set_cache_control).with(@court.updated_at).once
+      controller.should_receive(:set_vary_accept).once
     end
 
     it "displays a list of courts" do
@@ -67,6 +68,11 @@ describe CourtsController do
       @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
                                            :info_leaflet => "some useful info",
                                            :display => true)      
+    end
+
+    it "should set a vary header" do
+      controller.should_receive(:set_vary_accept)
+      get :show, id: @tribunal.slug
     end
 
     it "redirects to a slug of a particular court" do

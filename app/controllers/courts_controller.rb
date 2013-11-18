@@ -5,6 +5,7 @@ class CourtsController < ApplicationController
   before_filter :enable_varnish
   before_filter :find_court, except: :index
   before_filter :set_page_expiration, except: :index
+  before_filter :set_vary_accept, only: [:index, :show]
   
   def index
     set_cache_control(Court.maximum(:updated_at)) && return
