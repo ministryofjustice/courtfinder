@@ -14,7 +14,7 @@ class CourtSearch
   end
 
   def results
-    if !@query.present?
+    if @query.blank?
       @errors << 'A search term must be provided'
       []
     else
