@@ -8,7 +8,7 @@ describe CourtsController do
   end
 
   before :each do
-    controller.should_receive(:enable_varnish)
+    controller.should_receive(:enable_varnish).at_least(1)
   end
 
   context "enable_varnish" do
@@ -22,6 +22,7 @@ describe CourtsController do
   context "a list of courts" do
     before :each do
       controller.should_receive(:set_cache_control).with(@court.updated_at).once
+      controller.should_receive(:set_vary_accept).once
     end
 
     it "displays a list of courts" do
@@ -67,6 +68,11 @@ describe CourtsController do
       @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
                                            :info_leaflet => "some useful info",
                                            :display => true)      
+    end
+
+    it "should set a vary header" do
+      controller.should_receive(:set_vary_accept)
+      get :show, id: @tribunal.slug
     end
 
     it "redirects to a slug of a particular court" do
@@ -260,6 +266,10 @@ describe CourtsController do
         get :index, format: :json, compact: 1
         response.should be_successful
         response.content_type.should == 'application/json'
+
+        request.env['HTTP_IF_MODIFIED_SINCE'] = response['Last-Modified']
+        get :index, {format: :json, compact: 1}
+        response.status.should == 304
       end
 
       it "returns information if asked for json" do

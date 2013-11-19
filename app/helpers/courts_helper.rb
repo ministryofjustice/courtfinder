@@ -26,4 +26,16 @@ module CourtsHelper
 
     html.join.html_safe
   end
+
+  def display_court_numbers(court)
+    court_numbers = []
+    if court.court_number.present? && court.court_number != 0
+      court_numbers << "##{court.court_number}"
+    end
+
+    if court.cci_code.present? && court.cci_code != court.court_number
+      court_numbers << "CCI #{court.cci_code}"
+    end
+    court_numbers.join(', ')
+  end
 end

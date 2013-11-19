@@ -10,7 +10,7 @@
     </div>
   <% end %>
   <fieldset>
-    <legend>How would you rate your experience with this service?</legend>
+    <legend>Rate the court finder web service</legend>
     <%= f.radio_button :rating, "5" %>
     <%= f.label :rating, "Very good", :value=>"5", :class=>"radio" %>
     <%= f.radio_button :rating, "4" %>
@@ -22,13 +22,13 @@
     <%= f.radio_button :rating, "1" %>
     <%= f.label :rating, "Very bad", :value=>"1", :class=>"radio" %>
     <div>
-    <br/> 
-    <%= f.label :text, "Please take a moment to tell us about your experience, what worked and what didn't." %>
+    <br/>
+    <%= f.label :text, "Comments (Please don't leave any sensitive personal details, like your phone number)" %>
     <%= f.text_area :text, :cols => 50, :rows => 5 %>
     <br/><span class="char-limit">2000 characters max</span>
     </div>
     <div>
-      <%= f.label :email, "Your email address (optional)" %>
+      <label for="feedback_email">Your email address (optional). <br/>If you consent to us contacting you to learn more about your opinions of this service, please leave your email address here</label>
       <br/><%= f.email_field :email %>
     </div>
     <div>

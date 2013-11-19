@@ -5,16 +5,16 @@ class CourtsController < ApplicationController
   before_filter :enable_varnish
   before_filter :find_court, except: :index
   before_filter :set_page_expiration, except: :index
+  before_filter :set_vary_accept, only: [:index, :show]
   
   def index
-    set_cache_control(Court.maximum(:updated_at))
+    set_cache_control(Court.maximum(:updated_at)) && return
     @courts = Court.by_name
     if params[:compact]
       respond_with @courts.visible.as_json(lookup: true)
     else
       respond_with @courts
     end
-    return
   end
   
   def information
