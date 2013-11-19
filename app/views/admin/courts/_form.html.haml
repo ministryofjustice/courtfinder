@@ -18,120 +18,148 @@
 
   %p Items marked * are mandatory
 
-  -##### Basic Info #####
-  = f.input :name
-  = f.input :slug, :wrapper_html => { :class => 'admin-only'}, :hint => '(Admin only) A unique identifier which forms part of the URL. Leave blank for it to auto-generate.' if current_user.admin
-  = f.input :court_number, :wrapper_html => { :class => 'admin-only' } if current_user.admin
-  = f.input :cci_identifier
-  = f.input :cci_code
-  = f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>'
+  #edit-tabs.js-tabs{"data-activatefirst" => "true"}
+    %ul.cf.js-tabs-nav
+      %li
+        %a{:href => "#basic-info"} Basic info
+      %li
+        %a{:href => "#court-types"} Court types
+      %li
+        %a{:href => "#urgent-notice"} Urgent notice
+      %li
+        %a{:href => "#addresses"} Addresses
+      %li
+        %a{:href => "#location"} Location
+      %li
+        %a{:href => "#photo"} Photo
+      %li
+        %a{:href => "#opening-times"} Opening times
+      %li
+        %a{:href => "#contacts"} Contacts
+      %li
+        %a{:href => "#email-contacts"} Email contacts
+      %li
+        %a{:href => "#areas-of-law"} Areas of law
+      %li
+        %a{:href => "#facilities"} Facilities
+      %li
+        %a{:href => "#extra-info"} Extra info
+    .js-tabs-content
+      #basic-info
+        -##### Basic Info #####
+        = f.input :name
+        = f.input :slug, :wrapper_html => { :class => 'admin-only'}, :hint => '(Admin only) A unique identifier which forms part of the URL. Leave blank for it to auto-generate.' if current_user.admin
+        = f.input :court_number, :wrapper_html => { :class => 'admin-only' } if current_user.admin
+        = f.input :cci_identifier
+        = f.input :cci_code
+        = f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>'
+      #court-types
+        -##### Court Types #####
+        %h2 Court types
+        = f.association :court_types, :collection => CourtType.all, :as => :check_boxes, :label => false
+      #urgent-notice
+        -##### Urgent Notice #####
+        %h2 Urgent notice
+        %p Use this field to display a temporary notice of building closure. This is limited to 250 characters including spaces.
+        = f.input :alert, :maxlength => 250, :hint => 'Remove all text to hide the alert'
+      #addresses
+        -##### Addresses #####
+        #group-addresses
+          %h2 Addresses
+          = f.simple_fields_for :addresses do |builder|
+            = render 'address_fields', f: builder
+          = link_to_add_fields "Add address", f, :addresses, 'initNewAddressBlock'
+      #location
+        -##### Location #####
+        %h2 Location
+        %p
+          Use these fields to plot the court on a map. You can get the latitude/longitude using
+          %a{:href => "http://itouchmap.com/latlong.html", :rel => "ext"} itouchmap
+        = f.input :latitude, :wrapper_html => { :class => 'admin-only' }
+        = f.input :longitude, :wrapper_html => { :class => 'admin-only' }
+      #photo
+        -##### Photo #####
+        %h2 Photo
+        = image_tag @court.image_file, :width => '160px' if @court.image_file.present?
+        = f.input :image_file
+        .input.boolean.optional
+          %label{:for => "court_remove_image_file", :class => "boolean optional control-label checkbox"}
+            = f.check_box :remove_image_file
+            remove photo
+      #opening-times
+        -##### Opening times #####
+        #group-opening-times
+          %a.field-group{:href => "#", "data-alt" => "edit opening times"} reorder opening times
+          %h2 Opening times
+          %p
+            Please adhere to the GOV.UK content design principles when
+            %a{:href => "https://www.gov.uk/designprinciples/styleguide#dates-and-times", :rel => "ext help"} entering dates and times
+          %ul.sortable
+            = f.simple_fields_for :opening_times do |builder|
+              = render 'opening_time_fields', f: builder
+          = link_to_add_fields "Add opening time", f, :opening_times, 'initNewFieldBlock'
+      #contacts
+        -##### Contacts #####
+        #group-contacts
+          %a.field-group{:href => "#", "data-alt" => "edit contacts"} reorder contacts
+          %h2 Contacts
+          %ul.sortable
+            = f.simple_fields_for :contacts do |builder|
+              = render 'contact_fields', f: builder
+          = link_to_add_fields "Add contact", f, :contacts, 'initNewFieldBlock'
+      #email-contacts
+        -##### Email addresses #####
+        .group-emails
+          %a.field-group{:href => "#", "data-alt" => "edit emails"} reorder emails
+          %h2 Emails
+          %ul.sortable
+            = f.simple_fields_for :emails do |builder|
+              = render 'email_fields', f: builder
+          = link_to_add_fields "Add email", f, :emails, 'initNewFieldBlock'
+      #areas-of-law
+        -##### Areas of law #####
+        %h2 Areas of law covered
+        = f.association :areas_of_law, :collection => AreaOfLaw.all, :as => :check_boxes, :label => false
+      #facilities
+        -##### Facilities #####
+        .group-courts-facilities
+          %a.field-group{:href => "#", "data-alt" => "edit facilities"} reorder facilities
+          %h2 Facilities
+          %ul.sortable
+            = f.simple_fields_for :court_facilities do |builder|
+              = render 'court_facility_fields', f: builder
+          = link_to_add_fields "Add facility", f, :court_facilities, 'initNewFieldBlock'
+      #extra-info
+        -##### Extra Info #####
+        %h2 Further information
+        %p Please only add concise details about this particular court, no contact details or guidance on going to court.
+        = f.input :info, :input_html => { :class => 'ckeditor' }
 
-  -##### Court Types #####
-  %h2 Court types
-  = f.association :court_types, :collection => CourtType.all, :as => :check_boxes, :label => false
+        - if current_user.admin
+          %h2 Information leaflet updates
+          %p Please add details that you wish to appear only for this court or tribunal and only on the information leaflet.
+          %div
+            = f.text_area :info_leaflet, :class => 'admin-only leaflet'
+            %small.char-limit 2,500 characters max
 
-  -##### Urgent Notice #####
-  %h2 Urgent notice
-  %p Use this field to display a temporary notice of building closure. This is limited to 250 characters including spaces.
-  = f.input :alert, :maxlength => 250, :hint => 'Remove all text to hide the alert'
+          - if @court.leaflets.include? "defence"
+            %h2 Defence witness leaflet updates
+            %p Please add details that you wish to appear only for this court or tribunal and only on the defence witness leaflet.
+            %div
+              = f.text_area :defence_leaflet, :class => 'admin-only leaflet'
+              %small.char-limit 2,500 characters max
 
-  -##### Addresses #####
-  #group-addresses
-    %h2 Addresses
-    = f.simple_fields_for :addresses do |builder|
-      = render 'address_fields', f: builder
-    = link_to_add_fields "Add address", f, :addresses, 'initNewAddressBlock'
+          - if @court.leaflets.include? "prosecution"
+            %h2 Prosecution witness leaflet updates
+            %p Please add details that you wish to appear only for this court or tribunal and only on the prosecution witness leaflet.
+            %div
+              = f.text_area :prosecution_leaflet, :class => 'admin-only leaflet'
+              %small.char-limit 2,500 characters max
 
-  -##### Location #####
-  %h2 Location
-  %p
-    Use these fields to plot the court on a map. You can get the latitude/longitude using
-    %a{:href => "http://itouchmap.com/latlong.html", :rel => "ext"} itouchmap
-  = f.input :latitude, :wrapper_html => { :class => 'admin-only' }
-  = f.input :longitude, :wrapper_html => { :class => 'admin-only' }
+        -##### Court Closed #####
+        %fieldset.court-closed
+          %p Un-check this box if this court or tribunal is no longer in service. Use this rather than deleting it, so that the web page still exists but informs the public the court or tribunal is now closed.
+          = f.input :display
 
-  -##### Photo #####
-  %h2 Photo
-  = image_tag @court.image_file, :width => '160px' if @court.image_file.present?
-  = f.input :image_file
-  .input.boolean.optional
-    %label{:for => "court_remove_image_file", :class => "boolean optional control-label checkbox"}
-      = f.check_box :remove_image_file
-      remove photo
-
-  -##### Opening times #####
-  #group-opening-times
-    %a.field-group{:href => "#", "data-alt" => "edit opening times"} reorder opening times
-    %h2 Opening times
-    %p
-      Please adhere to the GOV.UK content design principles when
-      %a{:href => "https://www.gov.uk/designprinciples/styleguide#dates-and-times", :rel => "ext help"} entering dates and times
-    %ul.sortable
-      = f.simple_fields_for :opening_times do |builder|
-        = render 'opening_time_fields', f: builder
-    = link_to_add_fields "Add opening time", f, :opening_times, 'initNewFieldBlock'
-
-  -##### Contacts #####
-  #group-contacts
-    %a.field-group{:href => "#", "data-alt" => "edit contacts"} reorder contacts
-    %h2 Contacts
-    %ul.sortable
-      = f.simple_fields_for :contacts do |builder|
-        = render 'contact_fields', f: builder
-    = link_to_add_fields "Add contact", f, :contacts, 'initNewFieldBlock'
-
-  -##### Email addresses #####
-  .group-emails
-    %a.field-group{:href => "#", "data-alt" => "edit emails"} reorder emails
-    %h2 Emails
-    %ul.sortable
-      = f.simple_fields_for :emails do |builder|
-        = render 'email_fields', f: builder
-    = link_to_add_fields "Add email", f, :emails, 'initNewFieldBlock'
-
-  -##### Areas of law #####
-  %h2 Areas of law covered
-  = f.association :areas_of_law, :collection => AreaOfLaw.all, :as => :check_boxes, :label => false
-
-  -##### Facilities #####
-  .group-courts-facilities
-    %a.field-group{:href => "#", "data-alt" => "edit facilities"} reorder facilities
-    %h2 Facilities
-    %ul.sortable
-      = f.simple_fields_for :court_facilities do |builder|
-        = render 'court_facility_fields', f: builder
-    = link_to_add_fields "Add facility", f, :court_facilities, 'initNewFieldBlock'
-
-  -##### Extra Info #####
-  %h2 Further information
-  %p Please only add concise details about this particular court, no contact details or guidance on going to court.
-  = f.input :info, :input_html => { :class => 'ckeditor' }
-
-  - if current_user.admin
-    %h2 Information leaflet updates
-    %p Please add details that you wish to appear only for this court or tribunal and only on the information leaflet.
-    %div
-      = f.text_area :info_leaflet, :class => 'admin-only leaflet'
-      %small.char-limit 2,500 characters max
-
-    - if @court.leaflets.include? "defence"
-      %h2 Defence witness leaflet updates
-      %p Please add details that you wish to appear only for this court or tribunal and only on the defence witness leaflet.
-      %div
-        = f.text_area :defence_leaflet, :class => 'admin-only leaflet'
-        %small.char-limit 2,500 characters max
-
-    - if @court.leaflets.include? "prosecution"
-      %h2 Prosecution witness leaflet updates
-      %p Please add details that you wish to appear only for this court or tribunal and only on the prosecution witness leaflet.
-      %div
-        = f.text_area :prosecution_leaflet, :class => 'admin-only leaflet'
-        %small.char-limit 2,500 characters max
-
-  -##### Court Closed #####
-  %fieldset.court-closed
-    %p Un-check this box if this court or tribunal is no longer in service. Use this rather than deleting it, so that the web page still exists but informs the public the court or tribunal is now closed.
-    = f.input :display
-
-  .form-actions
-    = f.submit "Update", :class => "button"
+  .form-actions.cf
+    = f.submit "Update", :class => "button right"
