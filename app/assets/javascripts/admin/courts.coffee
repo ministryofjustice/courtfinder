@@ -12,7 +12,7 @@ $('form').on 'click', '.add_fields', (e) ->
   callback = $(this).data 'callback'
   sortable = $(this).siblings 'ul.sortable'
   fields = $ $(this).data('fields').replace(regexp, time)
-  
+
   if (sortable.length)
     obj = sortable.append fields
   else
@@ -24,7 +24,7 @@ $('.field-group').click (e) ->
   e.preventDefault()
   $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
   $(this).siblings('.add_fields').toggle()
-  
+
   # Change text in re-order toggle link
   alt = $(this).data('alt')
   text = $(this).text()
@@ -83,6 +83,18 @@ $('.sortable').on 'change', '.court_emails_address input', ->
 # Update the summaries on load
 $('.court_contacts_contact_type, .court_contacts_name, .court_contacts_telephone, .court_opening_times_name, .court_opening_times_opening_type, .court_emails_description, .court_emails_address, .court_court_facilities_facility').find('input, select').change()
 
+# check character length on textarea
+$('.edit-court').on 'keyup', 'textarea.leaflet', ->
+  $ta = $(this)
+  charlimit = 2500
+  notice = $ta.siblings('.char-limit')
+
+  if $ta.val().length > charlimit
+    $ta.val($ta.val().substr(0, charlimit)).css('outline', 'solid 3px #ff0000')
+    notice.css('color', '#ff0000')
+  else
+    $ta.add(notice).removeAttr('style')
+
 # Admin module
 moj.Modules.admin =
 
@@ -110,7 +122,7 @@ moj.Modules.admin =
     input = newFields.find '.court_addresses_is_primary input'
     primary = newFields.find '.court_addresses_primary'
     type = newFields.find '.court_addresses_address_type'
-    
+
     if @isPrimaryAddress newFields
       input.val true
       primary.removeClass 'hidden'
