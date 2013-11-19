@@ -38,7 +38,7 @@
   -##### Addresses #####
   #group-addresses
     %h2 Addresses
-    - f.simple_fields_for :addresses do |builder|
+    = f.simple_fields_for :addresses do |builder|
       = render 'address_fields', f: builder
     = link_to_add_fields "Add address", f, :addresses, 'initNewAddressBlock'
 
@@ -67,7 +67,7 @@
       Please adhere to the GOV.UK content design principles when
       %a{:href => "https://www.gov.uk/designprinciples/styleguide#dates-and-times", :rel => "ext help"} entering dates and times
     %ul.sortable
-      - f.simple_fields_for :opening_times do |builder|
+      = f.simple_fields_for :opening_times do |builder|
         = render 'opening_time_fields', f: builder
     = link_to_add_fields "Add opening time", f, :opening_times, 'initNewFieldBlock'
 
@@ -76,7 +76,7 @@
     %a.field-group{:href => "#", "data-alt" => "edit contacts"} reorder contacts
     %h2 Contacts
     %ul.sortable
-      - f.simple_fields_for :contacts do |builder|
+      = f.simple_fields_for :contacts do |builder|
         = render 'contact_fields', f: builder
     = link_to_add_fields "Add contact", f, :contacts, 'initNewFieldBlock'
 
@@ -85,7 +85,7 @@
     %a.field-group{:href => "#", "data-alt" => "edit emails"} reorder emails
     %h2 Emails
     %ul.sortable
-      - f.simple_fields_for :emails do |builder|
+      = f.simple_fields_for :emails do |builder|
         = render 'email_fields', f: builder
     = link_to_add_fields "Add email", f, :emails, 'initNewFieldBlock'
 
@@ -98,7 +98,7 @@
     %a.field-group{:href => "#", "data-alt" => "edit facilities"} reorder facilities
     %h2 Facilities
     %ul.sortable
-      - f.simple_fields_for :court_facilities do |builder|
+      = f.simple_fields_for :court_facilities do |builder|
         = render 'court_facility_fields', f: builder
     = link_to_add_fields "Add facility", f, :court_facilities, 'initNewFieldBlock'
 
