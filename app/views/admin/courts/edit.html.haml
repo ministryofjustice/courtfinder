@@ -1,11 +1,13 @@
-<%= content_for :title, 'Editing court or tribunal' %>
+= content_for :title, 'Editing court or tribunal'
+= link_to "View", @court, :target => "_blank"
 
-<% content_for :scripts do %>
-  <script>
+= render 'form'
+
+:javascript
   $('textarea.leaflet').keyup(function(){
     var charlimit = 2500,
         notice = $(this).siblings('.char-limit');
-    
+
     if($(this).val().length > charlimit) {
       $(this)
         .val($(this).val().substr(0, charlimit))
@@ -15,9 +17,3 @@
       $(this).add(notice).removeAttr('style');
     }
   });
-  </script>
-<% end %>
-
-<%= link_to "View", @court, :target => "_blank" %>
-
-<%= render 'form' %>
