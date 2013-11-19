@@ -1,7 +1,5 @@
 .edit-court
   = content_for :title, 'Editing court or tribunal'
-  %p= link_to "View court", @court, :target => "_blank"
-
   = render 'form'
 
   :javascript
