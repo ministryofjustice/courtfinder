@@ -97,6 +97,6 @@ class Admin::CourtsController < Admin::ApplicationController
 
   def postcode
     @courts = Court.by_name.paginate(:page => params[:page], :per_page => 30)
-    @areas_of_law = AreaOfLaw.all
+    @postcode_courts = PostcodeCourt.all
   end
 end

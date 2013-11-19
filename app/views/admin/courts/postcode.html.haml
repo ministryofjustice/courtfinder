@@ -1,8 +1,8 @@
 = content_for :title, 'Manage All Courts'
 %p
   Courts: #{@courts.count}
-%p
-  Areas of law: #{@areas_of_law.count}
+-#%p
+  Areas of law: #{@postcode.count}
 
 %div
   %div
@@ -16,7 +16,7 @@
   %div
     %div
       %h2 By post code
-      %table
+      %table#js-pcode-tbl
         %thead
           %tr
             %th
@@ -32,10 +32,12 @@
                 = court.court_number
               %td
                 = link_to(court.name, "")
-              %td.tagbox
-                = form_for court, url: "", :data => {:remote => true}, method: :put, as: :court do |c|
-                  -#= c.text_field :postcode, :class => 'tags'
-                  = c.submit 'Save', :class => 'button'
+              %td
+                = form_for court, url: "", :data => {:remote => true}, method: :put, as: :court, html: {:class => "js-postcode-tag-form"} do |c|
+                  = text_field_tag :postcodes, PostcodeCourt.where(:court_number => court.court_number).pluck(:postcode).sort.join(','), :class => 'js-tags'
+                  -# = c.text_field 'court[postcode_court_ids][]', :class => 'tags' #area_of_law.id, (court.areas_of_law.include? area_of_law), id: ['court_area_of_law_ids_', area_of_law.id].join
+                  -#= c.text_field :court_number, :class => 'tags'
+                  = c.submit 'Save', :class => 'button right'
 
 .pagination-row.cf
   .page-entries

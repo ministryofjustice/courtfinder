@@ -13,3 +13,5 @@
 //= require jquery_ujs
 //= require ckeditor-jquery
 //= require admin/courts
+//= require jquery.tagsinput.min.js
+//= require admin/moj.postcodes
