@@ -1,18 +1,3 @@
 .edit-court
   = content_for :title, 'Editing court or tribunal'
   = render 'form'
-
-  :javascript
-    $('textarea.leaflet').keyup(function(){
-      var charlimit = 2500,
-          notice = $(this).siblings('.char-limit');
-
-      if($(this).val().length > charlimit) {
-        $(this)
-          .val($(this).val().substr(0, charlimit))
-          .css('outline', 'solid 3px #ff0000');
-        notice.css('color', '#ff0000')
-      } else {
-        $(this).add(notice).removeAttr('style');
-      }
-    });
