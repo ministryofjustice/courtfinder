@@ -1,6 +1,9 @@
 - if @court.court_number.present? && @court.court_number != 0
   %p
     Court/tribunal no. #{display_court_numbers(@court)}
+
+    %meta{:property => "description", :content => "Official HMCTS page for #{@court.name}, including areas of law covered, address, opening hours, contact details and building facilities"}
+
 -# === Photo ===
 - if @court.image_file_url.present?
   = image_tag(@court.image_file_url.to_s, :id => 'court-photo', :property => 'image') if @court.image_file
@@ -126,5 +129,5 @@
 -# === Court info ===
 - if @court.info.present?
   %h2 Further information:
-  %div{:property => "description"}= @court.info.html_safe
+  %div= @court.info.html_safe
 
