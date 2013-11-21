@@ -16,7 +16,7 @@
           <h2><%= letter.first %></h2>
           <% letter[1].each do |court| %>
             <br /><%= link_to(court.name, court_path(court)) %> 
-            <%= "(#{display_court_numbers(court)})" if display_court_numbers(court).present? %>
+            <%= "#{display_court_numbers(court)}" %>
           <% end %>
         </div>
       <% end %>

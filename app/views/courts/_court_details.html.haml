@@ -1,6 +1,6 @@
 - if @court.court_number.present? && @court.court_number != 0
   %p
-    Court/tribunal no. #{display_court_numbers(@court)}
+    #{display_court_numbers(@court, true)}
 -# === Photo ===
 - if @court.image_file_url.present?
   = image_tag(@court.image_file_url.to_s, :id => 'court-photo', :property => 'image') if @court.image_file
