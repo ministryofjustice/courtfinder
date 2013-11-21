@@ -27,15 +27,18 @@ module CourtsHelper
     html.join.html_safe
   end
 
-  def display_court_numbers(court)
+  def display_court_numbers(court, longform = false)
     court_numbers = []
-    if court.court_number.present? && court.court_number != 0
-      court_numbers << "##{court.court_number}"
+    if court.court_number.present?
+      court_numbers << (longform ? "Court/tribunal no. #{court.court_number}" : "##{court.court_number}")
     end
 
     if court.cci_code.present? && court.cci_code != court.court_number
-      court_numbers << "CCI #{court.cci_code}"
+      court_numbers << (longform ? "County Court Index #{court.cci_code}" : "CCI #{court.cci_code}")
     end
-    court_numbers.join(', ')
+
+    court_numbers = court_numbers.join(', ')
+    court_numbers = "(#{court_numbers})" if (!longform && court_numbers.present?)
+    court_numbers
   end
 end
