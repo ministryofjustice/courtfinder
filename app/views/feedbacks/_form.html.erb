@@ -23,12 +23,12 @@
     <%= f.label :rating, "Very bad", :value=>"1", :class=>"radio" %>
     <div>
     <br/>
-    <%= f.label :text, "Comments (Please don't leave any sensitive personal details, like your phone number)" %>
+    <%= f.label :text, "Comments (Please don't leave sensitive personal details, like your phone number)" %>
     <%= f.text_area :text, :cols => 50, :rows => 5 %>
     <br/><span class="char-limit">2000 characters max</span>
     </div>
     <div>
-      <label for="feedback_email">Your email address (optional). <br/>If you consent to us contacting you to learn more about your opinions of this service, please leave your email address here</label>
+      <label for="feedback_email">Your email address (optional) - if you'd like us to contact you for more feedback</label>
       <br/><%= f.email_field :email %>
     </div>
     <div>
