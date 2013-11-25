@@ -80,4 +80,9 @@ class Court < ActiveRecord::Base
       @leaflets
     end
   end
+
+  def is_county_court?
+    # 31 is the ID of county court
+    court_types.pluck(:id).include? 31
+  end
 end

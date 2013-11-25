@@ -34,9 +34,9 @@ describe CourtsController do
   context "a court exists" do
     before :each do
       @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
-      @at_postal = FactoryGirl.create(:address_type, :name => "Postal")      
+      @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
       @town = FactoryGirl.create(:town, :name => "London")
-      @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
+      @ct_county = FactoryGirl.create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
       @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
       @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
       @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
@@ -67,7 +67,7 @@ describe CourtsController do
                                            :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
       @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
                                            :info_leaflet => "some useful info",
-                                           :display => true)      
+                                           :display => true)
     end
 
     it "should set a vary header" do
@@ -94,6 +94,18 @@ describe CourtsController do
       it "does not display a map for a court which doesn't have a visiting address" do
         get :show, id: @crown_court.slug
         expect(response.body).not_to match /Location of the building/m
+      end
+    end
+
+    context "MCOL PCOL help text" do
+      it "displays MCOL and PCOL help text" do
+        get :show, id: @county_court.slug
+        expect(response.body).to match /Money claims/m
+      end
+
+      it "does not display MCOL and PCOL help text" do
+        get :show, id: @crown_court.slug
+        expect(response.body).not_to match /Money claims/m
       end
     end
 
