@@ -58,7 +58,7 @@ class Court < ActiveRecord::Base
 
   def self.by_postcode_court_mapping(postcode)
     if postcode.present?
-      if postcode_court = PostcodeCourt.where("? ilike postcode || '%'", postcode.gsub(/\s+/, "")).order('-length(postcode)').first
+      if postcode_court = PostcodeCourt.where("? like lower(postcode) || '%'", postcode.gsub(/\s+/, "").downcase).order('-length(postcode)').first
         where(:court_number => postcode_court.court_number).limit(1)
       else
         []

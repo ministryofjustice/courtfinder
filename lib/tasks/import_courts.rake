@@ -652,9 +652,11 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
     csv.each do |row|
       puts "Adding postcode to court mapping: #{row[0]}"
-      postcode_court = PostcodeCourt.create!(:postcode => row[0],
-                                             :court_number => row[1],
-                                             :court_name => row[2])
+      if row[0].present? && row[1].present?
+        postcode_court = PostcodeCourt.create!(:postcode => row[0],
+                                               :court_number => row[1],
+                                               :court_name => row[2])
+      end
     end
     puts "Finished adding postcode to court mappings."
   end
