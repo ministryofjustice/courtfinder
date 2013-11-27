@@ -20,7 +20,6 @@ class CourtSearch
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
-        # if @options[:area_of_law] == "Possession"
         @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
         if @chosen_area_of_law && @chosen_area_of_law.is_possession?
           courts = Court.visible.by_postcode_court_mapping(@query)
