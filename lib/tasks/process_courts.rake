@@ -30,4 +30,11 @@ namespace :process do
       a.update_attributes(:type_possession => true)      
     end
   end
+
+  desc "Set type_bankruptcy flag to true for existing Bankruptcy area of law"
+  task :set_type_bankruptcy_flag => :environment do
+    AreaOfLaw.where("lower(name) like '%bankruptcy%'").each do |a|
+      a.update_attributes(:type_bankruptcy => true)      
+    end
+  end
 end

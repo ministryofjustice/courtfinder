@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131128110026) do
+ActiveRecord::Schema.define(:version => 20131128114826) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20131128110026) do
     t.integer  "sort"
     t.string   "slug"
     t.boolean  "type_possession", :default => false
+    t.boolean  "type_bankruptcy", :default => false
   end
 
   create_table "contact_types", :force => true do |t|
