@@ -74,7 +74,7 @@ describe CourtSearch do
 
   context "Chosen area of law is Possession" do
     before(:each) do
-      @possession = FactoryGirl.create(:area_of_law, :name => 'Possession', :id => 407)
+      @possession = FactoryGirl.create(:area_of_law, :name => 'Possession', :type_possession => true)
       @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 51.768305511577, :longitude => -0.57250059493886)
       FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
       @court8 = FactoryGirl.create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.337246, :longitude => -1.434219)
@@ -88,6 +88,26 @@ describe CourtSearch do
 
     it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
       court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Possession'})
+      court_search.results.should == [@court8, @court9]
+    end
+  end
+
+  context "Chosen area of law is Bankruptcy" do
+    before(:each) do
+      @bankruptcy = FactoryGirl.create(:area_of_law, :name => 'Bankruptcy', :type_bankruptcy => true)
+      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
+      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.337246, :longitude => -1.434219)
+      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.33724, :longitude => -1.43421)
+    end
+
+    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
+      court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Bankruptcy'})
+      court_search.results.should == [@court7]
+    end
+
+    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
+      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Bankruptcy'})
       court_search.results.should == [@court8, @court9]
     end
   end

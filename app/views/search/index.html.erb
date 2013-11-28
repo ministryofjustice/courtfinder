@@ -2,7 +2,7 @@
 
 <% if @results.present? %>
   <% if @court_search.postcode_search? %>
-    <% if @chosen_area_of_law && @chosen_area_of_law.type_possession? && @results.length == 1 %>
+    <% if @chosen_area_of_law && (@chosen_area_of_law.type_possession? || @chosen_area_of_law.type_bankruptcy?) && @results.length == 1 %>
       <p>This court handles <%= @chosen_area_of_law.name %> for the post code <strong><%= @court_search.query %></strong>:
     <% else %>
       <p>Results are ordered by distance closest to <strong><%= @court_search.query %></strong>. Your search found the following <%= @results.count %> results:</p>
