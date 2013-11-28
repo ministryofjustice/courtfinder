@@ -1,5 +1,5 @@
 class AreaOfLaw < ActiveRecord::Base
-  attr_accessible :name, :old_id, :slug
+  attr_accessible :name, :old_id, :slug, :type_possession
   has_many :courts_areas_of_law
   has_many :courts, :through => :courts_areas_of_law
 
@@ -28,10 +28,5 @@ class AreaOfLaw < ActiveRecord::Base
 
   def empty?
     courts.count.zero?
-  end
-
-  def is_possession?
-    # 407 is the id for 'Possessions'. Using id instead of the name because the name is likely to change.
-    id == 407
   end
 end

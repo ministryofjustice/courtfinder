@@ -5,8 +5,6 @@ class CreatePostcodeCourts < ActiveRecord::Migration
       t.integer :court_number
       t.string :court_name
       t.references :court
-
-      t.timestamps
     end
     add_index :postcode_courts, :court_number
   end
