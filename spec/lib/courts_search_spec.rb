@@ -9,7 +9,7 @@ describe CourtSearch do
     @court5 = FactoryGirl.create(:court, :name => 'Some Old Court', :display => false)
     @court6 = FactoryGirl.create(:court, :name => 'Yorkshire court', :display => true, :latitude => 54.337246, :longitude => -1.434219)
     20.times { FactoryGirl.create(:court, :name => 'Just one more court', :display => true, :latitude => 51.41906972756, :longitude => -0.69702060464972) }
-end
+  end
 
   it "should return courts nearby if full postcode search" do
     court_search = CourtSearch.new('NE12 8AQ')
@@ -70,5 +70,25 @@ end
   it "should limit search to a maximum of 20 results" do
     cs = CourtSearch.new('SE1 9NH')
     cs.results.length.should == 20
+  end
+
+  context "Chosen area of law is Possession" do
+    before(:each) do
+      @possession = FactoryGirl.create(:area_of_law, :name => 'Possession', :id => 407)
+      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
+      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.337246, :longitude => -1.434219)
+      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.33724, :longitude => -1.43421)
+    end
+
+    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
+      court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Possession'})
+      court_search.results.should == [@court7]
+    end
+
+    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
+      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Possession'})
+      court_search.results.should == [@court8, @court9]
+    end
   end
 end

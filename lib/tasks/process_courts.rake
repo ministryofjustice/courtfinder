@@ -23,4 +23,11 @@ namespace :process do
     v = AddressType.find_or_create_by_name("Visiting")
     Address.where(is_primary: true).each { |ad| ad.update_attributes(:address_type_id => v.id) }
   end
+
+  desc "Set type_possession flag to true for existing Possession area of law"
+  task :set_type_possession_flag => :environment do
+    AreaOfLaw.where("lower(name) like '%possession%'").each do |a|
+      a.update_attributes(:type_possession => true)      
+    end
+  end
 end

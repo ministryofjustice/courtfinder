@@ -2,7 +2,11 @@
 
 <% if @results.present? %>
   <% if @court_search.postcode_search? %>
-    <p>Results are ordered by distance closest to <strong><%= @court_search.query %></strong>. Your search found the following <%= @results.count %> results:</p>
+    <% if @chosen_area_of_law && @chosen_area_of_law.type_possession? && @results.length == 1 %>
+      <p>This court handles <%= @chosen_area_of_law.name %> for the post code <strong><%= @court_search.query %></strong>:
+    <% else %>
+      <p>Results are ordered by distance closest to <strong><%= @court_search.query %></strong>. Your search found the following <%= @results.count %> results:</p>
+    <% end %>
   <% else %>
     <p>Your search for <strong><%= @court_search.query %></strong> found the following <%= @results.count %> results:</p>
   <% end %>
@@ -17,7 +21,7 @@
         <% qs = {} %>
         <% qs[:from] = params[:q] if @court_search.postcode_search? %>
         <%= link_to(court.name, court_path(court, qs)) %>
-        <% if @court_search.postcode_search? %>
+        <% if @court_search.postcode_search? && court.respond_to?(:distance) %>
           <br /><small><%= court.distance.to_f.round(2) %> miles from <%= params[:q] %></small>
         <% end %>
         <% if court.addresses.count > 0 %>

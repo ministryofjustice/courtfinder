@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912143658) do
+ActiveRecord::Schema.define(:version => 20131128110026) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -52,12 +52,13 @@ ActiveRecord::Schema.define(:version => 20130912143658) do
   create_table "areas_of_law", :force => true do |t|
     t.string   "name"
     t.integer  "old_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.string   "old_ids_split"
     t.string   "action"
     t.integer  "sort"
     t.string   "slug"
+    t.boolean  "type_possession", :default => false
   end
 
   create_table "contact_types", :force => true do |t|
@@ -220,6 +221,17 @@ ActiveRecord::Schema.define(:version => 20130912143658) do
     t.datetime "updated_at", :null => false
     t.integer  "old_id"
   end
+
+  create_table "postcode_courts", :force => true do |t|
+    t.string   "postcode"
+    t.integer  "court_number"
+    t.string   "court_name"
+    t.integer  "court_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "postcode_courts", ["court_number"], :name => "index_postcode_courts_on_court_number"
 
   create_table "regions", :force => true do |t|
     t.string   "name"

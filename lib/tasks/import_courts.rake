@@ -1,10 +1,10 @@
 namespace :import do
+
+  require 'csv'
   
   desc "Import courts"
   task :courts => :environment do
     puts "Importing courts and their types"
-
-    require 'csv'
 
     csv_file = File.read('db/data/court.csv')
 
@@ -109,26 +109,6 @@ namespace :import do
     puts ">>> All done, yay!"
   end
   
-  # desc "Import areas"
-  # task :areas => :environment do
-  #   puts "Importing areas"
-
-  #   require 'csv'
-
-  #   csv_file = File.read('db/data/areas.csv')
-
-  #   csv = CSV.parse(csv_file, :headers => true)
-    
-  #   csv.each do |row|
-  #     Court.where("area_id = ?", row[0]).each do | court | 
-  #       puts "updating %{court.name}"
-  #       court.area = row[1]
-  #       court.save!
-  #     end
-  #   end
-
-  # end
-  
   desc "Import address types"
   task :address_types => :environment do
     puts "Importing address types"
@@ -151,8 +131,6 @@ namespace :import do
   task :countries => :environment do
     puts "Importing countries"
 
-    require 'csv'
-
     csv_file = File.read('db/data/court_country.csv')
 
     csv = CSV.parse(csv_file)
@@ -173,8 +151,6 @@ namespace :import do
   desc "Import counties"
   task :counties => :environment do
     puts "Importing counties"
-
-    require 'csv'
 
     csv_file = File.read('db/data/court_county.csv')
 
@@ -198,8 +174,6 @@ namespace :import do
   task :towns => :environment do
     puts "Importing towns"
 
-    require 'csv'
-
     csv_file = File.read('db/data/court_town.csv')
 
     csv = CSV.parse(csv_file)
@@ -221,8 +195,6 @@ namespace :import do
   desc "Import postal court_address"
   task :addresses => :environment do
     puts "Importing court address"
-
-    require 'csv'
 
     csv_file = File.read('db/data/court_address.csv')
 
@@ -300,8 +272,6 @@ namespace :import do
   task :areas_of_law => :environment do
     puts "Importing areas of law"
 
-    require 'csv'
-
     csv_file = File.read('db/data/court_work_type.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
@@ -339,8 +309,6 @@ namespace :import do
   desc "Import opening types and opening times"
   task :opening_times => :environment do
     puts "Importing opening types and opening times"
-
-    require 'csv'
 
     csv_file = File.read('db/data/court_opening_type.csv')
 
@@ -397,8 +365,6 @@ namespace :import do
   task :contact_types => :environment do
     puts "Importing contact types"
 
-    require 'csv'
-
     csv_file = File.read('db/data/court_contact_type.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
@@ -420,8 +386,6 @@ namespace :import do
   desc "Import contacts"
   task :contacts => :environment do
     puts "Importing contacts"
-
-    require 'csv'
 
     # First add General Contacts
 
@@ -497,8 +461,6 @@ namespace :import do
   task :emails => :environment do
     puts "Importing emails"
 
-    require 'csv'
-
     csv_file = File.read('db/data/court_email.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
@@ -530,8 +492,6 @@ namespace :import do
   desc "Import images"
   task :images => :environment do
     puts "Importing images"
-
-    require 'csv'
 
     # First add the old image IDs to the courts
 
@@ -603,8 +563,6 @@ namespace :import do
   task :court_facilities => :environment do
     puts "Importing court facilities"
 
-    require 'csv'
-
     # "court_access_id","image_id","court_access_desc","court_id"
     csv_file = File.read('db/data/court_access.csv')
 
@@ -636,8 +594,6 @@ namespace :import do
   task :regions => :environment do
     puts "Importing regions"
 
-    require 'csv'
-
     # "court_region_id","court_region_name"
     csv_file = File.read('db/data/court_region.csv')
 
@@ -664,8 +620,6 @@ namespace :import do
   task :areas => :environment do
     puts "Importing areas"
 
-    require 'csv'
-
     # "court_area_id","court_area_name","court_region_id"
     csv_file = File.read('db/data/court_area.csv')
 
@@ -687,6 +641,24 @@ namespace :import do
 
     puts ">>> #{counter} of #{csv.length} areas added"
 
+  end
+
+  desc "Import PCOL postcode to court mappings"
+  task :postcode_courts => :environment do
+    puts "Deleting PostcodeCourt records"
+    PostcodeCourt.destroy_all
+    puts "Importing PCOL_postcode_to_court_mapping.csv"
+    csv_file = File.read('db/data/PCOL_postcode_to_court_mapping.csv')
+    csv = CSV.parse(csv_file, :headers => true)
+    csv.each do |row|
+      puts "Adding postcode to court mapping: #{row[0]}"
+      if row[0].present? && row[1].present?
+        postcode_court = PostcodeCourt.create!(:postcode => row[0],
+                                               :court_number => row[1],
+                                               :court_name => row[2])
+      end
+    end
+    puts "Finished adding postcode to court mappings."
   end
 
 end
