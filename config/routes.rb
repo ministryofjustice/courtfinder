@@ -49,6 +49,10 @@ Courtfinder::Application.routes.draw do
         get :court_types
         get :postcode
       end
+
+      member do
+        put :update_postcodes
+      end
     end
 
     resources :court_types

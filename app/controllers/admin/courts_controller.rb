@@ -99,4 +99,11 @@ class Admin::CourtsController < Admin::ApplicationController
     @courts = Court.by_name.paginate(:page => params[:page], :per_page => 30)
     @postcode_courts = PostcodeCourt.all
   end
+
+  def update_postcodes
+    puts "================================="
+    puts params
+    #
+    render nothing: true, status: :ok
+  end  
 end
