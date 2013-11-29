@@ -47,11 +47,7 @@ Courtfinder::Application.routes.draw do
       collection do
         get :areas_of_law
         get :court_types
-        get :postcode
-      end
-
-      member do
-        put :update_postcodes
+        get :postcodes
       end
     end
 

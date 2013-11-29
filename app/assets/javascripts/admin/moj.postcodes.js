@@ -38,7 +38,7 @@ moj.Modules.postcodes = (function (){
 
   postcodeFormSubmit = function (e){
     var $form = $(this);
-    //$form.find('input[type="submit"]').val("Saving").prop('disabled', true);
+    $form.find('input[type="submit"]').val("Saving").prop('disabled', true);
     //return false;
   },
 

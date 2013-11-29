@@ -33,11 +33,7 @@
               %td
                 = link_to(court.name, "")
               %td
-                = form_for [:admin, court], url: update_postcodes_admin_court_path(court), :data => {:remote => true}, method: :put, as: :court, html: {:class => "js-postcode-tag-form"} do |c|
-                  = text_field_tag :postcodes, PostcodeCourt.where(:court_number => court.court_number).pluck(:postcode).sort.join(','), :class => 'js-tags'
-                  -# = c.text_field 'court[postcode_court_ids][]', :class => 'tags' #area_of_law.id, (court.areas_of_law.include? area_of_law), id: ['court_area_of_law_ids_', area_of_law.id].join
-                  -#= c.text_field :court_number, :class => 'tags'
-                  = c.submit 'Save', :class => 'button right'
+                = render "court_postcodes", :court => court
 
 .pagination-row.cf
   .page-entries

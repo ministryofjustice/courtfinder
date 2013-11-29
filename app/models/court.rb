@@ -107,4 +107,14 @@ class Court < ActiveRecord::Base
     # 31 is the ID of county court
     court_types.pluck(:id).include? 31
   end
+
+  def postcode_list
+    postcode_courts.map(&:postcode).join(", ")
+  end
+
+  def postcode_list=(postcodes)
+    self.postcode_courts = postcodes.split(",").map do |p|
+      PostcodeCourt.where(postcode: p.strip).first_or_create!
+    end
+  end
 end

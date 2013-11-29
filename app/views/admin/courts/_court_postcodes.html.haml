@@ -1,0 +1,3 @@
+= form_for [:admin, court], :data => {:remote => true}, html: {:class => "js-postcode-tag-form"} do |f|
+  = f.text_field :postcode_list, :class => 'js-tags'
+  = f.submit 'Save', :class => 'button right'
