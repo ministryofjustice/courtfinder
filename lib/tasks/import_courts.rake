@@ -650,14 +650,22 @@ namespace :import do
     puts "Importing PCOL_postcode_to_court_mapping.csv"
     csv_file = File.read('db/data/PCOL_postcode_to_court_mapping.csv')
     csv = CSV.parse(csv_file, :headers => true)
+    missing = []
     csv.each do |row|
       puts "Adding postcode to court mapping: #{row[0]}"
       if row[0].present? && row[1].present?
-        postcode_court = PostcodeCourt.create!(:postcode => row[0],
-                                               :court_number => row[1],
-                                               :court_name => row[2])
+        if court = Court.find_by_cci_code(row[1])
+          court.postcode_courts.create!(:postcode => row[0])
+        elsif court = Court.find_by_court_number(row[1])
+          court.postcode_courts.create!(:postcode => row[0])
+        else
+          puts "Could not add #{row[0]} #{row[1]} #{row[2]}"
+          missing << "#{row[1]} #{row[2]}"
+        end        
       end
     end
+    puts "Summary of missing records: "
+    puts missing.uniq
     puts "Finished adding postcode to court mappings."
   end
 

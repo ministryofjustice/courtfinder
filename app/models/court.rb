@@ -14,7 +14,8 @@ class Court < ActiveRecord::Base
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, 
                   :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, 
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
-                  :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet
+                  :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
+                  :postcode_list
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
@@ -59,10 +60,11 @@ class Court < ActiveRecord::Base
   def self.by_postcode_court_mapping(postcode, area_of_law = nil)
     if postcode.present?
       if postcode_court = PostcodeCourt.where("? like lower(postcode) || '%'", postcode.gsub(/\s+/, "").downcase).order('-length(postcode)').first
+        #Using a reverse id lookup instead of just postcode_court.court because the view needs an ActiveRecord Relation 
         if area_of_law
-          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law}).where(:court_number => postcode_court.court_number).limit(1)
+          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law}).where(:id => postcode_court.court_id).limit(1)
         else
-          where(:court_number => postcode_court.court_number).limit(1)
+          where(:id => postcode_court.court_id).limit(1)
         end
       else
         []
