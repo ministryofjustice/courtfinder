@@ -59,10 +59,13 @@ class Court < ActiveRecord::Base
 
   def self.by_postcode_court_mapping(postcode, area_of_law = nil)
     if postcode.present?
-      if postcode_court = PostcodeCourt.where("? like lower(postcode) || '%'", postcode.gsub(/\s+/, "").downcase).order('-length(postcode)').first
-        #Using a reverse id lookup instead of just postcode_court.court because the view needs an ActiveRecord Relation 
+      if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'", 
+                                              postcode.gsub(/\s+/, "").downcase)
+                                        .order('-length(postcode)').first
+        #Using a reverse id lookup instead of just postcode_court.court as a workaround for the distance calculator
         if area_of_law
-          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law}).where(:id => postcode_court.court_id).limit(1)
+          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
+          .where(:id => postcode_court.court_id).limit(1)
         else
           where(:id => postcode_court.court_id).limit(1)
         end
@@ -109,12 +112,18 @@ class Court < ActiveRecord::Base
   end
 
   def postcode_list
-    postcode_courts.map(&:postcode).join(", ")
+    postcode_courts.map(&:postcode).sort.join(", ")
   end
 
   def postcode_list=(postcodes)
-    self.postcode_courts = postcodes.split(",").map do |p|
-      PostcodeCourt.where(postcode: p.strip).first_or_create!
+    new_postcode_courts = []
+    postcodes.split(",").map do |postcode|
+      postcode = postcode.gsub(/\s+/, "").downcase
+      existing_pc = PostcodeCourt.where("lower(postcode) = ? AND court_id is not null AND court_id != #{self.id}", postcode)
+      if existing_pc.empty?
+        new_postcode_courts << PostcodeCourt.create!(postcode: postcode)
+      end
     end
+    self.postcode_courts = new_postcode_courts
   end
 end

@@ -14,7 +14,6 @@ moj.Modules.postcodes = (function (){
   // private methods
   init = function (){
     cacheEls();
-    bindEvts();
 
     $tagInputs.tagsInput({
       width: '96%',
@@ -26,25 +25,6 @@ moj.Modules.postcodes = (function (){
   cacheEls = function (){
     $table = $('#js-pcode-tbl');
     $tagInputs = $('.js-tags', $table);
-  },
-
-  bindEvts = function (){
-    $table.on({
-      submit: postcodeFormSubmit,
-      'ajax:success': postcodeFormResponse, // unused args (e, data, status, xhr) or (e, xhr, status)
-      'ajax:error': postcodeFormResponse // unused args ( e, xhr, status, error )
-    }, '.js-postcode-tag-form');
-  },
-
-  postcodeFormSubmit = function (e){
-    var $form = $(this);
-    $form.find('input[type="submit"]').val("Saving").prop('disabled', true);
-    //return false;
-  },
-
-  postcodeFormResponse = function (e, xhr, status){
-    moj.log("response...");
-    return false;
   };
 
   // public methods

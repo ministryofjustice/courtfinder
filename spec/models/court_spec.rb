@@ -65,4 +65,16 @@ describe Court do
   it "should be locatable if it has a latitude, longitude and visiting address" do
     @county_court.locatable?.should_not be_nil
   end
+
+  describe "Postcode courts" do
+    before(:each) do
+      @london_court = FactoryGirl.create(:court, :name => "London Court")
+      @london_court.postcode_courts.create(:postcode => 'SE19NH')
+      @london_court.postcode_courts.create(:postcode => 'SE153AN')
+    end
+
+    it "should return a comma separated list of postcodes the court has jurisdiction over" do
+      @london_court.postcode_list.should == 'SE153AN, SE19NH'
+    end
+  end
 end
