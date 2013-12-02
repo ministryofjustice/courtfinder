@@ -299,6 +299,16 @@ describe CourtsController do
         get :show, id: @court.slug, format: :json
         JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, "@id"=>"http://test.host/courts/a-court-of-law.json/a-court-of-law", "name"=>"A court of LAW", "@type"=>["Courthouse"], "description"=>"some information"}
       end
+
+      it "doesn't return an error if a court's town has no county or no image_file_url" do
+        @visiting = FactoryGirl.create(:address_type, :name => "Visiting")
+        @town = FactoryGirl.create(:town, :name => "London")
+        @court1 = FactoryGirl.create(:court, :slug => "blah", :name => 'County Court', :display => true) do |court|
+          @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @visiting.id, :town_id => @town.id)
+        end
+        get :show, id: @court1.slug, format: :json
+        response.should be_successful
+      end
     end
   end
 end

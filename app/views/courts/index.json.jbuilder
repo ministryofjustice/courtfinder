@@ -7,7 +7,7 @@ json.courts do
   json.array! @courts.visible do |court|
     json.set! "@id", [request.original_url, court.slug].join('/') if court.slug?
     
-    json.image court.image_file_url if court.image_file_url
+    json.image court.image_file_url if court.image_file_url.present?
     json.name court.name if court.name?
     
     json.description court.info if court.info?
@@ -21,8 +21,10 @@ json.courts do
       json.set! :address do
         json.set! "@type", 'PostalAddress'
         json.postalCode address.postcode if address.postcode?
-        json.addressRegion address.town.county.name if address.town.county.name?
-        json.town address.town.name if address.town.name?
+        if address.town.present?
+          json.town address.town.name if address.town.name?
+          json.addressRegion address.town.county.name if (address.town.county.present? and address.town.county.name?)
+        end
         street_address = []
         street_address.push address.address_line_1 if address.address_line_1?
         street_address.push address.address_line_2 if address.address_line_2?
