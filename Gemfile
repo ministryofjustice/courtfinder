@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 source 'http://gems.dsd.io/'
 
-gem 'rails', '3.2.14'
+gem 'rails', '3.2.16'
 
 gem 'pg'
 
