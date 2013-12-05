@@ -32,7 +32,10 @@ if address = (addresses.postal.first || addresses.visiting.first)
 end
 
 telephone_contacts = @court.contacts.inject([]) do | acc, contact |
-  acc.push [contact.name, contact.telephone].join(': ')
+  contact_line = contact.contact_type.name
+  contact_line += " (" + contact.name + ")" if contact.name?
+  contact_line += ": " + contact.telephone
+  acc.push contact_line
 end
 json.telephone telephone_contacts if telephone_contacts.any?
 
