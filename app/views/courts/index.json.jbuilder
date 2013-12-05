@@ -5,11 +5,11 @@ end
 
 json.courts do
   json.array! @courts.visible do |court|
-    json.set! "@id", [request.original_url, court.slug].join('/') if court.slug?
+    json.set! "@id", court_path(court)
     
     json.image court.image_file_url if court.image_file_url.present?
     json.name court.name if court.name?
-    
+
     json.description court.info if court.info?
     
     json.set! "@type", [ "Courthouse" ]
