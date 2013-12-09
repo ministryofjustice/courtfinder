@@ -3,7 +3,7 @@ json.set! "@context" do
   json.geo 'http://www.w3.org/2003/01/geo/wgs84_pos#' if @court.latitude? or @court.longitude?
 end
 
-json.set! "@id", [request.original_url, @court.slug].join('/') if @court.slug?
+json.set! "@id", court_path(@court)
 
 json.image @court.image_file_url if @court.image_file_url
 json.name @court.name if @court.name?
@@ -32,7 +32,10 @@ if address = (addresses.postal.first || addresses.visiting.first)
 end
 
 telephone_contacts = @court.contacts.inject([]) do | acc, contact |
-  acc.push [contact.name, contact.telephone].join(': ')
+  contact_line = contact.contact_type.name
+  contact_line += " (" + contact.name + ")" if contact.name?
+  contact_line += ": " + contact.telephone
+  acc.push contact_line
 end
 json.telephone telephone_contacts if telephone_contacts.any?
 

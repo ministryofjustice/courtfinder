@@ -5,11 +5,11 @@ end
 
 json.courts do
   json.array! @courts.visible do |court|
-    json.set! "@id", [request.original_url, court.slug].join('/') if court.slug?
+    json.set! "@id", court_path(court)
     
     json.image court.image_file_url if court.image_file_url.present?
     json.name court.name if court.name?
-    
+
     json.description court.info if court.info?
     
     json.set! "@type", [ "Courthouse" ]
@@ -36,7 +36,10 @@ json.courts do
     end
     
     telephone_contacts = court.contacts.inject([]) do | acc, contact |
-      acc.push [contact.name, contact.telephone].join(': ')
+      contact_line = contact.contact_type.name
+      contact_line += " (" + contact.name + ")" if contact.name?
+      contact_line += ": " + contact.telephone
+      acc.push contact_line
     end
     json.telephone telephone_contacts if telephone_contacts.any?
     
