@@ -93,6 +93,26 @@ describe CourtSearch do
     end
   end
 
+  context "Chosen area of law is Money Claims" do
+    before(:each) do
+      @money_claims = FactoryGirl.create(:area_of_law, name: 'Money Claims', type_money_claims: true)
+      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      @court7.postcode_courts.create(:postcode => 'SE19NH')
+      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
+      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.33724, :longitude => -1.43421)
+    end
+
+    it "should return only one search result if the postcode is found in the postcode to court mapping" do
+      court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Money Claims'})
+      court_search.results.should == [@court7]
+    end
+
+    it "if the postcode is not found in the postcode to court mapping, then just default to distance search" do
+      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Money Claims'})
+      court_search.results.should == [@court8, @court9]
+    end
+  end
+
   context "Chosen area of law is Bankruptcy" do
     before(:each) do
       @bankruptcy = FactoryGirl.create(:area_of_law, :name => 'Bankruptcy', :type_bankruptcy => true)
@@ -113,4 +133,5 @@ describe CourtSearch do
       court_search.results.should == [@court8, @court9]
     end
   end
+
 end

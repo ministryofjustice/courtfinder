@@ -34,7 +34,7 @@ class CourtSearch
   end
 
   def postcode_area_search(area_of_law, latlng)
-    if area_of_law.type_possession?
+    if area_of_law.type_possession? || area_of_law.type_money_claims?
       courts = Court.visible.by_postcode_court_mapping(@query)
     elsif area_of_law.type_bankruptcy?
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law

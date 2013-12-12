@@ -37,4 +37,11 @@ namespace :process do
       a.update_attributes(:type_bankruptcy => true)      
     end
   end
+
+  desc "Set type_money_claims flag to true for existing Money Claims courts"
+  task :set_type_money_claims_flag => :environment do
+    AreaOfLaw.where("lower(name) like '%money claims%'").each do |a|
+      a.update_attributes(type_money_claims: true)
+    end
+  end
 end
