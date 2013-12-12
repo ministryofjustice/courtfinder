@@ -224,12 +224,10 @@ ActiveRecord::Schema.define(:version => 20131128114826) do
   end
 
   create_table "postcode_courts", :force => true do |t|
-    t.string   "postcode"
-    t.integer  "court_number"
-    t.string   "court_name"
-    t.integer  "court_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.string  "postcode"
+    t.integer "court_number"
+    t.string  "court_name"
+    t.integer "court_id"
   end
 
   add_index "postcode_courts", ["court_number"], :name => "index_postcode_courts_on_court_number"
