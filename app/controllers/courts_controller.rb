@@ -1,6 +1,6 @@
 class CourtsController < ApplicationController
-  
-  respond_to :html, :json
+
+  respond_to :html, :json, :csv
 
   before_filter :enable_varnish
   before_filter :find_court, except: :index
@@ -16,8 +16,15 @@ class CourtsController < ApplicationController
           render 'index_compact' and return
         end
       end
+    else
+      respond_to do |format|
+        format.html
+        format.json
+        format.csv do
+          render text: courts_csv
+        end
+      end
     end
-    respond_with @courts
   end
   
   def information
@@ -67,5 +74,50 @@ class CourtsController < ApplicationController
   
   def set_page_expiration
     set_cache_control(@court.updated_at)
+  end
+
+  def courts_csv
+    CSV.generate do |csv|
+      csv << ["url","name","image","latitude","longitude","postcode","town","address","phone contacts","email contacts","opening times"]
+      @courts.visible.each do |court|
+        if address = (court.addresses.postal.first || court.addresses.visiting.first)
+          court_postcode = address.postcode
+          court_town = address.town.present? ? address.town.name : ''
+          court_address = []
+          court_address.push address.address_line_1 if address.address_line_1?
+          court_address.push address.address_line_2 if address.address_line_2?
+          court_address.push address.address_line_3 if address.address_line_3?
+          court_address.push address.address_line_4 if address.address_line_4?
+          court_address.push address.dx if address.dx?
+        end
+        court_telephone_contacts = []
+        court.contacts.each do | contact |
+          contact_line = contact.contact_type.name
+          contact_line += " (" + contact.name + ")" if contact.name?
+          contact_line += ": " + contact.telephone
+          court_telephone_contacts.push contact_line
+        end
+        court_contact_points = []
+        court.emails.each do | email |
+          court_contact_points.push(email.description + ": " + email.address)
+        end
+        court_opening_times = []
+        court.opening_times.each do |time|
+          court_opening_times.push(time.opening_type.name + ": " + time.name)
+        end
+        csv << [court_path(court),
+                court.name,
+                court.image_file_url.present? ? court.image_file_url : nil,
+                court.latitude,
+                court.longitude,
+                court_postcode,
+                court_town,
+                court_address ? court_address.join(', ') : nil,
+                court_telephone_contacts != [] ? court_telephone_contacts.join(', ') : nil,
+                court_contact_points != [] ? court_contact_points.join(', ') : nil,
+                court_opening_times != [] ? court_opening_times.join(', ') : nil,
+               ]
+      end
+    end
   end
 end

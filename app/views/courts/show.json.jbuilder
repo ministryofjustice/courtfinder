@@ -42,5 +42,9 @@ json.telephone telephone_contacts if telephone_contacts.any?
 contact_points = @court.emails.inject([]) do | acc, email |
   acc.push({:contactType => email.description, :email => email.address, :@type => "ContactPoint"})
 end
-
 json.contactPoint contact_points if contact_points.any?
+
+opening_times = @court.opening_times.inject([]) do | acc, time |
+  acc.push(time.opening_type.name + ": " + time.name)
+end
+json.openingHoursSpecification opening_times if opening_times.any?
