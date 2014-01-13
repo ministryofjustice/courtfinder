@@ -143,132 +143,132 @@ describe CourtsController do
       context "county courts leaflets" do
         it "displays link to information leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).to match /Visitor information/m
+          expect(response.body).to match /Local information leaflet/m
         end
 
         it "does not display link to prosecution witness leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).not_to match /Prosecution witness/m
+          expect(response.body).not_to match /Prosecution witness leaflet/m
         end
 
         it "does not display link to defence witness leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).not_to match /Defence witness/m
+          expect(response.body).not_to match /Defence witness leaflet/m
         end
 
         it "does not display link to juror leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).not_to match /Juror/m
+          expect(response.body).not_to match /Juror leaflet/m
         end
       end
 
       context "crown courts leaflets" do
         it "displays link to local sinformation leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Visitor information/m
+          expect(response.body).to match /Local information leaflet/m
         end
 
         it "displays link to prosecution witness leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Prosecution witness/m
+          expect(response.body).to match /Prosecution witness leaflet/m
         end
 
         it "displays link to defence witness leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Defence witness/m
+          expect(response.body).to match /Defence witness leaflet/m
         end
 
         it "displays link to juror leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Juror/m
+          expect(response.body).to match /Juror leaflet/m
         end
       end
 
       context "magistrates courts leaflets" do
         it "displays link to information leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).to match /Visitor information/m
+          expect(response.body).to match /Local information leaflet/m
         end
 
         it "displays link to prosecution witness leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).to match /Prosecution witness/m
+          expect(response.body).to match /Prosecution witness leaflet/m
         end
 
         it "displays link to defence witness leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).to match /Defence witness/m
+          expect(response.body).to match /Defence witness leaflet/m
         end
 
         it "does not display link to juror leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).not_to match /Juror/m
+          expect(response.body).not_to match /Juror leaflet/m
         end
       end
 
       context "tribunals leaflets" do
         it "displays link to information leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).to match /Visitor information/m
+          expect(response.body).to match /Local information leaflet/m
         end
 
         it "does not display link to prosecution witness leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Prosecution witness/m
+          expect(response.body).not_to match /Prosecution witness leaflet/m
         end
 
         it "does not display link to defence witness leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Defence witness/m
+          expect(response.body).not_to match /Defence witness leaflet/m
         end
 
         it "does not display link to juror leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Juror/m
+          expect(response.body).not_to match /Juror leaflet/m
         end
       end
 
       context "typeless court leaflets" do
         it "displays link to information leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).to match /Visitor information/m
+          expect(response.body).to match /Local information leaflet/m
         end
 
         it "displays link to prosecution witness leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).to match /Prosecution witness/m
+          expect(response.body).to match /Prosecution witness leaflet/m
         end
 
         it "displays link to defence witness leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).to match /Defence witness/m
+          expect(response.body).to match /Defence witness leaflet/m
         end
 
         it "does not display link to juror leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).not_to match /Juror/m
+          expect(response.body).not_to match /Juror leaflet/m
         end
       end
 
       context "combined courts leaflets" do
         it "displays link to information leaflet for Combined courts" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Visitor information/m
+          expect(response.body).to match /Local information leaflet/m
         end
 
         it "displays link to prosecution witness leaflet for Combined courts" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Prosecution witness/m
+          expect(response.body).to match /Prosecution witness leaflet/m
         end
 
         it "displays link to defence witness leaflet for Combined courts" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Defence witness/m
+          expect(response.body).to match /Defence witness leaflet/m
         end
 
         it "displays link to juror leaflet for Combined courts (with crown court type)" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Juror/m
+          expect(response.body).to match /Juror leaflet/m
         end
       end
     end
@@ -308,6 +308,26 @@ describe CourtsController do
         end
         get :show, id: @court1.slug, format: :json
         response.should be_successful
+      end
+    end
+  
+    context "CSV" do
+      it "returns information if asked for CSV" do
+        get :index, format: :csv
+        response.should be_successful
+      end
+
+      it "csv api returns correct information" do
+        get :index, format: :csv
+        response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
+                                "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
+                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.379743,-0.104515,,London,Some other street,,,\n"\
+                                "/courts/capita-combined-court,Capita Combined Court,,,,,,,,,\n"\
+                                "/courts/capita-crown-court,Capita Crown Court,,,,,London,Some other street,,,\n"\
+                                "/courts/capita-family-court,Capita Family Court,,,,,,,,,\n"\
+                                "/courts/capita-magistrates-court,Capita Magistrates Court,,,,,,,,,\n"\
+                                "/courts/capita-tribunal,Capita Tribunal,,,,,,,,,\n"\
+                                "/courts/capita-typeless-court,Capita Typeless Court,,,,,,,,,\n"
       end
     end
   end
