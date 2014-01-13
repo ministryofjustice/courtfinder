@@ -3,4 +3,8 @@ class Email < ActiveRecord::Base
   attr_accessible :address, :description, :sort
 
   default_scope :order => :sort
+
+  def address
+    self[:address].downcase if self[:address].present?
+  end
 end
