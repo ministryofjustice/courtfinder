@@ -16,7 +16,7 @@
         = format_address visiting
 
       - if @court.locatable? && !print_view
-        %a.hidden-print(href="#location") Show this on a map
+        %a.hidden-print(href="#location") Map and directions
 
     - if postal.present?
       .postal
@@ -34,19 +34,31 @@
 -# === Opening times ===
 - if @court.opening_times.present?
 
-  %h2 Opening hours:
+  %h2 Opening hours
 
   - @court.opening_times.each do |time|
     %p
       = precede time.opening_type.name do
         \: #{time.name}
 
+-# === Emails ===
+- if @court.emails.present?
+
+  %h2 Email
+
+  - @court.emails.each do |email|
+    %p{:property => "contactPoint", :typeof => "ContactPoint"}
+      - if email.description.present?
+        %span{:property => "contactType"}
+          = "#{email.description}"
+      = format_email_address email.address
+
 
 
 -# === Contacts ===
 - if @court.contacts.present?
 
-  %h2 Contact us:
+  %h2 Phone
 
   - @court.contacts.each do |contact|
     - if (print_view && contact.in_leaflet) || !print_view
@@ -63,24 +75,11 @@
 
 
 
--# === Emails ===
-- if @court.emails.present?
-
-  %h2 Other contact details:
-
-  - @court.emails.each do |email|
-    %p{:property => "contactPoint", :typeof => "ContactPoint"}
-      - if email.description.present?
-        %span{:property => "contactType"}
-          = "#{email.description}"
-      = format_email_address email.address
-
-
 
 -# === Areas of law ===
 - if @court.areas_of_law.present?
 
-  %h2 Areas of law covered:
+  %h2 Areas of law covered
 
   - areas = []
   - @court.areas_of_law.each_with_index do |area, i|
@@ -89,17 +88,17 @@
   %p= areas.join ', '
 
   - if @court.is_county_court?
-    %h2 Money claims:
+    %h2 Money claims
     %p Start a #{link_to "money claim online", "https://www.gov.uk/make-money-claim-online"} (eg a small claim), if someone owes you money.
     %p Send court forms or paperwork to the #{link_to "County Court Money Claims Centre", court_path("county-court-money-claims-centre-ccmcc")}.
 
-    %h2 Possession claims:
+    %h2 Possession claims
     %p Start a #{link_to "possession claim online", "https://www.gov.uk/possession-claim-online-recover-property"} to repossess a property or evict a tenant.
 
 
 -# === Facilities ===
 - if @court.court_facilities.present?
-  %h2 Building facilities:
+  %h2 Building facilities
 
   %p
     If you have a disability and need help coming to a hearing, please contact the court or tribunal to make sure the facilities meet your specific needs or to discuss a reasonable adjustment you need.
@@ -118,10 +117,10 @@
 
 -# === Map ===
 - if @court.locatable?
-  %h2#location Location of the building:
+  %h2#location Location of the building
   %meta{:property => "map", :content => "http://maps.google.co.uk/maps?q=loc:#{@court.latitude}+#{@court.longitude}" }
   %form#directions.hidden-print{:action => "http://maps.google.co.uk/maps", :method => "get", :rel => "ext"}
-    %label{:for => "saddr"} Enter your location
+    %label{:for => "saddr"} Enter a town or postcode to get directions
     %input{:name => "saddr", :type => "text", :value => params[:from]}
     %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
     %input{:type => "submit", :value => "Get directions"}
@@ -132,6 +131,6 @@
 
 -# === Court info ===
 - if @court.info.present?
-  %h2 Further information:
+  %h2 Further information
   %div{:property => "description"}= @court.info.html_safe
 
