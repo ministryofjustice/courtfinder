@@ -18,6 +18,21 @@
 @import "feedbacks";
 @import "courts-list";
 
+// GOV.UK footer overrides
+
+#footer {
+  .footer-wrapper {
+    margin: 0 auto;
+    max-width: 60em;
+    padding: 0;
+  }
+
+  .footer-meta {
+    border: none;
+    margin-top: 0;
+  }
+}
+
 // MOJ Toolkit overrides
 header.page-header {
   padding:1em 2em 2em;
