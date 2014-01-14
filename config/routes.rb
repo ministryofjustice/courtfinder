@@ -65,6 +65,9 @@ Courtfinder::Application.routes.draw do
 
     resources :areas
   end
+  
+  get '/api' => 'home#api'
+
   root :to => 'home#index'
 
   resource :feedback

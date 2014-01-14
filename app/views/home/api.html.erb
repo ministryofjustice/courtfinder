@@ -1,0 +1,58 @@
+<% content_for :title, "Courtfinder's Alternate Formats and Linked Data" %>
+
+<style type="text/css">
+  #quick-links { float:left; border: 1px solid black; margin: 10px 60px 10px -100px; width: 20em; padding: .5em }
+  #quick-links h4 { margin-top: .5em; }
+  pre, code { background-color: #eef }
+</style>
+
+<div id="quick-links">
+  <h4>Quick Links</h4>
+
+  <ul>
+    <li><a href="/courts.csv">List of all courts in CSV</a></li>
+    <li><a href="/courts.json">List of all courts in JSON</a></li>
+    <li><a href="/courts/luton-county-court.json">Luton County court data in JSON</a> (other courts: add <code>.json</code> at the end of the HTML court link)</li>
+  </ul>
+</div>
+
+
+<p><em>This page describes Courtfinder's alternate access methods, including its API and the various formats the data are made available in. It also provides information about the machine-readable HTML markup used. Please note that these site features are experimental and may be modified, depending on data consumer requirements. We'll do our best to make all changes backwards compatible.</em></p>
+
+<h2>The API</h2>
+
+<p>All court information is available in JSON (specifically, <a href="http://json-ld.org/">JSON-LD</a>), making it easier for systems to retrieve and process the page's content. In CourtFinder, the JSON-LD version of a page is accessible at the same URL as the HTML format but requires the use of the <code>Accept</code> HTTP header, which must be set to <code>application/json</code>. For instance, using <code>curl</code> in a terminal:</p>
+
+<pre>&gt; curl https://courttribunalfinder.service.gov.uk/courts/luton-crown-court -H "Accept: application/json"
+{"@context":{"@vocab":"http://schema.org/","geo":"http://www.w3.org/2003/01/geo/wgs84_pos#"},"@id":"http://courttribunalfinder.service.gov.uk/courts/luton-crown-court/luton-crown-court","image":"https://courtfinder-servicegovuk-production.s3.amazonaws.com/images/luton_crown_court.jpg","name":"Luton Crown Court","@type":["Courthouse"],"geo:latitude":"51.877723","geo:longitude":"-0.414434","address":{"@type":"PostalAddress","postalCode":"LU1 2AA","addressRegion":"Bedfordshire","town":"Luton","streetAddress":"7 George Street, DX 120500 Luton 6"},"telephone":...</pre>
+
+<p>There are three types of JSON pages, similar to their HTML counterparts:</p>
+
+<ul>
+  <li>Court page: eg, <code>curl https://courttribunalfinder.service.gov.uk/courts/luton-crown-court -H "Accept: application/json"</code></li>
+  <li>List of all courts: <code>curl https://courttribunalfinder.service.gov.uk/courts -H "Accept: application/json"</code></li>
+  <li>Search: <code>curl https://courttribunalfinder.service.gov.uk/search?q=bristol -H "Accept: application/json"</code></li>
+</ul>
+
+<p>Another way (not recommended) to access the JSON version, which doesn't require the Accept header, is to append <code>.json</code> to the URL, before the query parameters, ie, <code>/courts/luton-crown-court.json</code>, <code>/courts.json</code> and <code>/search.json?q=bristol</code>.</p>
+
+<h2>Semantic Markup</h2>
+
+<p>The HTML version of a court page is augmented with metadata contained within tags in the HTML markup. Those tags aren't visible on the page, but can be used by scrapers to extract the data, as an alternative to the JSON-LD version.</p>
+
+<p>More information is available at MOJ Digital's <a href="http://blogs.justice.gov.uk/digital/open-data-markup-on-dsd-informational-services/">blog entry on Open Data Markup</a>. Or just look at the markup of any court page and look for the <code>vocab</code>, <code>typeof</code> and <code>property</code> attributes. Those attributes are part of the <a href="http://rdfa.info/">RDFa</a> specification, and the attribute values use the <a href="http://schema.org">schema.org</a> vocabulary.</p>
+
+<h2>CSV data</h2>
+
+<p>We also provide <a href="/courts.csv">a list of all courts in CSV</a>, for easy import in spreadsheet applications or integration in relational databases.</p>
+
+<h2>Standards and vocabularies used</h2>
+
+<p>Courtfinder uses the following standards:</p>
+<li><a href="http://rdfa.info/">RDFa</a> to insert metadata to HTML content.</li>
+<li><a href="http://json-ld.org/">JSON-LD</a> for the content presented as JSON.</li>
+<li>The <a href="http://schema.org">schema.org</a> vocabulary, and in particular the <a href="http://schema.org/Courthouse">Courthouse</a> type and its properties.</li>
+
+<p>The reader is invited to read on all three. Even though the JSON and HTML content used is easily understood just by looking at it, basic familiarity with those standards is recommended to understand and use the service content.</p>
+
+<p>Those standards are currently evolving (within W3C), but we will try to follow changes and update this service to remain compatible. <strong>Feedback is very welcome through the service's <a href="/feedback/new">feedback form</a>.</strong></p>
