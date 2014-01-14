@@ -143,132 +143,132 @@ describe CourtsController do
       context "county courts leaflets" do
         it "displays link to information leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).to match /Local information leaflet/m
+          expect(response.body).to match /Visitor information/m
         end
 
         it "does not display link to prosecution witness leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).not_to match /Prosecution witness leaflet/m
+          expect(response.body).not_to match /Prosecution witness/m
         end
 
         it "does not display link to defence witness leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).not_to match /Defence witness leaflet/m
+          expect(response.body).not_to match /Defence witness/m
         end
 
         it "does not display link to juror leaflet for County courts" do
           get :show, id: @county_court.slug
-          expect(response.body).not_to match /Juror leaflet/m
+          expect(response.body).not_to match /Juror/m
         end
       end
 
       context "crown courts leaflets" do
         it "displays link to local sinformation leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Local information leaflet/m
+          expect(response.body).to match /Visitor information/m
         end
 
         it "displays link to prosecution witness leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Prosecution witness leaflet/m
+          expect(response.body).to match /Prosecution witness/m
         end
 
         it "displays link to defence witness leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Defence witness leaflet/m
+          expect(response.body).to match /Defence witness/m
         end
 
         it "displays link to juror leaflet for Crown courts" do
           get :show, id: @crown_court.slug
-          expect(response.body).to match /Juror leaflet/m
+          expect(response.body).to match /Juror/m
         end
       end
 
       context "magistrates courts leaflets" do
         it "displays link to information leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).to match /Local information leaflet/m
+          expect(response.body).to match /Visitor information/m
         end
 
         it "displays link to prosecution witness leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).to match /Prosecution witness leaflet/m
+          expect(response.body).to match /Prosecution witness/m
         end
 
         it "displays link to defence witness leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).to match /Defence witness leaflet/m
+          expect(response.body).to match /Defence witness/m
         end
 
         it "does not display link to juror leaflet for Magistrates courts" do
           get :show, id: @magistrates_court.slug
-          expect(response.body).not_to match /Juror leaflet/m
+          expect(response.body).not_to match /Juror/m
         end
       end
 
       context "tribunals leaflets" do
         it "displays link to information leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).to match /Local information leaflet/m
+          expect(response.body).to match /Visitor information/m
         end
 
         it "does not display link to prosecution witness leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Prosecution witness leaflet/m
+          expect(response.body).not_to match /Prosecution witness/m
         end
 
         it "does not display link to defence witness leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Defence witness leaflet/m
+          expect(response.body).not_to match /Defence witness/m
         end
 
         it "does not display link to juror leaflet for Tribunals" do
           get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Juror leaflet/m
+          expect(response.body).not_to match /Juror/m
         end
       end
 
       context "typeless court leaflets" do
         it "displays link to information leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).to match /Local information leaflet/m
+          expect(response.body).to match /Visitor information/m
         end
 
         it "displays link to prosecution witness leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).to match /Prosecution witness leaflet/m
+          expect(response.body).to match /Prosecution witness/m
         end
 
         it "displays link to defence witness leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).to match /Defence witness leaflet/m
+          expect(response.body).to match /Defence witness/m
         end
 
         it "does not display link to juror leaflet for courts without types" do
           get :show, id: @typeless_court.slug
-          expect(response.body).not_to match /Juror leaflet/m
+          expect(response.body).not_to match /Juror/m
         end
       end
 
       context "combined courts leaflets" do
         it "displays link to information leaflet for Combined courts" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Local information leaflet/m
+          expect(response.body).to match /Visitor information/m
         end
 
         it "displays link to prosecution witness leaflet for Combined courts" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Prosecution witness leaflet/m
+          expect(response.body).to match /Prosecution witness/m
         end
 
         it "displays link to defence witness leaflet for Combined courts" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Defence witness leaflet/m
+          expect(response.body).to match /Defence witness/m
         end
 
         it "displays link to juror leaflet for Combined courts (with crown court type)" do
           get :show, id: @combined_court.slug
-          expect(response.body).to match /Juror leaflet/m
+          expect(response.body).to match /Juror/m
         end
       end
     end

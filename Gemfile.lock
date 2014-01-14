@@ -217,7 +217,7 @@ GEM
     varnish-client (0.0.1)
     warden (1.2.1)
       rack (>= 1.0)
-    will_paginate (3.0.4)
+    will_paginate (3.0.5)
 
 PLATFORMS
   ruby
