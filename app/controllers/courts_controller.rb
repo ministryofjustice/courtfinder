@@ -92,7 +92,8 @@ class CourtsController < ApplicationController
         end
         court_telephone_contacts = []
         court.contacts.each do | contact |
-          contact_line = contact.contact_type.name
+          contact_line = "";
+          contact_line += contact.contact_type.name if contact.contact_type.present? and contact.contact_type.name?
           contact_line += " (" + contact.name + ")" if contact.name?
           contact_line += ": " + contact.telephone
           court_telephone_contacts.push contact_line
