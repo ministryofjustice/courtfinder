@@ -1,7 +1,9 @@
+require 'cgi/util'
+
 class CourtSearch
-  
+
   attr_accessor :query, :options
-  
+
   def initialize(query, options={})
     @query = query && query.strip
     @options = options
@@ -42,24 +44,28 @@ class CourtSearch
     end
 
     if latlng
-      if courts.present?            
+      if courts.present?
         #calling near just so that court.distance works in the view
-        courts = courts.near(latlng, 200) 
-      else 
+        courts = courts.near(latlng, 200)
+      else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
       end
     end
     courts
-  end 
+  end
 
   def latlng_from_postcode(postcode)
     # Use PHP postcode service to turn postcode into lat/lon
-    results = JSON.parse(@restclient.get(:params => { :searchtext => postcode, :searchbtn => 'Search' }))
-    [results['primary']['coordinates']['lat'], results['primary']['coordinates']['long']] unless results['error']
+    results = JSON.parse(@restclient[ "#{(complete_postcode?(postcode) ? "" : 'partial/')}#{CGI::escape(postcode)}"].get)
+    [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
   def postcode_search?
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
     @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
+  end
+
+  def complete_postcode?(postcode)
+    postcode.include?(' ')
   end
 end
