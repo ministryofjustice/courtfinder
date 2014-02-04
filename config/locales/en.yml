@@ -13,6 +13,8 @@ en:
         alert: Message
       address:
         dx: DX
+      contact:
+        contact_type: Service type
       opening_time:
         name: Time
       user:
