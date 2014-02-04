@@ -92,19 +92,32 @@ class CourtsController < ApplicationController
         end
         court_telephone_contacts = []
         court.contacts.each do | contact |
-          contact_line = "";
+          contact_line = ""
           contact_line += contact.contact_type.name if contact.contact_type.present? and contact.contact_type.name?
           contact_line += " (" + contact.name + ")" if contact.name?
-          contact_line += ": " + contact.telephone
+          contact_line += ": " + contact.telephone if contact.telephone?
           court_telephone_contacts.push contact_line
         end
         court_contact_points = []
         court.emails.each do | email |
-          court_contact_points.push(email.description + ": " + email.address)
+          if email.address.present?
+            mail = email.description.present? ? email.description + ": " + email.address : email.address
+          else
+            mail = ""
+          end
+          court_contact_points.push(mail)
         end
         court_opening_times = []
         court.opening_times.each do |time|
-          court_opening_times.push(time.opening_type.name + ": " + time.name)
+          opening_time = ""
+          if time.name?
+            if time.opening_type.present? and time.opening_type.name?
+              opening_time = time.opening_type.name + ": " + time.name
+            else
+              opening_time = time.name
+            end
+          end
+          court_opening_times.push(opening_time)
         end
         csv << [court_path(court),
                 court.name,
