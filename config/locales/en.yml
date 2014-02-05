@@ -15,6 +15,7 @@ en:
         dx: DX
       contact:
         contact_type: Service type
+        telephone: Number
       email:
         contact_type: Service type
       opening_time:
