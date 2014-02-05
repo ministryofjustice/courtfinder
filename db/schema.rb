@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131212135625) do
+ActiveRecord::Schema.define(:version => 20140204182952) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -176,11 +176,11 @@ ActiveRecord::Schema.define(:version => 20131212135625) do
 
   create_table "emails", :force => true do |t|
     t.string   "address"
-    t.string   "description"
     t.integer  "court_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "sort"
+    t.integer  "contact_type_id"
   end
 
   add_index "emails", ["court_id"], :name => "index_emails_on_court_id"
