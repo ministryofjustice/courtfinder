@@ -1,12 +1,15 @@
+require 'cgi/util'
+
 class CourtSearch
-  
+
   attr_accessor :query, :options
-  
+
   def initialize(query, options={})
     @query = query && query.strip
     @options = options
     @errors = []
     @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
+    RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
   end
 
   def errors
@@ -42,20 +45,28 @@ class CourtSearch
     end
 
     if latlng
-      if courts.present?            
+      if courts.present?
         #calling near just so that court.distance works in the view
-        courts = courts.near(latlng, 200) 
-      else 
+        courts = courts.near(latlng, 200)
+      else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
       end
     end
     courts
-  end 
+  end
 
   def latlng_from_postcode(postcode)
-    # Use PHP postcode service to turn postcode into lat/lon
-    results = JSON.parse(@restclient.get(:params => { :searchtext => postcode, :searchbtn => 'Search' }))
-    [results['primary']['coordinates']['lat'], results['primary']['coordinates']['long']] unless results['error']
+    begin
+      results = JSON.parse(@restclient[CGI::escape(postcode)].get)
+    rescue RestClient::BadRequest
+      begin
+        # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
+        results = JSON.parse(@restclient["/partial/#{CGI::escape(postcode)}"].get)
+      rescue RestClient::ResourceNotFound
+        results = {"code" => 404, "error" => "Postcode not found"}
+      end
+    end
+    [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
   def postcode_search?
