@@ -1,6 +1,7 @@
 class Email < ActiveRecord::Base
   belongs_to :court
-  attr_accessible :address, :description, :sort
+  belongs_to :contact_type
+  attr_accessible :address, :sort, :contact_type_id
 
   default_scope :order => :sort
 

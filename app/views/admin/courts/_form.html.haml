@@ -37,7 +37,7 @@
       %li
         %a{:href => "#phone"} Phone
       %li
-        %a{:href => "#email-contacts"} Email contacts
+        %a{:href => "#email-contacts"} Email
       %li
         %a{:href => "#areas-of-law"} Areas of law
       %li
@@ -110,7 +110,7 @@
       #email-contacts
         .group-emails
           %a.field-group{:href => "#", "data-alt" => "edit emails"} reorder emails
-          %h2 Emails
+          %h2 Email
           %ul.sortable
             = f.simple_fields_for :emails do |builder|
               = render 'email_fields', f: builder

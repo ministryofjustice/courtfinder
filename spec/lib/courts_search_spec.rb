@@ -49,7 +49,7 @@ describe CourtSearch do
   end
 
   it "should get initialized with proper timeout values" do
-    RestClient::Resource.should_receive(:new).with('http://pclookup.cjs.gov.uk/postcode_finder.php', timeout: 3, open_timeout: 1).once
+    RestClient::Resource.should_receive(:new).with('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1).once
     CourtSearch.new('irrelevant')
   end
 
@@ -63,6 +63,12 @@ describe CourtSearch do
     cs = CourtSearch.new('irrelevant')
     cs.should_receive(:postcode_search?).and_return(true)
     cs.should_receive(:latlng_from_postcode).and_return(false)
+    cs.results.should be_empty
+    cs.should have(1).errors
+  end
+
+  it "should return an error when the postcode cannot be found" do
+    cs = CourtSearch.new('YO6')
     cs.results.should be_empty
     cs.should have(1).errors
   end

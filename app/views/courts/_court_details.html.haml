@@ -48,9 +48,9 @@
 
   - @court.emails.each do |email|
     %p{:property => "contactPoint", :typeof => "ContactPoint"}
-      - if email.description.present?
+      - if email.contact_type.name.present?
         %span{:property => "contactType"}
-          = "#{email.description}"
+          = "#{email.contact_type.name}:"
       = format_email_address email.address
 
 
