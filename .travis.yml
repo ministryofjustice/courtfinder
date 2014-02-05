@@ -6,3 +6,5 @@ services: postgres
 script:
   - bundle exec rake db:migrate
   - bundle exec rake spec
+env:
+  - TRAVIS=true
