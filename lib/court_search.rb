@@ -9,6 +9,7 @@ class CourtSearch
     @options = options
     @errors = []
     @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
+    RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
   end
 
   def errors
@@ -55,17 +56,21 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode)
-    # Use PHP postcode service to turn postcode into lat/lon
-    results = JSON.parse(@restclient[ "#{(complete_postcode?(postcode) ? "" : 'partial/')}#{CGI::escape(postcode)}"].get)
+    begin
+      results = JSON.parse(@restclient[CGI::escape(postcode)].get)
+    rescue RestClient::BadRequest
+      begin
+        # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
+        results = JSON.parse(@restclient["/partial/#{CGI::escape(postcode)}"].get)
+      rescue RestClient::ResourceNotFound
+        results = {"code" => 404, "error" => "Postcode not found"}
+      end
+    end
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
   def postcode_search?
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
     @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
-  end
-
-  def complete_postcode?(postcode)
-    postcode.include?(' ')
   end
 end

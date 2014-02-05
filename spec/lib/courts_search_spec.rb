@@ -67,6 +67,12 @@ describe CourtSearch do
     cs.should have(1).errors
   end
 
+  it "should return an error when the postcode cannot be found" do
+    cs = CourtSearch.new('YO6')
+    cs.results.should be_empty
+    cs.should have(1).errors
+  end
+
   it "should limit search to a maximum of 20 results" do
     cs = CourtSearch.new('SE1 9NH')
     cs.results.length.should == 20
