@@ -36,10 +36,9 @@ json.courts do
     end
     
     telephone_contacts = court.contacts.inject([]) do | acc, contact |
-      contact_line = contact.contact_type.name
-      contact_line += " (" + contact.name + ")" if contact.name?
-      contact_line += ": " + contact.telephone
-      acc.push contact_line
+      contact_line = [contact.telephone]
+      contact_line.unshift "#{contact.contact_type.name}: " if contact.contact_type && contact.contact_type.name.present?
+      acc.push contact_line.join
     end
     json.telephone telephone_contacts if telephone_contacts.any?
     
