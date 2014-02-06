@@ -62,8 +62,8 @@
 
   - @court.contacts.each do |contact|
     - if contact.telephone.present?
-    - if (print_view && contact.in_leaflet) || !print_view
-          %p{:property => "telephone"}
+      - if (print_view && contact.in_leaflet) || !print_view
+        %p{:property => "telephone"}
           - if contact.contact_type && contact.contact_type.name.present?
             = "#{contact.contact_type.name}:"
           = link_to(contact.telephone, ['tel:', GlobalPhone.normalize(contact.telephone, :gb)].join)
