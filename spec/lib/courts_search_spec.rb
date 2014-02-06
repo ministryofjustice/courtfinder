@@ -140,4 +140,20 @@ describe CourtSearch do
     end
   end
 
+  context "Finding Council name from postcode" do
+    it 'should return the name of the council for a postcode' do
+      court_search = CourtSearch.new('EX1 1UH')
+      expect(court_search.council_name).to eq 'Devon County Council'
+    end
+
+    it 'should return nil for a partial postcode' do
+      court_search = CourtSearch.new('EX1')
+      expect(court_search.council_name).to be_nil
+    end
+
+    it 'should return nil for a wrong postcode' do
+      court_search = CourtSearch.new('invalid')
+      expect(court_search.council_name).to be_nil
+    end
+  end
 end
