@@ -99,7 +99,9 @@ class CourtsController < ApplicationController
         end
         court_contact_points = []
         court.emails.each do | email |
-          court_contact_points.push("#{email.description}#{': ' if email.description}#{email.address}")
+          email_line = [email.address]
+          email_line.unshift "#{email.contact_type.name}: " if email.contact_type && email.contact_type.name.present?
+          court_contact_points.push(email_line.join)
         end
         court_opening_times = []
         court.opening_times.each do |time|

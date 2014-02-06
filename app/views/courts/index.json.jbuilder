@@ -44,7 +44,7 @@ json.courts do
     json.telephone telephone_contacts if telephone_contacts.any?
     
     contact_points = court.emails.inject([]) do | acc, email |
-      acc.push({:contactType => email.description, :email => email.address, :@type => "ContactPoint"})
+      acc.push({:contactType => email.contact_type ? email.contact_type.name : "", :email => email.address, :@type => "ContactPoint"})
     end
     
     json.contactPoint contact_points if contact_points.any?
