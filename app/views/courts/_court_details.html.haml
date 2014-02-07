@@ -55,23 +55,18 @@
 
 
 
--# === Contacts ===
+-# === Phone numbers ===
 - if @court.contacts.present?
 
   %h2 Phone
 
   - @court.contacts.each do |contact|
-    - if (print_view && contact.in_leaflet) || !print_view
-      - if contact.contact_type.present?
-        - if contact.telephone?
-          %p{:property => "telephone"}
-            = precede contact.contact_type.name do
-              - if contact.name.present?
-                = surround ' (', ')' do
-                  = contact.name
-              \: #{link_to(contact.telephone, ['tel:', GlobalPhone.normalize(contact.telephone, :gb)].join)}
-        - else
-          %p= contact.contact_type.name
+    - if contact.telephone.present?
+      - if (print_view && contact.in_leaflet) || !print_view
+        %p{:property => "telephone"}
+          - if contact.contact_type && contact.contact_type.name.present?
+            = "#{contact.contact_type.name}:"
+          = link_to(contact.telephone, ['tel:', GlobalPhone.normalize(contact.telephone, :gb)].join)
 
 
 

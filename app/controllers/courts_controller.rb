@@ -92,10 +92,9 @@ class CourtsController < ApplicationController
         end
         court_telephone_contacts = []
         court.contacts.each do | contact |
-          contact_line = "#{contact.contact_type.try(:name)}"
-          contact_line += " (" + contact.name + ")" if contact.name?
-          contact_line += ": " + contact.telephone if contact.telephone?
-          court_telephone_contacts.push contact_line
+          contact_line = [contact.telephone]
+          contact_line.unshift "#{contact.contact_type.name}: " if contact.contact_type && contact.contact_type.name.present?
+          court_telephone_contacts.push contact_line.join
         end
         court_contact_points = []
         court.emails.each do | email |
