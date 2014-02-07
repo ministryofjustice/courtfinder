@@ -1,5 +1,5 @@
 require 'cgi/util'
-require 'awesome_print'
+require 'awesome_print' unless Rails.env.production?
 
 class CourtSearch
 
