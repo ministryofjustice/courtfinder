@@ -1,4 +1,5 @@
 require 'cgi/util'
+require 'awesome_print'
 
 class CourtSearch
 
@@ -53,6 +54,18 @@ class CourtSearch
       end
     end
     courts
+  end
+
+  def council_name
+    begin
+      results = JSON.parse(@restclient[CGI::escape(@query)].get)
+      county_id = results['shortcuts']['council']['county']
+      results['areas'][county_id.to_s]['name']
+    rescue => e
+      Rails.logger.debug "Error: #{e.message}"
+      Rails.logger.debug "Error: #{e.backtrace}"
+      nil
+    end
   end
 
   def latlng_from_postcode(postcode)
