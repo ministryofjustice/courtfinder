@@ -48,6 +48,7 @@ Courtfinder::Application.routes.draw do
         get :areas_of_law
         get :court_types
         get :postcodes
+        get :audit
       end
     end
 

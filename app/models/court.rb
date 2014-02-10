@@ -24,6 +24,8 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
   validates_presence_of :name
 
+  has_paper_trail :ignore => [:created_at, :updated_at]
+
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 

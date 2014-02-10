@@ -1,4 +1,6 @@
 class Admin::CourtsController < Admin::ApplicationController
+  before_filter :authorised?, :only => [:audit, :audit_csv, :get_association_changeset]
+
   # GET /courts
   # GET /courts.json
   def index
@@ -100,5 +102,48 @@ class Admin::CourtsController < Admin::ApplicationController
 
   def postcodes
     @courts = Court.by_name.paginate(:page => params[:page], :per_page => 30)
+  end
+
+  def audit
+    @courts = Court.by_name
+    render text: audit_csv
+  end
+
+  def audit_csv
+    versions = PaperTrail::Version.order("created_at DESC")
+    CSV.generate do |csv|
+      csv << ["datetime", "user_email", "court_name", "field_name", "action", "value_before", "value_after"]
+      versions.each do |version|
+        author_email = User.find(version.whodunnit).email if version.whodunnit
+        value_before, value_after = [], []          
+        if version.item_type == "Court"
+          court = Court.find version.item_id
+          version.changeset.each do |key, value|
+            csv << [version.created_at,
+                    author_email,
+                    court.name,
+                    key,
+                    version.event,
+                    value[0],
+                    value[1]
+                    ]
+          end
+        else
+          court = version.item_type.constantize.find(version.item_id).court
+          version.changeset.each do |key, value|
+            value_before << "#{key}: #{value[0]}" unless version.event == "create"
+            value_after << "#{key}: #{value[1]}"          
+          end
+          csv << [version.created_at,
+                  author_email,
+                  court.name,
+                  version.item_type,
+                  version.event,
+                  value_before, 
+                  value_after
+                  ]
+        end
+      end
+    end
   end
 end

@@ -141,6 +141,9 @@ GEM
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     orm_adapter (0.4.0)
+    paper_trail (3.0.0)
+      activerecord (>= 3.0, < 5.0)
+      activesupport (>= 3.0, < 5.0)
     pg (0.14.1)
     polyglot (0.3.3)
     rack (1.4.5)
@@ -245,6 +248,7 @@ DEPENDENCIES
   jquery-rails (~> 2.1)
   moj_frontend_toolkit_gem!
   nokogiri
+  paper_trail (~> 3.0)
   pg
   rails (= 3.2.16)
   rdiscount
