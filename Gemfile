@@ -3,11 +3,11 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 source 'http://gems.dsd.io/' unless ENV['TRAVIS']
 
 gem 'rails', '3.2.17'
-
 gem 'pg'
 
 group :development, :test do
   gem 'byebug'
+  gem 'pry'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'database_cleaner'

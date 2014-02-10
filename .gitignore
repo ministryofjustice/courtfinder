@@ -35,3 +35,4 @@ Icon
 
 public/uploads
 /support/*
+/config/application.yml

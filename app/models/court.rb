@@ -10,9 +10,11 @@ class Court < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id, 
-                  :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, 
-                  :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, 
+  has_many :councils
+
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
+                  :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
+                  :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
                   :postcode_list
@@ -66,7 +68,7 @@ class Court < ActiveRecord::Base
 
   def self.by_postcode_court_mapping(postcode, area_of_law = nil)
     if postcode.present?
-      if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'", 
+      if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
                                               postcode.gsub(/\s+/, "").downcase)
                                         .order('-length(postcode)').first
         #Using a reverse id lookup instead of just postcode_court.court as a workaround for the distance calculator
@@ -138,7 +140,7 @@ class Court < ActiveRecord::Base
       end
     end
     self.postcode_courts = new_postcode_courts
-  end  
+  end
 
   def existing_postcode_court(postcode)
     PostcodeCourt.where("lower(postcode) = ?", postcode).first

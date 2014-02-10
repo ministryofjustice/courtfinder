@@ -8,3 +8,10 @@ FactoryGirl.define do
     court nil
   end
 end
+
+FactoryGirl.define do
+  factory :council do
+    name "My Council"
+    court_id 1
+  end
+end

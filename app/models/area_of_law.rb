@@ -1,5 +1,5 @@
 class AreaOfLaw < ActiveRecord::Base
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims
+  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children
   has_many :courts_areas_of_law
   has_many :courts, :through => :courts_areas_of_law
 
@@ -7,7 +7,7 @@ class AreaOfLaw < ActiveRecord::Base
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-  
+
   include Rails.application.routes.url_helpers
 
   # Text search
