@@ -166,15 +166,17 @@ describe CourtSearch do
   context "Chosen area of law is Children" do
     before(:each) do
       @children = FactoryGirl.create(:area_of_law, :name => 'Children', :type_children => true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court', :display => true, :areas_of_law => [@children], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
+      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
       @court7.councils.build(:name => 'Lambeth Borough Council')
-      # FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
-      #@court8 = FactoryGirl.create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, :areas_of_law => [@children], :latitude => 54.337246, :longitude => -1.434219)
-      #@court9 = FactoryGirl.create(:court, :name => 'Second Nearest Bankruptcy Court', :display => true, :areas_of_law => [@children], :latitude => 54.33724, :longitude => -1.43421)
+
+      # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
+      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      court_search = CourtSearch.new('SE240PA', {:area_of_law => 'Children'})
+      # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
+      court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
       court_search.results.should == [@court7]
     end
 
