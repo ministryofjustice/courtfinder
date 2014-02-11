@@ -168,10 +168,23 @@ describe CourtSearch do
       @children = FactoryGirl.create(:area_of_law, :name => 'Children', :type_children => true)
       # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
       @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
-      @court7.councils.build(:name => 'Lambeth Borough Council')
+      @court7.councils.create(:name => 'Lambeth Borough Council')
 
       # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
       @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
+    end
+
+    context 'should return the name/names of the court for a given council' do
+
+      context 'when there is only one court' do
+        it 'should return Children Court' do
+          court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
+          expect(court_search.court_for_council('Lambeth Borough Council')).to eq 'Children Court'
+        end
+      end
+      context 'when there are multiple courts' do
+        xit 'should return multiple courts'
+      end
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
