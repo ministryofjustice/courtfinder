@@ -37,10 +37,10 @@ class CourtSearch
     courts
   end
 
-  def council_name
+  def lookup_council_name
     begin
       results = JSON.parse(@restclient[CGI::escape(@query)].get)
-      county_id = results['shortcuts']['council']['county']
+      county_id =  extract_council_from_county(results) || extract_council_from_shortcuts(results)
       results['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
@@ -49,8 +49,17 @@ class CourtSearch
     end
   end
 
+  def extract_council_from_county(results)
+    return nil if results['shortcuts']['council'].class == Fixnum
+    results['shortcuts']['council']['county']
+  end
+
+  def extract_council_from_shortcuts(results)
+    results['shortcuts']['council']
+  end
+
   def court_for_council(council)
-    Court.joins(:councils).where("councils.name" => council).first.name
+    Court.joins(:councils).where("councils.name" => council)
   end
 
   private
@@ -61,6 +70,8 @@ class CourtSearch
     elsif area_of_law.type_bankruptcy?
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law
       courts = Court.visible.by_postcode_court_mapping(@query, @options[:area_of_law])
+    elsif area_of_law.type_children?
+      courts = court_for_council(lookup_council_name)
     end
 
     if latlng

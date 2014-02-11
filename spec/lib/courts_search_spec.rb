@@ -147,19 +147,30 @@ describe CourtSearch do
   end
 
   context "Finding Council name from postcode" do
-    it 'should return the name of the council for a postcode' do
-      court_search = CourtSearch.new('EX1 1UH')
-      expect(court_search.council_name).to eq 'Devon County Council'
+    context "when the council is located in shortcuts/council/county" do
+      it 'should return the name of the council for a postcode' do
+        court_search = CourtSearch.new('EX1 1UH')
+        expect(court_search.lookup_council_name).to eq 'Devon County Council'
+      end
     end
 
-    it 'should return nil for a partial postcode' do
-      court_search = CourtSearch.new('EX1')
-      expect(court_search.council_name).to be_nil
+    context "when the council is located in shortcuts/council" do
+      it 'should return the name of the council for a postcode' do
+        court_search = CourtSearch.new('SE24 0NG')
+        expect(court_search.lookup_council_name).to eq 'Lambeth Borough Council'
+      end
     end
 
-    it 'should return nil for a wrong postcode' do
-      court_search = CourtSearch.new('invalid')
-      expect(court_search.council_name).to be_nil
+    context 'when the postcode is invalid' do
+      it 'should return nil for a partial postcode' do
+        court_search = CourtSearch.new('EX1')
+        expect(court_search.lookup_council_name).to be_nil
+      end
+
+      it 'should return nil for a wrong postcode' do
+        court_search = CourtSearch.new('invalid')
+        expect(court_search.lookup_council_name).to be_nil
+      end
     end
   end
 
@@ -179,7 +190,7 @@ describe CourtSearch do
       context 'when there is only one court' do
         it 'should return Children Court' do
           court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-          expect(court_search.court_for_council('Lambeth Borough Council')).to eq 'Children Court'
+          expect(court_search.court_for_council('Lambeth Borough Council')[0].name).to eq 'Children Court'
         end
       end
       context 'when there are multiple courts' do
@@ -188,6 +199,7 @@ describe CourtSearch do
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
+      RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
       # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
       court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
       court_search.results.should == [@court7]
