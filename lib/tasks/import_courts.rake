@@ -1,7 +1,7 @@
 namespace :import do
 
   require 'csv'
-  
+
   desc "Import courts"
   task :courts => :environment do
     puts "Importing courts and their types"
@@ -12,7 +12,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       court = Court.new
 
@@ -30,7 +30,7 @@ namespace :import do
       court.display = true
 
       court.save!
-      
+
       counter += 1
     end
 
@@ -107,13 +107,13 @@ namespace :import do
 
     puts ">>> All done, yay!"
   end
-  
+
   desc "Import address types"
   task :address_types => :environment do
     puts "Importing address types"
 
     types = ['Postal']
-    
+
     types.each do |i|
       type = AddressType.new
 
@@ -125,7 +125,7 @@ namespace :import do
     end
 
   end
-  
+
   desc "Import countries"
   task :countries => :environment do
     puts "Importing countries"
@@ -133,7 +133,7 @@ namespace :import do
     csv_file = File.read('db/data/court_country.csv')
 
     csv = CSV.parse(csv_file)
-    
+
     csv.each do |row|
       country = Country.new
 
@@ -146,7 +146,7 @@ namespace :import do
     end
 
   end
-  
+
   desc "Import counties"
   task :counties => :environment do
     puts "Importing counties"
@@ -154,7 +154,7 @@ namespace :import do
     csv_file = File.read('db/data/court_county.csv')
 
     csv = CSV.parse(csv_file)
-    
+
     csv.each do |row|
       county = County.new
 
@@ -168,7 +168,7 @@ namespace :import do
     end
 
   end
-  
+
   desc "Import towns"
   task :towns => :environment do
     puts "Importing towns"
@@ -176,7 +176,7 @@ namespace :import do
     csv_file = File.read('db/data/court_town.csv')
 
     csv = CSV.parse(csv_file)
-    
+
     csv.each do |row|
       town = Town.new
 
@@ -190,7 +190,7 @@ namespace :import do
     end
 
   end
-  
+
   desc "Import postal court_address"
   task :addresses => :environment do
     puts "Importing court address"
@@ -249,14 +249,14 @@ namespace :import do
     puts ">>> #{counter} of #{csv.length} addresses added"
 
   end
-  
+
   desc "Import court types"
   task :court_types => :environment do
     puts "Deleting existing Court types records"
     CourtType.destroy_all
 
     puts "Creating court types"
-    
+
     puts "Adding 'County Court'"
     CourtType.create!(:name => "County Court")
     puts "Adding 'Magistrates Court'"
@@ -266,7 +266,7 @@ namespace :import do
     puts "Adding 'Tribunal'"
     CourtType.create!(:name => "Tribunal")
   end
-  
+
   desc "Import areas of law"
   task :areas_of_law => :environment do
     puts "Importing areas of law"
@@ -274,7 +274,7 @@ namespace :import do
     csv_file = File.read('db/data/court_work_type.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
-    
+
     csv.each do |row|
       area = AreaOfLaw.new
 
@@ -291,7 +291,7 @@ namespace :import do
     csv_file = File.read('db/data/court_work.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
-    
+
     csv.each do |row|
       area = CourtsAreasOfLaw.new
 
@@ -304,7 +304,7 @@ namespace :import do
     end
 
   end
-  
+
   desc "Import opening types and opening times"
   task :opening_times => :environment do
     puts "Importing opening types and opening times"
@@ -314,7 +314,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       type = OpeningType.new
 
@@ -334,7 +334,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       time = OpeningTime.new
 
@@ -367,7 +367,7 @@ namespace :import do
     csv_file = File.read('db/data/court_contact_type.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
-    
+
     csv.each do |row|
       type = ContactType.new
 
@@ -393,7 +393,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       court = Court.find_by_old_id(row[2])
 
@@ -428,7 +428,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       court = Court.find_by_old_id(row[3])
 
@@ -465,7 +465,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       court = Court.find_by_old_id(row[3])
 
@@ -527,7 +527,7 @@ namespace :import do
 
     facility_counter = 0
     court_counter = 0
-    
+
     csv.each do |row|
 
       if row[3] == 'true'
@@ -568,13 +568,13 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       court = Court.find_by_old_id(row[3])
 
       if court
         puts "Adding #{row[1]} to #{court.name}"
-        
+
         court_facility = CourtFacility.new
 
         court_facility.court_id = court.id
@@ -599,10 +599,10 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       puts "Adding region: #{row[1]}"
-        
+
       region = Region.new
 
       region.old_id = row[0]
@@ -612,6 +612,31 @@ namespace :import do
     end
 
     puts ">>> #{counter} of #{csv.length} regions added"
+
+  end
+
+  desc "Import local authorities"
+  task :local_authorities => :environment do
+    puts "Importing local authorities"
+
+    # "authority_id","authority_name"
+    csv_file = File.read('db/data/local_authorities.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+
+    csv.each do |row|
+      puts "Adding local authority: #{row[1]}"
+
+      region = LocalAuthority.new
+
+      region.name = row[1]
+
+      counter += 1 if region.save!
+    end
+
+    puts ">>> #{counter} of #{csv.length} local authorities added"
 
   end
 
@@ -625,10 +650,10 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
-    
+
     csv.each do |row|
       puts "Adding area: #{row[1]}"
-        
+
       area = Area.new
 
       area.old_id = row[0]
@@ -660,7 +685,7 @@ namespace :import do
         else
           puts "Could not add #{row[0]} #{row[1]} #{row[2]}"
           missing << "#{row[1]} #{row[2]}"
-        end        
+        end
       end
     end
     puts "Summary of missing records: "
