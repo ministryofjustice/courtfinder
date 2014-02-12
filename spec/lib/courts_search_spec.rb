@@ -190,11 +190,18 @@ describe CourtSearch do
       context 'when there is only one court' do
         it 'should return Children Court' do
           court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-          expect(court_search.court_for_council('Lambeth Borough Council')[0].name).to eq 'Children Court'
+          expect(court_search.court_for_council('Lambeth Borough Council')).to eq [@court7]
         end
       end
       context 'when there are multiple courts' do
-        xit 'should return multiple courts'
+        it 'should return multiple courts sorted by distance' do
+          # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
+          @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court #2', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
+          @court9.councils.create(:name => 'Lambeth Borough Council')
+
+          court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
+          expect(court_search.court_for_council('Lambeth Borough Council')).to eq [@court9, @court7]
+        end
       end
     end
 
