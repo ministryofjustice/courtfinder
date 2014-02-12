@@ -1,6 +1,9 @@
 .home {
   article .inner {
     margin:0 30px;
+    @include media(mobile) {
+      margin:0 16px;
+    }
   }
 
   .intro {
@@ -11,6 +14,17 @@
   #local-locator-form {
     margin-top:0;
   }
+
+  @include media(mobile) {
+    .find-location-for-service {
+      background-image: none;
+    
+      label {
+        display: block;
+        line-height: normal;
+      }
+    }
+  }
 }
 
 #wrapper #search {
@@ -18,6 +32,11 @@
 }
 #search-main {
   width: 350px;
+  @include media(mobile) {
+    width: 100%;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+  }
 }
 #results {
   display: none;
