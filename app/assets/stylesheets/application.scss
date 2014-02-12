@@ -33,9 +33,22 @@
   }
 }
 
+@include media(mobile) {
+  .meta-data .inner {
+    padding: 1em 0;
+    .modified-date {
+      width: auto;
+    }
+  }
+}
+
 // MOJ Toolkit overrides
 header.page-header {
   padding:1em 2em 2em;
+
+  @include media(mobile) {
+    padding:.5em 1em 1em;
+  }
 
   h1 {
     font-size:48px;

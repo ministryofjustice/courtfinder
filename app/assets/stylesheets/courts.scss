@@ -3,6 +3,9 @@ $grey:#eaedef;
 .courts {
   article .inner {
     padding:0 30px;
+    @include media(mobile) {
+      padding:0 16px;
+    }
 
     h2 {
       clear:left;
@@ -44,13 +47,28 @@ form.find-location-for-service #filters {margin-top:1em;}
 .inner div.addresses {
   width:620px; min-height:275px; margin-left:-30px; padding-left:30px; background:$grey;
   
+  @include media(mobile) {
+    width: auto; margin-left: -16px; margin-right: -16px; padding-left: 16px;
+  }
+
   .postal,
   .visit {
     width:48%; float:left;
+
+    @include media(mobile) {
+      width: auto; float: none;
+    }
   }
 }
 
-#court-photo { float:right; margin-right:-30px; }
+#court-photo {
+  float:right; margin-right:-30px;
+
+  @include media(mobile) {
+    float: none;
+    margin-right: 0;
+  }
+}
 
 form#directions input#from {margin:0 0 1em 0;}
 
@@ -127,5 +145,15 @@ i.icon {
     &.prayer { top:$bottom-row; @include column(7, $block-size, $block-offset); }
     &.hot_vending { top:$bottom-row; @include column(8, $block-size, $block-offset); }
     &.parking { top:$bottom-row; @include column(9, $block-size, $block-offset); }
+  }
+}
+
+@include media(mobile) {
+  input[name=saddr] { display: block; }
+  #directions [type=submit] { margin: 5px 0; }
+  .map_container { width: auto; }
+  .gmaps4rails_map {
+    width: auto;
+    height: 300px;
   }
 }
