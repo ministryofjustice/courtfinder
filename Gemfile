@@ -9,10 +9,10 @@ group :development, :test do
   gem 'byebug'
   gem 'pry'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   gem 'awesome_print'
-
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
