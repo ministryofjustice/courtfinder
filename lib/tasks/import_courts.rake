@@ -615,12 +615,12 @@ namespace :import do
 
   end
 
-  desc "Import local authorities"
-  task :local_authorities => :environment do
-    puts "Importing local authorities"
+  desc "Import concil names"
+  task :councils => :environment do
+    puts "Importing councils"
 
     # "authority_id","authority_name"
-    csv_file = File.read('db/data/local_authorities.csv')
+    csv_file = File.read('db/data/councils.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
 
@@ -629,11 +629,11 @@ namespace :import do
     csv.each do |row|
       puts "Adding local authority: #{row[1]}"
 
-      region = LocalAuthority.new
+      council = Council.new
 
-      region.name = row[1]
+      council.name = row[1]
 
-      counter += 1 if region.save!
+      counter += 1 if council.save!
     end
 
     puts ">>> #{counter} of #{csv.length} local authorities added"

@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20140212181217) do
 
   create_table "councils", :force => true do |t|
     t.string   "name"
-    t.integer  "court_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -215,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20140212181217) do
 
   create_table "local_authorities", :force => true do |t|
     t.string   "name"
+    t.integer  "court_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
