@@ -128,4 +128,5 @@ class Court < ActiveRecord::Base
     end
     self.postcode_courts = new_postcode_courts
   end
+  true
 end

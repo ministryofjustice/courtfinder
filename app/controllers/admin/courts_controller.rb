@@ -61,16 +61,22 @@ class Admin::CourtsController < Admin::ApplicationController
   # PUT /courts/1.json
   def update
     @court = Court.find(params[:id])
-    respond_to do |format|
-      if @court.update_attributes(params[:court])
-        purge_all_pages
+    if @court.update_attributes(params[:court])
+      purge_all_pages
+      respond_to do |format|
         format.html do 
-          redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'Court was successfully updated.'             
+          redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'Court was successfully updated.' 
         end
         format.json { head :no_content }
-      else
+      end
+    else
+      respond_to do |format|
         format.html do
-          redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'There was a problem updating the court.'
+          if params[:redirect_url]
+            redirect_to params[:redirect_url]
+          else
+            render :edit
+          end
         end
         format.json { render json: @court.errors, status: :unprocessable_entity }
       end
