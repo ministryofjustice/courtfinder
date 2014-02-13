@@ -61,17 +61,11 @@
 - if @court.contacts.present?
 
   %h2 Phone
-  - contacts = @court.contacts
-  - contacts.delete_if {|c|c.telephone.blank?}
-  - contacts.group_by(&:contact_type_id).each do |type, contacts|
-    - label = type ? ContactType.find(type).name : 'Other'
+  - contacts_in_this_view(@court.contacts.with_numbers).group_by(&:contact_type_id).each do |type, contacts|
     %p{:property => "telephone"}
-      = "#{label}: "
-      - contact_list = []
-      - contacts.each do |contact|
-        - if (print_view && contact.in_leaflet) || !print_view
-          - contact_list << link_to(contact.telephone, ['tel:', GlobalPhone.normalize(contact.telephone, :gb)].join)
-      = contact_list.join(' or ').html_safe
+      = succeed ": " do
+        = always_label type
+      = display_as_group contacts
 
 
 

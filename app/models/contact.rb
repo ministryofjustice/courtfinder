@@ -6,4 +6,8 @@ class Contact < ActiveRecord::Base
   has_paper_trail :ignore => [:created_at, :updated_at]
 
   default_scope :order => :sort
+
+  def self.with_numbers
+    where("telephone <> ''")
+  end
 end
