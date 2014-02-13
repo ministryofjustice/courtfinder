@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(:version => 20140212181217) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "local_authorities", :force => true do |t|
-    t.string   "name"
     t.integer  "court_id"
+    t.integer  "council_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

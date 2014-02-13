@@ -7,7 +7,7 @@ describe Court do
     @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
     @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
     @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
-    @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal") 
+    @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
 
     @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
     @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
@@ -26,6 +26,10 @@ describe Court do
 
     @magistrates_court = FactoryGirl.create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
     @tribunal = FactoryGirl.create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
+  end
+
+  describe 'associations' do
+      it { should have_many(:councils).through(:local_authorities) }
   end
 
   describe "searching" do

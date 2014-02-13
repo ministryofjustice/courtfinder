@@ -179,7 +179,7 @@ describe CourtSearch do
       @children = FactoryGirl.create(:area_of_law, :name => 'Children', :type_children => true)
       # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
       @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
-      @court7.local_authorities.create(:name => 'Lambeth Borough Council')
+      @court7.councils.create(:name => 'Lambeth Borough Council')
 
       # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
       @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
@@ -197,7 +197,7 @@ describe CourtSearch do
         it 'should return multiple courts sorted by name' do
           # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
           @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
-          @court9.local_authorities.create(:name => 'Lambeth Borough Council')
+          @court9.councils << Council.find_by_name("Lambeth Borough Council")
 
           court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
           expect(court_search.court_for_council('Lambeth Borough Council')).to eq [@court7, @court9]

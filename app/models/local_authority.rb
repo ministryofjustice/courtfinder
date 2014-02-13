@@ -1,5 +1,4 @@
 class LocalAuthority < ActiveRecord::Base
   belongs_to :court
-  attr_accessible :name
-  validates_presence_of :name
+  belongs_to :council
 end

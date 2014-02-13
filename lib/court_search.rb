@@ -59,7 +59,7 @@ class CourtSearch
   end
 
   def court_for_council(council)
-    Court.order(:name).joins(:local_authorities).where("local_authorities.name" => council)
+    Court.order(:name).joins(:councils).where("councils.name" => council)
   end
 
   private

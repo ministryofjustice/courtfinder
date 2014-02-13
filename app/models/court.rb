@@ -11,6 +11,7 @@ class Court < ActiveRecord::Base
   has_many :areas_of_law, :through => :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
   has_many :local_authorities
+  has_many :councils, :through => :local_authorities
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
