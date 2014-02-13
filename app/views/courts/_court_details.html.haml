@@ -61,11 +61,11 @@
 - if @court.contacts.present?
 
   %h2 Phone
-  - contacts_in_this_view(@court.contacts.with_numbers).group_by(&:contact_type_id).each do |type, contacts|
+  - contacts_for_view(@court.contacts.with_numbers).group_by(&:contact_type_id).each do |type, contacts|
     %p{:property => "telephone"}
       = succeed ": " do
-        = always_label type
-      = display_as_group contacts
+        = enforce_label type
+      = contacts_as_group contacts
 
 
 
