@@ -67,8 +67,14 @@ describe CourtSearch do
     cs.should have(1).errors
   end
 
-  it "should return an error when the postcode cannot be found" do
+  it "should return an error when the postcode cannot be found for a partial postcode" do
     cs = CourtSearch.new('YO6')
+    cs.results.should be_empty
+    cs.should have(1).errors
+  end
+
+  it "should return an error when the postcode cannot be found for a complete postcode" do
+    cs = CourtSearch.new('T27 4DB')
     cs.results.should be_empty
     cs.should have(1).errors
   end

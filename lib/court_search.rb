@@ -76,10 +76,16 @@ class CourtSearch
         # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
         results = JSON.parse(@restclient["/partial/#{CGI::escape(postcode)}"].get)
       rescue RestClient::ResourceNotFound
-        results = {"code" => 404, "error" => "Postcode not found"}
+        results = not_found_error
       end
+    rescue RestClient::ResourceNotFound
+        results = not_found_error
     end
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
+  end
+
+  def not_found_error
+    {"code" => 404, "error" => "Postcode not found"}
   end
 
   def postcode_search?
