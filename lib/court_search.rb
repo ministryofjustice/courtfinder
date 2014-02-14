@@ -62,6 +62,11 @@ class CourtSearch
     Court.order(:name).joins(:councils).where("councils.name" => council)
   end
 
+  def postcode_search?
+    # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
+    @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
+  end
+
   private
 
   def postcode_area_search(area_of_law, latlng)
@@ -77,7 +82,8 @@ class CourtSearch
     if latlng
       if courts.present?
         #calling near just so that court.distance works in the view
-        courts = courts.near(latlng, 200)
+        # TO DO: Investigate this issue to check its purpose
+        #courts = courts.near(latlng, 200)
       else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
       end
@@ -105,8 +111,4 @@ class CourtSearch
     {"code" => 404, "error" => "Postcode not found"}
   end
 
-  def postcode_search?
-    # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
-    @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
-  end
 end

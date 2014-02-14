@@ -191,6 +191,38 @@ namespace :import do
 
   end
 
+
+  desc "Import court local_authorities"
+  task :local_authorities => :environment do
+    puts "Importing local authorities for each court"
+
+    csv_file = File.read('db/data/local_authorities_for_courts.csv')
+
+    csv = CSV.parse(csv_file, :headers => true)
+
+    counter = 0
+
+    # "court_name", "local_authority_names"
+    csv.each do |row|
+      court = Court.find_by_name(row[0])
+
+      if court.nil?
+        puts "Could not find court with name: '#{row[0]}'"
+      else
+        puts "Adding local authorities(LA) for '#{court.name}'"
+        row[1].split(',').each do |local_authority_name|
+          council = Council.find_by_name(local_authority_name)
+          if  council.nil?
+            puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
+          else
+            puts "Adding LA with named '#{local_authority_name}'"
+            court.councils << council
+          end
+        end
+      end
+    end
+  end
+
   desc "Import postal court_address"
   task :addresses => :environment do
     puts "Importing court address"
