@@ -9,13 +9,12 @@ module ContactsHelper
   end
 
   def contact_visible_in_view(contact)
+    #This is not a model  scope because print_view depends on the request url
     (print_view && contact.in_leaflet) || !print_view
   end
 
   def contacts_for_view(contacts)
-    contacts.reject do |contact|
-      contact_visible_in_view(contact) == false
-    end
+    contacts.reject { |contact| !contact_visible_in_view(contact) }
   end
 
   def contacts_as_group(contacts, glue=' or ')

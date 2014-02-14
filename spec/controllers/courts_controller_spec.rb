@@ -85,6 +85,18 @@ describe CourtsController do
       response.should be_successful
     end
 
+    pending "groups multiple phone numbers of the same type for a court on one line" do
+      #Need a better way to test the full string joining two numbers with or
+      @county_court.contacts.create(telephone: "0800 800 8080")
+      @county_court.contacts.create(telephone: "0800 800 8081")
+      get :show, id: @county_court.slug
+      expect(response.body).to match /Phone/m
+      expect(response.body).to match /0800 800 8081/m
+      expect(response.body).to match /a> or <a href/m
+      expect(response.body).to match /0800 800 8080/m
+    
+    end
+
     context "map" do
       it "displays a map for a court which has latitude, longitude and a visiting address" do
         get :show, id: @county_court.slug

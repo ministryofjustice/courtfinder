@@ -61,7 +61,7 @@
 - if @court.contacts.present?
 
   %h2 Phone
-  - contacts_for_view(@court.contacts.with_numbers).group_by(&:contact_type_id).each do |type, contacts|
+  - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
     %p{:property => "telephone"}
       = succeed ": " do
         = enforce_label type

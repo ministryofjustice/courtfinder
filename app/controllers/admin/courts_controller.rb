@@ -75,6 +75,7 @@ class Admin::CourtsController < Admin::ApplicationController
           if params[:redirect_url]
             redirect_to params[:redirect_url], notice: @court.errors.messages.values.join("\n")
           else
+            puts "@court.errors.inspect ====== #{@court.errors.inspect}"
             render :edit
           end
         end
