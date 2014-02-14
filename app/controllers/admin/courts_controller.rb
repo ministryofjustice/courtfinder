@@ -135,21 +135,45 @@ class Admin::CourtsController < Admin::ApplicationController
                     ]
           end
         else
-          court = version.item_type.constantize.find(version.item_id).court
-          version.changeset.each do |key, value|
-            value_before << "#{key}: #{value[0]}" unless version.event == "create"
-            value_after << "#{key}: #{value[1]}"          
+          if version.event == "destroy"
+            value_before = version.previous.try(:object)
+            value_after = ""
+            if court_id = get_court_id_from_previous_version(version)
+              if court = Court.find(court_id)
+                csv << [version.created_at,
+                        author_email,
+                        court.name,
+                        version.item_type,
+                        version.event,
+                        value_before, 
+                        value_after
+                        ]
+              end
+            end
+          else
+            if item = version.item_type.constantize.find_by_id(version.item_id)
+              if court = item.court
+                version.changeset.each do |key, value|
+                  value_before << "#{key}: #{value[0]}" unless version.event == "create"
+                  value_after << "#{key}: #{value[1]}"          
+                end
+                csv << [version.created_at,
+                        author_email,
+                        court.name,
+                        version.item_type,
+                        version.event,
+                        value_before, 
+                        value_after
+                        ]
+              end
+            end
           end
-          csv << [version.created_at,
-                  author_email,
-                  court.name,
-                  version.item_type,
-                  version.event,
-                  value_before, 
-                  value_after
-                  ]
         end
       end
     end
+  end
+
+  def get_court_id_from_previous_version(version)
+    version.previous.try(:object).try(:split, "\n").try(:grep, /court_id/).try(:first).try(:gsub,"court_id: ","").try(:to_i)
   end
 end
