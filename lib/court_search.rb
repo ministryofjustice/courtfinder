@@ -79,7 +79,7 @@ class CourtSearch
 
     if latlng
       if courts.present?
-        #calling near just so that court.distance works in the view
+        # Calling near just so that court.distance works in the view, courts without location (lon, lat) are filtered out.
         courts = courts.near(latlng, 200, unit: :mi)
       else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)

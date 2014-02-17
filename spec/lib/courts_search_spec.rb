@@ -206,8 +206,11 @@ describe CourtSearch do
       end
     end
 
-    xit "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
-
+    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
+      @court10 = FactoryGirl.create(:court, :name => 'The Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.337246, :longitude => -1.434219)
+      @court11 = FactoryGirl.create(:court, :name => 'Second Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.33724, :longitude => -1.43421)
+      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Children'})
+      court_search.results.should == [@court10, @court11]
     end
   end
 
