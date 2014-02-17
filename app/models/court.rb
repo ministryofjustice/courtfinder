@@ -93,7 +93,7 @@ class Court < ActiveRecord::Base
   end
 
   def self.for_council(council)
-    Court.order(:name).joins(:councils).where("councils.name" => council)
+    joins(:councils).where("councils.name" => council)
   end
 
   def locatable?

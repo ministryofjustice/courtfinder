@@ -193,13 +193,16 @@ describe CourtSearch do
     end
 
     context 'when there are multiple courts' do
-      it 'should return multiple courts sorted by name' do
+      it 'should return multiple courts sorted by distance' do
         # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
         @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
         @court9.councils << Council.find_by_name("Lambeth Borough Council")
 
         court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-       expect(court_search.results).to eq [@court7, @court9]
+        results = court_search.results
+        expect(results).to eq [@court9, @court7]
+        expect(results[0].distance).to eq "0.16110282696898"
+        expect(results[1].distance).to eq "0.418361404378377"
       end
     end
 
