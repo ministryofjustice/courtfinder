@@ -185,31 +185,22 @@ describe CourtSearch do
       @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
     end
 
-    context 'should return the name/names of the court for a given council' do
-
-      context 'when there is only one court' do
-        it 'should return Children Court' do
-          court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-          expect(court_search.court_for_council('Lambeth Borough Council')).to eq [@court7]
-        end
-      end
-      context 'when there are multiple courts' do
-        it 'should return multiple courts sorted by name' do
-          # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
-          @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
-          @court9.councils << Council.find_by_name("Lambeth Borough Council")
-
-          court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-          expect(court_search.court_for_council('Lambeth Borough Council')).to eq [@court7, @court9]
-        end
-      end
-    end
-
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
       RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
       # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
       court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-      court_search.results.should == [@court7]
+      expect(court_search.results).to eq [@court7]
+    end
+
+    context 'when there are multiple courts' do
+      it 'should return multiple courts sorted by name' do
+        # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
+        @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
+        @court9.councils << Council.find_by_name("Lambeth Borough Council")
+
+        court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
+       expect(court_search.results).to eq [@court7, @court9]
+      end
     end
 
     xit "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do

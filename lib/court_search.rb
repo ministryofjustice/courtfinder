@@ -58,9 +58,7 @@ class CourtSearch
     results['shortcuts']['council']
   end
 
-  def court_for_council(council)
-    Court.order(:name).joins(:councils).where("councils.name" => council)
-  end
+
 
   def postcode_search?
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
@@ -76,7 +74,7 @@ class CourtSearch
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law
       courts = Court.visible.by_postcode_court_mapping(@query, @options[:area_of_law])
     elsif area_of_law.type_children?
-      courts = court_for_council(lookup_council_name)
+      courts = Court.for_council(lookup_council_name)
     end
 
     if latlng

@@ -67,6 +67,7 @@ class Court < ActiveRecord::Base
     end
   end
 
+
   def self.by_postcode_court_mapping(postcode, area_of_law = nil)
     if postcode.present?
       if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
@@ -91,6 +92,9 @@ class Court < ActiveRecord::Base
     where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
   end
 
+  def self.for_council(council)
+    Court.order(:name).joins(:councils).where("councils.name" => council)
+  end
 
   def locatable?
     longitude && latitude && !addresses.visiting.empty?
