@@ -7,7 +7,7 @@ describe Admin::CourtsController do
     controller.should_receive(:enable_varnish).never
     @user = User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
     sign_in @user
-    @court = Court.create!(name: 'A court of Law')    
+    @court = FactoryGirl.create(:court, name: 'A court of Law')    
   end
 
   it "displays a list of courts" do
@@ -25,7 +25,7 @@ describe Admin::CourtsController do
   it "purges the cache when a new court is created" do
     expect {
       controller.should_receive(:purge_all_pages)
-      post :create, court: { name: 'A court of LAW' }
+      post :create, court: { name: 'A court of LAW', latitude:50, longitude:0 }
       response.should redirect_to(edit_admin_court_path(assigns(:court)))
     }.to change { Court.count }.by(1)
   end
