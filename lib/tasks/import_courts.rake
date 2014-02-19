@@ -215,7 +215,7 @@ namespace :import do
         puts "Adding local authorities(LA) for '#{court.name}'"
         row[1].split(',').each do |local_authority_name|
           council = Council.find_by_name(local_authority_name)
-          if  council.nil?
+          if council.nil?
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
@@ -759,6 +759,31 @@ namespace :import do
         puts "Imported details for court: #{row['Court Name'].strip}"
       rescue => e
         puts "Error importing court: '#{row['Court Name']}' - #{e.message}"
+      end
+    end
+
+    ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[1]
+
+    ws.list.each do |row|
+      court = Court.find_by_name(row['Court Name'])
+      if court.nil?
+        puts "** ERROR ** Could not find court with name: '#{row['Court Name']}'"
+      else
+        puts "Adding local authorities(LA) for '#{court.name}'"
+
+        authorities = []
+        row.values.drop(1).each { |c| authorities << c unless c.blank? }
+        puts authorities
+
+        authorities.each do |local_authority_name|
+          council = Council.find_by_name(local_authority_name)
+          if council.nil?
+            puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
+          else
+            puts "Adding LA with named '#{local_authority_name}'"
+            court.councils << council
+          end
+        end
       end
     end
   end
