@@ -29,7 +29,7 @@ class CourtSearch
         else
           courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
         end
-        @errors << "We couldn't find that post code. Please try again." if courts.empty?
+        @errors << "We couldn't find that post code. Please try again." if courts.blank?
       else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
       end
