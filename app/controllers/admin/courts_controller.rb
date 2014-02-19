@@ -65,7 +65,7 @@ class Admin::CourtsController < Admin::ApplicationController
       purge_all_pages
       respond_to do |format|
         format.html do 
-          redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'Court was successfully updated.' 
+            redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'Court was successfully updated.'
         end
         format.json { head :no_content }
       end
@@ -73,7 +73,7 @@ class Admin::CourtsController < Admin::ApplicationController
       respond_to do |format|
         format.html do
           if params[:redirect_url]
-            redirect_to params[:redirect_url]
+            redirect_to params[:redirect_url], notice: @court.errors.messages.values.join("\n")
           else
             render :edit
           end
