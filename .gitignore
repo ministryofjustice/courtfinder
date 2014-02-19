@@ -35,4 +35,5 @@ Icon
 
 public/uploads
 /support/*
+# Ignore application configuration
 /config/application.yml

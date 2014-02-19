@@ -1,3 +1,5 @@
+require_relative 'google_spreadsheet/connection.rb'
+
 namespace :import do
 
   require 'csv'
@@ -723,6 +725,17 @@ namespace :import do
     puts "Summary of missing records: "
     puts missing.uniq
     puts "Finished adding postcode to court mappings."
+  end
+
+
+  desc "Import PCOL postcode to court mappings"
+  task :children_courts => :environment do
+    session =Connection.get_drive_session
+    ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[0]
+
+    ws.list.each do |row|
+      puts row
+    end
   end
 
 end

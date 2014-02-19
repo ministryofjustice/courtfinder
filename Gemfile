@@ -52,3 +52,5 @@ gem 'jbuilder'              # json api templating
 gem 'httparty'
 gem 'appsignal'
 gem 'paper_trail', '~> 3.0'
+gem 'figaro'
+gem 'google_drive'
