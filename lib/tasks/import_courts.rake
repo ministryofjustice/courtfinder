@@ -1,4 +1,5 @@
 require_relative 'google_spreadsheet/connection.rb'
+require 'awesome_print'
 
 namespace :import do
 
@@ -727,14 +728,38 @@ namespace :import do
     puts "Finished adding postcode to court mappings."
   end
 
-
   desc "Import PCOL postcode to court mappings"
   task :children_courts => :environment do
     session =Connection.get_drive_session
     ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[0]
 
     ws.list.each do |row|
-      puts row
+      begin
+        court = Court.find_or_create_by_name(row['Court Name'].strip)
+
+        lat = row['Latitude']
+        lon = row['Longitude']
+        throw "Position missing" if lat.blank? || lon.blank?
+        court.update_attributes(latitude: lat.strip ,longitude: lon.strip)
+
+        town = Town.find_by_name(row['Town'].strip)
+        throw "Town not found" unless town
+
+        postcode = row['Postcode'].strip
+        throw 'Postcode is empty' if postcode.blank?
+
+        address = court.addresses.create!(
+          address_line_1: row['Address line 1'].strip,
+          address_line_2: row['Address line 2'].strip,
+          address_line_3: row['Address line 3'].strip,
+          address_line_4: row['Address line 4'].strip,
+          postcode: postcode,
+          town_id: town.id,
+        )
+        puts "Imported details for court: #{row['Court Name'].strip}"
+      rescue => e
+        puts "Error importing court: '#{row['Court Name']}' - #{e.message}"
+      end
     end
   end
 
