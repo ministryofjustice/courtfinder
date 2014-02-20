@@ -728,8 +728,8 @@ namespace :import do
     puts "Finished adding postcode to court mappings."
   end
 
-  desc "Import PCOL postcode to court mappings"
-  task :children_courts => :environment do
+  desc "Import Local Authorities for Family Related Courts"
+  task :family_courts => :environment do
     session =Connection.get_drive_session
     ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[0]
 
@@ -756,7 +756,7 @@ namespace :import do
           postcode: postcode,
           town_id: town.id,
         )
-        puts "Imported details for court: #{row['Court Name'].strip}"
+        puts "Imported details for court: '#{row['Court Name'].strip}'"
       rescue => e
         puts "Error importing court: '#{row['Court Name']}' - #{e.message}"
       end
@@ -765,23 +765,26 @@ namespace :import do
     ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[1]
 
     ws.list.each do |row|
-      court = Court.find_by_name(row['Court Name'])
+      court_name = row['Court Name'].strip
+      court = Court.find_by_name(court_name)
       if court.nil?
-        puts "** ERROR ** Could not find court with name: '#{row['Court Name']}'"
+        puts "** ERROR ** Could not find court with name: '#{court_name}'"
       else
         puts "Adding local authorities(LA) for '#{court.name}'"
 
-        authorities = []
-        row.values.drop(1).each { |c| authorities << c unless c.blank? }
-        puts authorities
+        authorities = row.values.drop(4).inject([]) { |array, c| array << (c.strip unless c.blank?) }.reject { |c| c.nil? }
 
         authorities.each do |local_authority_name|
           council = Council.find_by_name(local_authority_name)
           if council.nil?
             puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
-            puts "Adding LA with named '#{local_authority_name}'"
-            court.councils << council
+            if court.councils.include?(council)
+              puts "Skipped LA named '#{local_authority_name}'"
+            else
+              puts "Adding LA named '#{local_authority_name}'"
+              court.councils << council
+            end
           end
         end
       end
