@@ -22,7 +22,10 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
-  validates_presence_of :name
+  validates_presence_of :name, :latitude, :longitude
+
+  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }
+  validates :longitude, numericality: { greater_than: -180, less_than: 180 }
 
   has_paper_trail :ignore => [:created_at, :updated_at]
 

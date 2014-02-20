@@ -59,11 +59,41 @@ describe Court do
   end
 
   it "should not be locatable if it doesn't have a visiting address" do
-    @crown_court.locatable?.should be_nil
+    @crown_court.locatable?.should be_false
   end
 
   it "should be locatable if it has a latitude, longitude and visiting address" do
     @county_court.locatable?.should_not be_nil
+  end
+
+  context "should have a valid latitude and longitude" do
+    it "should fail validation for latitude values outside (-90, 90) and non-numeric values" do
+      [-91, 91, "string"].each do |l|
+        @county_court.latitude = l
+        @county_court.should_not be_valid
+      end
+    end
+    
+    it "should pass validation for latitude values within (-90, 90)" do
+      [0, 89.99, -45.4].each do |l|
+        @county_court.latitude = l
+        @county_court.should be_valid
+      end
+    end
+
+    it "should fail validation for longitude values outside (-180, 180) and non-numeric values" do
+      [181, -181, "string"].each do |l|
+        @county_court.longitude = l
+        @county_court.should_not be_valid
+      end
+    end
+
+    it "should pass validation for longitude values within (-180, 180)" do
+      [179, -81, 0.45].each do |l|
+        @county_court.longitude = l
+        @county_court.should be_valid
+      end
+    end
   end
 
   describe "Postcode courts" do

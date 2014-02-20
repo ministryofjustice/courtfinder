@@ -291,13 +291,22 @@ describe CourtsController do
 
       it "json api returns correct information" do
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, "@id"=>"/courts/a-court-of-law", "name"=>"A court of LAW", "@type"=>["Courthouse"]}
+        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/", "geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"}, 
+                                              "@id"=>"/courts/a-court-of-law",
+                                              "geo:latitude" => "50.0",
+                                              "name"=>"A court of LAW", 
+                                              "@type"=>["Courthouse"]}
       end
 
       it "json api returns correct extra information" do
         @court.update_attributes(:info => 'some information')
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, "@id"=>"/courts/a-court-of-law", "name"=>"A court of LAW", "@type"=>["Courthouse"], "description"=>"some information"}
+        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/", "geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"}, 
+                                              "@id"=>"/courts/a-court-of-law",
+                                              "geo:latitude" => "50.0",
+                                              "name"=>"A court of LAW", 
+                                              "@type"=>["Courthouse"], 
+                                              "description"=>"some information"}
       end
 
       it "doesn't return an error if a court's town has no county or no image_file_url" do
@@ -320,14 +329,14 @@ describe CourtsController do
       it "csv api returns correct information" do
         get :index, format: :csv
         response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
-                                "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
+                                "/courts/a-court-of-law,A court of LAW,,50.0,0.0,,,,,,\n"\
                                 "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.379743,-0.104515,,London,Some other street,,,\n"\
-                                "/courts/capita-combined-court,Capita Combined Court,,,,,,,,,\n"\
-                                "/courts/capita-crown-court,Capita Crown Court,,,,,London,Some other street,,,\n"\
-                                "/courts/capita-family-court,Capita Family Court,,,,,,,,,\n"\
-                                "/courts/capita-magistrates-court,Capita Magistrates Court,,,,,,,,,\n"\
-                                "/courts/capita-tribunal,Capita Tribunal,,,,,,,,,\n"\
-                                "/courts/capita-typeless-court,Capita Typeless Court,,,,,,,,,\n"
+                                "/courts/capita-combined-court,Capita Combined Court,,50.0,0.0,,,,,,\n"\
+                                "/courts/capita-crown-court,Capita Crown Court,,50.0,0.0,,London,Some other street,,,\n"\
+                                "/courts/capita-family-court,Capita Family Court,,50.0,0.0,,,,,,\n"\
+                                "/courts/capita-magistrates-court,Capita Magistrates Court,,50.0,0.0,,,,,,\n"\
+                                "/courts/capita-tribunal,Capita Tribunal,,50.0,0.0,,,,,,\n"\
+                                "/courts/capita-typeless-court,Capita Typeless Court,,50.0,0.0,,,,,,\n"
       end
     end
   end

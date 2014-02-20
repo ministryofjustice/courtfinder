@@ -4,7 +4,7 @@ describe HomeController do
   render_views
 
   before :each do
-    @court = Court.create!(old_id: 1, name: "A court of L.A.W.").reload
+    @court = FactoryGirl.create(:court, old_id: 1, name: "A court of L.A.W.").reload
   end
 
   context "landing page" do
