@@ -39,9 +39,9 @@ class CourtSearch
 
   def lookup_council_name
     begin
-      results = JSON.parse(@restclient[CGI::escape(@query)].get)
-      county_id =  extract_council_from_county(results) || extract_council_from_shortcuts(results)
-      results['areas'][county_id.to_s]['name']
+      postcode_info = JSON.parse(@restclient[CGI::escape(@query)].get)
+      county_id =  extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
+      postcode_info['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
       Rails.logger.debug "Error: #{e.backtrace}"
@@ -49,13 +49,13 @@ class CourtSearch
     end
   end
 
-  def extract_council_from_county(results)
-    return nil if results['shortcuts']['council'].class == Fixnum
-    results['shortcuts']['council']['county']
+  def extract_council_from_county(postcode_info)
+    return nil if postcode_info['shortcuts']['council'].class == Fixnum
+    postcode_info['shortcuts']['council']['county']
   end
 
-  def extract_council_from_shortcuts(results)
-    results['shortcuts']['council']
+  def extract_council_from_council(postcode_info)
+    postcode_info['shortcuts']['council']
   end
 
 
