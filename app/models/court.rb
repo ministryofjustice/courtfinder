@@ -9,7 +9,7 @@ class Court < ActiveRecord::Base
   has_many :court_types, :through => :court_types_courts
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
-  has_many :postcode_courts
+  has_many :postcode_courts, dependent: :destroy
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, 
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, 
                   :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, 
@@ -26,6 +26,8 @@ class Court < ActiveRecord::Base
 
   validates :latitude, numericality: { greater_than:  -90, less_than:  90 }
   validates :longitude, numericality: { greater_than: -180, less_than: 180 }
+
+  validate :check_postcode_errors
 
   has_paper_trail :ignore => [:created_at, :updated_at]
 
@@ -122,14 +124,24 @@ class Court < ActiveRecord::Base
 
   def postcode_list=(postcodes)
     new_postcode_courts = []
+    @postcode_errors = []
     postcodes.split(",").map do |postcode|
-      postcode = postcode.gsub(/\s+/, "").downcase
-      existing_pc = PostcodeCourt.where("lower(postcode) = ? AND court_id is not null AND court_id != #{self.id}", postcode)
-      if existing_pc.empty?
-        new_postcode_courts << PostcodeCourt.create!(postcode: postcode)
+      postcode = postcode.gsub(/[^0-9a-z ]/i, "").downcase
+      if pc = PostcodeCourt.find_by_postcode(postcode)
+        if pc.court && pc.court == self
+          new_postcode_courts << pc
+        elsif pc.court && pc.court != self
+          @postcode_errors << "Post code \"#{postcode}\" is already assigned to #{pc.court.name}. Please remove it from this court before assigning it to #{self.name}."
+        end
+      else
+        new_postcode_courts << PostcodeCourt.new(postcode: postcode)
       end
     end
     self.postcode_courts = new_postcode_courts
+  end  
+
+
+  def check_postcode_errors
+    @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
-  true
 end
