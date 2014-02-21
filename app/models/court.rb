@@ -127,7 +127,7 @@ class Court < ActiveRecord::Base
     @postcode_errors = []
     postcodes.split(",").map do |postcode|
       postcode = postcode.gsub(/[^0-9a-z ]/i, "").downcase
-      if pc = PostcodeCourt.find_by_postcode(postcode)
+      if pc = existing_postcode_court(postcode)
         if pc.court && pc.court == self
           new_postcode_courts << pc
         elsif pc.court && pc.court != self
@@ -140,6 +140,9 @@ class Court < ActiveRecord::Base
     self.postcode_courts = new_postcode_courts
   end  
 
+  def existing_postcode_court(postcode)
+    PostcodeCourt.where("lower(postcode) = ?", postcode).first
+  end
 
   def check_postcode_errors
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
