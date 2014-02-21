@@ -22,7 +22,6 @@ namespace :import do
       court.name = row[1]
       court.court_number = row[2]                     # court_code
       court.info = row[3].gsub(/"'/, '"')             # clean-up HTML links which use single quotes, assuming they appear in the data as ""'
-      court.cci_identifier = row[5]
       court.cci_code = row[6]
       court.area_id = Area.find_by_old_id(row[4]).id  # some have more than one
       court.old_postal_address_id = row[8]

@@ -10,7 +10,7 @@ class Court < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_identifier, :cci_code, :old_id, 
+  attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id, 
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids, 
                   :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes, 
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
