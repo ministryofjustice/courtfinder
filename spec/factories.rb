@@ -25,4 +25,12 @@ FactoryGirl.define do
 
   factory :feedback do
   end
+
+  factory :contact_type do
+    name {'Helpdesk'}
+  end
+
+  factory :contact do
+    contact_type_id { ContactType.first.id }
+  end
 end
