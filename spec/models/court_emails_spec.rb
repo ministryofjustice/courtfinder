@@ -15,5 +15,10 @@ describe Court do
       @court1.emails.create(address: "invalid_email")
       @court1.emails.count.should == 0
     end
+
+    it "should not allow the same email address to be added to a court more than once" do
+      2.times { @court1.emails.create(address: "valid_email@example.com") }
+      @court1.emails.count.should == 1
+    end
   end
 end
