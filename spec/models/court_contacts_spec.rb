@@ -3,6 +3,7 @@ require "spec_helper"
 describe Court do
   before(:each) do
     @court1 = FactoryGirl.create(:court, :name => "London Court")
+    @helpdesk = FactoryGirl.create(:contact_type)
   end
 
   describe "contacts" do
@@ -14,6 +15,11 @@ describe Court do
     it "should not allow invalid phone contact to be added to a court" do
       @court1.contacts.create(telephone: "not a number")
       @court1.contacts.count.should == 0
+    end
+
+    it "should not allow the same phone number to be added to a court contact" do
+      2. times { @court1.contacts.create(telephone: "50800 800 8080", contact_type_id: @helpdesk.id) }
+      @court1.contacts.count.should == 1
     end
   end
 end
