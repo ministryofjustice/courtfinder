@@ -8,6 +8,7 @@ class Email < ActiveRecord::Base
 
   has_paper_trail :ignore => [:created_at, :updated_at]
   validates_presence_of :address
+  validates_uniqueness_of :address, :message => "is invalid. This email address is already used for another service."
 
   validates :address, email: true, if: ->(f) { f.address.present? }
 
