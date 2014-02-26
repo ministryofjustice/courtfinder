@@ -83,6 +83,7 @@ class CourtSearch
         courts = courts.near(latlng, 200, unit: :mi)
       else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20)
+        courts = courts.limit(1) if area_of_law.type_possession? || area_of_law.type_money_claims? || area_of_law.type_bankruptcy?
       end
     end
     courts

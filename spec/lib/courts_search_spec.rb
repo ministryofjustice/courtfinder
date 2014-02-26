@@ -99,9 +99,9 @@ describe CourtSearch do
       court_search.results.should == [@court7]
     end
 
-    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
+    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
       court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Possession'})
-      court_search.results.should == [@court8, @court9]
+      court_search.results.should == [@court8]
     end
   end
 
@@ -119,9 +119,9 @@ describe CourtSearch do
       court_search.results.should == [@court7]
     end
 
-    it "if the postcode is not found in the postcode to court mapping, then just default to distance search" do
+    it "if the postcode is not found in the postcode to court mapping, then just default to distance search, but return only the nearest one court" do
       court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Money Claims'})
-      court_search.results.should == [@court8, @court9]
+      court_search.results.should == [@court8]
     end
   end
 
@@ -140,9 +140,9 @@ describe CourtSearch do
       court_search.results.should == [@court7]
     end
 
-    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
+    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
       court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Bankruptcy'})
-      court_search.results.should == [@court8, @court9]
+      court_search.results.should == [@court8]
     end
   end
 
