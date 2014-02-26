@@ -11,8 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140206150731) do
-
+ActiveRecord::Schema.define(:version => 20140212181217) do
   create_table "address_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -61,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20140206150731) do
     t.boolean  "type_possession",   :default => false
     t.boolean  "type_bankruptcy",   :default => false
     t.boolean  "type_money_claims", :default => false
+    t.boolean  "type_children",     :default => false
   end
 
   create_table "contact_types", :force => true do |t|
@@ -82,6 +82,14 @@ ActiveRecord::Schema.define(:version => 20140206150731) do
 
   add_index "contacts", ["contact_type_id"], :name => "index_contacts_on_contact_type_id"
   add_index "contacts", ["court_id"], :name => "index_contacts_on_court_id"
+
+  create_table "councils", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "councils", ["name"], :name => "index_councils_on_name"
 
   create_table "counties", :force => true do |t|
     t.string   "name"
@@ -203,6 +211,13 @@ ActiveRecord::Schema.define(:version => 20140206150731) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
+
+  create_table "local_authorities", :force => true do |t|
+    t.integer  "court_id"
+    t.integer  "council_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "opening_times", :force => true do |t|
     t.string   "name"

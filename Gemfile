@@ -3,15 +3,20 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 source 'http://gems.dsd.io/' unless ENV['TRAVIS']
 
 gem 'rails', '3.2.17'
-
 gem 'pg'
 
+gem 'byebug'
+gem 'pry'
+gem 'awesome_print'
+
 group :development, :test do
-  gem 'byebug'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
-  gem 'awesome_print'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request' #uncomment for use with rails pannel
 end
 
 # Gems used only for assets and not required
@@ -48,3 +53,5 @@ gem 'jbuilder'              # json api templating
 gem 'httparty'
 gem 'appsignal'
 gem 'paper_trail', '~> 3.0'
+gem 'figaro'
+gem 'google_drive'

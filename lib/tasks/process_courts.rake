@@ -1,6 +1,6 @@
 namespace :process do
 
-  desc "Create links between courts and court types"  
+  desc "Create links between courts and court types"
   task :court_types => :environment do
     puts "Deleting existing CourtTypesCourt records"
     CourtTypesCourt.destroy_all
@@ -27,14 +27,14 @@ namespace :process do
   desc "Set type_possession flag to true for existing Possession area of law"
   task :set_type_possession_flag => :environment do
     AreaOfLaw.where("lower(name) like '%possession%'").each do |a|
-      a.update_attributes(:type_possession => true)      
+      a.update_attributes(:type_possession => true)
     end
   end
 
   desc "Set type_bankruptcy flag to true for existing Bankruptcy area of law"
   task :set_type_bankruptcy_flag => :environment do
     AreaOfLaw.where("lower(name) like '%bankruptcy%'").each do |a|
-      a.update_attributes(:type_bankruptcy => true)      
+      a.update_attributes(:type_bankruptcy => true)
     end
   end
 
@@ -42,6 +42,13 @@ namespace :process do
   task :set_type_money_claims_flag => :environment do
     AreaOfLaw.where("lower(name) like '%money claims%'").each do |a|
       a.update_attributes(type_money_claims: true)
+    end
+  end
+
+  desc "Set type_children flag to true for existing Children courts"
+  task :set_type_children_flag => :environment do
+    AreaOfLaw.where("lower(name) like '%children%'").each do |a|
+      a.update_attributes(type_children: true)
     end
   end
 end

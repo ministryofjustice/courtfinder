@@ -7,7 +7,7 @@ describe Court do
     @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
     @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
     @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
-    @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal") 
+    @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
 
     @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
     @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
@@ -26,6 +26,10 @@ describe Court do
 
     @magistrates_court = FactoryGirl.create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
     @tribunal = FactoryGirl.create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
+  end
+
+  describe 'associations' do
+      it { should have_many(:councils).through(:local_authorities) }
   end
 
   describe "searching" do
@@ -112,4 +116,30 @@ describe Court do
       pc.should_not be_valid
     end
   end
+
+  describe 'Find court by council name' do
+    before(:each) do
+      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
+      @court7.councils.create(:name => 'Lambeth Borough Council')
+    end
+
+    context 'should return the name/names of the court for a given council' do
+
+      context 'when there is only one court' do
+        it 'should return Children Court' do
+          expect(Court.for_council('Lambeth Borough Council')).to eq [@court7]
+        end
+      end
+
+      context 'when there are multiple courts' do
+        it 'should return multiple courts sorted by name' do
+          @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
+          @court9.councils << Council.find_by_name("Lambeth Borough Council")
+
+          expect(Court.for_council('Lambeth Borough Council')).to eq [@court7, @court9]
+        end
+      end
+    end
+  end
+
 end
