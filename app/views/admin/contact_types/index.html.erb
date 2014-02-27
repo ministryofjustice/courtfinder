@@ -5,8 +5,6 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Old</th>
-    <!-- <th></th> -->
     <th></th>
     <th></th>
   </tr>
@@ -14,8 +12,6 @@
 <% @contact_types.each do |contact_type| %>
   <tr>
     <td><%= contact_type.name %></td>
-    <td><%= contact_type.old_id %></td>
-    <!-- <td><%= link_to 'Show', admin_contact_type_path(contact_type) %></td> -->
     <td><%= link_to 'Edit', edit_admin_contact_type_path(contact_type) %></td>
     <td><%= link_to 'Delete', admin_contact_type_path(contact_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
