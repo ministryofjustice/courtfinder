@@ -10,7 +10,7 @@ describe SearchController do
       response.should be_success
     end
 
-    it "doesn't blow up when results are nil" do 
+    it "doesn't blow up when results are nil" do
       CourtSearch.any_instance.should_receive(:results).and_return(nil)
       get :index
       response.should be_success
@@ -36,7 +36,7 @@ describe SearchController do
   end
 
   describe "GET index (json)" do
-    
+
     before :each do
       @court = FactoryGirl.create(:court)
     end
@@ -51,6 +51,20 @@ describe SearchController do
       response.should be_success
       response.content_type.should == 'application/json'
       JSON.parse(response.body).should == [{"@id" => court_path(@court), "name" => @court.name}]
+    end
+  end
+
+  describe "GET index for children" do
+    it "returns a customised message related to children" do
+      @court = FactoryGirl.create(:court)
+      CourtSearch.any_instance.should_receive(:results).and_return([@court])
+      CourtSearch.any_instance.should_receive(:errors).and_return([])
+      @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
+      AreaOfLaw.should_receive(:find_by_name).and_return(@area)
+
+      get :index, q: "bs1 6gr", area_of_law: 'Children'
+      expect(response).to be_success
+      response.body.should include("The court accepts applications related to children for the post code")
     end
   end
 end

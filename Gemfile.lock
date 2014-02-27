@@ -261,6 +261,9 @@ GEM
       rack
       raindrops (~> 0.7)
     varnish-client (0.0.1)
+    verbs (2.1.4)
+      activesupport (>= 2.3.4)
+      i18n
     warden (1.2.1)
       rack (>= 1.0)
     will_paginate (3.0.5)
@@ -311,4 +314,5 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   unicorn
   varnish-client
+  verbs
   will_paginate
