@@ -2,8 +2,6 @@ require 'pry'
 require "rubygems"
 require "google_drive"
 
-puts "Using timesheet titled: #{ENV['SPREADSHEET_TIMESHEET_TITLE']}"
-
 module Connection
 
   def self.setup
@@ -21,6 +19,7 @@ module Connection
   end
 
   def self.get_drive_session
+    puts "Using timesheet titled: #{ENV['SPREADSHEET_TIMESHEET_TITLE']}"
     setup
     token
     GoogleDrive.login_with_oauth(@auth_token.token)
