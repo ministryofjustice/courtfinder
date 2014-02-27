@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
   <ul id="proposition-links">
     <li><%= link_to 'Courts or Tribunals', admin_courts_path %></li>
-    <li><%= link_to 'Manage All Courts', areas_of_law_admin_courts_path %></li>
+    <li><%= link_to 'Manage All Courts and Tribunals', areas_of_law_admin_courts_path %></li>
     <% if current_user.admin %>
         <li><%= link_to 'Address Types', admin_address_types_path %></li>
         <li><%= link_to 'Countries', admin_countries_path %></li>
