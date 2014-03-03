@@ -1,4 +1,9 @@
-v2.1.0-dev
+v2.4.0-dev
 ---------------------
 * Added version to staging and development in the footer for reference
 * Added conditional validation to court to allow import rake task to succeed - DH
+* Fixed css class not including input[type="email"] and button alignment and defaults
+
+v2.3.0
+---------------------
+* Current master version
