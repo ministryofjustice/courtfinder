@@ -1,0 +1,7 @@
+develop
+---------------------
+* Added conditional validation to court to allow import rake task to succeed - DH
+
+v2.0.0
+--------------------------
+* starting
