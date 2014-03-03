@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20140212181217) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.integer  "area_id"
+    t.integer  "cci_identifier"
     t.integer  "cci_code"
     t.integer  "old_id"
     t.integer  "old_court_type_id"
@@ -167,7 +168,6 @@ ActiveRecord::Schema.define(:version => 20140212181217) do
     t.text     "defence_leaflet"
     t.text     "prosecution_leaflet"
     t.text     "juror_leaflet"
-    t.integer  "cci_identifier"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
