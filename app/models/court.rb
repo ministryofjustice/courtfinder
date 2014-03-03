@@ -1,4 +1,6 @@
 class Court < ActiveRecord::Base
+  attr_accessor :validate_coords
+
   belongs_to :area
   has_many :addresses
   has_many :opening_times
@@ -25,10 +27,10 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
-  validates_presence_of :name, :latitude, :longitude
-
-  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }
-  validates :longitude, numericality: { greater_than: -180, less_than: 180 }
+  
+  validates :name, presence: true
+  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :should_validate_coords?
+  validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :should_validate_coords?
 
   validate :check_postcode_errors
 
@@ -154,4 +156,10 @@ class Court < ActiveRecord::Base
   def check_postcode_errors
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
+
+  protected
+
+    def should_validate_coords?
+      (validate_coords.nil? || validate_coords)
+    end
 end
