@@ -12,9 +12,17 @@
         </ul>
 
         <div class="open-government-licence">
-          <h2><a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2"><img alt="OGL" src="https://assets.digital.cabinet-office.gov.uk/static/open-government-licence_2x-d273d7eca3045d3b710a863d9bfc0b33.png"></a></h2>
+          <h2><a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">
+          <img alt="OGL" src="https://assets.digital.cabinet-office.gov.uk/static/open-government-licence_2x-d273d7eca3045d3b710a863d9bfc0b33.png">
+          </a></h2>
           <p>All content is available under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">Open Government Licence v2.0</a>, except where otherwise stated</p>
         </div>
+        
+        <% if Rails.env.staging? || Rails.env.development? %>
+          <div>
+            <p><%= File.read(Rails.root.join('VERSION')) %></p>
+          </div>
+        <% end %>
       </div>
       <div class="copyright">
         <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">&copy; Crown Copyright</a>

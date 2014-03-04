@@ -1,4 +1,5 @@
 @import "colours";
+@import "moj-base";
 
 .manage_all_courts {
   article .inner {
@@ -93,12 +94,13 @@ div.input.integer {
     }
   }
   input[type=text],
+  input[type=email],
   input[type=tel],
   input[type=number],
   input[type=file],
   span.input {
     width: 380px;
-    margin: 0 10px;
+    margin: 0 0.5em;
   }
   textarea {
     width: 320px;
@@ -108,6 +110,16 @@ div.input.integer {
   select {
     margin: 0 10px;
     max-width: 390px;
+  }
+  input[type="email"] {
+    font-family: "nta", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 300;
+    text-transform: none;
+    border: 1px solid #bbb;
+    min-width: 8em;
+    padding: 0.25em;
   }
 }
 
@@ -130,9 +142,18 @@ div.court_court_facilities_description div.cke {
 form {
   width: 570px;
   .form-actions {
+    @extend .clearfix;
     margin-top: 1em;
     padding: 10px 30px;
     background: #eee;
+
+    &.form-actions--right{
+      .button {
+        float: right;
+        margin-left:0.5em;
+      }
+    }
+
   }
 }
 
