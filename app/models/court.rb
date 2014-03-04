@@ -53,49 +53,29 @@ class Court < ActiveRecord::Base
   end
 
   # Scope methods
-  def self.visible
-    where(:display => true)
-  end
-
-  def self.by_name
-    order('LOWER(name)') # ignore case when sorting
-  end
-
-  def self.by_area_of_law(area_of_law)
-    if area_of_law.present?
-      joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
-    else
-      where('')
-    end
-  end
-
-
+  scope :visible,         -> { where(display: true) }
+  scope :by_name,         -> { order('LOWER(name)') }
+  scope :by_area_of_law,  -> (area_of_law) { joins(:areas_of_law).where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
+  scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
+  scope :for_council,     -> (council) {joins(:councils).where("councils.name" => council) }
+  
   def self.by_postcode_court_mapping(postcode, area_of_law = nil)
     if postcode.present?
       if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
-                                              postcode.gsub(/\s+/, "").downcase)
-                                        .order('-length(postcode)').first
+            postcode.gsub(/\s+/, "").downcase)
+            .order('-length(postcode)').first
         #Using a reverse id lookup instead of just postcode_court.court as a workaround for the distance calculator
         if area_of_law
-          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
-          .where(:id => postcode_court.court_id).limit(1)
+          by_area_of_law(area_of_law).where(id: postcode_court.court_id).limit(1)
         else
-          where(:id => postcode_court.court_id).limit(1)
+          where(id: postcode_court.court_id).limit(1)
         end
       else
         []
       end
     else
-      where('')
+      self
     end
-  end
-
-  def self.search(q)
-    where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
-  end
-
-  def self.for_council(council)
-    joins(:councils).where("councils.name" => council)
   end
 
   def locatable?

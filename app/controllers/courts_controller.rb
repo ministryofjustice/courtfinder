@@ -28,40 +28,40 @@ class CourtsController < ApplicationController
   end
   
   def information
-    if request.path != information_path(@court, :format => params[:format])
-      redirect_to information_path(@court, :format => params[:format]), status: :moved_permanently
+    if request.path != information_path(@court, format: params[:format])
+      redirect_to information_path(@court, format: params[:format]), status: :moved_permanently
     else
       respond_with @court
     end
   end
   
   def defence
-    if request.path != defence_path(@court, :format => params[:format])
-      redirect_to defence_path(@court, :format => params[:format]), status: :moved_permanently
+    if request.path != defence_path(@court, format: params[:format])
+      redirect_to defence_path(@court, format: params[:format]), status: :moved_permanently
     else
       respond_with @court
     end
   end
   
   def prosecution
-    if request.path != prosecution_path(@court, :format => params[:format])
-      redirect_to prosecution_path(@court, :format => params[:format]), status: :moved_permanently
+    if request.path != prosecution_path(@court, format: params[:format])
+      redirect_to prosecution_path(@court, format: params[:format]), status: :moved_permanently
     else
       respond_with @court
     end
   end
   
   def juror
-    if request.path != juror_path(@court, :format => params[:format])
-      redirect_to juror_path(@court, :format => params[:format]), status: :moved_permanently
+    if request.path != juror_path(@court, format: params[:format])
+      redirect_to juror_path(@court, format: params[:format]), status: :moved_permanently
     else
       respond_with @court
     end
   end
 
   def show
-    if request.path != court_path(@court, :format => params[:format])
-      redirect_to court_path(@court, :format => params[:format]), status: :moved_permanently
+    if request.path != court_path(@court, format: params[:format])
+      redirect_to court_path(@court, format: params[:format]), status: :moved_permanently
     else
       respond_with @court
     end
