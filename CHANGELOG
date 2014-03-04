@@ -1,5 +1,18 @@
-v2.1.0-dev
+v2.5.0-dev
+---------------------
+
+
+v2.4.1
+---------------------
+* Hotfix: Added version to footer in the markup
+
+v2.4.0
 ---------------------
 * "Manage all courts" admin control for Family court - Children applications - (66609322)
 * Added version to staging and development in the footer for reference
 * Added conditional validation to court to allow import rake task to succeed - DH
+* Fixed css class not including input[type="email"] and button alignment and defaults
+
+v2.3.0
+---------------------
+* Current master version
