@@ -3,4 +3,6 @@ class Council < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   has_many :local_authorities
   has_many :courts, through: :local_authorities
+
+  scope :by_name, -> { order('LOWER(name)') }
 end

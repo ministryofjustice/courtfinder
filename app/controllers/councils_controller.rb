@@ -1,0 +1,3 @@
+class CouncilsController < ApplicationController
+
+end

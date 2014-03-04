@@ -32,15 +32,11 @@ Courtfinder::Application.routes.draw do
 
   namespace :admin do
     resources :users
-
     resources :addresses
-
     resources :towns
-
     resources :counties
-
     resources :countries
-
+    resources :councils
     resources :address_types, :path => '/address-types'
 
     resources :courts do
