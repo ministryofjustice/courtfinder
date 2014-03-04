@@ -29,7 +29,7 @@ describe Court do
   end
 
   describe 'associations' do
-      it { should have_many(:councils).through(:local_authorities) }
+    it { should have_many(:councils).through(:local_authorities) }
   end
 
   describe "searching" do
@@ -97,6 +97,13 @@ describe Court do
         @county_court.longitude = l
         @county_court.should be_valid
       end
+    end
+
+    it "should allow longitude and latitude validation to be switched off" do
+      @county_court.longitude = nil
+      @county_court.latitude = nil
+      @county_court.validate_coords = false
+      @county_court.should be_valid
     end
   end
 
