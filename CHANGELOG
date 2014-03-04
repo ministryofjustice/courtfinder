@@ -1,3 +1,7 @@
+v2.5.0
+---------------------
+* Added application version number to footer
+
 v2.4.1
 ---------------------
 * Hotfix: Added version to footer in the markup
