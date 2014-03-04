@@ -31,6 +31,10 @@
     border: none;
     margin-top: 0;
   }
+
+  .version p {
+    @include core-16;
+  }
 }
 
 @include media(mobile) {

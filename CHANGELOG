@@ -1,6 +1,10 @@
-v2.5.0-dev
+v2.6.0-dev
 ---------------------
 * "Manage all courts" admin control for Family court - Children applications - (66609322)
+
+v2.5.0
+---------------------
+* Added application version number to footer
 
 v2.4.1
 ---------------------
