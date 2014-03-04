@@ -3,6 +3,7 @@
 <!--[if gt IE 8]><!--><html lang="en" class=""><!--<![endif]-->
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="version" content="<%= File.read(Rails.root.join('VERSION')) %>" />
 
 	<%= render 'shared/head', :title => (content_for?(:title) ? yield(:title) + " - GOV.UK" : "GOV.UK - The best place to find government services and information") %>
 	<%= render 'shared/ga' %>

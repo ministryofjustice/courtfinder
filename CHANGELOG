@@ -1,6 +1,11 @@
 v2.5.0-dev
 ---------------------
 
+
+v2.4.1
+---------------------
+* Hotfix: Added version to footer in the markup
+
 v2.4.0
 ---------------------
 * Added version to staging and development in the footer for reference
