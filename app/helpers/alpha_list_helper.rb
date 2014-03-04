@@ -1,7 +1,7 @@
 module AlphaListHelper
 
   def initial_list(collection, key = 'name')
-    collection.is_a?(Enumerable) ? collection.group_by{ |item| item.send(key).first.upcase } : collection
+    collection.respond_to?(:each) ? collection.group_by{ |item| item.send(key).first.upcase } : collection
   end
 
   # Return the alphabet as links or del tag where not found in collection
@@ -10,7 +10,7 @@ module AlphaListHelper
     html = []
     ('A'..'Z').each do |letter|
       html << content_tag(:li) do
-        if list.is_a?(Enumerable) && list.include?(letter)
+        if list.respond_to?(:each) && list.include?(letter)
           link_to letter, "##{type}-by-#{letter.downcase}"
         else
           content_tag :del do
