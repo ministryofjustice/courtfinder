@@ -1,4 +1,4 @@
 v2.1.0-dev
 ---------------------
 * Added version to staging and development in the footer for reference
-* Added conditional validation to court to allow import rake task to succeed - DH
+* Added conditional validation to court to allow import rake task to succeed - DH (Test)
