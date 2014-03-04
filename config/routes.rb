@@ -1,6 +1,7 @@
 Courtfinder::Application.routes.draw do
 
   # Public court pages
+  # TODO: This needs tidying
   scope 'courts', :controller => :courts do
     match '/' => :index, :as => :courts
     match '/:id' => :show, :as => :court
@@ -24,6 +25,8 @@ Courtfinder::Application.routes.draw do
     match '/' => :index, :as => :regions
     match '/:id' => :show, :as => :region
   end
+
+  resources :councils, only: [:index, :show]
 
   # Admin section
   get 'admin', to: redirect('/admin/courts')

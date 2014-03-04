@@ -1,0 +1,22 @@
+= content_for :title, 'Listing councils'
+= link_to 'New council', new_admin_council_path, class: 'button'
+
+%ul.tabs-nav
+  = a_to_z initial_list(@councils, 'council')
+%table
+  %tr
+    %th Name
+    %th
+    - if current_user.admin
+      %th.admin-only
+  - last_letter = ''
+  - @councils.each do |council|
+    - this_letter = council.name.first.downcase
+    %tr
+      %td{ id: (this_letter == last_letter) ? "courts-by-#{this_letter}".html_safe : "" } #{council.name}
+      %td
+        = link_to 'Show', council_path(council), class: 'button'
+        = link_to 'Edit', edit_admin_council_path(council), class: 'button'
+      - if current_user.admin
+        %td.admin-only= link_to 'Delete', admin_council_path(council), class: 'button button-danger', method: :delete, confirm: 'Are you sure?'
+    - last_letter = this_letter
