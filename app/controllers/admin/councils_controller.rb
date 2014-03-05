@@ -18,9 +18,9 @@ class Admin::CouncilsController < Admin::ApplicationController
 
 	def create
 		@council = Council.new(params[:council])
-		@council.save
+		flash[:notice] ='Council was successfully updated.' if @council.save
 		purge_all_pages
-		respond_with @council
+		respond_with @council, location: admin_councils_path
 	end
 
 	def edit
@@ -30,9 +30,9 @@ class Admin::CouncilsController < Admin::ApplicationController
 
 	def update
 		@council = Council.find(params[:id])
-		@council.update_attributes(params[:council])
+		flash[:notice] ='Council was successfully updated.' if @council.update_attributes(params[:council])
 		purge_all_pages
-		respond_with @council
+		respond_with @council, location: admin_councils_path
 	end
 
 	def destroy
