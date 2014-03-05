@@ -1,10 +1,4 @@
 .home {
-  article .inner {
-    margin:0 30px;
-    @include media(mobile) {
-      margin:0 16px;
-    }
-  }
 
   .intro {
     margin:0;

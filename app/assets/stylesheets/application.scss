@@ -75,7 +75,14 @@ section#content {
 }
 
 article .inner {
-  padding:0;
+  padding:0 30px;
+  @include media(mobile) {
+    padding:0 16px;
+  }
+}
+
+.intro {
+  padding:0 0 1em 0;
 }
 
 .char-limit {
