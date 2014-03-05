@@ -32,7 +32,6 @@ namespace :import do
       court.old_court_type_id = row[9]
       court.display = true
 
-      court.validate_coords = false
       court.save!
 
       counter += 1

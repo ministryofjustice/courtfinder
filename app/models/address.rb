@@ -7,8 +7,8 @@ class Address < ActiveRecord::Base
 
   has_paper_trail :ignore => [:created_at, :updated_at]
 
-  scope :visiting, ->() { where(:address_type_id => AddressType.find_by_name("Visiting").id) }
-  scope :postal, ->() { where(:address_type_id => AddressType.find_by_name("Postal").id) }
+  scope :visiting, ->() { where(:address_type_id => AddressType.find_by_name("Visiting").try(:id)) }
+  scope :postal, ->() { where(:address_type_id => AddressType.find_by_name("Postal").try(:id)) }
   
   # Output address_lines fields of an address separated by comma or specified delimiter
   def address_lines(glue=',')

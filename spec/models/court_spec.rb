@@ -99,11 +99,8 @@ describe Court do
       end
     end
 
-    it "should allow longitude and latitude validation to be switched off" do
-      @county_court.longitude = nil
-      @county_court.latitude = nil
-      @county_court.validate_coords = false
-      @county_court.should be_valid
+    it "should validate courts without longitude and latitude that don't have a visiting address" do
+      @crown_court.should be_valid
     end
   end
 
