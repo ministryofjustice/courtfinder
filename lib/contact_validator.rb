@@ -2,8 +2,8 @@ class ContactValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     if check_phone_format(value).nil?
       record.errors.add(attribute, "is invalid. Please enter a phone number, only digits and spaces allowed.") 
-    # elsif service = check_duplicate_number(record, value)
-      # record.errors.add(attribute, "is invalid. Phone number #{value} is already entered for #{service}.") 
+    elsif service = check_duplicate_number(record, value)
+      record.errors.add(attribute, "is invalid. Phone number #{value} is already entered for #{service}.") 
     end
   end
 
@@ -11,7 +11,7 @@ class ContactValidator < ActiveModel::EachValidator
   def check_duplicate_number(contact, phone_number)
     court_contacts = contact.court.contacts
     if i = find_number_in_existing_contacts(court_contacts, phone_number)
-      court_contacts[i].contact_type_name
+      court_contacts[i].contact_type_name if court_contacts[i] != contact
     end
   end
 

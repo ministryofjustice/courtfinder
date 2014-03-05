@@ -1,6 +1,8 @@
 v2.6.0-dev
 ---------------------
-* "Manage all courts" admin control for Family court - Children applications - (66609322)
+66609322 - "Manage all courts" admin control for Family court - Children applications
+65905292 - Phone number editing - don't allow duplicate numbers to be entered
+
 
 v2.5.0
 ---------------------
