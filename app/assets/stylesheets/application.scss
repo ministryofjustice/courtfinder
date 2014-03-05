@@ -72,18 +72,22 @@ header.page-header {
 // Allow for content boxes to align with phase indicator
 section#content {
   max-width:1020px;
+  width:1020px;
 }
 
-article .inner {
-  padding:0 30px;
-  @include media(mobile) {
-    padding:0 16px;
+article{ 
+  .inner {
+    padding:0 30px;
+    @include media(mobile) {
+      padding:0 16px;
+    }
+  }
+  .intro {
+    padding:0 0 1em 0; 
   }
 }
 
-.intro {
-  padding:0 0 1em 0;
-}
+
 
 .char-limit {
   font-size: 10px;
