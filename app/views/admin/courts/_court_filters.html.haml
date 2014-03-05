@@ -1,0 +1,16 @@
+%p
+  Courts: #{@courts.count}
+
+%p= yield(:court_counter)
+
+%div
+  %div
+    %ul
+      %li
+        %a{href: areas_of_law_admin_courts_path, data: { disabled: params[:action] == 'areas_of_law'}} By area of law
+      %li
+        %a{href: court_types_admin_courts_path, data: { disabled: params[:action] == 'court_types'}} By court type
+      %li
+        %a{href: postcodes_admin_courts_path, data: { disabled: params[:action] == 'postcode'}} By post code      
+      %li
+        %a{href: family_admin_courts_path, data: { disabled: params[:action] == 'family'}} Family courts

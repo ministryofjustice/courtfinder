@@ -20,4 +20,9 @@
     window.open($(this).attr('href'));
   });
 
+  $('a[data-disabled]').click(function(e){
+    e.preventDefault();
+    false;
+  })
+
 }());
