@@ -6,6 +6,7 @@ v2.6.0-dev
 v2.5.0
 ---------------------
 * Added application version number to footer
+* 66859020 - Show detailed error message for duplicate emails
 
 v2.4.1
 ---------------------
