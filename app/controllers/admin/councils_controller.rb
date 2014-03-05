@@ -1,6 +1,4 @@
 class Admin::CouncilsController < Admin::ApplicationController
-	#before_filter :authorised?, :only => [:audit, :audit_csv, :get_association_changeset]
-
 	respond_to :html, :json
 	
 	def index
@@ -27,7 +25,7 @@ class Admin::CouncilsController < Admin::ApplicationController
 
 	def edit
 		@council = Council.find(params[:id])
-		responde_with @council
+		respond_with @council
 	end
 
 	def update

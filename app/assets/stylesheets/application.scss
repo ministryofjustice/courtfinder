@@ -5,6 +5,7 @@
 // GOV.UK Toolkit
 @import "_colours";
 @import "_typography";
+@import "design-patterns/_buttons";
 
 // Vendor
 @import "gmaps4rails";
@@ -13,6 +14,7 @@
 @import "conditionals";
 
 // Application
+@import "buttons";
 @import "home";
 @import "courts";
 @import "feedbacks";
@@ -91,3 +93,5 @@ article{
   font-size: 10px;
   color: #444444;
 }
+
+/* Buttons */
