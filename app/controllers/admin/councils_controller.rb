@@ -37,8 +37,9 @@ class Admin::CouncilsController < Admin::ApplicationController
 
 	def destroy
 		@council = Council.find(params[:id])
-		@council.destroy
-		respond_with @council
+		flash[:notice] ='Council was deleted.' if @council.destroy
+		
+		respond_with @council, location: admin_councils_path
 	end
 
 end
