@@ -1,6 +1,9 @@
-v2.5.2
+v2.5.3
 ---------------------
 * Added jquery_ujs into applation js manifest as links were not deleting
+
+v2.5.2
+---------------------
 * Added support for varnish port via configuration
 
 v2.5.1
