@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe CourtSearch do
   before(:each) do
-    @court1 = FactoryGirl.create(:court, :name => 'Aylesbury Court', :display => true, :latitude => 51.768305511577, :longitude => -0.57250059493886)
-    @court2 = FactoryGirl.create(:court, :name => 'London Court', :display => true)
-    @court3 = FactoryGirl.create(:court, :name => 'Reading High Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Civil')])
-    @court4 = FactoryGirl.create(:court, :name => 'Reading Low Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Family')])
-    @court5 = FactoryGirl.create(:court, :name => 'Some Old Court', :display => false)
-    @court6 = FactoryGirl.create(:court, :name => 'Yorkshire court', :display => true, :latitude => 54.337246, :longitude => -1.434219)
-    20.times { FactoryGirl.create(:court, :name => 'Just one more court', :display => true, :latitude => 51.41906972756, :longitude => -0.69702060464972) }
+    @court1 = create(:court, :name => 'Aylesbury Court', :display => true, :latitude => 51.768305511577, :longitude => -0.57250059493886)
+    @court2 = create(:court, :name => 'London Court', :display => true)
+    @court3 = create(:court, :name => 'Reading High Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [create(:area_of_law, :name => 'Civil')])
+    @court4 = create(:court, :name => 'Reading Low Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [create(:area_of_law, :name => 'Family')])
+    @court5 = create(:court, :name => 'Some Old Court', :display => false)
+    @court6 = create(:court, :name => 'Yorkshire court', :display => true, :latitude => 54.337246, :longitude => -1.434219)
+    20.times { create(:court, :name => 'Just one more court', :display => true, :latitude => 51.41906972756, :longitude => -0.69702060464972) }
   end
 
   it "should return courts nearby if full postcode search" do
@@ -86,12 +86,12 @@ describe CourtSearch do
 
   context "Chosen area of law is Possession" do
     before(:each) do
-      @possession = FactoryGirl.create(:area_of_law, :name => 'Possession', :type_possession => true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      @possession = create(:area_of_law, :name => 'Possession', :type_possession => true)
+      @court7 = create(:court, :court_number => 434, :name => 'Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 51.768305511577, :longitude => -0.57250059493886)
       @court7.postcode_courts.create(:postcode => 'SE19NH')
-      # FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.337246, :longitude => -1.434219)
-      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.33724, :longitude => -1.43421)
+      # create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
+      @court8 = create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.337246, :longitude => -1.434219)
+      @court9 = create(:court, :name => 'Second Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.33724, :longitude => -1.43421)
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
@@ -107,11 +107,11 @@ describe CourtSearch do
 
   context "Chosen area of law is Money Claims" do
     before(:each) do
-      @money_claims = FactoryGirl.create(:area_of_law, name: 'Money Claims', type_money_claims: true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      @money_claims = create(:area_of_law, name: 'Money Claims', type_money_claims: true)
+      @court7 = create(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
       @court7.postcode_courts.create(:postcode => 'SE19NH')
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
-      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.33724, :longitude => -1.43421)
+      @court8 = create(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
+      @court9 = create(:court, :name => 'Second Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.33724, :longitude => -1.43421)
     end
 
     it "should return only one search result if the postcode is found in the postcode to court mapping" do
@@ -127,12 +127,12 @@ describe CourtSearch do
 
   context "Chosen area of law is Bankruptcy" do
     before(:each) do
-      @bankruptcy = FactoryGirl.create(:area_of_law, :name => 'Bankruptcy', :type_bankruptcy => true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      @bankruptcy = create(:area_of_law, :name => 'Bankruptcy', :type_bankruptcy => true)
+      @court7 = create(:court, :court_number => 434, :name => 'Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 51.768305511577, :longitude => -0.57250059493886)
       @court7.postcode_courts.create(:postcode => 'SE19NH')
-      # FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.337246, :longitude => -1.434219)
-      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.33724, :longitude => -1.43421)
+      # create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
+      @court8 = create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.337246, :longitude => -1.434219)
+      @court9 = create(:court, :name => 'Second Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.33724, :longitude => -1.43421)
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
@@ -176,13 +176,13 @@ describe CourtSearch do
 
   context "Chosen area of law is Children" do
     before(:each) do
-      @children = FactoryGirl.create(:area_of_law, :name => 'Children', :type_children => true)
+      @children = create(:area_of_law, :name => 'Children', :type_children => true)
       # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
+      @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
       @court7.councils.create(:name => 'Lambeth Borough Council')
 
       # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
+      @court8 = create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
@@ -195,7 +195,7 @@ describe CourtSearch do
     context 'when there are multiple courts' do
       it 'should return multiple courts sorted by distance' do
         # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
-        @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
+        @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
         @court9.councils << Council.find_by_name("Lambeth Borough Council")
 
         court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
@@ -207,8 +207,8 @@ describe CourtSearch do
     end
 
     it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
-      @court10 = FactoryGirl.create(:court, :name => 'The Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.337246, :longitude => -1.434219)
-      @court11 = FactoryGirl.create(:court, :name => 'Second Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.33724, :longitude => -1.43421)
+      @court10 = create(:court, :name => 'The Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.337246, :longitude => -1.434219)
+      @court11 = create(:court, :name => 'Second Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.33724, :longitude => -1.43421)
       court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Children'})
       court_search.results.should == [@court10, @court11]
     end
