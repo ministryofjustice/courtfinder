@@ -149,4 +149,29 @@ describe Court do
     end
   end
 
+  describe '#councils_list' do
+    let(:court) { create(:court) }
+    let(:councils) { 2.times.map{ create(:council) } }
+
+    it 'returns a list of council names seperated by a comma' do
+      councils.each{|c| court.councils << c}
+
+      court.councils_list.should eq(councils.sort.map(&:name).join(','))
+    end
+  end
+
+  describe '#councils_list=' do
+    it 'assigns new councils' do
+
+    end
+
+    it 'removes councils not in list' do
+
+    end
+
+    it 'does not add a council unless the name is matched' do
+
+    end
+  end
+
 end

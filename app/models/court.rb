@@ -106,6 +106,18 @@ class Court < ActiveRecord::Base
     court_types.pluck(:id).include? 31
   end
 
+  def councils_list
+    councils.by_name.map(&:name).join(',')
+  end
+
+  def councils_list=(list)
+    list = list.split(',')
+    councils.delete_all
+
+    list = list.map{|name| Council.where(name: name).first }.compact
+    list.each{|c| self.councils << c }
+  end
+
   def postcode_list
     postcode_courts.map(&:postcode).sort.join(", ")
   end
