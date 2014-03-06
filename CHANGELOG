@@ -1,3 +1,7 @@
+v2.5.1
+---------------------
+* 67017982 - BUG: Cannot add new town
+
 v2.5.0
 ---------------------
 * Added application version number to footer
