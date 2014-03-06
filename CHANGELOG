@@ -1,3 +1,7 @@
+v2.5.4
+---------------------
+* Added rescue block around audit csv function
+
 v2.5.3
 ---------------------
 * Added jquery_ujs into applation js manifest as links were not deleting
