@@ -6,7 +6,6 @@
   <tr>
     <th>Name</th>
     <th>County</th>
-    <!-- <th></th> -->
     <th></th>
     <th></th>
   </tr>
@@ -15,7 +14,6 @@
   <tr>
     <td><%= town.name %></td>
     <td><%= town.county.name if town.county.present? %></td>
-    <!-- <td><%#= link_to 'Show', admin_town_path(town) %></td> -->
     <td><%= link_to 'Edit', edit_admin_town_path(town) %></td>
     <td><%= link_to 'Delete', admin_town_path(town), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
