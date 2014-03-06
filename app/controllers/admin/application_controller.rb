@@ -5,9 +5,13 @@ class Admin::ApplicationController < ::ApplicationController
 
   def purge_cache(regex_as_string)
     unless Rails.env.development?
-      Varnish::Client.new('127.0.0.1', 
-                            request.host == "courttribunalfinder.service.gov.uk" ? 80 : 8081, 
-                            ['http://', request.host].join).purge(regex_as_string)
+      begin
+        Varnish::Client.new('127.0.0.1', 
+                    request.host == "courttribunalfinder.service.gov.uk" ? 80 : 8081, 
+                              ['http://', request.host].join).purge(regex_as_string)
+      rescue Exception => ex
+        logger.info("Failed to purge cache: #{ex.message}")
+      end
     end
   end
 
