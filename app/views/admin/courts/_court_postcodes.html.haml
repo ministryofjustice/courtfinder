@@ -1,9 +1,9 @@
-= form_for [:admin, court], :url => admin_court_path(court, :redirect_url => postcodes_admin_courts_path), html: {:class => "js-postcode-tag-form"} do |f|
+= form_for [:admin, court], url: admin_court_path(court, redirect_url: postcodes_admin_courts_path), html: { class: 'js-postcode-tag-form' } do |f|
   - if court.errors.any?
     #error_explanation
       %ul
         - court.errors.full_messages.each do |msg|
           %li= msg
 
-  = f.text_field :postcode_list, :class => 'js-tags'
-  = f.submit 'Save', :class => 'button right'
+  = f.text_field :postcode_list, class: 'js-tags'
+  = f.button 'Save', class: 'button right'

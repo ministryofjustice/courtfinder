@@ -25,6 +25,19 @@ $grey:#eaedef;
     float:right;
   }
 
+  article{
+    table.allcourts {
+      margin: 2em auto;
+      width: auto;
+      th, td {
+        font-size: 12px;
+        &.c {
+          text-align: center;
+        }
+      }
+    }
+  }
+
 }
 
 #local-locator-form input#search-main {margin-left: 0;}
