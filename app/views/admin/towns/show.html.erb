@@ -7,9 +7,8 @@
 
 <p>
   <b>County:</b>
-  <%= @town.county.name %>
+  <%= @town.try(:county).try(:name) %>
 </p>
-
 
 <%= link_to 'Edit', edit_admin_town_path(@town) %> |
 <%= link_to 'Back', admin_towns_path %>
