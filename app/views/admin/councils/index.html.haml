@@ -1,5 +1,5 @@
 - content_for :title, 'Listing councils'
-= link_to 'New council', new_admin_council_path
+= link_to 'New Council', new_admin_council_path, class: 'button'
 
 %ul.tabs-nav.clearfix
   = a_to_z initial_list(@councils), 'councils'

@@ -17,6 +17,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
+  gem 'zeus'
 end
 
 # Gems used only for assets and not required
