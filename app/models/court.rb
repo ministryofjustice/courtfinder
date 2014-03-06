@@ -28,13 +28,17 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
+  before_validation :convert_visiting_to_location
+  
   validates :name, presence: true
+
   validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
   validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
 
   validate :check_postcode_errors
 
   has_paper_trail ignore: [:created_at, :updated_at]
+
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
@@ -139,9 +143,25 @@ class Court < ActiveRecord::Base
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
 
-  protected
+  def has_visiting_address?
+    #Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
+    #TODO - Change to avoid using hard coded type id
+    addresses.to_a.count { |a| a.address_type_id == 6 } > 0
+  end
 
-    def has_visiting_address?
-      addresses.visiting.count > 0
+
+  def convert_visiting_to_location
+    if has_visiting_address?
+      #TODO - Change to avoid using hard coded type id
+      visiting_postcode =  addresses.to_a.find{ |a| a.address_type_id == 6 }.postcode
+      @cs = CourtSearch.new(visiting_postcode)
+      if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
+        self.latitude = lat_lon[0]
+        self.longitude = lat_lon[1]
+      end
+    else
+      self.latitude = nil
+      self.longitude = nil      
     end
+  end
 end
