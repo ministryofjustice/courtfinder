@@ -18,18 +18,21 @@ moj.Modules.councils = (->
       width: "96%"
       height: "67px"
       defaultText: "add council"
+      autocomplete_url: '/admin/councils/complete'
       autocomplete:
         selectFirst: true
         autoFill: true
-        source: (request, response) ->
-          $.ajax
-            url: '/admin/councils/complete'
-            dataType: 'json'
-            data:
-              term: request.term
-              court_id: 1
-            success: (data) ->
-              response(data)
+        # source: (request, response) ->
+        #   $.ajax
+        #     url: '/admin/councils/complete'
+        #     dataType: 'json'
+        #     data:
+        #       term: request.term
+        #       court_id: 1
+        #     success: (data) ->
+        #       response(data)
+
+        #   return
 
     return
 
