@@ -199,7 +199,9 @@ namespace :import do
   task :local_authorities => :environment do
     puts "Importing local authorities for each court"
 
-    csv_file = File.read('db/data/local_authorities_for_courts.csv')
+    csv_file = File.read('db/data/local_authorities_for_children.csv')
+    # csv_file = File.read('db/data/local_authorities_for_divorce.csv')
+    # csv_file = File.read('db/data/local_authorities_for_adoption.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
 
@@ -732,7 +734,7 @@ namespace :import do
   task :generate_csv_with_local_authorities => :environment do
     session =Connection.get_drive_session
 
-    ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[0]
+    ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[1]
     file_name = 'local_authorities.csv'
     error_file_name = 'local_authorities.error'
     error_file = File.open(error_file_name,'w')
