@@ -18,7 +18,7 @@ class Court < ActiveRecord::Base
                   :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list
+                  :postcode_list, :councils_list
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
@@ -123,6 +123,17 @@ class Court < ActiveRecord::Base
   def is_county_court?
     # 31 is the ID of county court
     court_types.pluck(:id).include? 31
+  end
+
+  def councils_list
+    councils.by_name.map(&:name).join(',')
+  end
+
+  def councils_list=(list)
+    names = list.split(',').compact
+    self.councils.delete_all
+    councils = names.map{|name| Council.where(name: name).first }.compact
+    self.councils = councils
   end
 
   def postcode_list

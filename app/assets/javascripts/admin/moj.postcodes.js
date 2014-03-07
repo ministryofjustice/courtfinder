@@ -24,7 +24,7 @@ moj.Modules.postcodes = (function (){
 
   cacheEls = function (){
     $table = $('#js-pcode-tbl');
-    $tagInputs = $('.js-tags', $table);
+    $tagInputs = $('.postcode.js-tags', $table);
   };
 
   // public methods

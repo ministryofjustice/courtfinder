@@ -82,3 +82,9 @@ article .inner {
   font-size: 10px;
   color: #444444;
 }
+
+// data-disabled links
+a[data-disabled]{
+  text-decoration: none;
+  color: #333;
+}

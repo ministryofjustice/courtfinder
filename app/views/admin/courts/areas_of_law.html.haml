@@ -4,37 +4,29 @@
 %p
   Areas of law: #{@areas_of_law.count}
 
+= render 'court_nav'
 
 %div
   %div
-    %ul
-      %li
-        By areas of law
-      %li
-        %a{:href => court_types_admin_courts_path} By court type
-      %li
-        %a{:href => postcodes_admin_courts_path} By post code
-  %div
-    %div
-      %h2 By area of law
-      %table.allcourts
+    %h2 By area of law
+    %table.allcourts
+      %tr
+        %th No.
+        %th Name
+        - @areas_of_law.each do |area_of_law|
+          %th= area_of_law.name
+        %th &nbsp;
+      - @courts.each do |court|
         %tr
-          %th No.
-          %th Name
-          - @areas_of_law.each do |area_of_law|
-            %th= area_of_law.name
-          %th &nbsp;
-        - @courts.each do |court|
-          %tr
-            = form_for([:admin, court], remote: true) do
-              %td= court.court_number
-              %td= court.name
-              - @areas_of_law.each do |area_of_law|
-                %td.c
-                  = check_box_tag 'court[area_of_law_ids][]', area_of_law.id, (court.areas_of_law.include? area_of_law), id: ['court_area_of_law_ids_', area_of_law.id].join
-              %td
-                = hidden_field_tag 'court[area_of_law_ids][]', ''
-                %input.button{:type => "Submit", :value => "Save"}
+          = form_for([:admin, court], remote: true) do
+            %td= court.court_number
+            %td= court.name
+            - @areas_of_law.each do |area_of_law|
+              %td.c
+                = check_box_tag 'court[area_of_law_ids][]', area_of_law.id, (court.areas_of_law.include? area_of_law), id: ['court_area_of_law_ids_', area_of_law.id].join
+            %td
+              = hidden_field_tag 'court[area_of_law_ids][]', ''
+              %input.button{:type => "Submit", :value => "Save"}
 
 .pagination-row.cf
   .page-entries

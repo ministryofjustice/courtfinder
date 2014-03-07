@@ -97,17 +97,21 @@ class Admin::CourtsController < Admin::ApplicationController
   end
 
   def areas_of_law
-    @courts = Court.by_name.paginate(:page => params[:page], :per_page => 30)
+    @courts = Court.by_name.paginate(page: params[:page], per_page: 30)
     @areas_of_law = AreaOfLaw.all
   end
 
   def court_types
-    @courts = Court.by_name.paginate(:page => params[:page], :per_page => 30)
+    @courts = Court.by_name.paginate(page: params[:page], per_page: 30)
     @court_types = CourtType.order(:name)
   end
 
   def postcodes
-    @courts = Court.by_name.paginate(:page => params[:page], :per_page => 30)
+    @courts = Court.by_name.paginate(page: params[:page], per_page: 30)
+  end
+
+  def family
+    @courts = Court.by_name.paginate(page: params[:page], per_page: 30)
   end
 
   def audit
