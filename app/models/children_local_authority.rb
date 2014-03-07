@@ -1,0 +1,2 @@
+class ChildrenLocalAuthority < LocalAuthority
+end

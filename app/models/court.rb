@@ -11,6 +11,8 @@ class Court < ActiveRecord::Base
   has_many :areas_of_law, :through => :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
   has_many :local_authorities
+  has_many :children_local_authorities
+  has_many :divorce_local_authorities
   has_many :councils, :through => :local_authorities
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
@@ -25,7 +27,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
-  
+
   validates :name, presence: true
   validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
   validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
@@ -92,8 +94,8 @@ class Court < ActiveRecord::Base
     where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
   end
 
-  def self.for_council(council)
-    joins(:councils).where("councils.name" => council)
+  def self.for_council(council, area_of_law)
+    Court.joins(:local_authorities).joins(:councils).where("councils.name" => council, "local_authorities.type" => "#{area_of_law.name}LocalAuthority")
   end
 
   def locatable?

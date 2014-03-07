@@ -1,0 +1,2 @@
+class DivorceLocalAuthority < LocalAuthority
+end
