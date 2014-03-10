@@ -194,7 +194,6 @@ namespace :import do
 
   end
 
-
   desc "Import court local_authorities"
   task :local_authorities => :environment do
     puts "Importing local authorities for each court"
@@ -208,6 +207,7 @@ namespace :import do
     counter = 0
 
     # "court_name", "local_authority_names"
+    @children_area_of_law = AreaOfLaw.find_by_name('Children')
     csv.each do |row|
       court = Court.find_by_name(row[0])
 
@@ -221,7 +221,7 @@ namespace :import do
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.councils << council
+            court.court_council_links.create.update_attributes({council_id: council.id, area_of_law_id: @children_area_of_law.id})
           end
         end
       end
