@@ -13,13 +13,7 @@ class Court < ActiveRecord::Base
   has_many :postcode_courts, dependent: :destroy
 
   has_many :court_council_links
-<<<<<<< HEAD
-  has_many :children_court_council_links
-  has_many :divorce_court_council_links
   has_many :councils, through: :court_council_links
-=======
-  has_many :councils, :through => :court_council_links
->>>>>>> feature/66609752-divorce
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
