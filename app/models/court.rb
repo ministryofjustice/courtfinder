@@ -121,8 +121,12 @@ class Court < ActiveRecord::Base
 
   def councils_list=(list)
     names = list.split(',').compact
-    self.councils.delete_all
+    # map existing councils
+    exisiting_councils = councils
     councils = names.map{|name| Council.where(name: name).first }.compact
+
+    # maybe slice
+
     self.councils = councils
   end
 
@@ -154,6 +158,18 @@ class Court < ActiveRecord::Base
 
   def check_postcode_errors
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
+  end
+
+  AreaOfLaw.all.each do |area|
+
+    define_method "#{area.name.downcase}_councils_list" do
+      court_council_links.where(area_of_law_id: area.id).map{|c| c.name}.compact.join(',')
+    end
+
+    define_method "#{area.name.downcase}_councils_list" do
+      court_council_links.where(area_of_law_id: area.id).map{|c| c.name}.compact.join(',')
+    end
+
   end
 
   protected

@@ -19,8 +19,8 @@ module CourtsHelper
   end
 
   def family_areas_of_law(&block)
-    ['Children', 'Divorce', 'Adoption'].each do |area|
-      block.call area
+    AreaOfLaw.where(name: ['Children', 'Divorce', 'Adoption']).each do |area|
+      block.call area.name, area.id
     end
   end
   
