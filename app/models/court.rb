@@ -1,4 +1,5 @@
 class Court < ActiveRecord::Base
+  attr_accessor :active_area_of_law
   belongs_to :area
   has_many :addresses
   has_many :opening_times
@@ -6,15 +7,15 @@ class Court < ActiveRecord::Base
   has_many :emails
   has_many :court_facilities
   has_many :court_types_courts
-  has_many :court_types, :through => :court_types_courts
+  has_many :court_types, through: :court_types_courts
   has_many :courts_areas_of_law
-  has_many :areas_of_law, :through => :courts_areas_of_law
+  has_many :areas_of_law, through: :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
 
   has_many :court_council_links
   has_many :children_court_council_links
   has_many :divorce_court_council_links
-  has_many :councils, :through => :court_council_links
+  has_many :councils, through: :court_council_links
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
@@ -55,7 +56,7 @@ class Court < ActiveRecord::Base
 
   # Scope methods
   scope :visible,         -> { where(display: true) }
-  scope :by_name,         -> { order('LOWER(name)') }
+  scope :by_name,         -> { order('LOWER(courts.name)') }
   scope :by_area_of_law,  -> (area_of_law) { joins(:areas_of_law).where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
   scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
   scope :for_council,     -> (council) {joins(:councils).where("councils.name" => council) }
@@ -84,7 +85,7 @@ class Court < ActiveRecord::Base
   end
 
   def self.for_council(council, area_of_law)
-    Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}CourtCouncilLink")
+    joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}CourtCouncilLink")
   end
 
   def locatable?

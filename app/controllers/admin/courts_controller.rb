@@ -111,7 +111,8 @@ class Admin::CourtsController < Admin::ApplicationController
   end
 
   def family
-    @courts = Court.by_name.paginate(page: params[:page], per_page: 30)
+    @courts = Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: params[:page], per_page: 30)
+    @active_area_of_law = params[:area_of_law] || 'Children'
   end
 
   def audit

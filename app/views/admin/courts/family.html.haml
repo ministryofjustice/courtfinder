@@ -1,12 +1,19 @@
 = content_for :title, 'Manage all courts and tribunals'
 %p
-  Courts: #{@courts.count}
+  Courts: #{Court.count}
+%p
+  Family courts: #{@courts.count}
 
 = render 'court_nav'
 
 %div
   %div
-    %h2 By post code
+    %h3 Family courts
+    %p
+      View:
+      - family_areas_of_law do |area|
+        = link_to "#{area} (#{@courts.by_area_of_law(area).count})", family_admin_courts_path(area_of_law: area), data: { disabled: area == @active_area_of_law }
+
     %table#js-council-tbl
       %thead
         %tr
@@ -17,14 +24,14 @@
           %th
             Councils
       %tbody
-        - @courts.each do |court|
+        - @courts.by_area_of_law(@active_area_of_law).each do |court|
           %tr{ class: cycle('even', 'odd') }
             %td
               = court.court_number
             %td
               = link_to(court.name, court)
             %td
-              = render "court_councils", court: court
+              = render "court_councils", court: court, area_of_law: @active_area_of_law
 
 
 .pagination-row.cf

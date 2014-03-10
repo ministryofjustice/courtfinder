@@ -17,4 +17,11 @@ module CourtsHelper
     court_numbers = "(#{court_numbers})" if (!longform && court_numbers.present?)
     court_numbers
   end
+
+  def family_areas_of_law(&block)
+    ['Children', 'Divorce', 'Adoption'].each do |area|
+      block.call area
+    end
+  end
+  
 end

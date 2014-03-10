@@ -1,4 +1,6 @@
 = form_for [:admin, court], url: admin_court_path(court, redirect_url: family_admin_courts_path), html: { class: 'js-council-tag-form' } do |f|
+	= f.hidden_field :area_of_law, value: area_of_law
+
   - if court.errors.any?
     #error_explanation
       %ul
