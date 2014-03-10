@@ -95,7 +95,7 @@ class Court < ActiveRecord::Base
   end
 
   def self.for_council(council, area_of_law)
-    Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}LocalAuthority")
+    Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}CourtCouncilLink")
   end
 
   def locatable?
