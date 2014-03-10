@@ -23,6 +23,7 @@ group :development, :test do
   gem 'rb-fsevent', require: false if RUBY_PLATFORM =~ /darwin/i
   gem 'guard-rspec'
   gem 'guard-livereload'
+  gem 'hirb'
 end
 
 # Gems used only for assets and not required

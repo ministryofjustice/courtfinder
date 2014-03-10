@@ -29,7 +29,7 @@ describe Court do
   end
 
   describe 'associations' do
-    it { should have_and_belong_to_many(:councils) }
+    it { should have_many(:councils).through(:court_council_links) }
   end
 
   describe "searching" do
@@ -77,7 +77,7 @@ describe Court do
         @county_court.should_not be_valid
       end
     end
-    
+
     it "should pass validation for latitude values within (-90, 90)" do
       [0, 89.99, -45.4].each do |l|
         @county_court.latitude = l
@@ -124,14 +124,16 @@ describe Court do
   describe 'Find court by council name' do
     before(:each) do
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
-      @court7.councils.create(:name => 'Lambeth Borough Council')
+      @council = Council.create(:name => 'Lambeth Borough Council')
+      @area_of_law = AreaOfLaw.create(name: "Children")
+      @court7.children_court_council_links.create.update_attribute(:council_id, @council.id)
     end
 
     context 'should return the name/names of the court for a given council' do
 
       context 'when there is only one court' do
         it 'should return Children Court' do
-          expect(Court.for_council('Lambeth Borough Council')).to eq [@court7]
+          expect(Court.for_council('Lambeth Borough Council', @area_of_law)).to eq [@court7]
         end
       end
 
@@ -139,8 +141,9 @@ describe Court do
         it 'should return multiple courts sorted by name' do
           @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
           @court9.councils << Council.find_by_name("Lambeth Borough Council")
+          @court9.children_court_council_links.create.update_attribute(:council_id, @council.id)
 
-          expect(Court.for_council('Lambeth Borough Council')).to eq [@court7, @court9]
+          expect(Court.for_council('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
         end
       end
     end
