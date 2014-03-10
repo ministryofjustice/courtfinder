@@ -1,0 +1,15 @@
+- content_for :title, 'Courts and tribunals'
+%p.intro A-Z list of all courts and tribunals, followed by their court/tribunal number (eg #3211) or County Court Index (eg CCI 118).
+- if @courts.visible.present?
+  #search-results-tabs.js-tabs{ data: { activatefirst: false, activetabelement:  'a', focusfirst: true} }
+    %nav.tabs-nav.js-tabs-nav{:role => "navigation"}
+      %ul#search-index-navigation.cf
+        = a_to_z initial_list(@courts.visible)
+    .search-container.group.js-tabs-content.tabs-content
+      - initial_list(@courts.visible).each do |letter|
+        %div{id: "courts-by-#{letter.first.downcase}"}
+          %h2= letter.first
+          - letter[1].each do |court|
+            %br
+            = link_to(court.name, court_path(court))
+            = "#{display_court_numbers(court)}"

@@ -34,13 +34,13 @@ moj.Modules.councils = (->
 
         #   return
 
+
     return
 
   cacheEls = ->
     $table = $("#js-council-tbl")
     $tagInputs = $(".council.js-tags", $table)
     return
-
   # public methods
   init: init
 )()

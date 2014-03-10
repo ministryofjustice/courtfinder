@@ -26,7 +26,8 @@
                 = check_box_tag 'court[court_type_ids][]', court_type.id, (court.court_types.include? court_type)
             %td
               = hidden_field_tag 'court[court_type_ids][]', nil
-              %input.button{:type => "Submit", :value => "Save"}
+              %input.button{type: 'Submit', value: 'Save'}
+
 
 .pagination-row.cf
   .page-entries

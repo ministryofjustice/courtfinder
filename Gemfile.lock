@@ -1,15 +1,16 @@
 GIT
-  remote: https://github.com/carrierwaveuploader/carrierwave.git
-  revision: f2e4bc6b8a528b9a74af658c0aeeeba3af80de53
+  remote: git://github.com/carrierwaveuploader/carrierwave.git
+  revision: 97a713f1ab100ff86057ea4fc057afe35540af57
   branch: master
   specs:
-    carrierwave (0.8.0)
+    carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       json (>= 1.7)
+      mime-types (>= 1.16)
 
 GIT
-  remote: https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git
+  remote: git://github.com/ministryofjustice/moj_frontend_toolkit_gem.git
   revision: 988b2e199e375e077e0f1cc2d3bf170962071478
   tag: v0.1.0
   specs:
@@ -266,6 +267,8 @@ GEM
     warden (1.2.1)
       rack (>= 1.0)
     will_paginate (3.0.5)
+    zeus (0.13.3)
+      method_source (>= 0.6.7)
 
 PLATFORMS
   ruby
@@ -315,3 +318,4 @@ DEPENDENCIES
   varnish-client
   verbs
   will_paginate
+  zeus

@@ -1,8 +1,8 @@
 <%= content_for :title, 'Listing courts and tribunals' %>
 
-<%= link_to 'New court or tribunal', new_admin_court_path %>
+<%= link_to 'New court or tribunal', new_admin_court_path, class: 'button' %>
 
-<ul class="tabs-nav">
+<ul class="tabs-nav clearfix">
   <%= a_to_z initial_list(@courts) %>
 </ul>
 
@@ -22,7 +22,7 @@
 <% @courts.each do |court| %>
   <% this_letter = court.name.first.downcase %>
   <tr>
-    <td<%= (this_letter == last_letter ? '' : " id=\"courts-by-#{this_letter}\"").html_safe %>><%= court.name %></td>
+    <td<%= (this_letter != last_letter ? '' : " id=\"courts-by-#{this_letter}\"").html_safe %>><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.cci_code %></td>
     <td><%= link_to 'Show', court_path(court) %></td>

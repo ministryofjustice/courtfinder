@@ -2,29 +2,30 @@
 %p
   Courts: #{@courts.count}
 
-  = render 'court_nav'
-  
+= render 'court_nav'
+
+%div
   %div
-    %div
-      %h2 By post code
-      %table#js-council-tbl
-        %thead
-          %tr
-            %th
-              Court no.
-            %th
-              Court name
-            %th
-              Councils
-        %tbody
-          - @courts.each do |court|
-            %tr{ class: cycle('even', 'odd') }
-              %td
-                = court.court_number
-              %td
-                = link_to(court.name, court)
-              %td
-                = render "court_councils", court: court
+    %h2 By post code
+    %table#js-council-tbl
+      %thead
+        %tr
+          %th
+            Court no.
+          %th
+            Court name
+          %th
+            Councils
+      %tbody
+        - @courts.each do |court|
+          %tr{ class: cycle('even', 'odd') }
+            %td
+              = court.court_number
+            %td
+              = link_to(court.name, court)
+            %td
+              = render "court_councils", court: court
+
 
 .pagination-row.cf
   .page-entries
