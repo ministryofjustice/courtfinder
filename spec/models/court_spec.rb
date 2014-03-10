@@ -126,7 +126,7 @@ describe Court do
       @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
       @council = Council.create(:name => 'Lambeth Borough Council')
       @area_of_law = AreaOfLaw.create(name: "Children")
-      @court7.children_court_council_links.create.update_attribute(:council_id, @council.id)
+      @court7.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
     end
 
     context 'should return the name/names of the court for a given council' do
@@ -140,7 +140,7 @@ describe Court do
       context 'when there are multiple courts' do
         it 'should return multiple courts sorted by name' do
           @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
-          @court9.children_court_council_links.create.update_attribute(:council_id, @council.id)
+          @court9.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
 
           expect(Court.for_council('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
         end
