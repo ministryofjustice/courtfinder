@@ -13,9 +13,13 @@ class Court < ActiveRecord::Base
   has_many :postcode_courts, dependent: :destroy
 
   has_many :court_council_links
+<<<<<<< HEAD
   has_many :children_court_council_links
   has_many :divorce_court_council_links
   has_many :councils, through: :court_council_links
+=======
+  has_many :councils, :through => :court_council_links
+>>>>>>> feature/66609752-divorce
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
@@ -85,7 +89,7 @@ class Court < ActiveRecord::Base
   end
 
   def self.for_council(council, area_of_law)
-    joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}CourtCouncilLink")
+    joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
   end
 
   def locatable?

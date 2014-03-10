@@ -180,7 +180,7 @@ describe CourtSearch do
       # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
       @council = Council.create(:name => 'Lambeth Borough Council')
-      @court7.children_court_council_links.create.update_attribute(:council_id, @council.id)
+      @court7.court_council_links.create.update_attributes({council_id: @council.id, area_of_law_id: @children.id})
 
       # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
       @court8 = create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
@@ -196,9 +196,8 @@ describe CourtSearch do
     context 'when there are multiple courts' do
       it 'should return multiple courts sorted by distance' do
         # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
-
         @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
-        @court9.children_court_council_links.create.update_attribute(:council_id, @council.id)
+        @court9.court_council_links.create.update_attributes({council_id: @council.id, area_of_law_id: @children.id})
 
         court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
         results = court_search.results
