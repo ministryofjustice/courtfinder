@@ -79,8 +79,6 @@ class Court < ActiveRecord::Base
     end
   end
 
-<<<<<<< HEAD
-=======
   def self.search(q)
     where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
   end
@@ -89,7 +87,6 @@ class Court < ActiveRecord::Base
     Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}CourtCouncilLink")
   end
 
->>>>>>> feature/66609752-divorce
   def locatable?
     longitude && latitude && !addresses.visiting.empty?
   end
