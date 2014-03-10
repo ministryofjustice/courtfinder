@@ -10,10 +10,10 @@ class Court < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  has_many :local_authorities
-  has_many :children_local_authorities
-  has_many :divorce_local_authorities
-  has_many :councils, :through => :local_authorities
+  has_many :court_council_links
+  has_many :children_court_council_links
+  has_many :divorce_court_council_links
+  has_many :councils, :through => :court_council_links
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
@@ -95,7 +95,7 @@ class Court < ActiveRecord::Base
   end
 
   def self.for_council(council, area_of_law)
-    Court.joins(:local_authorities).joins(:councils).where("councils.name" => council, "local_authorities.type" => "#{area_of_law.name}LocalAuthority")
+    Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.type" => "#{area_of_law.name}LocalAuthority")
   end
 
   def locatable?

@@ -1,2 +1,0 @@
-class DivorceLocalAuthority < LocalAuthority
-end
