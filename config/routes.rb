@@ -40,7 +40,6 @@ Courtfinder::Application.routes.draw do
     resources :towns
     resources :counties
     resources :countries
-    resources :councils
     resources :address_types, :path => '/address-types'
 
     resources :courts do

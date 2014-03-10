@@ -17,7 +17,12 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
-  gem 'zeus'
+  gem 'guard'
+  gem 'capybara', github: 'jnicklas/capybara'
+  gem 'launchy'
+  gem 'rb-fsevent', require: false if RUBY_PLATFORM =~ /darwin/i
+  gem 'guard-rspec'
+  gem 'guard-livereload'
 end
 
 # Gems used only for assets and not required
