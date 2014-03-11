@@ -20,7 +20,7 @@ class Court < ActiveRecord::Base
                   :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list, :councils_list
+                  :postcode_list, :children_councils_list, :divorce_councils_list, :adoption_councils_list
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
@@ -115,19 +115,72 @@ class Court < ActiveRecord::Base
     court_types.pluck(:id).include? 31
   end
 
-  def councils_list
-    councils.by_name.map(&:name).join(',')
+  def area_councils_list(area_of_law = nil)
+    relation = area_councils(area_of_law)
+    relation.map(&:name).join(',')
   end
 
-  def councils_list=(list)
+  def area_councils(area_of_law)
+    area_of_law_id = AreaOfLaw.where(name: area_of_law).first.id
+
+    relation = court_council_links.by_name
+    relation = relation.where(area_of_law_id: area_of_law_id)
+    relation.map(&:council)
+  end
+
+  def set_area_councils_list(list, area_of_law = nil)
+    area_of_law_id = AreaOfLaw.where(name: area_of_law).first.id
     names = list.split(',').compact
+
     # map existing councils
-    exisiting_councils = councils
-    councils = names.map{|name| Council.where(name: name).first }.compact
+    exisiting_council_ids = court_council_links.where(area_of_law_id: area_of_law_id).map(&:council_id)
+    new_council_ids = names.map{|name| Council.where(name: name).first.id }.compact
+    
+    # delete old records removed from list 
+    exisiting_council_ids.each do |id|
+      court_council_links.where(council_id: id, area_of_law_id: area_of_law_id).first.delete unless new_council_ids.include?(id)
+    end
 
-    # maybe slice
+    # add new records included in list
+    new_council_ids.each do |id|
+      court_council_links.create!(council_id: id, area_of_law_id: area_of_law_id) unless exisiting_council_ids.include?(id)
+    end
+  end
 
-    self.councils = councils
+  def children_councils
+    self.area_councils 'Children'
+  end
+
+  def children_councils_list
+    self.area_councils_list 'Children'
+  end
+
+  def children_councils_list=(list)
+    self.set_area_councils_list list, 'Children'
+  end
+
+  def divorce_councils
+    self.area_councils 'Divorce'
+  end
+  
+  def divorce_councils_list
+    self.area_councils_list 'Divorce'
+  end
+
+  def divorce_councils_list=(list)
+    self.set_area_councils_list list, 'Divorce'
+  end
+
+  def adoption_councils
+    self.area_councils 'Adoption'
+  end
+
+  def adoption_councils_list
+    self.area_councils_list 'Adoption'
+  end
+
+  def adoption_councils_list=(list)
+    self.set_area_councils_list list, 'Adoption'
   end
 
   def postcode_list
@@ -160,19 +213,22 @@ class Court < ActiveRecord::Base
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
 
-  AreaOfLaw.all.each do |area|
-
-    define_method "#{area.name.downcase}_councils_list" do
-      court_council_links.where(area_of_law_id: area.id).map{|c| c.name}.compact.join(',')
-    end
-
-    define_method "#{area.name.downcase}_councils_list" do
-      court_council_links.where(area_of_law_id: area.id).map{|c| c.name}.compact.join(',')
-    end
-
-  end
+  # def method_missing(method_sym, *arguments, &block)
+  #   # the first argument is a Symbol, so you need to_s it if you want to pattern match
+  #   if matched = method_sym.to_s.match(/^([a-z]+)_councils_list=?$/)
+  #     return super unless area_of_law = AreaOfLaw.where('LOWER(name) = ?',matched[1].downcase).first
+  #     if method_sym.to_s[-1] == '='
+  #       send("councils_list=", [arguments.first, area_of_law])
+  #     else
+  #       send("councils_list", [area_of_law])
+  #     end
+  #   else
+  #     super
+  #   end
+  # end
 
   protected
+
     def has_visiting_address?
       addresses.visiting.count > 0
     end

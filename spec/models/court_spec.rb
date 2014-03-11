@@ -149,40 +149,53 @@ describe Court do
     end
   end
 
-  describe '#councils_list' do
-    let(:court) { create(:court) }
-    let(:councils) { 2.times.map{ create(:council) } }
+  context 'with areas_of_law' do
+    let!(:children) { create(:area_of_law, name: 'Children') } 
+    let!(:divorce)  { create(:area_of_law, name: 'Divorce') } 
+    let!(:adoption) { create(:area_of_law, name: 'Adoption') }
+    let!(:court) { create(:court) }
+    let!(:council) { create(:council) }
 
-    it 'returns a comma seperated list of council names seperated by a comma' do
-      councils.each{|c| court.councils << c}
-
-      court.councils_list.should eq(councils.sort.map(&:name).join(','))
-    end
-  end
-
-  describe '#councils_list=' do
-    let(:court) { create(:court) }
-    let(:councils) { 2.times.map{ create(:council) } }
-
-    it 'assigns new councils from comma seperated list' do
-      court.councils_list = councils.map(&:name).join(',')
-      court.councils.should == councils
+    describe '#children_councils_list' do
+      it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: council, area_of_law: children)
+        court.children_councils_list.should eq(council.name)
+      end
     end
 
-    it 'removes councils not in list' do
-      court.councils = councils
-      court.save
-
-      court.councils_list = councils.first.name
-      court.councils.count.should eq(1)
-      court.councils.first.name.should eq(councils.first.name)
+    describe '#divorce_councils_list' do
+      it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: council, area_of_law: divorce)
+        court.divorce_councils_list.should eq(council.name)
+      end
     end
 
-    it 'does not add a council unless the name is matched' do
-      court.councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
-      court.councils.count.should eq(2)
-      court.councils.should eq(councils)
+    describe '#children_councils_list=' do
+      let(:councils) { 2.times.map{ create(:council) } }
+
+      it 'assigns new councils from comma seperated list' do
+        court.children_councils_list = councils.map(&:name).join(',')
+        court.children_councils.should include(councils.first)
+        court.children_councils.should include(councils.last)
+      end
+
+      it 'removes councils not in list' do
+        councils.each do |council|
+          court.court_council_links.create(area_of_law: children, council_id: council.id)
+        end
+
+        court.children_councils_list = councils.first.name
+        court.children_councils.count.should eq(1)
+        court.children_councils.first.name.should eq(councils.first.name)
+      end
+
+      it 'does not add a council unless the name is matched' do
+        court.children_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
+        court.children_councils_list.count.should eq(2)
+        court.children_councils.should eq(councils)
+      end
     end
+
   end
 
 end
