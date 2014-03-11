@@ -134,7 +134,7 @@ class Court < ActiveRecord::Base
 
     # map existing councils
     exisiting_council_ids = court_council_links.where(area_of_law_id: area_of_law_id).map(&:council_id)
-    new_council_ids = names.map{|name| Council.where(name: name).first.id }.compact
+    new_council_ids = names.map{|name| Council.where(name: name).first.try(:id) }.compact
     
     # delete old records removed from list 
     exisiting_council_ids.each do |id|
