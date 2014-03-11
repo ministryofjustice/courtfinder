@@ -17,7 +17,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
-  gem 'webmock'
+  gem 'webmock', '= 1.15.2'
   gem 'vcr'
   gem 'guard-rspec'
 end
@@ -42,7 +42,7 @@ gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
 gem 'rmagick'               # Resize uploaded images
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git', branch: 'master'           # Handles file uploads
-gem 'fog'                   # Talks to cloud providers (e.g. S3)
+gem 'fog', '= 1.20.0'                   # Talks to cloud providers (e.g. S3)
 gem 'gmaps4rails'           # Maps and directions
 gem 'unicorn'
 gem 'haml-rails'            # Leaner markup with Haml.info
