@@ -99,7 +99,7 @@ article{
 }
 
 // data-disabled links
-a[data-disabled="true"]{
+a[data-disabled]:not([data-disabled="false"]) {
   text-decoration: none;
   color: #333;
 }

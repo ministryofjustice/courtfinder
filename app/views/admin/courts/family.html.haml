@@ -12,7 +12,7 @@
     %p
       View:
       - family_areas_of_law do |area, id|
-        = link_to "#{area} (#{@courts.by_area_of_law(area).count})", family_admin_courts_path(area_of_law_id: id), data: { disabled: id == @area_of_law.id }
+        = link_to "#{area} (#{@courts.by_area_of_law(area).count})", family_admin_courts_path(area_of_law_id: id), data: { disabled: (id == @area_of_law.id) }
 
     %table#js-council-tbl
       %thead

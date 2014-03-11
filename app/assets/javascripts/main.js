@@ -20,7 +20,7 @@
     window.open($(this).attr('href'));
   });
 
-  $('a[data-disabled="true"]').on('click', function(e){
+  $('a[data-disabled]:not([data-disabled="false"])').on('click', function(e){
     e.preventDefault();
   });
 
