@@ -132,6 +132,7 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hike (1.2.3)
+    hirb (0.7.1)
     httparty (0.11.0)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
@@ -293,6 +294,7 @@ DEPENDENCIES
   google_drive
   govuk_frontend_toolkit
   haml-rails
+  hirb
   httparty
   jbuilder
   jquery-rails (~> 2.1)
