@@ -194,20 +194,21 @@ namespace :import do
 
   end
 
-  desc "Import court local_authorities"
-  task :local_authorities => :environment do
+  desc "Import local_authorities for a single area of law"
+  task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
     puts "Importing local authorities for each court"
+    puts "File: #{args[:file]}, Area of Law: #{args[:area_of_law]}"
 
-    csv_file = File.read('db/data/local_authorities_for_children.csv')
-    # csv_file = File.read('db/data/local_authorities_for_divorce.csv')
-    # csv_file = File.read('db/data/local_authorities_for_adoption.csv')
+    csv_file = File.read(args[:file])
 
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
 
     # "court_name", "local_authority_names"
-    @children_area_of_law = AreaOfLaw.find_by_name('Children')
+    @area_of_law = AreaOfLaw.find_by_name(args[:area_of_law])
+    puts "Found: #{@area_of_law} with id: #{@area_of_law.try(:id)}"
+
     csv.each do |row|
       court = Court.find_by_name(row[0])
 
@@ -221,11 +222,18 @@ namespace :import do
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.court_council_links.create.update_attributes({council_id: council.id, area_of_law_id: @children_area_of_law.id})
+            court.court_council_links.create.update_attributes({council_id: council.id, area_of_law_id: @area_of_law.id})
           end
         end
       end
     end
+  end
+
+  desc "Import local_authorities for a all areas of law"
+  task :local_authorities => :environment do
+    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_children.csv', 'Children')
+    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
+    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
   end
 
   desc "Import postal court_address"
