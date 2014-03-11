@@ -191,7 +191,7 @@ describe Court do
 
       it 'does not add a council unless the name is matched' do
         court.children_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
-        court.children_councils_list.count.should eq(2)
+        court.children_councils.count.should eq(2)
         court.children_councils.should eq(councils)
       end
     end
