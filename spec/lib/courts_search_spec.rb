@@ -54,29 +54,37 @@ describe CourtSearch do
   end
 
   it "should return an error when the search string is blank" do
-    cs = CourtSearch.new('')
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('')
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should return an error when the postcode cannot be found" do
-    cs = CourtSearch.new('irrelevant')
-    cs.should_receive(:postcode_search?).and_return(true)
-    cs.should_receive(:latlng_from_postcode).and_return(false)
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('irrelevant')
+      cs.should_receive(:postcode_search?).and_return(true)
+      cs.should_receive(:latlng_from_postcode).and_return(false)
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should return an error when the postcode cannot be found for a partial postcode" do
-    cs = CourtSearch.new('YO6')
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('YO6')
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should return an error when the postcode cannot be found for a complete postcode" do
-    cs = CourtSearch.new('T27 4DB')
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('T27 4DB')
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should limit search to a maximum of 20 results" do
