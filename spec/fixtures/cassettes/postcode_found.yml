@@ -1,0 +1,30 @@
+---
+http_interactions:
+- request:
+    method: :get
+    uri: http://mapit.mysociety.org/postcode/NE12+8AQ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby gem
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: Ok
+    headers:
+      content-type:
+      - text/html;charset=utf-8
+      content-length:
+      - "9"
+    body:
+      encoding: US-ASCII
+      string: ! '{"wgs84_lat": 55.019046034198688, "coordsyst": "G", "shortcuts": {"WMC": 65720, "ward": 9168, "council": 2530}, "wgs84_lon": -1.5682362998007071, "postcode": "NE12 8AQ", "easting": 427705, "areas": {"900000": {"parent_area": null, "generation_high": 19, "all_names": {}, "id": 900000, "codes": {}, "name": "House of Commons", "country": "", "type_name": "UK Parliament", "generation_low": 1, "country_name": "-", "type": "WMP"}, "900001": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 900001, "codes": {}, "name": "European Parliament", "country": "", "type_name": "European Parliament", "generation_low": 1, "country_name": "-", "type": "EUP"}, "2530": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 2530, "codes": {"ons": "00CK", "gss": "E08000022", "unit_id": "9699"}, "name": "North Tyneside Borough Council", "country": "E", "type_name": "Metropolitan district", "generation_low": 1, "country_name": "England", "type": "MTD"}, "11812": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 11812, "codes": {"ons": "01", "gss": "E15000001", "unit_id": "41422"}, "name": "North East", "country": "E", "type_name": "European region", "generation_low": 1, "country_name": "England", "type": "EUR"}, "42824": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 42824, "codes": {"ons": "E02001751"}, "name": "North Tyneside 014", "country": "E", "type_name": "Middle Layer Super Output Area (Generalised)", "generation_low": 13, "country_name": "England", "type": "OMG"}, "35630": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 35630, "codes": {"ons": "E02001751"}, "name": "North Tyneside 014", "country": "E", "type_name": "Middle Layer Super Output Area (Full)", "generation_low": 13, "country_name": "England", "type": "OMF"}, "9168": {"parent_area": 2530, "generation_high": 21, "all_names": {}, "id": 9168, "codes": {"ons": "00CKFY", "gss": "E05001116", "unit_id": "9751"}, "name": "Benton", "country": "E", "type_name": "Metropolitan district ward", "generation_low": 1, "country_name": "England", "type": "MTW"}, "74611": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 74611, "codes": {"ons": "E01008470"}, "name": "North Tyneside 014A", "country": "E", "type_name": "Lower Layer Super Output Area (Full)", "generation_low": 13, "country_name": "England", "type": "OLF"}, "65720": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 65720, "codes": {"gss": "E14000853", "unit_id": "25166"}, "name": "North Tyneside", "country": "E", "type_name": "UK Parliament constituency", "generation_low": 13, "country_name": "England", "type": "WMC"}, "108989": {"parent_area": null, "generation_high": 21, "all_names": {}, "id": 108989, "codes": {"ons": "E01008470"}, "name": "North Tyneside 014A", "country": "E", "type_name": "Lower Layer Super Output Area (Generalised)", "generation_low": 13, "country_name": "England", "type": "OLG"}}, "northing": 569474}'
+
+    http_version: "1.1"
+  recorded_at: Sun, 11 Mar 2014 09:09:21 GMT
