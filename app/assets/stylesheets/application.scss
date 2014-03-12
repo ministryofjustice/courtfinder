@@ -98,6 +98,35 @@ article{
   color: #666;
 }
 
+.warning{
+  padding:8px;
+  margin:10px 0;
+  border: 1px solid #ffbf47;
+  background-color: #fff2d3;
+  .list{
+    display:none;
+    ul li{
+      font-size:16px;
+    }
+  }
+}
+
+p.sub-list{
+  font-size: 16px;
+  a{
+    text-decoration: none;
+  }
+  a:after{
+    content: ' | ';
+  }
+  a:last-child:after{
+    content: '';
+  }
+}
+
+a{
+  cursor: pointer;
+}
 // data-disabled links
 a[data-disabled]:not([data-disabled="false"]) {
   text-decoration: none;

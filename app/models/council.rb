@@ -8,5 +8,9 @@ class Council < ActiveRecord::Base
   scope :by_name, -> { order('LOWER(name)') }
   scope :search, ->(query){ where('LOWER(name) like ?', "#{query.downcase}%").limit(10) }
 
+  scope :unassigned_for_area_of_law, ->(area_of_law) {
+  	joins('left outer join court_council_links on councils.id = court_council_links.council_id').
+  	where('area_of_law_id is NULL or area_of_law_id != ?',area_of_law.id)
+  }
 
 end
