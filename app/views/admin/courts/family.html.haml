@@ -6,6 +6,11 @@
 
 = render 'court_nav'
 
+- if @unassigned.count > 0
+  .warning
+    %strong Warning:
+    = "#{@unassigned.count} councils do not currently have a family court that deals with #{@area_of_law.name.downcase} attached view list"
+
 %div
   %div
     %h3 Family courts

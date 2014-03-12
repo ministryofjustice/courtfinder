@@ -7,7 +7,7 @@ describe Admin::CourtsController do
     controller.should_receive(:enable_varnish).never
     @user = User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
     sign_in @user
-    @court = FactoryGirl.create(:court, name: 'A court of Law')    
+    @court = create(:court, name: 'A court of Law')    
   end
 
   it "displays a list of courts" do
@@ -38,7 +38,21 @@ describe Admin::CourtsController do
     }.to change { Court.count }.by(-1)
   end
 
+  describe '#family' do
+    let!(:area_of_law) { create(:area_of_law) }
 
+    it 'assigns @courts' do
+      pending 'Should use fixtures seed data'
+
+      get :family
+      expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: params[:page], per_page: 30))
+    end
+
+    it 'assigns @area_of_law' do
+      pending
+    end
+
+  end
 
   context "Audit" do
     before do
