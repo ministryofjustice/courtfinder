@@ -10,7 +10,7 @@
   %div
     %h3 Family courts
     - family_areas_of_law do |area, id|
-      - if unassigned = Council.unassigned_for_area_of_law(id)
+      - if (unassigned = Council.unassigned_for_area_of_law(id)).count > 0
         .warning
           %strong Warning:
           = "#{unassigned.count} councils do not currently have a family court that deals with #{area.downcase} attached "
