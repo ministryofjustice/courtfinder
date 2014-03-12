@@ -1,0 +1,2 @@
+class ChildrenCourtCouncilLink < CourtCouncilLink
+end

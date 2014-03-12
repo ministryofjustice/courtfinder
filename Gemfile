@@ -18,6 +18,7 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
   gem 'guard-rspec'
+  gem 'hirb'
 end
 
 group :test do

@@ -213,7 +213,8 @@ describe CourtSearch do
       @children = FactoryGirl.create(:area_of_law, :name => 'Children', :type_children => true)
       # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
       @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
-      @court7.councils.create(:name => 'Lambeth Borough Council')
+      @council = Council.create(:name => 'Lambeth Borough Council')
+      @court7.court_council_links.create.update_attributes({council_id: @council.id, area_of_law_id: @children.id})
 
       # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
       @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
@@ -240,6 +241,7 @@ describe CourtSearch do
           expect(results[0].distance).to eq "0.16110282696898"
           expect(results[1].distance).to eq "0.418361404378377"
         end
+
       end
     end
 

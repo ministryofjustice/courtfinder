@@ -1,6 +1,4 @@
 class Court < ActiveRecord::Base
-  attr_accessor :validate_coords
-
   belongs_to :area
   has_many :addresses
   has_many :opening_times
@@ -12,8 +10,8 @@ class Court < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :areas_of_law, :through => :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  has_many :local_authorities
-  has_many :councils, :through => :local_authorities
+  has_many :court_council_links
+  has_many :councils, :through => :court_council_links
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
@@ -27,10 +25,10 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
-  
+
   validates :name, presence: true
-  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :should_validate_coords?
-  validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :should_validate_coords?
+  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
+  validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
 
   validate :check_postcode_errors
 
@@ -94,8 +92,8 @@ class Court < ActiveRecord::Base
     where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
   end
 
-  def self.for_council(council)
-    joins(:councils).where("councils.name" => council)
+  def self.for_council(council, area_of_law)
+    Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
   end
 
   def locatable?
@@ -158,8 +156,7 @@ class Court < ActiveRecord::Base
   end
 
   protected
-
-    def should_validate_coords?
-      (validate_coords.nil? || validate_coords)
+    def has_visiting_address?
+      addresses.visiting.count > 0
     end
 end

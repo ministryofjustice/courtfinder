@@ -72,7 +72,7 @@ class CourtSearch
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law
       courts = Court.visible.by_postcode_court_mapping(@query, @options[:area_of_law])
     elsif area_of_law.type_children?
-      courts = Court.for_council(lookup_council_name)
+      courts = Court.for_council(lookup_council_name, area_of_law)
     end
 
     if latlng
