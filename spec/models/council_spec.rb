@@ -24,5 +24,16 @@ describe Council do
   		Council.unassigned_for_area_of_law(divorce).should eq([council])
   	end
 
+    context 'a court with councils assigned for multiple areas_of_law' do
+      
+      it 'returns empty array when all all councils have assigned a court for an area of law' do
+        council.court_council_links.create!(court: court, area_of_law: children)
+        council.court_council_links.create!(court: court, area_of_law: divorce)
+        
+        Council.unassigned_for_area_of_law(children).should eq([])
+      end
+
+    end
+
   end
 end
