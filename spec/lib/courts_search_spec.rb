@@ -174,44 +174,49 @@ describe CourtSearch do
     end
   end
 
-  context "Chosen area of law is Children" do
-    before(:each) do
-      @children = create(:area_of_law, :name => 'Children', :type_children => true)
-      # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
-      @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
-      @council = Council.create(:name => 'Lambeth Borough Council')
-      @court7.court_council_links.create.update_attributes({council_id: @council.id, area_of_law_id: @children.id})
+  ['Children','Divorce','Adoption'].each do |area|
 
-      # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
-      @court8 = create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
-    end
+    context "Chosen area of law is #{area}" do
+      let!(:area_of_law) { create(:area_of_law, name: area, "type_#{area.downcase}" => true)}
+      # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51449126: SW2 2YH (Inside the Lambeth Borough Council)
+      let!(:court7) { create(:court, court_number: 434, name: "#{area} Court A", display: true, areas_of_law: [area_of_law], latitude: 51.449126, longitude: -0.110768) }
+      # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51451707: SE24 9HN (Southwark Borough Council)
+      let!(:court8) { create(:court, name: "The Nearest #{area} Court - Southwark Borough Council", display: true, areas_of_law: [area_of_law], latitude: 51.451707, longitude: -0.099868) }
+      let!(:council) { Council.create(name: 'Lambeth Borough Council') }
 
-    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
-      # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
-      court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-      expect(court_search.results).to eq [@court7]
-    end
 
-    context 'when there are multiple courts' do
-      it 'should return multiple courts sorted by distance' do
-        # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
-        @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
-        @court9.court_council_links.create.update_attributes({council_id: @council.id, area_of_law_id: @children.id})
-
-        court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-        results = court_search.results
-        expect(results).to eq [@court9, @court7]
-        expect(results[0].distance).to eq "0.16110282696898"
-        expect(results[1].distance).to eq "0.418361404378377"
+      before(:each) do
+        court7.court_council_links.create({council_id: council.id, area_of_law_id: area_of_law.id})
       end
-    end
 
-    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
-      @court10 = create(:court, :name => 'The Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.337246, :longitude => -1.434219)
-      @court11 = create(:court, :name => 'Second Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.33724, :longitude => -1.43421)
-      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Children'})
-      court_search.results.should == [@court10, @court11]
+      it "should return only one search result if the postcode is found in the Postcode to court mapping" do
+        RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
+        # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
+        court_search = CourtSearch.new('SE240NG', { area_of_law: area})
+        expect(court_search.results).to eq [court7]
+      end
+
+      context 'when there are multiple courts' do
+        # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
+        let(:court9) { create(:court, court_number: 435, name: "#{area} Court B", display: true, areas_of_law: [area_of_law], latitude: 51.451373, longitude: -0.106004) }
+        
+        it 'should return multiple courts sorted by distance' do
+          court9.court_council_links.create.update_attributes({council_id: council.id, area_of_law_id: area_of_law.id})
+
+          court_search = CourtSearch.new('SE240NG', {area_of_law: area})
+          results = court_search.results
+          expect(results).to eq [court9, court7]
+          expect(results[0].distance).to eq "0.16110282696898"
+          expect(results[1].distance).to eq "0.418361404378377"
+        end
+      end
+
+      it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
+        @court10 = create(:court, name: 'The Nearest Court', display: true, areas_of_law: [area_of_law], latitude: 54.337246, longitude: -1.434219)
+        @court11 = create(:court, name: 'Second Nearest Court', display: true, areas_of_law: [area_of_law], latitude: 54.33724, longitude: -1.43421)
+        court_search = CourtSearch.new('NE128AQ', {area_of_law: area})
+        court_search.results.should == [@court10, @court11]
+      end
     end
   end
 

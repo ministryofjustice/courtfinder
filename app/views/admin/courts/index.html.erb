@@ -1,6 +1,6 @@
 <%= content_for :title, 'Listing courts and tribunals' %>
 
-<%= link_to 'New court or tribunal', new_admin_court_path, class: 'button' %>
+<%= link_to 'New court or tribunal', new_admin_court_path %>
 
 <ul class="tabs-nav clearfix">
   <%= a_to_z initial_list(@courts) %>
