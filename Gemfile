@@ -17,10 +17,14 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
-  gem 'webmock', '= 1.15.2'
-  gem 'vcr'
   gem 'guard-rspec'
 end
+
+group :test do
+  gem 'webmock', '= 1.15.2'
+  gem 'vcr'
+end
+
 
 # Gems used only for assets and not required
 # in production environments by default.
