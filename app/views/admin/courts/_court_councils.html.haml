@@ -1,4 +1,4 @@
-= form_for [:admin, court], url: admin_court_path(court, redirect_url: family_admin_courts_path), html: { class: 'js-council-tag-form' } do |f|
+= form_for [:admin, court], url: admin_court_path(court, redirect_url: family_admin_courts_path(area_of_law_id: area_of_law.id)), html: { class: 'js-council-tag-form' } do |f|
   - if court.errors.any?
     #error_explanation
       %ul

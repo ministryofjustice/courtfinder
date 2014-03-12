@@ -6,24 +6,24 @@
 
 = render 'court_nav'
 
-
 %div
   %div
     %h3 Family courts
+    - family_areas_of_law do |area, id|
+      - if @unassigned = Council.unassigned_for_area_of_law(id)
+        .warning
+          %strong Warning:
+          = "#{@unassigned.count} councils do not currently have a family court that deals with #{area.downcase} attached "
+          %a{ data: { expand: true } } view list
+          .list
+            %ul
+              - @unassigned.each do |council|
+                %li= council.name
+
     %p.sub-list
       View:
       - family_areas_of_law do |area, id|
         = link_to "#{area} (#{@courts.by_area_of_law(area).count})", family_admin_courts_path(area_of_law_id: id), data: { disabled: (id == @area_of_law.id) }
-
-  - if @unassigned.count > 0
-    .warning
-      %strong Warning:
-      = "#{@unassigned.count} councils do not currently have a family court that deals with #{@area_of_law.name.downcase} attached "
-      %a{ data: { expand: true } } view list
-      .list
-        %ul
-          - @unassigned.each do |council|
-            %li= council.name
 
     %table#js-council-tbl
       %thead

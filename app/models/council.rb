@@ -10,7 +10,7 @@ class Council < ActiveRecord::Base
 
   scope :unassigned_for_area_of_law, ->(area_of_law) {
   	joins('left outer join court_council_links on councils.id = court_council_links.council_id').
-  	where('area_of_law_id is NULL or area_of_law_id != ?',area_of_law.id)
+  	where('area_of_law_id is NULL or area_of_law_id != ?',area_of_law.respond_to?(:id) ? area_of_law.id : area_of_law)
   }
 
 end
