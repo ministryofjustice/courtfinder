@@ -20,7 +20,7 @@ group :development, :test do
   gem 'guard'
   gem 'capybara', github: 'jnicklas/capybara'
   gem 'launchy'
-  gem 'rb-fsevent', require: false if RUBY_PLATFORM =~ /darwin/i
+  gem 'rb-fsevent', require: false
   gem 'guard-rspec'
   gem 'guard-livereload'
   gem 'hirb'
