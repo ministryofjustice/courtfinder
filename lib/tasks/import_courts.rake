@@ -207,7 +207,7 @@ namespace :import do
 
     # "court_name", "local_authority_names"
     @area_of_law = AreaOfLaw.find_by_name(args[:area_of_law])
-    puts "Found: #{@area_of_law} with id: #{@area_of_law.try(:id)}"
+    puts "Found: #{@area_of_law.name} with id: #{@area_of_law.try(:id)}"
 
     csv.each do |row|
       court = Court.find_by_name(row[0])
@@ -222,7 +222,7 @@ namespace :import do
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.court_council_links.create.update_attributes({council_id: council.id, area_of_law_id: @area_of_law.id})
+            court.court_council_links.where({council_id: council.id, area_of_law_id: @area_of_law.id}).first_or_initialize.save!
           end
         end
       end
