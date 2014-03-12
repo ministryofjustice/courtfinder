@@ -232,7 +232,9 @@ namespace :import do
   desc "Import local_authorities for a all areas of law"
   task :local_authorities => :environment do
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_children.csv', 'Children')
+    Rake::Task["import:local_authorities_for_area_of_law"].reenable
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
+    Rake::Task["import:local_authorities_for_area_of_law"].reenable
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
   end
 

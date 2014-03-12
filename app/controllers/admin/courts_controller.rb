@@ -113,7 +113,6 @@ class Admin::CourtsController < Admin::ApplicationController
   def family
     @courts = Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: params[:page], per_page: 30)
     @area_of_law = AreaOfLaw.where(id: params[:area_of_law_id]).first || AreaOfLaw.where(name: 'Children').first
-    @unassigned = Council.unassigned_for_area_of_law(@area_of_law).by_name
   end
 
   def audit
