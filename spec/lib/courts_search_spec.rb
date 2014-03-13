@@ -243,7 +243,7 @@ describe CourtSearch do
       context 'when there are multiple courts' do
         # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
         let(:court9) { create(:court, court_number: 435, name: "#{area} Court B", display: true, areas_of_law: [area_of_law], latitude: 51.451373, longitude: -0.106004) }
-        
+
         it 'should return multiple courts sorted by distance' do
           court9.court_council_links.create.update_attributes({council_id: council.id, area_of_law_id: area_of_law.id})
           VCR.use_cassette('multiple_courts') do
