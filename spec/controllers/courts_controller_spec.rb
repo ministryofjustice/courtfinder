@@ -33,22 +33,23 @@ describe CourtsController do
 
   context "a court exists" do
     before :each do
-      @at_visiting = create(:address_type, :name => "Visiting")
-      @at_postal = create(:address_type, :name => "Postal")
-      @town = create(:town, :name => "London")
-      @ct_county = create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
-      @ct_family = create(:court_type, :name => "Family Proceedings Court")
-      @ct_tribunal = create(:court_type, :name => "Tribunal")
-      @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
-      @ct_crown = create(:court_type, :name => "Crown Court")
-      @county_court = create(:court, :name => 'And Justice For All County Court',
+      @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
+      @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
+      @town = FactoryGirl.create(:town, :name => "London")
+      @ct_county = FactoryGirl.create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
+      @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
+      @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
+      @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
+      @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
+
+      @visiting_address = FactoryGirl.create(:address, :address_line_1 => "Some street", :postcode => "CR0 2RB", :address_type_id => @at_visiting.id, :town_id => @town.id)
+      @postal_address = FactoryGirl.create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+
+      @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
                                          :info_leaflet => "some useful info",
-                                         :latitude => 51.379743, :longitude => -0.104515,
-                                         :court_type_ids => [@ct_county.id], :display => true) do |court|
-        @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @at_visiting.id, :town_id => @town.id)
-        @postal_address = court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
-      end
-      @family_court = create(:court, :name => 'Capita Family Court',
+                                         :court_type_ids => [@ct_county.id], :display => true,
+                                         :address_ids => [@visiting_address.id, @postal_address.id])
+      @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
                                          :info_leaflet => "some useful info",
                                          :court_type_ids => [@ct_family.id], :display => true)
       @tribunal = create(:court, :name => 'Capita Tribunal',
@@ -67,7 +68,7 @@ describe CourtsController do
                                            :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
       @typeless_court = create(:court, :name => 'Capita Typeless Court',
                                            :info_leaflet => "some useful info",
-                                           :display => true)
+                                           :display => true, :latitude => 50.0, :longitude => 0.0)
     end
 
     it "should set a vary header" do
@@ -303,9 +304,8 @@ describe CourtsController do
 
       it "json api returns correct information" do
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/", "geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"}, 
+        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, 
                                               "@id"=>"/courts/a-court-of-law",
-                                              "geo:latitude" => "50.0",
                                               "name"=>"A court of LAW", 
                                               "@type"=>["Courthouse"]}
       end
@@ -313,9 +313,8 @@ describe CourtsController do
       it "json api returns correct extra information" do
         @court.update_attributes(:info => 'some information')
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/", "geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"}, 
+        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, 
                                               "@id"=>"/courts/a-court-of-law",
-                                              "geo:latitude" => "50.0",
                                               "name"=>"A court of LAW", 
                                               "@type"=>["Courthouse"], 
                                               "description"=>"some information"}
@@ -341,14 +340,14 @@ describe CourtsController do
       it "csv api returns correct information" do
         get :index, format: :csv
         response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
-                                "/courts/a-court-of-law,A court of LAW,,50.0,0.0,,,,,,\n"\
-                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.379743,-0.104515,,London,Some other street,,,\n"\
-                                "/courts/capita-combined-court,Capita Combined Court,,50.0,0.0,,,,,,\n"\
-                                "/courts/capita-crown-court,Capita Crown Court,,50.0,0.0,,London,Some other street,,,\n"\
-                                "/courts/capita-family-court,Capita Family Court,,50.0,0.0,,,,,,\n"\
-                                "/courts/capita-magistrates-court,Capita Magistrates Court,,50.0,0.0,,,,,,\n"\
-                                "/courts/capita-tribunal,Capita Tribunal,,50.0,0.0,,,,,,\n"\
-                                "/courts/capita-typeless-court,Capita Typeless Court,,50.0,0.0,,,,,,\n"
+                                "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
+                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.37831481703049,-0.1017849333816599,,London,Some other street,,,\n"\
+                                "/courts/capita-combined-court,Capita Combined Court,,,,,,,,,\n"\
+                                "/courts/capita-crown-court,Capita Crown Court,,,,,London,Some other street,,,\n"\
+                                "/courts/capita-family-court,Capita Family Court,,,,,,,,,\n"\
+                                "/courts/capita-magistrates-court,Capita Magistrates Court,,,,,,,,,\n"\
+                                "/courts/capita-tribunal,Capita Tribunal,,,,,,,,,\n"\
+                                "/courts/capita-typeless-court,Capita Typeless Court,,,,,,,,,\n"
       end
     end
   end

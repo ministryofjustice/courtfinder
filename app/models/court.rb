@@ -17,7 +17,7 @@ class Court < ActiveRecord::Base
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
-                  :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
+                  :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
                   :postcode_list
@@ -143,17 +143,17 @@ class Court < ActiveRecord::Base
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
 
-  def has_visiting_address?
-    #Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
-    #TODO - Change to avoid using hard coded type id
-    addresses.to_a.count { |a| a.address_type_id == 6 } > 0
+  def visiting_addresses
+    addresses.to_a.select { |a| AddressType.find(a.address_type_id).try(:name) == "Visiting" }
   end
 
+  def has_visiting_address?
+    #Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
+    visiting_addresses.count > 0
+  end
 
   def convert_visiting_to_location
-    if has_visiting_address?
-      #TODO - Change to avoid using hard coded type id
-      visiting_postcode =  addresses.to_a.find{ |a| a.address_type_id == 6 }.postcode
+    if visiting_postcode = visiting_addresses.first.try(:postcode)
       @cs = CourtSearch.new(visiting_postcode)
       if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
         self.latitude = lat_lon[0]
