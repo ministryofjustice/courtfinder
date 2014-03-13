@@ -234,8 +234,10 @@ describe CourtSearch do
       it "should return only one search result if the postcode is found in the Postcode to court mapping" do
         RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
         # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
-        court_search = CourtSearch.new('SE240NG', { area_of_law: area})
-        expect(court_search.results).to eq [court7]
+        VCR.use_cassette('postcode_found') do
+          court_search = CourtSearch.new('SE240NG', { area_of_law: area})
+          expect(court_search.results).to eq [court7]
+        end
       end
 
       context 'when there are multiple courts' do
