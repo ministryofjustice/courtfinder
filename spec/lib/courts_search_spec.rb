@@ -222,8 +222,8 @@ describe CourtSearch do
         RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
         # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
         VCR.use_cassette('postcode_found') do
-          court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-          expect(court_search.results).to eq [@court7]
+          court_search = CourtSearch.new('SE240NG', {:area_of_law => area})
+          expect(court_search.results).to eq [court7]
         end
       end
 
