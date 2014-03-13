@@ -4,7 +4,7 @@ describe CourtsController do
   render_views
 
   before :each do
-    @court = FactoryGirl.create(:court, :name => 'A court of LAW').reload
+    @court = create(:court, :name => 'A court of LAW').reload
   end
 
   before :each do
@@ -33,39 +33,39 @@ describe CourtsController do
 
   context "a court exists" do
     before :each do
-      @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
-      @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
-      @town = FactoryGirl.create(:town, :name => "London")
-      @ct_county = FactoryGirl.create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
-      @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
-      @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
-      @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
-      @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
-      @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
+      @at_visiting = create(:address_type, :name => "Visiting")
+      @at_postal = create(:address_type, :name => "Postal")
+      @town = create(:town, :name => "London")
+      @ct_county = create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
+      @ct_family = create(:court_type, :name => "Family Proceedings Court")
+      @ct_tribunal = create(:court_type, :name => "Tribunal")
+      @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
+      @ct_crown = create(:court_type, :name => "Crown Court")
+      @county_court = create(:court, :name => 'And Justice For All County Court',
                                          :info_leaflet => "some useful info",
                                          :latitude => 51.379743, :longitude => -0.104515,
                                          :court_type_ids => [@ct_county.id], :display => true) do |court|
         @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @at_visiting.id, :town_id => @town.id)
         @postal_address = court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
       end
-      @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
+      @family_court = create(:court, :name => 'Capita Family Court',
                                          :info_leaflet => "some useful info",
                                          :court_type_ids => [@ct_family.id], :display => true)
-      @tribunal = FactoryGirl.create(:court, :name => 'Capita Tribunal',
+      @tribunal = create(:court, :name => 'Capita Tribunal',
                                      :info_leaflet => "some useful info",
                                      :court_type_ids => [@ct_tribunal.id], :display => true)
-      @magistrates_court = FactoryGirl.create(:court, :name => 'Capita Magistrates Court',
+      @magistrates_court = create(:court, :name => 'Capita Magistrates Court',
                                               :info_leaflet => "some useful info",
                                               :court_type_ids => [@ct_magistrate.id], :display => true)
-      @crown_court = FactoryGirl.create(:court, :name => 'Capita Crown Court',
+      @crown_court = create(:court, :name => 'Capita Crown Court',
                                         :info_leaflet => "some useful info",
                                         :court_type_ids => [@ct_crown.id], :display => true) do |court|
         court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
       end
-      @combined_court = FactoryGirl.create(:court, :name => 'Capita Combined Court',
+      @combined_court = create(:court, :name => 'Capita Combined Court',
                                            :info_leaflet => "some useful info",
                                            :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
-      @typeless_court = FactoryGirl.create(:court, :name => 'Capita Typeless Court',
+      @typeless_court = create(:court, :name => 'Capita Typeless Court',
                                            :info_leaflet => "some useful info",
                                            :display => true)
     end
@@ -322,9 +322,9 @@ describe CourtsController do
       end
 
       it "doesn't return an error if a court's town has no county or no image_file_url" do
-        @visiting = FactoryGirl.create(:address_type, :name => "Visiting")
-        @town = FactoryGirl.create(:town, :name => "London")
-        @court1 = FactoryGirl.create(:court, :slug => "blah", :name => 'County Court', :display => true) do |court|
+        @visiting = create(:address_type, :name => "Visiting")
+        @town = create(:town, :name => "London")
+        @court1 = create(:court, :slug => "blah", :name => 'County Court', :display => true) do |court|
           @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @visiting.id, :town_id => @town.id)
         end
         get :show, id: @court1.slug, format: :json

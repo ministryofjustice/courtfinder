@@ -1,12 +1,8 @@
 $grey:#eaedef;
 
 .courts {
-  article .inner {
-    padding:0 30px;
-    @include media(mobile) {
-      padding:0 16px;
-    }
 
+  article .inner {
     h2 {
       clear:left;
       margin-bottom:0;
@@ -25,17 +21,23 @@ $grey:#eaedef;
     }
   }
 
-  header.page-header {
-    padding-bottom:0;
-  }
-
   .leaflet-code {
     float:right;
   }
 
-  .intro {
-    padding:0 0 1em 0;
+  article{
+    table.allcourts {
+      margin: 2em auto;
+      width: auto;
+      th, td {
+        font-size: 12px;
+        &.c {
+          text-align: center;
+        }
+      }
+    }
   }
+
 }
 
 #local-locator-form input#search-main {margin-left: 0;}
@@ -45,10 +47,13 @@ form.find-location-for-service select#area_of_law {width:285px;}
 form.find-location-for-service #filters {margin-top:1em;}
 
 .inner div.addresses {
-  width:620px; min-height:275px; margin-left:-30px; padding-left:30px; background:$grey;
+  min-height:275px; 
+  padding-left:30px; 
+  background:$grey;
+  width: auto;
   
   @include media(mobile) {
-    width: auto; margin-left: -16px; margin-right: -16px; padding-left: 16px;
+    width: auto;
   }
 
   .postal,
@@ -62,7 +67,7 @@ form.find-location-for-service #filters {margin-top:1em;}
 }
 
 #court-photo {
-  float:right; margin-right:-30px;
+  float:right;
 
   @include media(mobile) {
     float: none;
@@ -74,7 +79,11 @@ form#directions input#from {margin:0 0 1em 0;}
 
 .facilities {
   dt {
-    float:left; clear:left; width:50px; height:50px; margin:0 0 10px;
+    float:left; 
+    clear:left; 
+    width:50px; 
+    height:50px; 
+    margin:0 0 10px;
   }
   dd {
     min-height:50px; margin:0; padding:10px 0 0 60px;

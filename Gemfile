@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
-source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
+#source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
 
 gem 'rails', '3.2.17'
 gem 'pg'
@@ -17,6 +17,12 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
+  gem 'guard'
+  gem 'capybara', github: 'jnicklas/capybara'
+  gem 'launchy'
+  gem 'rb-fsevent', require: false
+  gem 'guard-rspec'
+  gem 'guard-livereload'
   gem 'hirb'
 end
 
@@ -39,7 +45,7 @@ gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
 gem 'rmagick'               # Resize uploaded images
-gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git', branch: 'master'           # Handles file uploads
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'           # Handles file uploads
 gem 'fog'                   # Talks to cloud providers (e.g. S3)
 gem 'gmaps4rails'           # Maps and directions
 gem 'unicorn'
@@ -48,7 +54,7 @@ gem 'rdiscount'             # Enable Markdown in Haml
 gem 'govuk_frontend_toolkit'# Sass helpers
 gem 'global_phone'          # Phone number validation and formatting
 gem 'nokogiri'              # HTML processing
-gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git', tag: 'v0.1.0'
+gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.1.0'
 gem 'varnish-client', require: 'varnish/client'
 gem 'jbuilder'              # json api templating
 gem 'httparty'

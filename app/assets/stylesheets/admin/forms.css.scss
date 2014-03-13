@@ -51,23 +51,6 @@ article .inner .edit-court {
   padding: .75em 0;
 }
 
-$page-width:960px;
-$table-margins:16px * 2;
-
-article table {
-  width: $page-width + $table-margins;
-  &.allcourts {
-    margin: 2em auto;
-    width: auto;
-    th, td {
-      font-size: 12px;
-      &.c {
-        text-align: center;
-      }
-    }
-  }
-}
-
 div.input.string,
 div.input.select,
 div.input.decimal,
@@ -95,6 +78,7 @@ div.input.integer {
   }
   input[type=text],
   input[type=email],
+  input[type=password],
   input[type=tel],
   input[type=number],
   input[type=file],
@@ -111,7 +95,7 @@ div.input.integer {
     margin: 0 10px;
     max-width: 390px;
   }
-  input[type="email"] {
+  input[type="email"], input[type="password"] {
     font-family: "nta", Arial, sans-serif;
     font-size: 16px;
     line-height: 1.25;

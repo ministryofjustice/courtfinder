@@ -5,6 +5,7 @@
 // GOV.UK Toolkit
 @import "_colours";
 @import "_typography";
+@import "design-patterns/_buttons";
 
 // Vendor
 @import "gmaps4rails";
@@ -13,6 +14,7 @@
 @import "conditionals";
 
 // Application
+@import "buttons";
 @import "home";
 @import "courts";
 @import "feedbacks";
@@ -72,13 +74,62 @@ header.page-header {
 // Allow for content boxes to align with phase indicator
 section#content {
   max-width:1020px;
+  width:1020px;
 }
 
-article .inner {
-  padding:0;
+article{ 
+  .inner {
+    padding:0 30px;
+    @include media(mobile) {
+      padding:0 16px;
+    }
+  }
+  .intro {
+    padding:0 0 1em 0; 
+  }
 }
 
 .char-limit {
   font-size: 10px;
   color: #444444;
 }
+
+.version p{
+  color: #666;
+}
+
+.warning{
+  padding:8px;
+  margin:10px 0;
+  border: 1px solid #ffbf47;
+  background-color: #fff2d3;
+  .list{
+    display:none;
+    ul li{
+      font-size:16px;
+    }
+  }
+}
+
+p.sub-list{
+  font-size: 16px;
+  a{
+    text-decoration: none;
+  }
+  a:after{
+    content: ' | ';
+  }
+  a:last-child:after{
+    content: '';
+  }
+}
+
+a{
+  cursor: pointer;
+}
+// data-disabled links
+a[data-disabled]:not([data-disabled="false"]) {
+  text-decoration: none;
+  color: #333;
+}
+
