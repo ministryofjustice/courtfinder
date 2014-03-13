@@ -17,14 +17,20 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
-  gem 'guard'
   gem 'capybara', github: 'jnicklas/capybara'
   gem 'launchy'
   gem 'rb-fsevent', require: false
   gem 'guard-rspec'
+  gem 'guard'
   gem 'guard-livereload'
   gem 'hirb'
 end
+
+group :test do
+  gem 'webmock', '= 1.15.2'
+  gem 'vcr'
+end
+
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -45,8 +51,8 @@ gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
 gem 'rmagick'               # Resize uploaded images
+gem 'fog', '1.20.0'                   # Talks to cloud providers (e.g. S3)
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'           # Handles file uploads
-gem 'fog'                   # Talks to cloud providers (e.g. S3)
 gem 'gmaps4rails'           # Maps and directions
 gem 'unicorn'
 gem 'haml-rails'            # Leaner markup with Haml.info
