@@ -15,7 +15,7 @@ guard :rspec do
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
 
   # Capybara features specs
-  #watch(%r{^app/views/(.+)/.*\.(erb|haml|slim)$})     { |m| "spec/features/#{m[1]}_spec.rb" }
+  watch(%r{^app/views/(.+)/.*\.(erb|haml|slim)$})     { |m| "spec/features/#{m[1]}_spec.rb" }
 
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})

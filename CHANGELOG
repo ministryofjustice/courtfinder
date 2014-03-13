@@ -1,9 +1,20 @@
 2.6.0-dev
 ---------------------
-65905292 - Phone number editing - don't allow duplicate numbers to be entered
-66808486 - Don't show lat long validation error if visiting address
-66609752 - Search Family court for divorce application
-67016910 - Automatic testing should not call live MapIt API
+* 65905292 - Phone number editing - don't allow duplicate numbers to be entered
+* 66808486 - Don't show lat long validation error if visiting address
+* 66609752 - Search Family court for divorce application
+* 67016910 - Automatic testing should not call live MapIt API
+* 66609322 - "Manage all courts" admin control for Family court - Children applications
+* 66610114 - "Manage all courts" admin control for Family court - Adoption applications
+* 66610070 - "Manage all courts" admin control for Family court - Divorce applications
+* 65905292 - Phone number editing - don't allow duplicate numbers to be entered
+* 66808486 - Don't show lat long validation error if visiting address
+* 66609752 - Search Family court for divorce application
+* 66612556 - Warning for unassigned local authorities to Family court - Adoption
+* 66612546 - Warning for unassigned local authorities to Family court - Divorce
+* 66612298 - Warning for unassigned local authorities to Family court - Children
+* 66609784 - Search Family court for adoption application
+* 66609752 - Search Family court for divorce application
 
 2.5.4
 ---------------------
@@ -32,6 +43,7 @@
 
 2.4.0
 ---------------------
+* "Manage all courts" admin control for Family court - Children applications - (66609322)
 * Added version to staging and development in the footer for reference
 * Added conditional validation to court to allow import rake task to succeed - DH
 * Fixed css class not including input[type="email"] and button alignment and defaults

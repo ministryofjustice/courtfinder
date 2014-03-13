@@ -1,5 +1,5 @@
 class AreaOfLaw < ActiveRecord::Base
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children
+  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children, :type_adoption, :type_divorce
   has_many :courts_areas_of_law
   has_many :courts, :through => :courts_areas_of_law
   has_many :court_council_links

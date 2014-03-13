@@ -4,38 +4,30 @@
 %p
   Court types: #{@court_types.count}
 
+= render 'court_nav'
 
 %div
   %div
-    %ul
-      %li
-        %a{:href => areas_of_law_admin_courts_path} By areas of law
-      %li
-        By court type
-      %li
-        %a{:href => postcodes_admin_courts_path} By post code
-
-  %div
-    %div
-      %h2 By court type
-      %table.allcourts
+    %h2 By court type
+    %table.allcourts
+      %tr
+        %th No.
+        %th Name
+        - @court_types.each do |court_type|
+          %th= court_type.name
+        %th &nbsp;
+      - @courts.each do |court|
         %tr
-          %th No.
-          %th Name
-          - @court_types.each do |court_type|
-            %th= court_type.name
-          %th &nbsp;
-        - @courts.each do |court|
-          %tr
-            = form_for([:admin, court], remote: true) do
-              %td= court.court_number
-              %td= court.name
-              - @court_types.each do |court_type|
-                %td.c
-                  = check_box_tag 'court[court_type_ids][]', court_type.id, (court.court_types.include? court_type)
-              %td
-                = hidden_field_tag 'court[court_type_ids][]', nil
-                %input.button{:type => "Submit", :value => "Save"}
+          = form_for([:admin, court], remote: true) do
+            %td= court.court_number
+            %td= court.name
+            - @court_types.each do |court_type|
+              %td.c
+                = check_box_tag 'court[court_type_ids][]', court_type.id, (court.court_types.include? court_type)
+            %td
+              = hidden_field_tag 'court[court_type_ids][]', nil
+              %input.button{type: 'Submit', value: 'Save'}
+
 
 .pagination-row.cf
   .page-entries

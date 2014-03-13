@@ -1,4 +1,7 @@
 class Court < ActiveRecord::Base
+  include Concerns::Court::Councils
+
+  attr_accessor :active_area_of_law
   belongs_to :area
   has_many :addresses
   has_many :opening_times
@@ -6,12 +9,11 @@ class Court < ActiveRecord::Base
   has_many :emails
   has_many :court_facilities
   has_many :court_types_courts
-  has_many :court_types, :through => :court_types_courts
+  has_many :court_types, through: :court_types_courts
   has_many :courts_areas_of_law
-  has_many :areas_of_law, :through => :courts_areas_of_law
+  has_many :areas_of_law, through: :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  has_many :court_council_links
-  has_many :councils, :through => :court_council_links
+
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
@@ -32,12 +34,12 @@ class Court < ActiveRecord::Base
 
   validate :check_postcode_errors
 
-  has_paper_trail :ignore => [:created_at, :updated_at]
+  has_paper_trail ignore: [:created_at, :updated_at]
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 
-  geocoded_by :latitude => :lat, :longitude => :lng
+  geocoded_by latitude: :lat, longitude: :lng
 
   mount_uploader :image_file, CourtImagesUploader
 
@@ -51,40 +53,28 @@ class Court < ActiveRecord::Base
   end
 
   # Scope methods
-  def self.visible
-    where(:display => true)
-  end
-
-  def self.by_name
-    order('LOWER(name)') # ignore case when sorting
-  end
-
-  def self.by_area_of_law(area_of_law)
-    if area_of_law.present?
-      joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
-    else
-      where('')
-    end
-  end
-
-
+  scope :visible,         -> { where(display: true) }
+  scope :by_name,         -> { order('LOWER(courts.name)') }
+  scope :by_area_of_law,  -> (area_of_law) { joins(:areas_of_law).where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
+  scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
+  scope :for_council,     -> (council) {joins(:councils).where("councils.name" => council) }
+  
   def self.by_postcode_court_mapping(postcode, area_of_law = nil)
     if postcode.present?
       if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
-                                              postcode.gsub(/\s+/, "").downcase)
-                                        .order('-length(postcode)').first
+            postcode.gsub(/\s+/, "").downcase)
+            .order('-length(postcode)').first
         #Using a reverse id lookup instead of just postcode_court.court as a workaround for the distance calculator
         if area_of_law
-          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
-          .where(:id => postcode_court.court_id).limit(1)
+          by_area_of_law(area_of_law).where(id: postcode_court.court_id).limit(1)
         else
-          where(:id => postcode_court.court_id).limit(1)
+          where(id: postcode_court.court_id).limit(1)
         end
       else
         []
       end
     else
-      where('')
+      self
     end
   end
 
@@ -93,7 +83,7 @@ class Court < ActiveRecord::Base
   end
 
   def self.for_council(council, area_of_law)
-    Court.joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
+    joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
   end
 
   def locatable?
@@ -156,6 +146,7 @@ class Court < ActiveRecord::Base
   end
 
   protected
+
     def has_visiting_address?
       addresses.visiting.count > 0
     end
