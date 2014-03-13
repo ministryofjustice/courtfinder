@@ -125,25 +125,27 @@ describe Court do
     before(:each) do
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
       @council = Council.create(:name => 'Lambeth Borough Council')
-      @area_of_law = AreaOfLaw.create(name: "Children")
+      @area_of_law = create(:area_of_law, name: "Children", type_children: true)
       @court7.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
     end
 
     context 'should return the name/names of the court for a given council' do
 
-      context 'when there is only one court' do
-        it 'should return Children Court' do
-          expect(Court.for_council('Lambeth Borough Council', @area_of_law)).to eq [@court7]
+      describe '#for_council_and_area_of_law' do
+        context 'when there is only one court' do
+          it 'should return Children Court' do
+            expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7]
+          end
         end
-      end
 
-      context 'when there are multiple courts' do
-        it 'should return multiple courts sorted by name' do
+        context 'when there are multiple courts' do
+          it 'should return multiple courts sorted by name' do
 
-          @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
-          @court9.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
+            @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
+            @court9.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
 
-          expect(Court.for_council('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
+            expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
+          end
         end
       end
     end
