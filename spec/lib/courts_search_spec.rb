@@ -35,9 +35,9 @@ describe CourtSearch do
   end
 
   it "should return courts nearby for postcodes limited to area of law" do
-      court_search = CourtSearch.new('sl58le', {:area_of_law => 'Civil'})
-      court_search.stub!(:latlng_from_postcode).and_return([51.419069727514, -0.69702060464972])
-      court_search.results.should == [@court3]
+    court_search = CourtSearch.new('sl58le', {:area_of_law => 'Civil'})
+    court_search.stub!(:latlng_from_postcode).and_return([51.419069727514, -0.69702060464972])
+    court_search.results.should == [@court3]
   end
 
   it "should return not show courts which are closed" do
