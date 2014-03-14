@@ -1,5 +1,4 @@
 require "spec_helper"
-require "courts_spec_helper"
 
 describe CourtSearch do
   before(:each) do
@@ -11,7 +10,7 @@ describe CourtSearch do
     @visiting_address1 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'NE12 8AQ', :town_id => @town.id)
     @visiting_address2 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'sl58le', :town_id => @town.id)
     @visiting_address3 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'SE19NH', :town_id => @town.id)
-    @visiting_address4 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'EH22 4AD', :town_id => @town.id)
+    # @visiting_address4 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'EH22 4AD', :town_id => @town.id)
 
     VCR.use_cassette('postcode_found') do
       @court1 = create(:court, :name => 'Aylesbury Court', :display => true, :address_ids => [@visiting_address3.id])
@@ -23,23 +22,34 @@ describe CourtSearch do
                                   :area_of_law_ids => [@family.id], :address_ids => [@visiting_address3.id])
 
       @court5 = create(:court, :name => 'Some Old Court', :display => false)
-      @court6 = create(:court, :name => 'Yorkshire court', :display => true, :address_ids => [@visiting_address1.id])
 
-      20.times { create(:court, :name => 'Just one more court', :display => true, :address_ids => [@visiting_address4.id]) }
     end
   end
 
-  it "should return courts nearby if full postcode search" do
-    VCR.use_cassette('postcode_found') do
-      court_search = CourtSearch.new('NE12 8AQ')
-      court_search.results.should == [@court6]
-    end
-  end
+  context "postcode search" do
+    let!(:at_visiting) { create(:address_type, :name => "Visiting") }
+    let!(:town) { create(:town, :name => "London") }
 
-  it "should return courts nearby if partial postcode" do
-    VCR.use_cassette('partial_postcode') do
-      court_search = CourtSearch.new('NE12')
-      court_search.results.should == [@court6]
+    let!(:visiting_address1) { create(:address, :address_line_1 => "Some street", 
+                              :address_type_id => at_visiting.id, :postcode => 'NE12 8AQ', :town_id => town.id) }
+    let!(:court6) do 
+      VCR.use_cassette('postcode_found') do
+        create(:court, :name => 'Yorkshire court', :display => true, :address_ids => [visiting_address1.id]) 
+      end
+    end
+
+    it "should return courts nearby if full postcode search" do
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('NE12 8AQ')
+        court_search.results.should == [court6]
+      end
+    end
+
+    it "should return courts nearby if partial postcode" do
+      VCR.use_cassette('partial_postcode') do
+        court_search = CourtSearch.new('NE12')
+        court_search.results.should == [court6]
+      end
     end
   end
 
@@ -108,10 +118,20 @@ describe CourtSearch do
     end
   end
 
-  it "should limit search to a maximum of 20 results" do
-    VCR.use_cassette('postcode_found') do
-      cs = CourtSearch.new('EH22 4AD')
-      cs.results.length.should == 20
+  context "search results limit" do
+    let!(:at_visiting) { create(:address_type, :name => "Visiting") }
+    let!(:town) { create(:town, :name => "London") }
+
+    let!(:visiting_address) { create(:address, :address_line_1 => "Some street", 
+                              :address_type_id => at_visiting.id, :postcode => 'EH22 4AD', :town_id => town.id) }
+
+    it "should limit search to a maximum of 20 results" do
+      VCR.use_cassette('postcode_found') do
+        20.times { create(:court, :name => 'Just one more court', :display => true, :address_ids => [visiting_address.id]) }
+
+        cs = CourtSearch.new('EH22 4AD')
+        cs.results.length.should == 20
+      end
     end
   end
 

@@ -62,10 +62,9 @@
       #addresses
         %h2 Location
         %p
-          Use these fields to plot the court on a map. You can get the latitude/longitude using
-          %a{:href => "http://itouchmap.com/latlong.html", :rel => "ext"} itouchmap
-        = f.input :latitude, :wrapper_html => { :class => 'admin-only' }
-        = f.input :longitude, :wrapper_html => { :class => 'admin-only' }
+          Latitude and longitude are automatically calculated based on the visiting address postcode.
+        - if @court.latitude && @court.longitude
+          = "Latitude: #{@court.latitude}, Longitude: #{@court.longitude}"
         #group-addresses
           %h2 Addresses
           = f.simple_fields_for :addresses do |builder|
