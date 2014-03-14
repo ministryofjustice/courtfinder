@@ -17,7 +17,7 @@ class Court < ActiveRecord::Base
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
-                  :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
+                  :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
                   :postcode_list
@@ -28,13 +28,17 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
+  before_validation :convert_visiting_to_location
+  
   validates :name, presence: true
+
   validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
   validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
 
   validate :check_postcode_errors
 
   has_paper_trail ignore: [:created_at, :updated_at]
+
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
@@ -139,9 +143,25 @@ class Court < ActiveRecord::Base
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
 
-  protected
+  def visiting_addresses
+    addresses.to_a.select { |a| AddressType.find(a.address_type_id).try(:name) == "Visiting" }
+  end
 
-    def has_visiting_address?
-      addresses.visiting.count > 0
+  def has_visiting_address?
+    #Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
+    visiting_addresses.count > 0
+  end
+
+  def convert_visiting_to_location
+    if visiting_postcode = visiting_addresses.first.try(:postcode)
+      @cs = CourtSearch.new(visiting_postcode)
+      if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
+        self.latitude = lat_lon[0]
+        self.longitude = lat_lon[1]
+      end
+    else
+      self.latitude = nil
+      self.longitude = nil      
     end
+  end
 end

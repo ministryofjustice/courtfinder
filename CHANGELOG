@@ -16,6 +16,8 @@
 * 66609784 - Search Family court for adoption application
 * 66609752 - Search Family court for divorce application
 * 67486836 - BUG: Multiple search results
+* 66808486 - Don't show error if visiting address is not set and no lat/lon
+* 66813762 - Require change of lat/lon when admin changes visiting address post code
 
 2.5.4
 ---------------------
