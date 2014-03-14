@@ -57,9 +57,11 @@ class Court < ActiveRecord::Base
   scope :by_name,         -> { order('LOWER(courts.name)') }
   scope :by_area_of_law,  -> (area_of_law) { joins(:areas_of_law).where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
   scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
-  scope :for_council,     -> (council) {joins(:councils).where("councils.name" => council) }
-  
-  def self.by_postcode_court_mapping(postcode, area_of_law = nil)
+  scope :for_council,     -> (council) { joins(:councils).where("councils.name" => council) }
+  scope :for_council_and_area_of_law, -> (council, area_of_law) {
+    joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
+  }
+  scope :by_postcode_court_mapping, -> (postcode, area_of_law = nil) {
     if postcode.present?
       if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
             postcode.gsub(/\s+/, "").downcase)
@@ -76,15 +78,7 @@ class Court < ActiveRecord::Base
     else
       self
     end
-  end
-
-  def self.search(q)
-    where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
-  end
-
-  def self.for_council(council, area_of_law)
-    joins(:court_council_links).joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
-  end
+  }
 
   def locatable?
     longitude && latitude && !addresses.visiting.empty?
