@@ -33,23 +33,25 @@ describe CourtsController do
 
   context "a court exists" do
     before :each do
-      @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
-      @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
-      @town = FactoryGirl.create(:town, :name => "London")
-      @ct_county = FactoryGirl.create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
-      @ct_family = FactoryGirl.create(:court_type, :name => "Family Proceedings Court")
-      @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
-      @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
-      @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
+      @at_visiting = create(:address_type, :name => "Visiting")
+      @at_postal = create(:address_type, :name => "Postal")
+      @town = create(:town, :name => "London")
+      @ct_county = create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
+      @ct_family = create(:court_type, :name => "Family Proceedings Court")
+      @ct_tribunal = create(:court_type, :name => "Tribunal")
+      @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
+      @ct_crown = create(:court_type, :name => "Crown Court")
 
-      @visiting_address = FactoryGirl.create(:address, :address_line_1 => "Some street", :postcode => "CR0 2RB", :address_type_id => @at_visiting.id, :town_id => @town.id)
-      @postal_address = FactoryGirl.create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+      @visiting_address = create(:address, :address_line_1 => "Some street", :postcode => "CR0 2RB", :address_type_id => @at_visiting.id, :town_id => @town.id)
+      @postal_address = create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
 
-      @county_court = FactoryGirl.create(:court, :name => 'And Justice For All County Court',
-                                         :info_leaflet => "some useful info",
-                                         :court_type_ids => [@ct_county.id], :display => true,
-                                         :address_ids => [@visiting_address.id, @postal_address.id])
-      @family_court = FactoryGirl.create(:court, :name => 'Capita Family Court',
+      VCR.use_cassette('postcode_found') do
+        @county_court = create(:court, :name => 'And Justice For All County Court',
+                                           :info_leaflet => "some useful info",
+                                           :court_type_ids => [@ct_county.id], :display => true,
+                                           :address_ids => [@visiting_address.id, @postal_address.id])
+      end
+      @family_court = create(:court, :name => 'Capita Family Court',
                                          :info_leaflet => "some useful info",
                                          :court_type_ids => [@ct_family.id], :display => true)
       @tribunal = create(:court, :name => 'Capita Tribunal',

@@ -14,13 +14,15 @@ describe Court do
 
     @town = create(:town, :name => "London")
 
-    @visiting_address1 = FactoryGirl.create(:address, :address_line_1 => "Some street", :postcode => "SW1H9AJ", :address_type_id => @at_visiting.id, :town_id => @town.id)
-    @postal_address = FactoryGirl.create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+    @visiting_address1 = create(:address, :address_line_1 => "Some street", :postcode => "SW1H9AJ", :address_type_id => @at_visiting.id, :town_id => @town.id)
+    @postal_address = create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
 
-    @county_court = FactoryGirl.create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id], 
-                                        :address_ids => [@visiting_address1.id, @postal_address.id])
-
-    @crown_court = FactoryGirl.create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id], 
+    VCR.use_cassette('postcode_found') do
+      @county_court = create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id], 
+                                          :address_ids => [@visiting_address1.id, @postal_address.id])
+    end
+    
+    @crown_court = create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id], 
                                         :address_ids => [@postal_address.id])
 
     @magistrates_court = create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
