@@ -10,7 +10,6 @@ describe CourtSearch do
     @visiting_address1 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'NE12 8AQ', :town_id => @town.id)
     @visiting_address2 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'sl58le', :town_id => @town.id)
     @visiting_address3 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'SE19NH', :town_id => @town.id)
-    # @visiting_address4 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'EH22 4AD', :town_id => @town.id)
 
     VCR.use_cassette('postcode_found') do
       @court1 = create(:court, :name => 'Aylesbury Court', :display => true, :address_ids => [@visiting_address3.id])
@@ -143,13 +142,10 @@ describe CourtSearch do
                                       :area_of_law_ids => [@possession.id], :address_ids => [@visiting_address3.id])
       end
       @court7.postcode_courts.create(:postcode => 'SE19NH')
-      # create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
-      #TODO - Fix these
-      @court8 = build(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.337246, :longitude => -1.434219)
-      @court8.save(:validate => false)
-
-      @court9 = build(:court, :name => 'Second Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.33724, :longitude => -1.43421)
-      @court9.save(:validate => false)
+      VCR.use_cassette('postcode_found') do    
+        @court8 = create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], 
+                        :address_ids => [@visiting_address1.id])
+      end
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
@@ -171,15 +167,20 @@ describe CourtSearch do
     before(:each) do
       @money_claims = create(:area_of_law, name: 'Money Claims', type_money_claims: true)
       #TODO - Fix these
-      @court7 = build(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
-      @court7.save(:validate => false)
+      VCR.use_cassette('postcode_found') do
+        @court7 = create(:court, :court_number => 434, :name => 'Money Claims Court', :display => true, 
+                                      :area_of_law_ids => [@money_claims.id], :address_ids => [@visiting_address3.id])
+        @court8 = create(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], 
+                        :address_ids => [@visiting_address1.id])
+
+      end
+
+      # @court7 = build(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      # @court7.save(:validate => false)
       @court7.postcode_courts.create(:postcode => 'SE19NH')
 
-      @court8 = build(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
-      @court8.save(:validate => false)
-
-      @court9 = build(:court, :name => 'Second Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.33724, :longitude => -1.43421)
-      @court9.save(:validate => false)
+      # @court8 = build(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
+      # @court8.save(:validate => false)
     end
 
     it "should return only one search result if the postcode is found in the postcode to court mapping" do
@@ -208,7 +209,6 @@ describe CourtSearch do
         @court8 = create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, 
                                     :areas_of_law => [@bankruptcy], :address_ids => [@visiting_address1.id])
       end
-      @court9 = create(:court, :name => 'Second Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.33724, :longitude => -1.43421)
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do

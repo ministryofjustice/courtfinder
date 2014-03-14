@@ -63,8 +63,6 @@ class CourtSearch
     @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
   end
 
-  # private
-
   def postcode_area_search(area_of_law, latlng)
     if area_of_law.type_possession? || area_of_law.type_money_claims?
       courts = Court.visible.by_postcode_court_mapping(@query)
