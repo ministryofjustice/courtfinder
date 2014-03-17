@@ -4,8 +4,8 @@
   <% if @court_search.postcode_search? %>
     <% if @chosen_area_of_law && (@chosen_area_of_law.type_possession? || @chosen_area_of_law.type_bankruptcy? || @chosen_area_of_law.type_money_claims?) && @results.length == 1 %>
       <p>This court handles <%= @chosen_area_of_law.name %> for the post code <strong><%= @court_search.query %></strong>:
-    <% elsif @chosen_area_of_law && @chosen_area_of_law.type_children? && (@results.size < 6) %>
-      <p><%= "The #{'court'.pluralize(@results.size)} #{"accept".verb.conjugate(:plurality=>(@results.size>1?:plural: :singular))} applications" %> related to children for the post code <strong><%= @court_search.query %></strong>:</p>
+    <% elsif @chosen_area_of_law && (@chosen_area_of_law.type_children? || @chosen_area_of_law.type_divorce? || @chosen_area_of_law.type_adoption?) && (@results.size < 6) %>
+      <p><%= "The #{'court'.pluralize(@results.size)} #{"accept".verb.conjugate(:plurality=>(@results.size>1?:plural: :singular))} applications" %> related to <%= @chosen_area_of_law.name.downcase %> for the post code <strong><%= @court_search.query %></strong>:</p>
     <% else %>
       <p>Results are ordered by distance closest to <strong><%= @court_search.query %></strong>. Your search found the following <%= @results.count %> results:</p>
     <% end %>

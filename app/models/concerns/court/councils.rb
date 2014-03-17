@@ -4,6 +4,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
+        attr_accessor :invalid_councils
         attr_accessible :children_councils_list, :divorce_councils_list, :adoption_councils_list
 
         has_many :court_council_links
@@ -19,7 +20,7 @@ module Concerns
 
           relation = court_council_links.by_name
           relation = relation.where(area_of_law_id: area_of_law_id)
-          relation.map(&:council)
+          relation.map(&:council).compact
         end
 
         def set_area_councils_list(list, area_of_law = nil)
@@ -28,7 +29,8 @@ module Concerns
 
           # map existing councils
           exisiting_council_ids = court_council_links.where(area_of_law_id: area_of_law_id).map(&:council_id)
-          new_council_ids = names.map{|name| Council.where(name: name).first.try(:id) }.compact
+          self.invalid_councils = []
+          new_council_ids = names.map{|name| Council.where(name: name).first.try(:id) || self.invalid_councils << name }.compact
           
           # delete old records removed from list 
           exisiting_council_ids.each do |id|

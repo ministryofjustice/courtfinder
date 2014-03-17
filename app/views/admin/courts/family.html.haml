@@ -20,6 +20,14 @@
               - unassigned.each do |council|
                 %li= council.name
 
+    - if invalid_councils = flash[:invalid_councils]
+      - unless invalid_councils.empty?
+        .warning
+          %strong Some councils were not added, as they could not be found:
+          %ul
+            - invalid_councils.each do |name|
+              %li= name
+
     %p.sub-list
       View:
       - family_areas_of_law do |area, id|
@@ -34,6 +42,7 @@
             Court name
           %th
             Councils
+            .hint Use the auto complete boxes to add councils, start typing a council name to see options.
       %tbody
         - @courts.by_area_of_law(@area_of_law.name).each do |court|
           %tr{ class: cycle('even', 'odd') }
@@ -47,5 +56,5 @@
 
 .pagination-row.cf
   .page-entries
-    = page_entries_info @courts
-  = will_paginate @courts
+    = page_entries_info @courts.by_area_of_law(@area_of_law.name)
+  = will_paginate @courts.by_area_of_law(@area_of_law.name)

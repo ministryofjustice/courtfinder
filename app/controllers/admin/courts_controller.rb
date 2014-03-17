@@ -63,6 +63,8 @@ class Admin::CourtsController < Admin::ApplicationController
     @court = Court.find(params[:id])
     if @court.update_attributes(params[:court])
       purge_all_pages
+      flash[:invalid_councils] = @court.invalid_councils if @court.invalid_councils
+      
       respond_to do |format|
         format.html do 
             redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'Court was successfully updated.'
