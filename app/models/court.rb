@@ -1,7 +1,6 @@
 class Court < ActiveRecord::Base
   include Concerns::Court::Councils
 
-  attr_accessor :active_area_of_law
   belongs_to :area
   has_many :addresses
   has_many :opening_times
