@@ -51,4 +51,18 @@ namespace :process do
       a.update_attributes(type_children: true)
     end
   end
+
+  desc "Set type_adoption flag to true for existing adoption courts"
+  task :set_type_adoption_flag => :environment do
+    AreaOfLaw.where("lower(name) like '%adoption%'").each do |a|
+      a.update_attributes(type_adoption: true)
+    end
+  end
+
+  desc "Set type_divorce flag to true for existing divorce courts"
+  task :set_type_divorce_flag => :environment do
+    AreaOfLaw.where("lower(name) like '%divorce%'").each do |a|
+      a.update_attributes(type_divorce: true)
+    end
+  end
 end

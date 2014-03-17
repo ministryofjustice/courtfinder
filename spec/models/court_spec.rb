@@ -2,34 +2,35 @@ require "spec_helper"
 
 describe Court do
   before(:each) do
-    @court1 = FactoryGirl.create(:court, :name => "London Court")
-    @court2 = FactoryGirl.create(:court, :name => "Something else")
-    @ct_county = FactoryGirl.create(:court_type, :name => "County Court")
-    @ct_crown = FactoryGirl.create(:court_type, :name => "Crown Court")
-    @ct_magistrate = FactoryGirl.create(:court_type, :name => "Magistrates' Court")
-    @ct_tribunal = FactoryGirl.create(:court_type, :name => "Tribunal")
+    @court1 = create(:court, :name => "London Court")
+    @court2 = create(:court, :name => "Something else")
+    @ct_county = create(:court_type, :name => "County Court")
+    @ct_crown = create(:court_type, :name => "Crown Court")
+    @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
+    @ct_tribunal = create(:court_type, :name => "Tribunal")
 
-    @at_visiting = FactoryGirl.create(:address_type, :name => "Visiting")
-    @at_postal = FactoryGirl.create(:address_type, :name => "Postal")
+    @at_visiting = create(:address_type, :name => "Visiting")
+    @at_postal = create(:address_type, :name => "Postal")
 
-    @town = FactoryGirl.create(:town, :name => "London")
+    @town = create(:town, :name => "London")
 
-    @county_court = FactoryGirl.create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id],
-                                        :latitude => 51.379743, :longitude => -0.104515) do |court|
-      @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @at_visiting.id, :town_id => @town.id)
-      @postal_address = court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+    @visiting_address1 = create(:address, :address_line_1 => "Some street", :postcode => "SW1H9AJ", :address_type_id => @at_visiting.id, :town_id => @town.id)
+    @postal_address = create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+
+    VCR.use_cassette('postcode_found') do
+      @county_court = create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id], 
+                                          :address_ids => [@visiting_address1.id, @postal_address.id])
     end
+    
+    @crown_court = create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id], 
+                                        :address_ids => [@postal_address.id])
 
-    @crown_court = FactoryGirl.create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id]) do |court|
-      court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
-    end
-
-    @magistrates_court = FactoryGirl.create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
-    @tribunal = FactoryGirl.create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
+    @magistrates_court = create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
+    @tribunal = create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
   end
 
   describe 'associations' do
-    it { should have_many(:councils).through(:local_authorities) }
+    it { should have_many(:councils).through(:court_council_links) }
   end
 
   describe "searching" do
@@ -55,10 +56,10 @@ describe Court do
   end
 
   it "should return a visiting address" do
-    @county_court.addresses.visiting.first.should == @visiting_address
+    @county_court.addresses.visiting.first.should == @visiting_address1
   end
 
-  it "should return a postal address" do
+  pending "should return a postal address" do
     @county_court.addresses.postal.first.should == @postal_address
   end
 
@@ -70,46 +71,9 @@ describe Court do
     @county_court.locatable?.should_not be_nil
   end
 
-  context "should have a valid latitude and longitude" do
-    it "should fail validation for latitude values outside (-90, 90) and non-numeric values" do
-      [-91, 91, "string"].each do |l|
-        @county_court.latitude = l
-        @county_court.should_not be_valid
-      end
-    end
-    
-    it "should pass validation for latitude values within (-90, 90)" do
-      [0, 89.99, -45.4].each do |l|
-        @county_court.latitude = l
-        @county_court.should be_valid
-      end
-    end
-
-    it "should fail validation for longitude values outside (-180, 180) and non-numeric values" do
-      [181, -181, "string"].each do |l|
-        @county_court.longitude = l
-        @county_court.should_not be_valid
-      end
-    end
-
-    it "should pass validation for longitude values within (-180, 180)" do
-      [179, -81, 0.45].each do |l|
-        @county_court.longitude = l
-        @county_court.should be_valid
-      end
-    end
-
-    it "should allow longitude and latitude validation to be switched off" do
-      @county_court.longitude = nil
-      @county_court.latitude = nil
-      @county_court.validate_coords = false
-      @county_court.should be_valid
-    end
-  end
-
   describe "Postcode courts" do
     before(:each) do
-      @london_court = FactoryGirl.create(:court, :name => "London Court")
+      @london_court = create(:court, :name => "London Court")
       @london_court.postcode_courts.create(:postcode => 'SE19NH')
       @london_court.postcode_courts.create(:postcode => 'SE153AN')
     end
@@ -126,27 +90,81 @@ describe Court do
 
   describe 'Find court by council name' do
     before(:each) do
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
-      @court7.councils.create(:name => 'Lambeth Borough Council')
+      @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
+      @council = Council.create(:name => 'Lambeth Borough Council')
+      @area_of_law = create(:area_of_law, name: "Children", type_children: true)
+      @court7.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
     end
 
     context 'should return the name/names of the court for a given council' do
 
-      context 'when there is only one court' do
-        it 'should return Children Court' do
-          expect(Court.for_council('Lambeth Borough Council')).to eq [@court7]
+      describe '#for_council_and_area_of_law' do
+        context 'when there is only one court' do
+          it 'should return Children Court' do
+            expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7]
+          end
         end
-      end
 
-      context 'when there are multiple courts' do
-        it 'should return multiple courts sorted by name' do
-          @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
-          @court9.councils << Council.find_by_name("Lambeth Borough Council")
+        context 'when there are multiple courts' do
+          it 'should return multiple courts sorted by name' do
 
-          expect(Court.for_council('Lambeth Borough Council')).to eq [@court7, @court9]
+            @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
+            @court9.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
+
+            expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
+          end
         end
       end
     end
+  end
+
+  context 'with areas_of_law' do
+    let!(:children) { create(:area_of_law, name: 'Children') } 
+    let!(:divorce)  { create(:area_of_law, name: 'Divorce') } 
+    let!(:adoption) { create(:area_of_law, name: 'Adoption') }
+    let!(:court) { create(:court) }
+    let!(:council) { create(:council) }
+
+    describe '#children_councils_list' do
+      it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: council, area_of_law: children)
+        court.children_councils_list.should eq(council.name)
+      end
+    end
+
+    describe '#divorce_councils_list' do
+      it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: council, area_of_law: divorce)
+        court.divorce_councils_list.should eq(council.name)
+      end
+    end
+
+    describe '#children_councils_list=' do
+      let(:councils) { 2.times.map{ create(:council) } }
+
+      it 'assigns new councils from comma seperated list' do
+        court.children_councils_list = councils.map(&:name).join(',')
+        court.children_councils.should include(councils.first)
+        court.children_councils.should include(councils.last)
+      end
+
+      it 'removes councils not in list' do
+        councils.each do |council|
+          court.court_council_links.create(area_of_law: children, council_id: council.id)
+        end
+
+        court.children_councils_list = councils.first.name
+        court.children_councils.count.should eq(1)
+        court.children_councils.first.name.should eq(councils.first.name)
+      end
+
+      it 'does not add a council unless the name is matched' do
+        court.children_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
+        court.children_councils.count.should eq(2)
+        court.children_councils.should eq(councils)
+      end
+    end
+
   end
 
 end

@@ -1,0 +1,10 @@
+= form_for [:admin, court], url: admin_court_path(court, redirect_url: family_admin_courts_path(area_of_law_id: area_of_law.id)), html: { class: 'js-council-tag-form' } do |f|
+  - if court.errors.any?
+    #error_explanation
+      %ul
+        - court.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.text_field "#{area_of_law.name.downcase}_councils_list", class: 'council js-tags'
+  = f.submit 'Save', class: 'button right'
+

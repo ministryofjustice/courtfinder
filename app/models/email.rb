@@ -8,8 +8,6 @@ class Email < ActiveRecord::Base
 
   has_paper_trail :ignore => [:created_at, :updated_at]
   validates_presence_of :address
-  validates_uniqueness_of :address, :scope => :court_id, :message => "is invalid. This email address is already used for another service."
-
   validates :address, email: true, if: ->(f) { f.address.present? }
 
   default_scope :order => :sort
@@ -20,5 +18,9 @@ class Email < ActiveRecord::Base
 
   def strip_whitespace
     self[:address].strip!
+  end
+
+  def contact_type_name
+    self.try(:contact_type).try(:name).blank? ? "another service" : self.contact_type.name
   end
 end

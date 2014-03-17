@@ -1,33 +1,56 @@
-v2.5.4
+2.6.0-dev
+---------------------
+* 65905292 - Phone number editing - don't allow duplicate numbers to be entered
+* 66808486 - Don't show lat long validation error if visiting address
+* 66609752 - Search Family court for divorce application
+* 67016910 - Automatic testing should not call live MapIt API
+* 66609322 - "Manage all courts" admin control for Family court - Children applications
+* 66610114 - "Manage all courts" admin control for Family court - Adoption applications
+* 66610070 - "Manage all courts" admin control for Family court - Divorce applications
+* 65905292 - Phone number editing - don't allow duplicate numbers to be entered
+* 66808486 - Don't show lat long validation error if visiting address
+* 66609752 - Search Family court for divorce application
+* 66612556 - Warning for unassigned local authorities to Family court - Adoption
+* 66612546 - Warning for unassigned local authorities to Family court - Divorce
+* 66612298 - Warning for unassigned local authorities to Family court - Children
+* 66609784 - Search Family court for adoption application
+* 66609752 - Search Family court for divorce application
+* 67486836 - BUG: Multiple search results
+* 66808486 - Don't show error if visiting address is not set and no lat/lon
+* 66813762 - Require change of lat/lon when admin changes visiting address post code
+
+2.5.4
 ---------------------
 * Added rescue block around audit csv function
 
-v2.5.3
+2.5.3
 ---------------------
 * Added jquery_ujs into applation js manifest as links were not deleting
 
-v2.5.2
+2.5.2
 ---------------------
 * Added support for varnish port via configuration
 
-v2.5.1
+2.5.1
 ---------------------
 * 67017982 - BUG: Cannot add new town
 
-v2.5.0
+2.5.0
 ---------------------
 * Added application version number to footer
+* 66859020 - Show detailed error message for duplicate emails
 
-v2.4.1
+2.4.1
 ---------------------
 * Hotfix: Added version to footer in the markup
 
-v2.4.0
+2.4.0
 ---------------------
+* "Manage all courts" admin control for Family court - Children applications - (66609322)
 * Added version to staging and development in the footer for reference
 * Added conditional validation to court to allow import rake task to succeed - DH
 * Fixed css class not including input[type="email"] and button alignment and defaults
 
-v2.3.0
+2.3.0
 ---------------------
 * Current master version

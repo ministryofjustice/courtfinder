@@ -1,12 +1,12 @@
-<li>
+f<li>
   <div class="sortable-summary">
     <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
     <span class="type"></span>: <span class="name"></span>
   </div>
 
   <fieldset>
-    <%= f.association :opening_type, :include_blank => false %>
-    <%= f.input :name, :input_html => { :placeholder => 'eg 9am to 5:30pm' } %>
+    <%= f.association :opening_type, include_blank: false %>
+    <%= f.input :name, :input_html => { placeholder: 'eg 9am to 5:30pm' } %>
     <%= f.input :sort %>
     <div class="destroy">
       <a href="#" class="remove"><span class="ui-icon ui-icon-circle-minus"></span>remove these opening times</a>

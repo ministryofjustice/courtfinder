@@ -17,8 +17,10 @@ describe Court do
     end
 
     it "should not allow the same email address to be added to a court more than once" do
-      2.times { @court1.emails.create(address: "valid_email@example.com") }
-      @court1.emails.count.should == 1
+      ["valid_email@example.com", "Gwent-MC-PostCourt@hmcts.gsi.gov.uk", "hearings@Aylesbury.countycourt.gsi.gov.uk"]. each do |email|
+        2.times { @court1.emails.create(address: "valid_email@example.com") }
+        @court1.emails.count.should == 1
+      end
     end
   end
 end

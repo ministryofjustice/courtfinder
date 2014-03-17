@@ -29,8 +29,6 @@
       %li
         %a{:href => "#addresses"} Addresses
       %li
-        %a{:href => "#location"} Location
-      %li
         %a{:href => "#photo"} Photo
       %li
         %a{:href => "#opening-times"} Opening times
@@ -62,18 +60,16 @@
         %p Use this field to display a temporary notice of building closure. This is limited to 250 characters including spaces.
         = f.input :alert, :maxlength => 250, :hint => 'Remove all text to hide the alert'
       #addresses
+        %h2 Location
+        %p
+          Latitude and longitude are automatically calculated based on the visiting address postcode.
+        - if @court.latitude && @court.longitude
+          = "Latitude: #{@court.latitude}, Longitude: #{@court.longitude}"
         #group-addresses
           %h2 Addresses
           = f.simple_fields_for :addresses do |builder|
             = render 'address_fields', f: builder
           = link_to_add_fields "Add address", f, :addresses, 'initNewAddressBlock'
-      #location
-        %h2 Location
-        %p
-          Use these fields to plot the court on a map. You can get the latitude/longitude using
-          %a{:href => "http://itouchmap.com/latlong.html", :rel => "ext"} itouchmap
-        = f.input :latitude, :wrapper_html => { :class => 'admin-only' }
-        = f.input :longitude, :wrapper_html => { :class => 'admin-only' }
       #photo
         %h2 Photo
         = image_tag @court.image_file, :width => '160px' if @court.image_file.present?
@@ -155,5 +151,5 @@
         = f.input :display
 
   .form-actions.cf
-    = link_to "View court", @court, :target => "_blank"
-    = f.submit "Update", :class => "button right"
+    = link_to 'View court', "/courts/#{@court.slug}/", class: 'button button-secondary', target: '_blank'
+    = f.submit 'Update', class: 'button right'

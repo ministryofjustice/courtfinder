@@ -34,7 +34,7 @@ class CourtSearch
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
       end
     end
-    courts
+    courts.uniq
   end
 
   def lookup_council_name
@@ -58,14 +58,10 @@ class CourtSearch
     postcode_info['shortcuts']['council']
   end
 
-
-
   def postcode_search?
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
     @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
   end
-
-  private
 
   def postcode_area_search(area_of_law, latlng)
     if area_of_law.type_possession? || area_of_law.type_money_claims?
@@ -73,8 +69,8 @@ class CourtSearch
     elsif area_of_law.type_bankruptcy?
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law
       courts = Court.visible.by_postcode_court_mapping(@query, @options[:area_of_law])
-    elsif area_of_law.type_children?
-      courts = Court.for_council(lookup_council_name)
+    elsif area_of_law.type_children? || area_of_law.type_adoption? || area_of_law.type_divorce?
+      courts = Court.for_council_and_area_of_law(lookup_council_name, area_of_law)
     end
 
     if latlng
