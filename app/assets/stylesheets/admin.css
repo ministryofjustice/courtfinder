@@ -11,4 +11,5 @@
  *= require jquery.tagsinput
  *= require admin/forms
  *= require admin/pagination
+ *= require admin/layout
  */

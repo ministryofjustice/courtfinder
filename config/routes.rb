@@ -1,6 +1,7 @@
 Courtfinder::Application.routes.draw do
 
   # Public court pages
+  # TODO: This needs tidying
   scope 'courts', :controller => :courts do
     match '/' => :index, :as => :courts
     match '/postcodes' => :postcodes, :as => :postcodes
@@ -26,6 +27,8 @@ Courtfinder::Application.routes.draw do
     match '/:id' => :show, :as => :region
   end
 
+  resources :councils, only: [:index, :show]
+
   # Admin section
   get 'admin', to: redirect('/admin/courts')
 
@@ -33,15 +36,10 @@ Courtfinder::Application.routes.draw do
 
   namespace :admin do
     resources :users
-
     resources :addresses
-
     resources :towns
-
     resources :counties
-
     resources :countries
-
     resources :address_types, :path => '/address-types'
 
     resources :courts do
@@ -49,7 +47,14 @@ Courtfinder::Application.routes.draw do
         get :areas_of_law
         get :court_types
         get :postcodes
+        get :family
         get :audit
+      end
+    end
+
+    resources :councils do
+      collection do
+        get :complete
       end
     end
 

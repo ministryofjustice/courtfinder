@@ -39,3 +39,5 @@ public/uploads
 /support/*
 # Ignore application configuration
 /config/application.yml
+/local_authorities.csv
+/local_authorities.error

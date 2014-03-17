@@ -2,23 +2,54 @@ require "spec_helper"
 
 describe CourtSearch do
   before(:each) do
-    @court1 = FactoryGirl.create(:court, :name => 'Aylesbury Court', :display => true, :latitude => 51.768305511577, :longitude => -0.57250059493886)
-    @court2 = FactoryGirl.create(:court, :name => 'London Court', :display => true)
-    @court3 = FactoryGirl.create(:court, :name => 'Reading High Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Civil')])
-    @court4 = FactoryGirl.create(:court, :name => 'Reading Low Court', :display => true, :latitude => 51.419069727514, :longitude => -0.69702060464972, :areas_of_law => [FactoryGirl.create(:area_of_law, :name => 'Family')])
-    @court5 = FactoryGirl.create(:court, :name => 'Some Old Court', :display => false)
-    @court6 = FactoryGirl.create(:court, :name => 'Yorkshire court', :display => true, :latitude => 54.337246, :longitude => -1.434219)
-    20.times { FactoryGirl.create(:court, :name => 'Just one more court', :display => true, :latitude => 51.41906972756, :longitude => -0.69702060464972) }
+    @at_visiting = create(:address_type, :name => "Visiting")    
+    @town = create(:town, :name => "London")
+    @civil = create(:area_of_law, :name => 'Civil')
+    @family = create(:area_of_law, :name => 'Family')
+
+    @visiting_address1 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'NE12 8AQ', :town_id => @town.id)
+    @visiting_address2 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'sl58le', :town_id => @town.id)
+    @visiting_address3 = create(:address, :address_line_1 => "Some street", :address_type_id => @at_visiting.id, :postcode => 'SE19NH', :town_id => @town.id)
+
+    VCR.use_cassette('postcode_found') do
+      @court1 = create(:court, :name => 'Aylesbury Court', :display => true, :address_ids => [@visiting_address3.id])
+      @court2 = create(:court, :name => 'London Court', :display => true)
+      @court3 = create(:court, :name => 'Reading High Court', :display => true, 
+                                    :area_of_law_ids => [@civil.id], :address_ids => [@visiting_address2.id])
+
+      @court4 = create(:court, :name => 'Reading Low Court', :display => true, 
+                                  :area_of_law_ids => [@family.id], :address_ids => [@visiting_address3.id])
+
+      @court5 = create(:court, :name => 'Some Old Court', :display => false)
+
+    end
   end
 
-  it "should return courts nearby if full postcode search" do
-    court_search = CourtSearch.new('NE12 8AQ')
-    court_search.results.should == [@court6]
-  end
+  context "postcode search" do
+    let!(:at_visiting) { create(:address_type, :name => "Visiting") }
+    let!(:town) { create(:town, :name => "London") }
 
-  it "should return courts nearby if partial postcode" do
-    court_search = CourtSearch.new('NE12')
-    court_search.results.should == [@court6]
+    let!(:visiting_address1) { create(:address, :address_line_1 => "Some street", 
+                              :address_type_id => at_visiting.id, :postcode => 'NE12 8AQ', :town_id => town.id) }
+    let!(:court6) do 
+      VCR.use_cassette('postcode_found') do
+        create(:court, :name => 'Yorkshire court', :display => true, :address_ids => [visiting_address1.id]) 
+      end
+    end
+
+    it "should return courts nearby if full postcode search" do
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('NE12 8AQ')
+        court_search.results.should == [court6]
+      end
+    end
+
+    it "should return courts nearby if partial postcode" do
+      VCR.use_cassette('partial_postcode') do
+        court_search = CourtSearch.new('NE12')
+        court_search.results.should == [court6]
+      end
+    end
   end
 
   it "should return courts by name if search is not a postcode" do
@@ -26,7 +57,6 @@ describe CourtSearch do
   end
 
   it "should limit results to area of law when specified" do
-    # should return court 3 and not court 4
     CourtSearch.new('Reading', {:area_of_law => 'Civil'}).results.should == [@court3]
   end
 
@@ -54,164 +84,196 @@ describe CourtSearch do
   end
 
   it "should return an error when the search string is blank" do
-    cs = CourtSearch.new('')
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('')
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should return an error when the postcode cannot be found" do
-    cs = CourtSearch.new('irrelevant')
-    cs.should_receive(:postcode_search?).and_return(true)
-    cs.should_receive(:latlng_from_postcode).and_return(false)
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('irrelevant')
+      cs.should_receive(:postcode_search?).and_return(true)
+      cs.should_receive(:latlng_from_postcode).and_return(false)
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should return an error when the postcode cannot be found for a partial postcode" do
-    cs = CourtSearch.new('YO6')
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('YO6')
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
   it "should return an error when the postcode cannot be found for a complete postcode" do
-    cs = CourtSearch.new('T27 4DB')
-    cs.results.should be_empty
-    cs.should have(1).errors
+    VCR.use_cassette('postcode_not_found') do
+      cs = CourtSearch.new('T27 4DB')
+      cs.results.should be_empty
+      cs.should have(1).errors
+    end
   end
 
-  it "should limit search to a maximum of 20 results" do
-    cs = CourtSearch.new('SE1 9NH')
-    cs.results.length.should == 20
+  context "search results limit" do
+    let!(:at_visiting) { create(:address_type, :name => "Visiting") }
+    let!(:town) { create(:town, :name => "London") }
+
+    let!(:visiting_address) { create(:address, :address_line_1 => "Some street", 
+                              :address_type_id => at_visiting.id, :postcode => 'EH22 4AD', :town_id => town.id) }
+
+    it "should limit search to a maximum of 20 results" do
+      VCR.use_cassette('postcode_found') do
+        20.times { create(:court, :name => 'Just one more court', :display => true, :address_ids => [visiting_address.id]) }
+
+        cs = CourtSearch.new('EH22 4AD')
+        cs.results.length.should == 20
+      end
+    end
   end
 
   context "Chosen area of law is Possession" do
     before(:each) do
-      @possession = FactoryGirl.create(:area_of_law, :name => 'Possession', :type_possession => true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      @possession = create(:area_of_law, :name => 'Possession', :type_possession => true)
+      VCR.use_cassette('postcode_found') do
+        @court7 = create(:court, :court_number => 434, :name => 'Possesssions Court', :display => true, 
+                                      :area_of_law_ids => [@possession.id], :address_ids => [@visiting_address3.id])
+      end
       @court7.postcode_courts.create(:postcode => 'SE19NH')
-      # FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.337246, :longitude => -1.434219)
-      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], :latitude => 54.33724, :longitude => -1.43421)
+      VCR.use_cassette('postcode_found') do    
+        @court8 = create(:court, :name => 'The Nearest Possesssions Court', :display => true, :areas_of_law => [@possession], 
+                        :address_ids => [@visiting_address1.id])
+      end
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Possession'})
-      court_search.results.should == [@court7]
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Possession'})
+        court_search.results.should == [@court7]
+      end
     end
 
     it "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
-      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Possession'})
-      court_search.results.should == [@court8]
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Possession'})
+        court_search.results.should == [@court8]
+      end
     end
   end
 
   context "Chosen area of law is Money Claims" do
     before(:each) do
-      @money_claims = FactoryGirl.create(:area_of_law, name: 'Money Claims', type_money_claims: true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      @money_claims = create(:area_of_law, name: 'Money Claims', type_money_claims: true)
+      #TODO - Fix these
+      VCR.use_cassette('postcode_found') do
+        @court7 = create(:court, :court_number => 434, :name => 'Money Claims Court', :display => true, 
+                                      :area_of_law_ids => [@money_claims.id], :address_ids => [@visiting_address3.id])
+        @court8 = create(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], 
+                        :address_ids => [@visiting_address1.id])
+
+      end
+
+      # @court7 = build(:court, :court_number => 434, :name => 'Money Claims Courts', :display => true, :areas_of_law => [@money_claims], :latitude => 51.768305511577, :longitude => -0.57250059493886)
+      # @court7.save(:validate => false)
       @court7.postcode_courts.create(:postcode => 'SE19NH')
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
-      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.33724, :longitude => -1.43421)
+
+      # @court8 = build(:court, :name => 'The Nearest Money Claims Court', :display => true, :areas_of_law => [@money_claims], :latitude => 54.337246, :longitude => -1.434219)
+      # @court8.save(:validate => false)
     end
 
     it "should return only one search result if the postcode is found in the postcode to court mapping" do
-      court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Money Claims'})
-      court_search.results.should == [@court7]
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Money Claims'})
+        court_search.results.should == [@court7]
+      end
     end
 
     it "if the postcode is not found in the postcode to court mapping, then just default to distance search, but return only the nearest one court" do
-      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Money Claims'})
-      court_search.results.should == [@court8]
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Money Claims'})
+        court_search.results.should == [@court8]
+      end
     end
   end
 
   context "Chosen area of law is Bankruptcy" do
     before(:each) do
-      @bankruptcy = FactoryGirl.create(:area_of_law, :name => 'Bankruptcy', :type_bankruptcy => true)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 51.768305511577, :longitude => -0.57250059493886)
-      @court7.postcode_courts.create(:postcode => 'SE19NH')
-      # FactoryGirl.create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.337246, :longitude => -1.434219)
-      @court9 = FactoryGirl.create(:court, :name => 'Second Nearest Bankruptcy Court', :display => true, :areas_of_law => [@bankruptcy], :latitude => 54.33724, :longitude => -1.43421)
+      @bankruptcy = create(:area_of_law, :name => 'Bankruptcy', :type_bankruptcy => true)
+      VCR.use_cassette('postcode_found') do
+        @court7 = create(:court, :court_number => 434, :name => 'Bankruptcy Court', :display => true, 
+                                      :areas_of_law => [@bankruptcy], :address_ids => [@visiting_address3.id])
+        @court7.postcode_courts.create(:postcode => 'SE19NH')
+        # create(:postcode_court, :postcode => 'SE19NH', :court_number => @court7.court_number, :court_name => 'Possesssions Court')
+        @court8 = create(:court, :name => 'The Nearest Bankruptcy Court', :display => true, 
+                                    :areas_of_law => [@bankruptcy], :address_ids => [@visiting_address1.id])
+      end
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Bankruptcy'})
-      court_search.results.should == [@court7]
+      VCR.use_cassette('postcode_found') do
+        court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Bankruptcy'})
+        court_search.results.should == [@court7]
+      end
     end
 
     it "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
-      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Bankruptcy'})
-      court_search.results.should == [@court8]
+      VCR.use_cassette('postcode_not_found') do
+        court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Bankruptcy'})
+        court_search.results.should == [@court8]
+      end
     end
   end
 
   context "Finding Council name from postcode" do
     context "when the council is located in shortcuts/council/county" do
       it 'should return the name of the council for a postcode' do
-        court_search = CourtSearch.new('EX1 1UH')
-        expect(court_search.lookup_council_name).to eq 'Devon County Council'
+        VCR.use_cassette('postcode_found') do
+          court_search = CourtSearch.new('EX1 1UH')
+          expect(court_search.lookup_council_name).to eq 'Devon County Council'
+        end
       end
     end
 
     context "when the council is located in shortcuts/council" do
       it 'should return the name of the council for a postcode' do
-        court_search = CourtSearch.new('SE24 0NG')
-        expect(court_search.lookup_council_name).to eq 'Lambeth Borough Council'
+        VCR.use_cassette('postcode_found') do
+          court_search = CourtSearch.new('SE24 0NG')
+          expect(court_search.lookup_council_name).to eq 'Lambeth Borough Council'
+        end
       end
     end
 
     context 'when the postcode is invalid' do
       it 'should return nil for a partial postcode' do
-        court_search = CourtSearch.new('EX1')
-        expect(court_search.lookup_council_name).to be_nil
+        VCR.use_cassette('partial_postcode') do
+          court_search = CourtSearch.new('EX1')
+          expect(court_search.lookup_council_name).to be_nil
+        end
       end
 
       it 'should return nil for a wrong postcode' do
-        court_search = CourtSearch.new('invalid')
-        expect(court_search.lookup_council_name).to be_nil
+        VCR.use_cassette('postcode_not_found') do
+          court_search = CourtSearch.new('invalid')
+          expect(court_search.lookup_council_name).to be_nil
+        end
       end
     end
   end
 
-  context "Chosen area of law is Children" do
-    before(:each) do
-      @children = FactoryGirl.create(:area_of_law, :name => 'Children', :type_children => true)
-      # Location: http://mapit.mysociety.org/nearest/4326/-0.110768,51.449126 => SW2 2YH (Inside the Lambeth Borough Council)
-      @court7 = FactoryGirl.create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [@children], :latitude => 51.449126, :longitude => -0.110768)
-      @court7.councils.create(:name => 'Lambeth Borough Council')
+  context 'With family areas of law' do
 
-      # Location: http://mapit.mysociety.org/nearest/4326/-0.099868,51.451707 => SE24 9HN (Southwark Borough Council)
-      @court8 = FactoryGirl.create(:court, :name => 'The Nearest Children Court -  Southwark Borough Council', :display => true, :areas_of_law => [@children], :latitude => 51.451707, :longitude => -0.099868)
+    describe 'Children' do
+      it_should_behave_like 'a search with area of law', 'Children'
     end
 
-    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
-      # Location: http://mapit.mysociety.org/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
-      court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-      expect(court_search.results).to eq [@court7]
+    describe 'Divorce' do
+      it_should_behave_like 'a search with area of law', 'Divorce'
     end
 
-    context 'when there are multiple courts' do
-      it 'should return multiple courts sorted by distance' do
-        # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
-        @court9 = FactoryGirl.create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [@children], :latitude => 51.451373, :longitude => -0.106004)
-        @court9.councils << Council.find_by_name("Lambeth Borough Council")
-
-        court_search = CourtSearch.new('SE240NG', {:area_of_law => 'Children'})
-        results = court_search.results
-        expect(results).to eq [@court9, @court7]
-        expect(results[0].distance).to eq "0.16110282696898"
-        expect(results[1].distance).to eq "0.418361404378377"
-      end
-    end
-
-    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
-      @court10 = FactoryGirl.create(:court, :name => 'The Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.337246, :longitude => -1.434219)
-      @court11 = FactoryGirl.create(:court, :name => 'Second Nearest Court', :display => true, :areas_of_law => [@children], :latitude => 54.33724, :longitude => -1.43421)
-      court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Children'})
-      court_search.results.should == [@court10, @court11]
+    describe 'Adoption' do
+      it_should_behave_like 'a search with area of law', 'Adoption'
     end
   end
-
 end

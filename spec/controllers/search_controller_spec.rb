@@ -55,22 +55,24 @@ describe SearchController do
   end
 
   describe "GET index for children" do
+    let!(:court) { create(:court) }
+
     it "returns a customised message related to children" do
-      @court = FactoryGirl.create(:court)
-      CourtSearch.any_instance.should_receive(:results).and_return([@court])
-      CourtSearch.any_instance.should_receive(:errors).and_return([])
+      CourtSearch.any_instance.stub(:results).and_return([court])
+      CourtSearch.any_instance.stub(:errors).and_return([])
+
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
       AreaOfLaw.should_receive(:find_by_name).and_return(@area)
 
       get :index, q: "bs1 6gr", area_of_law: 'Children'
       expect(response).to be_success
-      response.body.should include("The court accepts applications related to children for the post code")
+      response.body.should include("Court dealing with applications involving children for")
     end
 
     it "returns the standard message when the results are more than 5" do
-      @court = FactoryGirl.create(:court)
-      CourtSearch.any_instance.should_receive(:results).and_return(Array.new(6, @court))
-      CourtSearch.any_instance.should_receive(:errors).and_return(['no exact match'])
+      CourtSearch.any_instance.stub(:results).and_return(Array.new(6, court))
+      CourtSearch.any_instance.stub(:errors).and_return(['no exact match'])
+
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
       AreaOfLaw.should_receive(:find_by_name).and_return(@area)
 

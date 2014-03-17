@@ -32,7 +32,6 @@ namespace :import do
       court.old_court_type_id = row[9]
       court.display = true
 
-      court.validate_coords = false
       court.save!
 
       counter += 1
@@ -195,18 +194,21 @@ namespace :import do
 
   end
 
-
-  desc "Import court local_authorities"
-  task :local_authorities => :environment do
+  desc "Import local_authorities for a single area of law"
+  task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
     puts "Importing local authorities for each court"
+    puts "File: #{args[:file]}, Area of Law: #{args[:area_of_law]}"
 
-    csv_file = File.read('db/data/local_authorities_for_courts.csv')
+    csv_file = File.read(args[:file])
 
     csv = CSV.parse(csv_file, :headers => true)
 
     counter = 0
 
     # "court_name", "local_authority_names"
+    @area_of_law = AreaOfLaw.find_by_name(args[:area_of_law])
+    puts "Found: #{@area_of_law.name} with id: #{@area_of_law.try(:id)}"
+
     csv.each do |row|
       court = Court.find_by_name(row[0])
 
@@ -220,11 +222,20 @@ namespace :import do
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.councils << council
+            court.court_council_links.where({council_id: council.id, area_of_law_id: @area_of_law.id}).first_or_initialize.save!
           end
         end
       end
     end
+  end
+
+  desc "Import local_authorities for a all areas of law"
+  task :local_authorities => :environment do
+    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_children.csv', 'Children')
+    Rake::Task["import:local_authorities_for_area_of_law"].reenable
+    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
+    Rake::Task["import:local_authorities_for_area_of_law"].reenable
+    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
   end
 
   desc "Import postal court_address"
@@ -729,67 +740,54 @@ namespace :import do
     puts "Finished adding postcode to court mappings."
   end
 
-  desc "Import Local Authorities for Family Related Courts"
-  task :family_courts => :environment do
+  desc "Generate csv File with Local Authorities for Courts from Google Spreadsheet"
+  task :generate_csv_with_local_authorities => :environment do
     session =Connection.get_drive_session
-    ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[0]
-
-    ws.list.each do |row|
-      begin
-        court = Court.find_or_create_by_name(row['Court Name'].strip)
-
-        lat = row['Latitude']
-        lon = row['Longitude']
-        throw "Position missing" if lat.blank? || lon.blank?
-        court.update_attributes(latitude: lat.strip ,longitude: lon.strip)
-
-        town = Town.find_by_name(row['Town'].strip)
-        throw "Town not found" unless town
-
-        postcode = row['Postcode'].strip
-        throw 'Postcode is empty' if postcode.blank?
-
-        address = court.addresses.create!(
-          address_line_1: row['Address line 1'].strip,
-          address_line_2: row['Address line 2'].strip,
-          address_line_3: row['Address line 3'].strip,
-          address_line_4: row['Address line 4'].strip,
-          postcode: postcode,
-          town_id: town.id,
-        )
-        puts "Imported details for court: '#{row['Court Name'].strip}'"
-      rescue => e
-        puts "Error importing court: '#{row['Court Name']}' - #{e.message}"
-      end
-    end
 
     ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[1]
+    file_name = 'local_authorities.csv'
+    error_file_name = 'local_authorities.error'
+    error_file = File.open(error_file_name,'w')
+    error_file.puts "Errors for: "
+    error_file.puts "\"court_name\",\"local_authority_names\""
 
-    ws.list.each do |row|
-      court_name = row['Court Name'].strip
-      court = Court.find_by_name(court_name)
-      if court.nil?
-        puts "** ERROR ** Could not find court with name: '#{court_name}'"
-      else
-        puts "Adding local authorities(LA) for '#{court.name}'"
 
-        authorities = row.values.drop(4).inject([]) { |array, c| array << (c.strip unless c.blank?) }.reject { |c| c.nil? }
+    errors_found = 0
+    File.open(file_name,'w') do |f|
+      f.puts "\"court_name\",\"local_authority_names\""
 
-        authorities.each do |local_authority_name|
-          council = Council.find_by_name(local_authority_name)
-          if council.nil?
-            puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
-          else
-            if court.councils.include?(council)
-              puts "Skipped LA named '#{local_authority_name}'"
+      ws.list.each do |row|
+        court_name = row['Court Name'].strip
+        court = Court.find_by_name(court_name)
+        if court.nil?
+          error_file.puts "\"#{court_name}\" [Court not found]" unless court_name.blank?
+          puts "** ERROR ** Could not find court with name: '#{court_name}'" unless court_name.blank?
+        else
+          puts "Adding local authorities(LA) for '#{court.name}'"
+
+          authorities = row.values.drop(2).inject([]) { |array, c| array << (c.strip unless c.blank?) }.reject { |c| c.nil? }
+
+          authorities.each do |local_authority_name|
+            council = Council.find_by_name(local_authority_name)
+            if council.nil?
+              puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
+              errors_found += 1
+              error_file.puts "#{errors_found}. \"#{court_name}\",\"#{local_authority_name}\" [Local authority not found]"
             else
               puts "Adding LA named '#{local_authority_name}'"
-              court.councils << council
             end
+          end
+
+          if errors_found == 0
+            f.puts "\"#{court.name}\",\"#{authorities.join(',')}\"" unless authorities.empty?
           end
         end
       end
+
+      puts "Wrote file: #{File.expand_path(file_name)} #{errors_found>0 ? "with #{errors_found} errors" : ' '}"
+      puts "A list of errors is at: #{File.expand_path(error_file_name)}" if errors_found>0
     end
+
   end
 
 end

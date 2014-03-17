@@ -1,5 +1,5 @@
 class Court < ActiveRecord::Base
-  attr_accessor :validate_coords
+  include Concerns::Court::Councils
 
   belongs_to :area
   has_many :addresses
@@ -8,16 +8,15 @@ class Court < ActiveRecord::Base
   has_many :emails
   has_many :court_facilities
   has_many :court_types_courts
-  has_many :court_types, :through => :court_types_courts
+  has_many :court_types, through: :court_types_courts
   has_many :courts_areas_of_law
-  has_many :areas_of_law, :through => :courts_areas_of_law
+  has_many :areas_of_law, through: :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  has_many :local_authorities
-  has_many :councils, :through => :local_authorities
+
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
-                  :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
+                  :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
                   :postcode_list
@@ -27,19 +26,22 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
+
+  before_validation :convert_visiting_to_location
   
   validates :name, presence: true
-  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :should_validate_coords?
-  validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :should_validate_coords?
+
+  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
+  validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
 
   validate :check_postcode_errors
 
-  has_paper_trail :ignore => [:created_at, :updated_at]
+  has_paper_trail ignore: [:created_at, :updated_at]
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
 
-  geocoded_by :latitude => :lat, :longitude => :lng
+  geocoded_by latitude: :lat, longitude: :lng
 
   mount_uploader :image_file, CourtImagesUploader
 
@@ -53,50 +55,32 @@ class Court < ActiveRecord::Base
   end
 
   # Scope methods
-  def self.visible
-    where(:display => true)
-  end
-
-  def self.by_name
-    order('LOWER(name)') # ignore case when sorting
-  end
-
-  def self.by_area_of_law(area_of_law)
-    if area_of_law.present?
-      joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
-    else
-      where('')
-    end
-  end
-
-
-  def self.by_postcode_court_mapping(postcode, area_of_law = nil)
+  scope :visible,         -> { where(display: true) }
+  scope :by_name,         -> { order('LOWER(courts.name)') }
+  scope :by_area_of_law,  -> (area_of_law) { joins(:areas_of_law).where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
+  scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
+  scope :for_council,     -> (council) { joins(:councils).where("councils.name" => council) }
+  scope :for_council_and_area_of_law, -> (council, area_of_law) {
+    joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
+  }
+  scope :by_postcode_court_mapping, -> (postcode, area_of_law = nil) {
     if postcode.present?
       if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
-                                              postcode.gsub(/\s+/, "").downcase)
-                                        .order('-length(postcode)').first
+            postcode.gsub(/\s+/, "").downcase)
+            .order('-length(postcode)').first
         #Using a reverse id lookup instead of just postcode_court.court as a workaround for the distance calculator
         if area_of_law
-          joins(:areas_of_law).where(:areas_of_law => {:name => area_of_law})
-          .where(:id => postcode_court.court_id).limit(1)
+          by_area_of_law(area_of_law).where(id: postcode_court.court_id).limit(1)
         else
-          where(:id => postcode_court.court_id).limit(1)
+          where(id: postcode_court.court_id).limit(1)
         end
       else
         []
       end
     else
-      where('')
+      self
     end
-  end
-
-  def self.search(q)
-    where('courts.name ilike ?', "%#{q.downcase}%") if q.present?
-  end
-
-  def self.for_council(council)
-    joins(:councils).where("councils.name" => council)
-  end
+  }
 
   def locatable?
     longitude && latitude && !addresses.visiting.empty?
@@ -123,8 +107,7 @@ class Court < ActiveRecord::Base
   end
 
   def is_county_court?
-    # 31 is the ID of county court
-    court_types.pluck(:id).include? 31
+    court_types.any?{|ct| ct.name == 'County Court'}
   end
 
   def postcode_list
@@ -157,9 +140,29 @@ class Court < ActiveRecord::Base
     @postcode_errors.each {|e| errors.add(:postcode_courts, e) } if @postcode_errors
   end
 
-  protected
+  def visiting_addresses
+    addresses.to_a.select { |a| AddressType.find(a.address_type_id).try(:name) == "Visiting" }
+  end
 
-    def should_validate_coords?
-      (validate_coords.nil? || validate_coords)
+  def has_visiting_address?
+    #Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
+    visiting_addresses.count > 0
+  end
+
+  def convert_visiting_to_location
+    if visiting_postcode = visiting_addresses.first.try(:postcode)
+      begin  
+        @cs = CourtSearch.new(visiting_postcode)
+        if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
+          self.latitude = lat_lon[0]
+          self.longitude = lat_lon[1]
+        end
+      rescue Exception => ex
+        Rails.logger.error("Could not get latlng from: visiting_postcode")
+      end
+    else
+      self.latitude = nil
+      self.longitude = nil      
     end
+  end
 end

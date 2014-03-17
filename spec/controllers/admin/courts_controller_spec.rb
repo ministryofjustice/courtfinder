@@ -7,7 +7,7 @@ describe Admin::CourtsController do
     controller.should_receive(:enable_varnish).never
     @user = User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
     sign_in @user
-    @court = FactoryGirl.create(:court, name: 'A court of Law')    
+    @court = create(:court, name: 'A court of Law')    
   end
 
   it "displays a list of courts" do
@@ -38,7 +38,23 @@ describe Admin::CourtsController do
     }.to change { Court.count }.by(-1)
   end
 
+  describe '#family' do
 
+    it 'assigns @courts' do
+      family_area = AreaOfLaw.where(name: 'Children').first_or_initialize
+      family_area.save
+      get :family, { page: 1 }
+      expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: 1, per_page: 30))
+    end
+
+    it 'assigns @area_of_law' do
+      family_area = AreaOfLaw.where(name: 'Children').first_or_initialize
+      family_area.save
+      get :family, { area_of_law_id: family_area.id }
+      expect(assigns(:area_of_law)).to eq(family_area)
+    end
+
+  end
 
   context "Audit" do
     before do
