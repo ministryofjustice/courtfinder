@@ -41,18 +41,6 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include Devise::TestHelpers, :type => :controller
-
-  # config.before(:suite) do
-  #   DatabaseCleaner.strategy = :truncation
-  # end
-
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
-
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
 end
 
 require 'vcr'
