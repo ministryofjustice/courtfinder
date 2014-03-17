@@ -48,6 +48,15 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.before(:each) do
+    Timecop.freeze
+  end
+
+  config.after(:each) do
+    Timecop.return
+  end
+
+
 end
 
 require 'vcr'
