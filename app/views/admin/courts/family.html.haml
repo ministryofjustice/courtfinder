@@ -21,11 +21,12 @@
                 %li= council.name
 
     - if invalid_councils = flash[:invalid_councils]
-      .warning
-        %strong Some councils were not added, as they could not be found:
-        %ul
-          - invalid_councils.each do |name|
-            %li= name
+      - unless invalid_councils.empty?
+        .warning
+          %strong Some councils were not added, as they could not be found:
+          %ul
+            - invalid_councils.each do |name|
+              %li= name
 
     %p.sub-list
       View:
