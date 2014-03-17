@@ -55,5 +55,5 @@
 
 .pagination-row.cf
   .page-entries
-    = page_entries_info @courts
-  = will_paginate @courts
+    = page_entries_info @courts.by_area_of_law(@area_of_law.name)
+  = will_paginate @courts.by_area_of_law(@area_of_law.name)
