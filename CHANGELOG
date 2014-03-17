@@ -1,3 +1,7 @@
+2.5.5
+---------------------
+* 67570504 - Fix view court link
+
 v2.5.4
 ---------------------
 * Added rescue block around audit csv function
