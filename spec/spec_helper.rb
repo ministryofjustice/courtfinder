@@ -41,12 +41,28 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include Devise::TestHelpers, :type => :controller
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean
+  end
+
+  config.before(:each) do
+    Timecop.freeze
+  end
+
+  config.after(:each) do
+    Timecop.return
+  end
+
+
 end
 
 require 'vcr'
 
 VCR.configure do |config|
-  config.default_cassette_options = { record: :new_episodes, serialize_with: :json, match_requests_on: [:uri, :path, :method], decode_compressed_response: true }
+  config.default_cassette_options = {:record => :new_episodes, :serialize_with => :json}
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
   config.ignore_hosts '127.0.0.1' # allow selenium/capybara to do its thing
