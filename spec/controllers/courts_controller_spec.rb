@@ -5,7 +5,7 @@ describe CourtsController do
 
   before :each do
     @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
-    @ct_county = create(:court_type, :name => "County Court", :id => 31) # needed to add ID as it's used in model method
+    @ct_county = create(:court_type, :name => "County Court")
 
     @court = create(:court, :name => 'A court of LAW').reload
   end
