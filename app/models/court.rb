@@ -108,8 +108,7 @@ class Court < ActiveRecord::Base
   end
 
   def is_county_court?
-    # 31 is the ID of county court
-    court_types.pluck(:id).include? 31
+    court_types.any?{|ct| ct.name == 'County Court'}
   end
 
   def postcode_list
