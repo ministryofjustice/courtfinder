@@ -39,17 +39,15 @@ describe Admin::CourtsController do
   end
 
   describe '#family' do
-    let!(:area_of_law) { create(:area_of_law) }
 
     it 'assigns @courts' do
-      pending 'Should use fixtures seed data'
-
       get :family
       expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: params[:page], per_page: 30))
     end
 
     it 'assigns @area_of_law' do
-      pending
+      get :family, area_of_law_id: 1
+      expect(assigns(:area_of_law_id).to eq(1))
     end
 
   end
