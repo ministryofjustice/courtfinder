@@ -41,13 +41,17 @@ describe Admin::CourtsController do
   describe '#family' do
 
     it 'assigns @courts' do
-      get :family
-      expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: params[:page], per_page: 30))
+      family_area = AreaOfLaw.where(name: 'Children').first_or_initialize
+      family_area.save
+      get :family, { page: 1 }
+      expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: 1, per_page: 30))
     end
 
     it 'assigns @area_of_law' do
-      get :family, area_of_law_id: 1
-      expect(assigns(:area_of_law_id).to eq(1))
+      family_area = AreaOfLaw.where(name: 'Children').first_or_initialize
+      family_area.save
+      get :family, { area_of_law_id: family_area.id }
+      expect(assigns(:area_of_law)).to eq(family_area)
     end
 
   end
