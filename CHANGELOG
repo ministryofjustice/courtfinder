@@ -1,3 +1,7 @@
+2.6.1
+---------------------
+* 67752650 - BUG: while searching for search?q=Dn31+1pd&area_of_law=Employment error 500
+
 2.6.0
 ---------------------
 * 65905292 - Phone number editing - don't allow duplicate numbers to be entered
