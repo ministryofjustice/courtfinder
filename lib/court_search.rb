@@ -34,7 +34,7 @@ class CourtSearch
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
       end
     end
-    courts.uniq
+    courts
   end
 
   def lookup_council_name
