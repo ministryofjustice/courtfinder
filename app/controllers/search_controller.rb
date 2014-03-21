@@ -8,11 +8,14 @@ class SearchController < ApplicationController
 
     @court_search = CourtSearch.new(@query = params[:q], {:area_of_law => params[:area_of_law]})
     begin
-      @results = @court_search.results
+      search_results = @court_search.results
+      @results = search_results.fetch(:courts)
+      @found_in_area_of_law = search_results.fetch(:found_in_area_of_law)
       @errors = @court_search.errors
       @chosen_area_of_law = AreaOfLaw.find_by_name(params[:area_of_law])
     rescue RestClient::RequestTimeout
       @results = []
+      @found_in_area_of_law = 0
       @timeout = true
     end
 
