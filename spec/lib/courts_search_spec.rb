@@ -40,24 +40,30 @@ describe CourtSearch do
     it "should return courts nearby if full postcode search" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('NE12 8AQ')
-        court_search.results.should == [court6]
+        expect(court_search.results.fetch(:found_in_area_of_law)).to eq 0
+        court_search.results.fetch(:courts).should == [court6]
       end
     end
 
     it "should return courts nearby if partial postcode" do
       VCR.use_cassette('partial_postcode') do
         court_search = CourtSearch.new('NE12')
-        court_search.results.should == [court6]
+        expect(court_search.results.fetch(:found_in_area_of_law)).to eq 0
+        court_search.results.fetch(:courts).should == [court6]
       end
     end
   end
 
   it "should return courts by name if search is not a postcode" do
-    CourtSearch.new('London').results.should == [@court2]
+    court_search_london = CourtSearch.new('London')
+    expect(court_search_london.results.fetch(:found_in_area_of_law)).to eq 0
+    court_search_london.results.fetch(:courts).should == [@court2]
   end
 
   it "should limit results to area of law when specified" do
-    CourtSearch.new('Reading', {:area_of_law => 'Civil'}).results.should == [@court3]
+    court_search_london = CourtSearch.new('Reading', {:area_of_law => 'Civil'})
+    expect(court_search_london.results.fetch(:found_in_area_of_law)).to eq 0
+    court_search_london.results.fetch(:courts).should == [@court3]
   end
 
   it "should return courts nearby for postcodes limited to area of law" do
@@ -87,7 +93,7 @@ describe CourtSearch do
   it "should return an error when the search string is blank" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('')
-      cs.results.should be_empty
+      cs.results.fetch(:courts).should be_empty
       cs.should have(1).errors
     end
   end
@@ -97,7 +103,7 @@ describe CourtSearch do
       cs = CourtSearch.new('irrelevant')
       cs.should_receive(:postcode_search?).and_return(true)
       cs.should_receive(:latlng_from_postcode).and_return(false)
-      cs.results.should be_empty
+      cs.results.fetch(:courts).should be_empty
       cs.should have(1).errors
     end
   end
@@ -105,7 +111,7 @@ describe CourtSearch do
   it "should return an error when the postcode cannot be found for a partial postcode" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('YO6')
-      cs.results.should be_empty
+      cs.results.fetch(:courts).should be_empty
       cs.should have(1).errors
     end
   end
@@ -113,7 +119,7 @@ describe CourtSearch do
   it "should return an error when the postcode cannot be found for a complete postcode" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('T27 4DB')
-      cs.results.should be_empty
+      cs.results.fetch(:courts).should be_empty
       cs.should have(1).errors
     end
   end
@@ -130,7 +136,7 @@ describe CourtSearch do
         20.times { create(:court, :name => 'Just one more court', :display => true, :address_ids => [visiting_address.id]) }
 
         cs = CourtSearch.new('EH22 4AD')
-        cs.results.length.should == 20
+        cs.results.fetch(:courts).length.should == 20
       end
     end
   end
