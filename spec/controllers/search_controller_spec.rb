@@ -4,14 +4,14 @@ describe SearchController do
   render_views
 
   describe "GET index" do
-    it "responds with a list of courts" do
-      CourtSearch.any_instance.should_receive(:results).and_return([])
+    it "responds with a hash with the count of area of law found list of courts" do
+      CourtSearch.any_instance.should_receive(:results).and_return({found_in_area_of_law: 1, courts: [] })
       get :index
       response.should be_success
     end
 
     it "doesn't blow up when results are nil" do
-      CourtSearch.any_instance.should_receive(:results).and_return(nil)
+      CourtSearch.any_instance.should_receive(:results).and_return({found_in_area_of_law: 0, courts: nil })
       get :index
       response.should be_success
     end
@@ -58,7 +58,7 @@ describe SearchController do
     let!(:court) { create(:court) }
 
     it "returns a customised message related to children" do
-      CourtSearch.any_instance.stub(:results).and_return([court])
+      CourtSearch.any_instance.stub(:results).and_return({found_in_area_of_law: 1, courts:[court]})
       CourtSearch.any_instance.stub(:errors).and_return([])
 
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
