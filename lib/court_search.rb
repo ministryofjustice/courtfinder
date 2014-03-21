@@ -24,7 +24,8 @@ class CourtSearch
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
-        if @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
+        @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
+        if @chosen_area_of_law.present?
           courts = postcode_area_search(@chosen_area_of_law, latlng)
         else
           courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
@@ -82,7 +83,10 @@ class CourtSearch
         courts = courts.limit(1) if area_of_law.type_possession? || area_of_law.type_money_claims? || area_of_law.type_bankruptcy?
       end
     end
-    courts
+    {
+      found_in_area_of_law: found_in_area_of_law(courts),
+      courts: courts
+    }
   end
 
   def latlng_from_postcode(postcode)
@@ -105,4 +109,12 @@ class CourtSearch
     {"code" => 404, "error" => "Postcode not found"}
   end
 
+  private
+    def found_in_area_of_law(courts)
+      if courts.present? and courts.kind_of?(ActiveRecord::Relation)
+        courts.count
+      else
+        0
+      end
+    end
 end
