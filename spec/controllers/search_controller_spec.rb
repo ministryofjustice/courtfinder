@@ -4,7 +4,7 @@ describe SearchController do
   render_views
 
   describe "GET index" do
-    it "responds with a hash with the count of area of law found list of courts" do
+    it "responds with a hash with the count of area(s) of law found and list of courts" do
       CourtSearch.any_instance.should_receive(:results).and_return({found_in_area_of_law: 1, courts: [] })
       get :index
       response.should be_success
