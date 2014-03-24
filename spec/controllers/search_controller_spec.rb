@@ -4,14 +4,14 @@ describe SearchController do
   render_views
 
   describe "GET index" do
-    it "responds with a list of courts" do
-      CourtSearch.any_instance.should_receive(:results).and_return([])
+    it "responds with a hash with the count of area(s) of law found and list of courts" do
+      CourtSearch.any_instance.should_receive(:results).and_return({found_in_area_of_law: 1, courts: [] })
       get :index
       response.should be_success
     end
 
-    it "doesn't blow up when results are nil" do
-      CourtSearch.any_instance.should_receive(:results).and_return(nil)
+    it "handles nil results gracefully" do
+      CourtSearch.any_instance.should_receive(:results).and_return({found_in_area_of_law: 0, courts: nil })
       get :index
       response.should be_success
     end
@@ -58,7 +58,7 @@ describe SearchController do
     let!(:court) { create(:court) }
 
     it "returns a customised message related to children" do
-      CourtSearch.any_instance.stub(:results).and_return([court])
+      CourtSearch.any_instance.stub(:results).and_return({found_in_area_of_law: 2, courts: Array.new(2, court)})
       CourtSearch.any_instance.stub(:errors).and_return([])
 
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
@@ -66,11 +66,11 @@ describe SearchController do
 
       get :index, q: "bs1 6gr", area_of_law: 'Children'
       expect(response).to be_success
-      response.body.should include("Court dealing with applications involving children for")
+      response.body.should include("Courts dealing with applications involving children for")
     end
 
-    it "returns the standard message when the results are more than 5" do
-      CourtSearch.any_instance.stub(:results).and_return(Array.new(6, court))
+    it "returns the standard message when the found_in_area_of_law is more than 0" do
+      CourtSearch.any_instance.stub(:results).and_return({found_in_area_of_law: 6, courts:Array.new(6, court)})
       CourtSearch.any_instance.stub(:errors).and_return(['no exact match'])
 
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
@@ -78,7 +78,7 @@ describe SearchController do
 
       get :index, q: "bs1 6gr", area_of_law: 'Children'
       expect(response).to be_success
-      response.body.should include("Results are ordered by distance closest to")
+      response.body.should include("Courts dealing with applications involving children for")
     end
 
   end
