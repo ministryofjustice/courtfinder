@@ -1,10 +1,14 @@
 2.7.0
 ---------------------
-* 
+*
 
 2.6.1
 ---------------------
 * 67752650 - BUG: while searching for search?q=Dn31+1pd&area_of_law=Employment error 500
+* 66813762 - Require change of lat/lon when admin changes visiting address post code
+* 67842856 - Display for multiple addresses is messed up
+* 67843182 - Extraneous 'f' characters appearing for Opening times
+* 67845888 - Copy for searches for divorce/adoption/children is not always showing (3 pts)
 
 2.6.0
 ---------------------
@@ -25,7 +29,6 @@
 * 66609752 - Search Family court for divorce application
 * 67486836 - BUG: Multiple search results
 * 66808486 - Don't show error if visiting address is not set and no lat/lon
-* 66813762 - Require change of lat/lon when admin changes visiting address post code
 
 2.5.4
 ---------------------
