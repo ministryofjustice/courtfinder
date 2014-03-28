@@ -24,7 +24,8 @@ class CourtSearch
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
-        if @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
+        @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
+        if @chosen_area_of_law.present?
           courts = postcode_area_search(@chosen_area_of_law, latlng)
         else
           courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
@@ -34,7 +35,10 @@ class CourtSearch
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
       end
     end
-    courts
+    {
+      found_in_area_of_law: found_in_area_of_law(courts),
+      courts: courts
+    }
   end
 
   def lookup_council_name
@@ -105,4 +109,12 @@ class CourtSearch
     {"code" => 404, "error" => "Postcode not found"}
   end
 
+  private
+    def found_in_area_of_law(courts)
+      if @chosen_area_of_law.present? && courts.present? && courts.respond_to?(:count)
+        courts.count
+      else
+        0
+      end
+    end
 end

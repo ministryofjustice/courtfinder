@@ -58,7 +58,7 @@ form.find-location-for-service #filters {margin-top:1em;}
 
   .postal,
   .visit {
-    width:48%; float:left;
+    width:30%; float:left;
 
     @include media(mobile) {
       width: auto; float: none;
