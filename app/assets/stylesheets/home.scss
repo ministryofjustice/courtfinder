@@ -67,10 +67,10 @@
 /* Search results */
 .search-results {
   padding: 0;
-  list-style: none;
+  list-style-image: none;
 }
-.search-results>li {
-  width: 100%;
+.search-results li {
+  width: 98%;
   padding: 10px;
   list-style: none;
   border: 1px solid #a1acb2;
@@ -80,18 +80,14 @@
 .search-results .areas-of-law {
   float: right;
   padding: 0;
-  text-align: right;
-  width: 250px;
+  width: auto;
 }
 .search-results .areas-of-law li {
-  display: inline;
-  font-size: smaller;
-  padding: 1px 3px;
-  list-style: none;
+  background: #6f777b;
   color: #fff;
-  background: #d43783;
+  font-size: smaller;
+  margin: 0.2em 0em;
+  padding: 4px 4px;
+  list-style-image: none;
   white-space: nowrap;
-}
-.search-results .areas-of-law li:hover {
-  background: #b41763;
 }
