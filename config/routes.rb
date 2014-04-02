@@ -4,7 +4,6 @@ Courtfinder::Application.routes.draw do
   # TODO: This needs tidying
   scope 'courts', :controller => :courts do
     match '/' => :index, :as => :courts
-    match '/postcodes' => :postcodes, :as => :postcodes
     match '/:id' => :show, :as => :court
     match '/:id/leaflets' => :information, :as => :information
     match '/:id/leaflets/defence' => :defence, :as => :defence
@@ -25,6 +24,9 @@ Courtfinder::Application.routes.draw do
   scope 'regions', :controller => :regions do
     match '/' => :index, :as => :regions
     match '/:id' => :show, :as => :region
+  end
+  scope 'postcodes', :controller => :postcodes do
+    match '/repossession' => :repossession, :as => :repossession
   end
 
   resources :councils, only: [:index, :show]
