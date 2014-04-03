@@ -2,10 +2,12 @@
 <!--[if lt IE 9]><html class="lte-ie8 " lang="en"><![endif]-->
 <!--[if gt IE 8]><!--><html lang="en" class=""><!--<![endif]-->
 <head>
+	<%= yield(:head) %>
+
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
 	<%= render 'shared/head', :title => (content_for?(:title) ? yield(:title) + " - GOV.UK" : "GOV.UK - The best place to find government services and information") %>
-
+  <%= render 'shared/ga' %>
 	<%- if admin_area? %>
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.base.css" rel="stylesheet" type="text/css"/>
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.theme.css" rel="stylesheet" type="text/css"/>
@@ -19,8 +21,7 @@
 		.inner div.addresses{width:560px}
 	</style>
 	<![endif]-->
-	<%= yield(:head) %>
-	<%= render 'shared/ga' %>
+	
 </head>
 
 <body id="<%= controller.controller_name %>-<%= controller.action_name %>" class="<%= controller.controller_name %> service beta full-width">
