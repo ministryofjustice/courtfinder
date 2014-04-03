@@ -19,6 +19,8 @@ class HomeController < ApplicationController
     @areas_of_law = AreaOfLaw.has_courts
   end
 
+  alias :index_aol :index
+
   def api
     
   end
