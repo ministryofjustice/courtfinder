@@ -19,7 +19,9 @@ class CourtsController < ApplicationController
     else
       respond_to do |format|
         format.html
-        format.json
+        format.json do
+          render content_type:'application/ld+json'
+        end
         format.csv do
           render text: courts_csv
         end
@@ -63,7 +65,13 @@ class CourtsController < ApplicationController
     if request.path != court_path(@court, format: params[:format])
       redirect_to court_path(@court, format: params[:format]), status: :moved_permanently
     else
-      respond_with @court
+      respond_to do |format|
+        format.html
+        format.json do
+          render content_type:'application/ld+json'
+        end
+      end
+
     end
   end
 
