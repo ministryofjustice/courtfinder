@@ -21,6 +21,6 @@ class ContactValidator < ActiveModel::EachValidator
   end
 
   def check_phone_format(phone_number)
-    phone_number =~ /^(?=.*\d)(?:[\d ]+)$/
+    phone_number.gsub(/[^\d]+/, '') =~ /^\d{10,13}$/
   end
 end
