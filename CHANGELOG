@@ -1,5 +1,6 @@
 2.8.0-dev
 --------------------
+* JSON-LD API: use better media type application/ld+json
 * Rake task admin:create throws an error now (usually when the password is invalid)
 * 67545050 - Phone number validation - don't allow entering more than 13 digits, not including the spaces
 
