@@ -18,9 +18,9 @@ class PostcodesController < ApplicationController
 
   def postcodes_csv
     CSV.generate do |csv|
-      csv << ["Post code", "Court number", "Court name"]
+      csv << ["Post code", "Court URL", "Court name", "Court number"]
       @postcode_courts.each do |postcode|
-        csv << [postcode.postcode, postcode.court.name, postcode.court.cci_code ? postcode.court.cci_code : postcode.court.court_number]
+        csv << [postcode.postcode, court_path(postcode.court), postcode.court.name, postcode.court.cci_code ? postcode.court.cci_code : '?']
       end
     end
   end

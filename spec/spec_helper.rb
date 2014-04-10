@@ -11,6 +11,8 @@ require 'webmock/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
+Faker::Config.locale = 'en-gb'
+
 RSpec.configure do |config|
   # ## Mock Framework
   #

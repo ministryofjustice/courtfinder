@@ -10,6 +10,7 @@ gem 'pry'
 gem 'awesome_print'
 
 group :development, :test do
+  gem 'faker'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
