@@ -1,6 +1,6 @@
 class ContactValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    if check_phone_format(value).nil?
+    if is_valid_phone_format(value) == false
       record.errors.add(attribute, "is invalid. Please enter a phone number, only digits and spaces allowed.") 
     elsif service = check_duplicate_number(record, value)
       record.errors.add(attribute, "is invalid. Phone number #{value} is already entered for #{service}.") 
@@ -20,7 +20,10 @@ class ContactValidator < ActiveModel::EachValidator
     contacts.pluck(:telephone).collect { |t| t.gsub(" ","") }.index(number.gsub(" ",""))
   end
 
-  def check_phone_format(phone_number)
-    phone_number.gsub(/[^\d]+/, '') =~ /^\d{10,13}$/
+  def is_valid_phone_format(phone_number)
+    more_than_13_digits = (phone_number.gsub(/[^\d]+/, '').size >= 13)
+    has_invalid_chars = !(phone_number =~ /[^\d ]+/).nil?
+
+    !more_than_13_digits && !has_invalid_chars
   end
 end
