@@ -24,6 +24,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-livereload'
   gem 'hirb'
+  gem 'letter_opener'
 end
 
 group :test do

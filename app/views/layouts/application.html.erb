@@ -54,10 +54,9 @@
 
 	<div id="wrapper" class="group <%= yield :type %>">
 		<section id="content" role="main" class="group" <%= yield :contentMetadata %>>
-			<% if alert.present? %>
-				<p class="alert"><%= alert %></p>
+			<% flash.each do |type, message| %>
+				<p class="alert <%=type%>"><%= message %></p>
 			<% end %>
-
 			<header class="page-header group">
 				<%= yield :title_image %>
 				<h1 <%= yield :titleMetadata %>>
