@@ -2,6 +2,7 @@
 --------------------
 * Rake task admin:create throws an error now (usually when the password is invalid)
 * 67545050 - Phone number validation - don't allow entering more than 13 digits, not including the spaces
+* 69258314 - Invite user fails
 
 2.7.2
 ---------------------
