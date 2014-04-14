@@ -1,3 +1,6 @@
+2.9.0-dev
+--------------------
+
 2.8.0
 --------------------
 * JSON-LD API: use better media type application/ld+json
