@@ -11,6 +11,8 @@ require 'webmock/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
+Faker::Config.locale = 'en-gb'
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -62,7 +64,7 @@ end
 require 'vcr'
 
 VCR.configure do |config|
-  config.default_cassette_options = {:record => :new_episodes, :serialize_with => :json}
+  config.default_cassette_options = { record: :new_episodes, serialize_with: :json }
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
   config.ignore_hosts '127.0.0.1' # allow selenium/capybara to do its thing

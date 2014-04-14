@@ -40,6 +40,7 @@ Courtfinder::Application.configure do
 
   # Devise requirement
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.delivery_method = :letter_opener
 
   # config.serve_static_assets = false
 end

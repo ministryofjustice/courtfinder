@@ -5,6 +5,13 @@ FactoryGirl.define do
     areas_of_law { create_list(:area_of_law, 2) }
     latitude 50
     longitude 0
+
+  end
+  
+  factory :postcode_court do
+    postcode Faker::Address.postcode
+    sequence(:court_number)
+    sequence(:court_name) {|n| "Court #{n}"}
   end
 
   factory :court_type do
