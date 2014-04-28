@@ -9,7 +9,7 @@ class AuthoritySlugGenerator < OpenStruct
   end
 
   def authority_types
-    @authority_types || ['UTA','LBO','MTD', 'CTY']
+    @authority_types || ['UTA','LBO','MTD', 'CTY', 'DIS', 'LGD']
     # MTD -> Metropolitan District
     # LBO -> London Borough
     # UTA -> Unitary Authorities
