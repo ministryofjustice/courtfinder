@@ -25,8 +25,10 @@ class Admin::ApplicationController < ::ApplicationController
     end
 
     def info_for_paper_trail
+      ip = request.remote_ip
       {
-        :ip => request.remote_ip
+        ip: ip
+        location: IpLocation.find(ip)
       }
     end
 
