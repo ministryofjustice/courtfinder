@@ -40,4 +40,9 @@ Courtfinder::Application.configure do
 
   # Devise requirement
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  # Disable Papertrail when testing
+  config.after_initialize do
+    PaperTrail.enabled = false
+  end
 end
