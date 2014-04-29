@@ -6,8 +6,8 @@ class Admin::ApplicationController < ::ApplicationController
   def purge_cache(regex_as_string)
     unless Rails.env.development?
       begin
-        Varnish::Client.new('127.0.0.1', 
-                    request.host == "courttribunalfinder.service.gov.uk" ? 80 : 8081, 
+        Varnish::Client.new('127.0.0.1',
+                    request.host == "courttribunalfinder.service.gov.uk" ? 80 : 8081,
                               ['http://', request.host].join).purge(regex_as_string)
       rescue Exception => ex
         logger.info("Failed to purge cache: #{ex.message}")
@@ -27,7 +27,7 @@ class Admin::ApplicationController < ::ApplicationController
     def info_for_paper_trail
       ip = request.remote_ip
       {
-        ip: ip
+        ip: ip,
         location: IpLocation.find(ip)
       }
     end
