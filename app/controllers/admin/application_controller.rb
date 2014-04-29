@@ -19,8 +19,14 @@ class Admin::ApplicationController < ::ApplicationController
     purge_cache('.*')
   end
 
-  private  
-  def authorised?
-    redirect_to admin_path unless current_user.admin?
-  end
+  private
+    def authorised?
+      redirect_to admin_path unless current_user.admin?
+    end
+
+    def info_for_paper_trail
+      {
+        :ip => request.remote_ip
+      }
+    end
 end
