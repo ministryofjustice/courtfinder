@@ -29,4 +29,8 @@ class Admin::ApplicationController < ::ApplicationController
         :ip => request.remote_ip
       }
     end
+
+    def paper_trail_enabled_for_controller
+      request.user_agent != 'Disable User-Agent'
+    end
 end
