@@ -8,13 +8,13 @@ module IpLocation
 
   private
 
-    def format(details)
-      if details.count == 1 && == 'Reserved'
-        'localhost'
+    def self.format(details)
+      if details.first == "Reserved"
+        'LOCALHOST'
       elsif details.count == 1
         details.first
       else
-        detsails.join('->')
+        details.join('->')
       end
     end
 end

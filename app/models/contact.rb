@@ -5,7 +5,7 @@ class Contact < ActiveRecord::Base
 
   validates :telephone, presence:true, contact: true
 
-  has_paper_trail :ignore => [:created_at, :updated_at]
+  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip, location: :location}
 
   default_scope :order => :sort
 
