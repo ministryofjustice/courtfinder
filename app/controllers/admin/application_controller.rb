@@ -25,9 +25,10 @@ class Admin::ApplicationController < ::ApplicationController
     end
 
     def info_for_paper_trail
+      ip = request.remote_ip
       {
         ip:  request.remote_ip,
-        location: request.env['REMOTE_HOST']
+        network: Resolv.getname(ip)
       }
     end
 
