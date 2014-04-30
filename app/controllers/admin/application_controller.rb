@@ -26,9 +26,10 @@ class Admin::ApplicationController < ::ApplicationController
 
     def info_for_paper_trail
       ip = request.remote_ip
+      network = if ip == '0.0.0.0' then 'localhost' else Resolv.getname(ip) end
       {
         ip:  request.remote_ip,
-        network: Resolv.getname(ip)
+        network: network
       }
     end
 
