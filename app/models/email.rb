@@ -6,7 +6,7 @@ class Email < ActiveRecord::Base
   attr_accessible :address, :sort, :contact_type_id
   before_save :strip_whitespace
 
-  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip, location: :location}
+  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip, network: :network}
   validates_presence_of :address
   validates :address, email: true, if: ->(f) { f.address.present? }
 

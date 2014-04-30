@@ -3,7 +3,7 @@ class CourtType < ActiveRecord::Base
   has_many :court_types_courts
   has_many :courts, :through => :court_types_courts
 
-  has_paper_trail meta: {ip: :ip, location: :location}
+  has_paper_trail meta: {ip: :ip, network: :network}
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
