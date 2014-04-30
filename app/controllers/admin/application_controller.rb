@@ -25,7 +25,6 @@ class Admin::ApplicationController < ::ApplicationController
     end
 
     def info_for_paper_trail
-      raise
       {
         ip:  request.remote_ip,
         location: request.env['REMOTE_HOST']
