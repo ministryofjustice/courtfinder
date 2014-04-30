@@ -126,7 +126,7 @@ class Admin::CourtsController < Admin::ApplicationController
       versions = PaperTrail::Version.order("created_at DESC")
       CSV.generate do |csv|
         begin
-          csv << ["datetime", "user_email", "location","ip_address","court_name", "field_name", "action", "value_before", "value_after"]
+          csv << ["datetime", "user_email", "network","ip_address","court_name", "field_name", "action", "value_before", "value_after"]
           versions.each do |version|
             author_email = User.find(version.whodunnit).email if version.whodunnit
             value_before, value_after = [], []
@@ -135,7 +135,7 @@ class Admin::CourtsController < Admin::ApplicationController
               version.changeset.each do |key, value|
                 csv << [version.created_at,
                         author_email,
-                        version.location,
+                        version.network,
                         version.ip,
                         court.name,
                         key,
@@ -152,7 +152,7 @@ class Admin::CourtsController < Admin::ApplicationController
                   if court = Court.find(court_id)
                     csv << [version.created_at,
                             author_email,
-                            version.location,
+                            version.network,
                             version.ip,
                             court.name,
                             version.item_type,
@@ -171,7 +171,7 @@ class Admin::CourtsController < Admin::ApplicationController
                     end
                     csv << [version.created_at,
                             author_email,
-                            version.location,
+                            version.network,
                             version.ip,
                             court.name,
                             version.item_type,
