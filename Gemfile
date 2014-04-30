@@ -53,7 +53,7 @@ gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
 gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
-gem 'rmagick'               # Resize uploaded images
+gem 'rmagick', require: false # Resize uploaded images
 gem 'fog', '1.20.0'                   # Talks to cloud providers (e.g. S3)
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'           # Handles file uploads
 gem 'gmaps4rails'           # Maps and directions
