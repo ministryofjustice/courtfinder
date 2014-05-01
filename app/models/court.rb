@@ -28,7 +28,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
   before_validation :convert_visiting_to_location
-  
+
   validates :name, presence: true
 
   validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
@@ -36,7 +36,7 @@ class Court < ActiveRecord::Base
 
   validate :check_postcode_errors
 
-  has_paper_trail ignore: [:created_at, :updated_at]
+  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip, network: :network}
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
@@ -151,7 +151,7 @@ class Court < ActiveRecord::Base
 
   def convert_visiting_to_location
     if visiting_postcode = visiting_addresses.first.try(:postcode)
-      begin  
+      begin
         @cs = CourtSearch.new(visiting_postcode)
         if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
           self.latitude = lat_lon[0]
@@ -162,7 +162,7 @@ class Court < ActiveRecord::Base
       end
     else
       self.latitude = nil
-      self.longitude = nil      
+      self.longitude = nil
     end
   end
 end
