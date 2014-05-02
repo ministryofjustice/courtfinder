@@ -41,7 +41,7 @@ class AreaOfLaw < ActiveRecord::Base
     def self.group_areas_of_law(areas)
       groups = YAML.load_file("#{Bundler.root}/config/by_areas_of_law.yml")
       groups.inject({}) do |h, (k,v)|
-        h[k] = v.map{|area| areas.select {|a| a.name == area}.first.try(:name)}
+        h[k] = v.map{|area| areas.select {|a| a.name == area}.first.try(:name)}.compact
         h
       end
     end
