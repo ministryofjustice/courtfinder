@@ -5,7 +5,7 @@ require 'byebug'
 
 class AuthoritySlugGenerator < OpenStruct
   def mapit_url
-    @mapit_url || 'http://ec2-54-72-85-21.eu-west-1.compute.amazonaws.com/'
+    @mapit_url || 'http://mapit.mysociety.org/'
   end
 
   def authority_types
