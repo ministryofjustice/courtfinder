@@ -31,29 +31,29 @@ class AreaOfLaw < ActiveRecord::Base
     areas = includes(:courts).where('courts.id IS NOT NULL')
     grouped_areas = {
       'top-level' => [
-        areas.select {|a| a.name == 'High court'  }[0],
-        areas.select {|a| a.name == 'Immigration' }[0],
-        areas.select {|a| a.name == 'Probate'     }[0]
+        areas.select {|a| a.name == 'High court'  }.first.try(:name),
+        areas.select {|a| a.name == 'Immigration' }.first.try(:name),
+        areas.select {|a| a.name == 'Probate'     }.first.try(:name)
       ],
       "Crime" => [
-        areas.select {|a| a.name == 'Crime'             }[0].name,
-        areas.select {|a| a.name == 'Domestic violence' }[0].name,
-        areas.select {|a| a.name == 'Forced marriage'   }[0].name
+        areas.select {|a| a.name == 'Crime'             }.first.try(:name),
+        areas.select {|a| a.name == 'Domestic violence' }.first.try(:name),
+        areas.select {|a| a.name == 'Forced marriage'   }.first.try(:name)
       ],
       "Family" => [
-        areas.select {|a| a.name == 'Adoption'          }[0].name,
-        areas.select {|a| a.name == 'Children'          }[0].name,
-        areas.select {|a| a.name == 'Civil partnership' }[0].name,
-        areas.select {|a| a.name == 'Divorce'           }[0].name
+        areas.select {|a| a.name == 'Adoption'          }.first.try(:name),
+        areas.select {|a| a.name == 'Children'          }.first.try(:name),
+        areas.select {|a| a.name == 'Civil partnership' }.first.try(:name),
+        areas.select {|a| a.name == 'Divorce'           }.first.try(:name)
       ],
       "Money and Property" => [
-        areas.select {|a| a.name == 'Bankruptcy'        }[0].name,
-        areas.select {|a| a.name == 'Money claims'      }[0].name,
-        areas.select {|a| a.name == 'Repossession'      }[0].name
+        areas.select {|a| a.name == 'Bankruptcy'        }.first.try(:name),
+        areas.select {|a| a.name == 'Money claims'      }.first.try(:name),
+        areas.select {|a| a.name == 'Repossession'      }.first.try(:name)
       ],
       "Work and Benefit" => [
-        areas.select {|a| a.name == 'Employment'        }[0].name,
-        areas.select {|a| a.name == 'Social security'   }[0].name
+        areas.select {|a| a.name == 'Employment'        }.first.try(:name),
+        areas.select {|a| a.name == 'Social security'   }.first.try(:name)
       ]
     }
 
