@@ -86,7 +86,7 @@ describe CourtSearch do
   end
 
   it "should get initialized with proper timeout values" do
-    RestClient::Resource.should_receive(:new).with('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1).once
+    RestClient::Resource.should_receive(:new).with('http://ec2-54-72-85-21.eu-west-1.compute.amazonaws.com/postcode', timeout: 3, open_timeout: 1).once
     CourtSearch.new('irrelevant')
   end
 
