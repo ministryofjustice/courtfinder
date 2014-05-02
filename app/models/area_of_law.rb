@@ -29,38 +29,24 @@ class AreaOfLaw < ActiveRecord::Base
 
   def self.has_courts_grouped
     areas = includes(:courts).where('courts.id IS NOT NULL')
-    grouped_areas = {
-      'top-level' => [
-        areas.select {|a| a.name == 'High court'  }.first.try(:name),
-        areas.select {|a| a.name == 'Immigration' }.first.try(:name),
-        areas.select {|a| a.name == 'Probate'     }.first.try(:name)
-      ],
-      "Crime" => [
-        areas.select {|a| a.name == 'Crime'             }.first.try(:name),
-        areas.select {|a| a.name == 'Domestic violence' }.first.try(:name),
-        areas.select {|a| a.name == 'Forced marriage'   }.first.try(:name)
-      ],
-      "Family" => [
-        areas.select {|a| a.name == 'Adoption'          }.first.try(:name),
-        areas.select {|a| a.name == 'Children'          }.first.try(:name),
-        areas.select {|a| a.name == 'Civil partnership' }.first.try(:name),
-        areas.select {|a| a.name == 'Divorce'           }.first.try(:name)
-      ],
-      "Money and Property" => [
-        areas.select {|a| a.name == 'Bankruptcy'        }.first.try(:name),
-        areas.select {|a| a.name == 'Money claims'      }.first.try(:name),
-        areas.select {|a| a.name == 'Repossession'      }.first.try(:name)
-      ],
-      "Work and Benefit" => [
-        areas.select {|a| a.name == 'Employment'        }.first.try(:name),
-        areas.select {|a| a.name == 'Social security'   }.first.try(:name)
-      ]
-    }
-
-    grouped_areas
+    group_areas_of_law(areas)
   end
 
   def empty?
     courts.count.zero?
   end
+
+  private
+
+    def self.group_areas_of_law(areas)
+      groups = YAML.load_file("#{Bundler.root}/config/by_areas_of_law.yml")
+      groups.inject({}) do |h, (k,v)|
+        if k == 'top-level'
+          h[k] = v.map{|area| areas.select {|a| a.name == area}.first}
+        else
+          h[k] = v.map{|area| areas.select {|a| a.name == area}.first.try(:name)}
+        end
+        h
+      end
+    end
 end
