@@ -43,7 +43,7 @@
 							options = ''
 							@areas_of_law.each do | title, list |
 								if title == 'top-level'
-									options += options_from_collection_for_select(list, "name", "name")
+									options += options_for_select(list)
 								else
 									options += grouped_options_for_select( { title => list }, nil )
 								end
@@ -51,9 +51,9 @@
 
 							options += "<option value>All law</option>"
 						%>
-						<%= select_tag "area_of_law", 
+						<%= select_tag "area_of_law",
 								options,
-								:prompt => 'Please select an area of law …' 
+								:prompt => 'Please select an area of law …'
 						%>
 					</label>
 					<button type="submit" class="button">Search</button>
