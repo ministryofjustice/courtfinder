@@ -7,7 +7,6 @@ module IpLocation
   end
 
   private
-
     def self.format(details)
       if details.first == "Reserved"
         'LOCALHOST'
