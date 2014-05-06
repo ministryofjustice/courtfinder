@@ -131,6 +131,7 @@ class CourtSearch
   end
 
   private
+  
     def found_in_area_of_law(courts)
       if @chosen_area_of_law.present? && courts.present? && courts.respond_to?(:count)
         courts.count
