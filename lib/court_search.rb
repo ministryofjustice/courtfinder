@@ -105,14 +105,6 @@ class CourtSearch
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
-  def not_found_error
-    {"code" => 404, "error" => "Postcode not found"}
-  end
-
-  def internal_server_error
-    {"code" => 500, "error" => "Internal server error"}
-  end
-
   private
     def found_in_area_of_law(courts)
       if @chosen_area_of_law.present? && courts.present? && courts.respond_to?(:count)
@@ -120,6 +112,14 @@ class CourtSearch
       else
         0
       end
+    end
+
+    def not_found_error
+      {"code" => 404, "error" => "Postcode not found"}
+    end
+
+    def internal_server_error
+      {"code" => 500, "error" => "Internal server error"}
     end
 
     def try_partial_postcode_request(postcode, client)
