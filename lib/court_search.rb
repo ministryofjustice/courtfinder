@@ -92,7 +92,7 @@ class CourtSearch
   def latlng_from_postcode(postcode, client=@restclient)
     partial_or_full = ->(postcode, client) do
                       if postcode.strip.size <= 4
-                        try_partial_postcode_request(CGI::escape(postcode), client)
+                        partial_postcode_request(CGI::escape(postcode), client)
                       else
                         JSON.parse(client[CGI::escape(postcode)].get)
                       end
@@ -102,13 +102,32 @@ class CourtSearch
     rescue RestClient::BadRequest
       results = bad_request_error
     rescue RestClient::ResourceNotFound
-      results = try_mapit(postcode){ partial_or_full }
+      results = via_mapit(postcode){ partial_or_full }
     rescue RestClient::ServerBrokeConnection
-      results = try_mapit(postcode){ partial_or_full }
+      results = via_mapit(postcode){ partial_or_full }
     rescue RestClient::RequestFailed
-      results = try_mapit(postcode){ partial_or_full }
+      results = via_mapit(postcode){ partial_or_full }
     end
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
+  end
+
+  def via_mapit(postcode)
+    client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
+    begin
+      if block_given?
+        yield.(postcode, client)
+      else
+        JSON.parse(client[CGI::escape(postcode)].get)
+      end
+    rescue RestClient::BadRequest
+      bad_request_error
+    rescue RestClient::ResourceNotFound
+      not_found_error
+    rescue RestClient::ServerBrokeConnection
+      internal_server_error
+    rescue RestClient::RequestFailed
+      internal_server_error
+    end
   end
 
   private
@@ -132,27 +151,12 @@ class CourtSearch
       {"code" => 400, "error" => "HTTP Error Bad request"}
     end
 
-    def try_partial_postcode_request(postcode, client)
+    def partial_postcode_request(postcode, client)
       begin
         # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
         JSON.parse(client["/partial/#{postcode}"].get)
       rescue RestClient::ResourceNotFound
         not_found_error
-      end
-    end
-
-    def try_mapit(postcode)
-      client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
-      begin
-        yield.(postcode, client)
-      rescue RestClient::BadRequest
-        bad_request_error
-      rescue RestClient::ResourceNotFound
-        not_found_error
-      rescue RestClient::ServerBrokeConnection
-        internal_server_error
-      rescue RestClient::RequestFailed
-        internal_server_error
       end
     end
 end
