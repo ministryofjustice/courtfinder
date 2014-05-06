@@ -122,6 +122,10 @@ class CourtSearch
       {"code" => 500, "error" => "Internal server error"}
     end
 
+    def bad_request_error
+      {"code" => 400, "error" => "HTTP Error Bad request"}
+    end
+
     def try_partial_postcode_request(postcode, client)
       begin
         # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
