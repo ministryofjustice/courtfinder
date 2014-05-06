@@ -146,7 +146,7 @@ class CourtSearch
       begin
         yield.(postcode)
       rescue RestClient::BadRequest
-        try_partial_postcode_request(postcode, client)
+        bad_request_error
       rescue RestClient::ResourceNotFound
         not_found_error
       rescue RestClient::ServerBrokeConnection
