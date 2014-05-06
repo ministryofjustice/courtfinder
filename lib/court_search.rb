@@ -89,20 +89,28 @@ class CourtSearch
     courts
   end
 
-  def latlng_from_postcode(postcode)
+  def latlng_from_postcode(postcode, client=@restclient)
     postcode = CGI::escape(postcode)
     begin
-      results = JSON.parse(@restclient[postcode].get)
+      results = JSON.parse(client[postcode].get)
     rescue RestClient::BadRequest
-      results = try_partial_postcode_request(postcode)
+      results = try_partial_postcode_request(postcode, client)
     rescue RestClient::ResourceNotFound
       results = not_found_error
+    rescue RestClient::ServerBrokeConnection
+      results = try_mapit(postcode)
+    rescue RestClient::RequestFailed
+      results = try_mapit(postcode)
     end
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
   def not_found_error
     {"code" => 404, "error" => "Postcode not found"}
+  end
+
+  def internal_server_error
+    {"code" => 500, "error" => "Internal server error"}
   end
 
   private
@@ -114,12 +122,27 @@ class CourtSearch
       end
     end
 
-    def try_partial_postcode_request(postcode)
+    def try_partial_postcode_request(postcode, client)
       begin
         # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
-        JSON.parse(@restclient["/partial/#{postcode}"].get)
+        JSON.parse(client["/partial/#{postcode}"].get)
       rescue RestClient::ResourceNotFound
         not_found_error
+      end
+    end
+
+    def try_mapit(postcode)
+      client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
+      begin
+        JSON.parse(client[postcode].get)
+      rescue RestClient::BadRequest
+        try_partial_postcode_request(postcode, client)
+      rescue RestClient::ResourceNotFound
+        not_found_error
+      rescue RestClient::ServerBrokeConnection
+        internal_server_error
+      rescue RestClient::RequestFailed
+        internal_server_error
       end
     end
 end
