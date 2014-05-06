@@ -96,7 +96,7 @@ class CourtSearch
     rescue RestClient::BadRequest
       results = try_partial_postcode_request(postcode, client)
     rescue RestClient::ResourceNotFound
-      results = not_found_error
+      results = try_mapit(postcode)
     rescue RestClient::ServerBrokeConnection
       results = try_mapit(postcode)
     rescue RestClient::RequestFailed
