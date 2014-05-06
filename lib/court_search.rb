@@ -90,7 +90,7 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode, client=@restclient)
-    partial_or_full = ->(postcode) do
+    partial_or_full = ->(postcode, client) do
                       if postcode.strip.size <= 4
                         try_partial_postcode_request(CGI::escape(postcode), client)
                       else
@@ -98,7 +98,7 @@ class CourtSearch
                       end
                     end
     begin
-      results = partial_or_full.(postcode)
+      results = partial_or_full.(postcode, client)
     rescue RestClient::BadRequest
       results = bad_request_error
     rescue RestClient::ResourceNotFound
@@ -144,7 +144,7 @@ class CourtSearch
     def try_mapit(postcode)
       client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
       begin
-        yield.(postcode)
+        yield.(postcode, client)
       rescue RestClient::BadRequest
         bad_request_error
       rescue RestClient::ResourceNotFound
