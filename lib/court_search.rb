@@ -90,17 +90,13 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode)
+    postcode = CGI::escape(postcode)
     begin
-      results = JSON.parse(@restclient[CGI::escape(postcode)].get)
+      results = JSON.parse(@restclient[postcode].get)
     rescue RestClient::BadRequest
-      begin
-        # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
-        results = JSON.parse(@restclient["/partial/#{CGI::escape(postcode)}"].get)
-      rescue RestClient::ResourceNotFound
-        results = not_found_error
-      end
+      results = try_partial_postcode_request(postcode)
     rescue RestClient::ResourceNotFound
-        results = not_found_error
+      results = not_found_error
     end
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
@@ -115,6 +111,15 @@ class CourtSearch
         courts.count
       else
         0
+      end
+    end
+
+    def try_partial_postcode_request(postcode)
+      begin
+        # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
+        JSON.parse(@restclient["/partial/#{postcode}"].get)
+      rescue RestClient::ResourceNotFound
+        not_found_error
       end
     end
 end
