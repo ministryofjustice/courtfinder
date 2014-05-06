@@ -90,17 +90,23 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode, client=@restclient)
-    postcode = CGI::escape(postcode)
+    partial_or_full = ->(postcode) do
+                      if postcode.strip.size <= 4
+                        try_partial_postcode_request(CGI::escape(postcode), client)
+                      else
+                        JSON.parse(client[CGI::escape(postcode)].get)
+                      end
+                    end
     begin
-      results = JSON.parse(client[postcode].get)
+      results = partial_or_full.(postcode)
     rescue RestClient::BadRequest
-      results = try_partial_postcode_request(postcode, client)
+      results = bad_request_error
     rescue RestClient::ResourceNotFound
-      results = try_mapit(postcode)
+      results = try_mapit(postcode){ partial_or_full }
     rescue RestClient::ServerBrokeConnection
-      results = try_mapit(postcode)
+      results = try_mapit(postcode){ partial_or_full }
     rescue RestClient::RequestFailed
-      results = try_mapit(postcode)
+      results = try_mapit(postcode){ partial_or_full }
     end
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
@@ -138,7 +144,7 @@ class CourtSearch
     def try_mapit(postcode)
       client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
       begin
-        JSON.parse(client[postcode].get)
+        yield.(postcode)
       rescue RestClient::BadRequest
         try_partial_postcode_request(postcode, client)
       rescue RestClient::ResourceNotFound
