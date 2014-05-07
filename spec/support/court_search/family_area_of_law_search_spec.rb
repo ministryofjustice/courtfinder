@@ -10,7 +10,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
 
   context "Chosen area of law is #{area_of_law_name}" do
   	let!(:area) { AreaOfLaw.find_by_name(area_of_law_name)}
-    # Location: http://mapit.is-prod.dsd.io/nearest/4326/-0.110768,51449126: SW2 2YH (Inside the Lambeth Borough Council)
+    # Location: http://mapit.service.dsd.io/nearest/4326/-0.110768,51449126: SW2 2YH (Inside the Lambeth Borough Council)
     let!(:court7) do
       VCR.use_cassette('postcode_found') do
         create(:court, court_number: 434, name: "#{area.name} Court A", display: true, areas_of_law: [area],
@@ -25,7 +25,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
       RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
-      # Location: http://mapit.is-prod.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
+      # Location: http://mapit.service.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('SE240NG', {:area_of_law => area.name})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
@@ -35,7 +35,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
       RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
-      # Location: http://mapit.is-prod.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
+      # Location: http://mapit.service.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('SE240NG', { area_of_law: area.name})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
