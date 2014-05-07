@@ -52,6 +52,25 @@ describe CourtSearch do
         court_search.results.fetch(:courts).should == [court6]
       end
     end
+
+    context "when local mapit server request fails" do
+
+      local_url = "http://mapit.service.dsd.io/postcode/EC1V+7DP"
+      mapit_url = "http://mapit.mysociety.org/postcode/EC1V+7DP"
+
+      headers = {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}
+
+      it "should fallback to the remote mapit api" do
+
+        stub_request(:get, local_url).with(headers: headers).to_return(status: 500, body: "", headers: {})
+        stub_request(:get, mapit_url).with(headers: headers).to_return(status: 200, body: '{}', headers: {})
+
+        CourtSearch.new('EC1V 7DP').results
+
+        a_request(:get, local_url).should have_been_made.once
+        a_request(:get, mapit_url).should have_been_made.once
+      end
+    end
   end
 
   it "should return courts by name if search is not a postcode" do
@@ -86,7 +105,7 @@ describe CourtSearch do
   end
 
   it "should get initialized with proper timeout values" do
-    RestClient::Resource.should_receive(:new).with('http://ec2-54-72-85-21.eu-west-1.compute.amazonaws.com/postcode', timeout: 3, open_timeout: 1).once
+    RestClient::Resource.should_receive(:new).with('http://mapit.service.dsd.io/postcode', timeout: 3, open_timeout: 1).once
     CourtSearch.new('irrelevant')
   end
 
