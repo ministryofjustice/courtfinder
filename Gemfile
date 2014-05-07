@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 #source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
 
-gem 'rails', '3.2.17'
+gem 'rails', '3.2.18'
 gem 'pg'
 
 gem 'byebug'
