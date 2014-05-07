@@ -36,7 +36,7 @@ Courtfinder::Application.configure do
   config.assets.debug = true
 
   # Add 'devcfphp' to your hostfile and point it to 172.22.8.1
-  config.postcode_lookup_service_url = 'http://ec2-54-72-85-21.eu-west-1.compute.amazonaws.com/postcode'
+  config.postcode_lookup_service_url = 'http://mapit.is-prod.dsd.io/postcode'
 
   # Devise requirement
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }

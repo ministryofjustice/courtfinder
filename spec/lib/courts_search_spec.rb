@@ -54,7 +54,7 @@ describe CourtSearch do
     end
 
     context "when local mapit server request fails" do
-      local_url = "http://ec2-54-72-85-21.eu-west-1.compute.amazonaws.com/postcode/NE12+8AQ"
+      local_url = "http://mapit.is-prod.dsd.io/postcode/NE12+8AQ"
       mapit_url = "http://mapit.mysociety.org/postcode/NE12+8AQ"
       headers = {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}
       it "should fallback to mapit api" do
@@ -99,7 +99,7 @@ describe CourtSearch do
   end
 
   it "should get initialized with proper timeout values" do
-    RestClient::Resource.should_receive(:new).with('http://ec2-54-72-85-21.eu-west-1.compute.amazonaws.com/postcode', timeout: 3, open_timeout: 1).once
+    RestClient::Resource.should_receive(:new).with('http://mapit.is-prod.dsd.io/postcode', timeout: 3, open_timeout: 1).once
     CourtSearch.new('irrelevant')
   end
 
