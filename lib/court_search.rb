@@ -43,8 +43,8 @@ class CourtSearch
 
   def lookup_council_name
     begin
-      postcode_info = JSON.parse(@restclient[CGI::escape(@query)].get)
-      county_id =  extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
+      postcode_info = make_request(@query)
+      county_id = extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
@@ -89,7 +89,12 @@ class CourtSearch
     courts
   end
 
-  def latlng_from_postcode(postcode, client=@restclient)
+  def latlng_from_postcode(postcode)
+    results = make_request(postcode)
+    [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
+  end
+
+  def make_request(postcode, client=@restclient)
     partial_or_full = ->(postcode, client) do
                       if postcode.strip.size <= 4
                         partial_postcode_request(CGI::escape(postcode), client)
@@ -98,17 +103,16 @@ class CourtSearch
                       end
                     end
     begin
-      results = partial_or_full.(postcode, client)
+      partial_or_full.(postcode, client)
     rescue RestClient::BadRequest
-      results = bad_request_error
+      bad_request_error
     rescue RestClient::ResourceNotFound
-      results = via_mapit(postcode){ partial_or_full }
+      via_mapit(postcode){ partial_or_full }
     rescue RestClient::ServerBrokeConnection
-      results = via_mapit(postcode){ partial_or_full }
+      via_mapit(postcode){ partial_or_full }
     rescue RestClient::RequestFailed
-      results = via_mapit(postcode){ partial_or_full }
+      via_mapit(postcode){ partial_or_full }
     end
-    [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
   def via_mapit(postcode)
@@ -131,7 +135,7 @@ class CourtSearch
   end
 
   private
-  
+
     def found_in_area_of_law(courts)
       if @chosen_area_of_law.present? && courts.present? && courts.respond_to?(:count)
         courts.count
