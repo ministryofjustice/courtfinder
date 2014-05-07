@@ -54,17 +54,21 @@ describe CourtSearch do
     end
 
     context "when local mapit server request fails" do
-      local_url = "http://mapit.service.dsd.io/postcode/NE12+8AQ"
-      mapit_url = "http://mapit.mysociety.org/postcode/NE12+8AQ"
+
+      local_url = "http://mapit.service.dsd.io/postcode/EC1V+7DP"
+      mapit_url = "http://mapit.mysociety.org/postcode/EC1V+7DP"
 
       headers = {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}
-      it "should fallback to mapit api" do
+
+      it "should fallback to the remote mapit api" do
+
         stub_request(:get, local_url).with(headers: headers).to_return(status: 500, body: "", headers: {})
         stub_request(:get, mapit_url).with(headers: headers).to_return(status: 200, body: '{}', headers: {})
 
-        court_search = CourtSearch.new('NE12 8AQ')
+        CourtSearch.new('EC1V 7DP').results
 
-        a_request(:get, mapit_url).should have_been_made
+        a_request(:get, local_url).should have_been_made.once
+        a_request(:get, mapit_url).should have_been_made.once
       end
     end
   end
