@@ -6,8 +6,9 @@ describe Court do
     @court2 = create(:court, :name => "Something else")
     @ct_county = create(:court_type, :name => "County Court")
     @ct_crown = create(:court_type, :name => "Crown Court")
-    @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
+    @ct_magistrate = create(:court_type, :name => "Magistrates Court")
     @ct_tribunal = create(:court_type, :name => "Tribunal")
+    @ct_family = create(:court_type, :name => "Family Court")
 
     @at_visiting = create(:address_type, :name => "Visiting")
     @at_postal = create(:address_type, :name => "Postal")
@@ -18,15 +19,18 @@ describe Court do
     @postal_address = create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
 
     VCR.use_cassette('postcode_found') do
-      @county_court = create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id], 
+      @county_court = create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id],
                                           :address_ids => [@visiting_address1.id, @postal_address.id])
     end
-    
-    @crown_court = create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id], 
+
+    @crown_court = create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id],
                                         :address_ids => [@postal_address.id])
 
     @magistrates_court = create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
     @tribunal = create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
+    @family_court = create(:court, :name => 'Some Family Court', :court_type_ids => [@ct_family.id])
+
+    @leaflets_types = ["visitor", "defence", "prosecution", "juror"]
   end
 
   describe 'associations' do
@@ -39,20 +43,24 @@ describe Court do
     end
   end
 
-  it "should return no leaflets for County courts" do
-    @county_court.leaflets.should be_empty
+  it "should return visitors leaflets only for County courts" do
+    @county_court.leaflets.should eq @leaflets_types.take(1)
   end
 
-  it "should include defence and prosecution leaflets for Magistrates courts" do
-    @magistrates_court.leaflets.should =~ ["defence", "prosecution"]
+  it "should include  visitors, defence and prosecution leaflets for Magistrates courts" do
+    @magistrates_court.leaflets.should eq @leaflets_types.take(3)
   end
 
-  it "should include defence, prosecution and juror leaflets for Crown courts" do
-    @crown_court.leaflets.should =~ ["defence", "juror", "prosecution"]
+  it "should include visitors, defence, prosecution and juror leaflets for Crown courts" do
+    @crown_court.leaflets.should eq @leaflets_types
   end
 
-  it "should return no leaflets for Tribunals" do
-    @tribunal.leaflets.should be_empty
+  it "should return visitors leaflets only for Tribunals" do
+    @tribunal.leaflets.should eq @leaflets_types.take(1)
+  end
+
+  it "should return visitors leaflets only for Family Courts" do
+    @family_court.leaflets.should eq @leaflets_types.take(1)
   end
 
   it "should return a visiting address" do
@@ -119,8 +127,8 @@ describe Court do
   end
 
   context 'with areas_of_law' do
-    let!(:children) { create(:area_of_law, name: 'Children') } 
-    let!(:divorce)  { create(:area_of_law, name: 'Divorce') } 
+    let!(:children) { create(:area_of_law, name: 'Children') }
+    let!(:divorce)  { create(:area_of_law, name: 'Divorce') }
     let!(:adoption) { create(:area_of_law, name: 'Adoption') }
     let!(:court) { create(:court) }
     let!(:council) { create(:council) }
