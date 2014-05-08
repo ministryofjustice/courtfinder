@@ -3,7 +3,7 @@ class SearchForm
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  validate :q, presence: true
+  validate :q, :area_of_law, presence: true
 
   def self.model_name
     ActiveModel::Name.new(self, nil, "CourtSearch")
