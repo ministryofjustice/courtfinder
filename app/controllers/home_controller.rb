@@ -16,8 +16,6 @@ class HomeController < ApplicationController
 
     @courts = Court.order(:name)
     set_cache_control(@courts.maximum(:updated_at)) && return
-    # @areas_of_law = AreaOfLaw.has_courts
-    @areas_of_law = AreaOfLaw.has_courts_grouped
 
     @search = SearchForm.new
   end

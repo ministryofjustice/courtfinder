@@ -1,4 +1,4 @@
-class Admin::AreaOfLawGroupsController < ApplicationController
+class Admin::AreaOfLawGroupsController < Admin::ApplicationController
   
   respond_to :html, :json
 
@@ -14,6 +14,7 @@ class Admin::AreaOfLawGroupsController < ApplicationController
   def create
     @group = AreaOfLawGroup.new(params[:area_of_law_group])
     if @group.save
+      purge_all_pages
       flash[:notice] = 'Group was successfully created.' 
       respond_with @group, location: admin_area_of_law_groups_path
     else
@@ -28,6 +29,7 @@ class Admin::AreaOfLawGroupsController < ApplicationController
   def update
     @group = AreaOfLawGroup.find(params[:id])
     if @group.update_attributes(params[:area_of_law_group])
+      purge_all_pages
       flash[:notice] = 'Group was successfully updated.' 
       respond_with @group, location: admin_area_of_law_groups_path
     else
@@ -38,6 +40,7 @@ class Admin::AreaOfLawGroupsController < ApplicationController
   def destroy
     @group = AreaOfLawGroup.find(params[:id])
     @group.destroy
+    purge_all_pages
 
     respond_with @group, location: admin_area_of_law_groups_path
   end
