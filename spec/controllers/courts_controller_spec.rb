@@ -4,7 +4,7 @@ describe CourtsController do
   render_views
 
   before :each do
-    @ct_magistrate = create(:court_type, :name => "Magistrates' Court")
+    @ct_magistrate = create(:court_type, :name => "Magistrates Court")
     @ct_county = create(:court_type, :name => "County Court")
 
     @court = create(:court, :name => 'A court of LAW').reload
@@ -98,7 +98,7 @@ describe CourtsController do
       expect(response.body).to match /0800 800 8081/m
       expect(response.body).to match /a> or <a href/m
       expect(response.body).to match /0800 800 8080/m
-    
+
     end
 
     context "map" do
@@ -249,21 +249,6 @@ describe CourtsController do
           get :show, id: @typeless_court.slug
           expect(response.body).to match /Visitor information/m
         end
-
-        it "displays link to prosecution witness leaflet for courts without types" do
-          get :show, id: @typeless_court.slug
-          expect(response.body).to match /Prosecution witness/m
-        end
-
-        it "displays link to defence witness leaflet for courts without types" do
-          get :show, id: @typeless_court.slug
-          expect(response.body).to match /Defence witness/m
-        end
-
-        it "does not display link to juror leaflet for courts without types" do
-          get :show, id: @typeless_court.slug
-          expect(response.body).not_to match /Juror/m
-        end
       end
 
       context "combined courts leaflets" do
@@ -333,7 +318,7 @@ describe CourtsController do
         response.should be_successful
       end
     end
-  
+
     context "CSV" do
       it "returns information if asked for CSV" do
         get :index, format: :csv
