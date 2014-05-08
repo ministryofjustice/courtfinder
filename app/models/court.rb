@@ -161,7 +161,7 @@ class Court < ActiveRecord::Base
 
     def resolve_leaflets
       leaflets = ["visitor", "defence", "prosecution", "juror"]
-      court_type = if self.court_types.empty? then [] else self.court_types.pluck('LOWER(name)') end
+      court_type = self.court_types.pluck('LOWER(name)')
       case
       when court_type.include?("crown court")
         leaflets
