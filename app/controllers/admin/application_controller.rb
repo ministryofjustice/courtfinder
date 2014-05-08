@@ -11,7 +11,6 @@ class Admin::ApplicationController < ::ApplicationController
         
         Varnish::Client.new(vanish_host,varnish_port,['http://', request.host].join).purge(regex_as_string)
       rescue Exception => ex
-        Appsignal.add_exception(ex)
         logger.info("Failed to purge cache: #{ex.message}")
       end
     end
