@@ -94,16 +94,7 @@ class Court < ActiveRecord::Base
   end
 
   def leaflets
-    @leaflets || begin
-      @leaflets = []
-      if self.court_types.empty? || self.court_types.pluck(:name).any? {|ct| ct != "Family Proceedings Court" && ct != "County Court" && ct != "Tribunal"}
-        @leaflets.push("defence", "prosecution")
-      end
-      if self.court_types.pluck(:name).any? {|ct| ct == "Crown Court"}
-        @leaflets << "juror"
-      end
-      @leaflets
-    end
+    @leaflets ||= resolve_leaflets
   end
 
   def is_county_court?
@@ -165,4 +156,19 @@ class Court < ActiveRecord::Base
       self.longitude = nil
     end
   end
+
+  private
+
+    def resolve_leaflets
+      leaflets = ["visitor", "defence", "prosecution", "juror"]
+      court_type = if self.court_types.empty? then [] else self.court_types.pluck(:name).map(&:downcase) end
+      case
+      when court_type.include?("crown court")
+        leaflets
+      when court_type.include?("magistrates court")
+        leaflets.take(3)
+      else
+        leaflets.take(1)
+      end
+    end
 end
