@@ -64,6 +64,8 @@ Courtfinder::Application.routes.draw do
 
     resources :areas_of_law, :path => '/areas-of-law'
 
+    resources :areas_of_law_groups, :path => '/areas-of-law-group'
+
     resources :opening_types
 
     resources :contact_types
@@ -74,7 +76,7 @@ Courtfinder::Application.routes.draw do
 
     resources :areas
   end
-  
+
   get '/index_area_of_law' => 'home#index_aol'
   get '/api' => 'home#api'
 

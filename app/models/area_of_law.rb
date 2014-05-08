@@ -4,6 +4,8 @@ class AreaOfLaw < ActiveRecord::Base
   has_many :courts, :through => :courts_areas_of_law
   has_many :court_council_links
 
+  belongs_to :areas_of_law_group
+
   default_scope :order => 'areas_of_law.name'
 
   extend FriendlyId
