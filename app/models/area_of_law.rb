@@ -7,7 +7,7 @@ class AreaOfLaw < ActiveRecord::Base
 
   validates :name, presence: true
 
-  default_scope order: 'areas_of_law.name'
+  default_scope -> { order('areas_of_law.name') }
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
