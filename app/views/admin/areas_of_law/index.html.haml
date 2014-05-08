@@ -8,6 +8,7 @@
     %th Action
     %th Group
     %th
+    %th
   - @areas_of_law.each do |area_of_law|
     %tr
       %td= area_of_law.name
@@ -16,4 +17,5 @@
       %td= area_of_law.group
       %td
         = link_to 'Edit', edit_admin_area_of_law_path(area_of_law)
+      %td
         = link_to 'Delete', admin_area_of_law_path(area_of_law), method: :delete, confirm: 'Are you sure?'
