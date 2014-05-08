@@ -39,7 +39,7 @@ describe CourtsController do
       @at_visiting = create(:address_type, :name => "Visiting")
       @at_postal = create(:address_type, :name => "Postal")
       @town = create(:town, :name => "London")
-      @ct_family = create(:court_type, :name => "Family Proceedings Court")
+      @ct_family = create(:court_type, :name => "Family Court")
       @ct_tribunal = create(:court_type, :name => "Tribunal")
       @ct_crown = create(:court_type, :name => "Crown Court")
 
@@ -248,6 +248,43 @@ describe CourtsController do
         it "displays link to information leaflet for courts without types" do
           get :show, id: @typeless_court.slug
           expect(response.body).to match /Visitor information/m
+        end
+
+        it "does not display link to prosecution witness leaflet for courts without types" do
+          get :show, id: @tribunal.slug
+          expect(response.body).not_to match /Prosecution witness/m
+        end
+
+        it "does not display link to defence witness leaflet for courts without types" do
+          get :show, id: @tribunal.slug
+          expect(response.body).not_to match /Defence witness/m
+        end
+
+        it "does not display link to juror leaflet for courts without types" do
+          get :show, id: @tribunal.slug
+          expect(response.body).not_to match /Juror/m
+        end
+      end
+
+      context "family court leaflets" do
+        it "displays link to information leaflet for courts without types" do
+          get :show, id: @family_court.slug
+          expect(response.body).to match /Visitor information/m
+        end
+
+        it "does not display link to prosecution witness leaflet for Family Court" do
+          get :show, id: @tribunal.slug
+          expect(response.body).not_to match /Prosecution witness/m
+        end
+
+        it "does not display link to defence witness leaflet for Family Court" do
+          get :show, id: @tribunal.slug
+          expect(response.body).not_to match /Defence witness/m
+        end
+
+        it "does not display link to juror leaflet for Family Court" do
+          get :show, id: @tribunal.slug
+          expect(response.body).not_to match /Juror/m
         end
       end
 
