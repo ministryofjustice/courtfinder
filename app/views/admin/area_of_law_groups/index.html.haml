@@ -7,6 +7,7 @@
     %tr
       %th Name
       %th
+      %th
   %tbody
     - @groups.each do |group|
       %tr
@@ -15,4 +16,5 @@
           = '( ' + pluralize(group.areas_of_law.count, 'area') + ' of law)'
         %td
           = link_to 'Edit', edit_admin_area_of_law_group_path(group)
+        %td
           = link_to 'Delete', admin_area_of_law_group_path(group), method: :delete, confirm: 'Are you sure?'
