@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AreasOfLawController do
   render_views
-  let(:area){ create(:area_of_law)}
+  let!(:area){ create(:area_of_law)}
 
   before :each do
     controller.should_receive(:enable_varnish).twice
