@@ -25,22 +25,8 @@ class AreaOfLaw < ActiveRecord::Base
     super({ only: ['name'], methods: ['path'] }.merge(options))
   end
 
-  def self.has_courts_grouped
-    areas = includes(:courts).where('courts.id IS NOT NULL')
-    group_areas_of_law(areas)
-  end
-
   def empty?
     courts.count.zero?
   end
 
-  private
-
-    def self.group_areas_of_law(areas)
-      groups = YAML.load_file("#{Bundler.root}/config/by_areas_of_law.yml")
-      groups.inject({}) do |h, (k,v)|
-        h[k] = v.map{|area| areas.select {|a| a.name == area}.first.try(:name)}.compact
-        h
-      end
-    end
 end
