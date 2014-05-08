@@ -145,15 +145,15 @@ class CourtSearch
     end
 
     def not_found_error
-      {"code" => 404, "error" => "Postcode not found"}
+      {code: 404, error: "Postcode not found"}
     end
 
     def internal_server_error
-      {"code" => 500, "error" => "Internal server error"}
+      {code: 500, error: "Internal server error"}
     end
 
     def bad_request_error
-      {"code" => 400, "error" => "HTTP Error Bad request"}
+      {code: 400, error: "HTTP Error Bad request"}
     end
 
     def partial_postcode_request(postcode, client)

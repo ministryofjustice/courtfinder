@@ -1,0 +1,18 @@
+- content_for :title, 'Listing Area of Law Groups'
+
+= link_to 'New Group', new_admin_area_of_law_group_path
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th
+  %tbody
+    - @groups.each do |group|
+      %tr
+        %td
+          = group.name
+          = '( ' + pluralize(group.areas_of_law.count, 'area') + ' of law)'
+        %td
+          = link_to 'Edit', edit_admin_area_of_law_group_path(group)
+          = link_to 'Delete', admin_area_of_law_group_path(group), method: :delete, confirm: 'Are you sure?'

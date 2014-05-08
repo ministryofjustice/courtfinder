@@ -1,18 +1,21 @@
 class SearchController < ApplicationController
 
   def index
-    if params[:area_of_law] == 'Designated money claims'
+    search_params = params[:court_search] || {}
+
+    if search_params[:area_of_law] == 'Designated money claims'
       redirect_to(court_path('county-court-money-claims-centre'))
       return
     end
 
-    @court_search = CourtSearch.new(@query = params[:q], {:area_of_law => params[:area_of_law]})
+
+    @court_search = CourtSearch.new(@query = search_params[:q], {area_of_law: search_params[:area_of_law]})
     begin
       search_results = @court_search.results
       @results = search_results.fetch(:courts)
       @found_in_area_of_law = search_results.fetch(:found_in_area_of_law)
       @errors = @court_search.errors
-      @chosen_area_of_law = AreaOfLaw.find_by_name(params[:area_of_law])
+      @chosen_area_of_law = AreaOfLaw.find_by_name(search_params[:area_of_law])
     rescue RestClient::RequestTimeout
       @results = []
       @found_in_area_of_law = 0

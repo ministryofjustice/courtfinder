@@ -3,15 +3,18 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
-
+require 'capybara/rspec'
+require 'capybara/webkit/matchers'
 require 'webmock/rspec'
-
+require 'headless'
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
 Faker::Config.locale = 'en-gb'
+Capybara.javascript_driver = :webkit
+Capybara.current_driver = :rack_test
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -22,7 +25,8 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   config.include FactoryGirl::Syntax::Methods
-
+  config.include Capybara::Webkit::RspecMatchers, type: :feature
+  config.include Features::SessionHelpers, type: :feature
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
