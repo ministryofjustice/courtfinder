@@ -91,6 +91,8 @@ class CourtSearch
 
   def latlng_from_postcode(postcode)
     results = make_request(postcode)
+    Rails.logger.info("Internal lookup: #{postcode}")
+
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
@@ -116,6 +118,7 @@ class CourtSearch
   end
 
   def via_mapit(postcode)
+    Rails.logger.info("Mapit lookup: #{postcode}")
     client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
     begin
       if block_given?
