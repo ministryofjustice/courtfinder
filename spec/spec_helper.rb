@@ -54,11 +54,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.before(:each) do
+  config.before(:each, js: false) do
     Timecop.freeze
   end
 
-  config.after(:each) do
+  config.after(:each, js: false) do
     Timecop.return
   end
 

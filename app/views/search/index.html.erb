@@ -3,14 +3,14 @@
 <% if @results.present? %>
   <% if @court_search.postcode_search? %>
     <% if @chosen_area_of_law && (@chosen_area_of_law.type_possession? || @chosen_area_of_law.type_bankruptcy? || @chosen_area_of_law.type_money_claims?) && @results.length == 1 %>
-      <p>This court handles <%= @chosen_area_of_law.name %> for the post code <strong><%= @court_search.query %></strong>:
+      <p>This court handles <%= @chosen_area_of_law.name %> for the post code <strong><%= @search.q %></strong>:
     <% elsif @chosen_area_of_law && (@chosen_area_of_law.type_children? || @chosen_area_of_law.type_divorce? || @chosen_area_of_law.type_adoption?) && (@found_in_area_of_law > 0) %>
       <p><%= family_court_search_found(@court_search, @chosen_area_of_law) %></p>
     <% else %>
-      <p>Results are ordered by distance closest to <strong><%= @court_search.query %></strong>. Your search found the following <%= @results.count %> results:</p>
+      <p>Results are ordered by distance closest to <strong><%= @search.q %></strong>. Your search found the following <%= @results.count %> results:</p>
     <% end %>
   <% else %>
-    <p>Your search for <strong><%= @court_search.query %></strong> found the following <%= @results.count %> results:</p>
+    <p>Your search for <strong><%= @search.q %></strong> found the following <%= @results.count %> results:</p>
   <% end %>
   <ul class="search-results">
     <% @results.each do |court| %>
@@ -44,7 +44,7 @@
       <p><%= error %></p>
     <% end %>
   <% else %>
-    <p>Your search for <strong><%= @court_search.query %></strong> did not return any results.</p>
+    <p>Your search for <strong><%= @search.q %></strong> did not return any results.</p>
     <p>Please try another postcode or court name.</p>
   <% end %>
 <% end %>
