@@ -251,18 +251,18 @@ describe CourtsController do
         end
 
         it "does not display link to prosecution witness leaflet for courts without types" do
-          get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Prosecution witness/m
+          get :show, id: @typeless_court.slug
+          expect(response.body).to match /Prosecution witness/m
         end
 
         it "does not display link to defence witness leaflet for courts without types" do
-          get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Defence witness/m
+          get :show, id: @typeless_court.slug
+          expect(response.body).to match /Defence witness/m
         end
 
         it "does not display link to juror leaflet for courts without types" do
-          get :show, id: @tribunal.slug
-          expect(response.body).not_to match /Juror/m
+          get :show, id: @typeless_court.slug
+          expect(response.body).to match /Juror/m
         end
       end
 
@@ -273,17 +273,17 @@ describe CourtsController do
         end
 
         it "does not display link to prosecution witness leaflet for Family Court" do
-          get :show, id: @tribunal.slug
+          get :show, id: @family_court.slug
           expect(response.body).not_to match /Prosecution witness/m
         end
 
         it "does not display link to defence witness leaflet for Family Court" do
-          get :show, id: @tribunal.slug
+          get :show, id: @family_court.slug
           expect(response.body).not_to match /Defence witness/m
         end
 
         it "does not display link to juror leaflet for Family Court" do
-          get :show, id: @tribunal.slug
+          get :show, id: @family_court.slug
           expect(response.body).not_to match /Juror/m
         end
       end
@@ -329,19 +329,19 @@ describe CourtsController do
 
       it "json api returns correct information" do
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, 
+        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"},
                                               "@id"=>"/courts/a-court-of-law",
-                                              "name"=>"A court of LAW", 
+                                              "name"=>"A court of LAW",
                                               "@type"=>["Courthouse"]}
       end
 
       it "json api returns correct extra information" do
         @court.update_attributes(:info => 'some information')
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"}, 
+        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"},
                                               "@id"=>"/courts/a-court-of-law",
-                                              "name"=>"A court of LAW", 
-                                              "@type"=>["Courthouse"], 
+                                              "name"=>"A court of LAW",
+                                              "@type"=>["Courthouse"],
                                               "description"=>"some information"}
       end
 

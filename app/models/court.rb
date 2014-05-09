@@ -163,12 +163,14 @@ class Court < ActiveRecord::Base
       leaflets = ["visitor", "defence", "prosecution", "juror"]
       court_type = self.court_types.pluck('LOWER(name)')
       case
-      when court_type.include?("crown court")
+      when court_type.size >= 1 && court_type.include?("crown court")
         leaflets
-      when court_type.include?("magistrates court")
+      when court_type.size >= 1 && court_type.include?("magistrates court")
         leaflets.take(3)
-      else
+      when court_type.any?{|ct| ct == "county court" || ct == "family court" || ct == "tribunal" }
         leaflets.take(1)
+      else
+        leaflets
       end
     end
 end
