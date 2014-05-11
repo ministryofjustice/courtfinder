@@ -4,6 +4,11 @@ describe SearchController do
   render_views
 
   describe "GET index" do
+
+    before do
+      SearchForm.any_instance.should_receive(:valid?).and_return(true)
+    end
+
     it "responds with a hash with the count of area(s) of law found and list of courts" do
       CourtSearch.any_instance.should_receive(:results).and_return({found_in_area_of_law: 1, courts: [] })
       get :index
@@ -30,7 +35,7 @@ describe SearchController do
     end
 
     it "redirects to CCMCC if we're dealing with a money claim for any postcode" do
-      get :index, court_search: { area_of_law: 'Designated money claims', q: ''} 
+      get :index, court_search: { area_of_law: 'Designated money claims', q: ''}
       response.should redirect_to('/courts/county-court-money-claims-centre')
     end
   end
@@ -41,9 +46,9 @@ describe SearchController do
       @court = FactoryGirl.create(:court)
     end
 
-    it "responds with a bad request if there's no search term" do
+    it "shows search page if no search term is sent" do
       get :index, format: :json
-      response.status.should == 400
+      page.path.should eq('/')
     end
 
     it "returns a list of courts as a json array" do
@@ -76,7 +81,7 @@ describe SearchController do
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
       AreaOfLaw.should_receive(:find_by_name).and_return(@area)
 
-      get :index, { court_search: { q: "bs1 6gr", area_of_law: 'Children' } }
+      get :index, { court_search: { q: 'bs1 6gr', area_of_law: 'Children' } }
       expect(response).to be_success
       response.body.should include("Courts dealing with applications involving children for")
     end

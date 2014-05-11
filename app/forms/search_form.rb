@@ -20,16 +20,12 @@ class SearchForm
 
   attr_accessor :q, :area_of_law
 
-  def postcode_entered?
+  def postcode_search?
     court_search.postcode_search?
   end
 
   def court_search
     CourtSearch.new(@q, {area_of_law: @area_of_law})
-  end
-
-  def postcode_search?
-    court_search.postcode_search? if court_search
   end
 
 end

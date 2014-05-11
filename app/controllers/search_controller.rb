@@ -29,7 +29,7 @@ class SearchController < ApplicationController
         end
       end
       format.json do
-        if @errors.any?
+        if @errors
           head :bad_request and return
         end
       end
