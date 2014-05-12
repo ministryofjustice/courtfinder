@@ -8,7 +8,7 @@ describe HomeController do
   context "landing page" do
     it "displays the landing page" do
       controller.should_receive(:enable_varnish).twice
-      controller.should_receive(:set_cache_control).with(court.updated_at.to_time).twice.and_call_original
+      controller.should_receive(:set_cache_control).with(court.updated_at.to_datetime).twice.and_call_original
       get :index
       response.should be_success
 

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cache_control(timestamp)
-    fresh_when(last_modified: timestamp.utc, public: true) if timestamp
+    fresh_when(last_modified: timestamp.to_datetime, public: true) if timestamp
   end
 
   def set_vary_accept
