@@ -14,8 +14,8 @@ class AreasOfLawController < ApplicationController
     @area_of_law = AreaOfLaw.find(params[:id])
     set_cache_control(@area_of_law.updated_at) && return
 
-    if request.path != area_of_law_path(@area_of_law, :format => params[:format])
-      redirect_to area_of_law_path(@area_of_law, :format => params[:format]), status: :moved_permanently
+    if request.path != area_of_law_path(@area_of_law, format: params[:format])
+      redirect_to area_of_law_path(@area_of_law, format: params[:format]), status: :moved_permanently
     else
       respond_with @area_of_law
     end

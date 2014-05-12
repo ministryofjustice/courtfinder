@@ -23,6 +23,6 @@ class HomeController < ApplicationController
   alias :index_aol :index
 
   def api
-    
+
   end
 end
