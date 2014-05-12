@@ -250,17 +250,17 @@ describe CourtsController do
           expect(response.body).to match /Visitor information/m
         end
 
-        it "does not display link to prosecution witness leaflet for courts without types" do
+        it "does display link to prosecution witness leaflet for courts without types" do
           get :show, id: @typeless_court.slug
           expect(response.body).to match /Prosecution witness/m
         end
 
-        it "does not display link to defence witness leaflet for courts without types" do
+        it "does display link to defence witness leaflet for courts without types" do
           get :show, id: @typeless_court.slug
           expect(response.body).to match /Defence witness/m
         end
 
-        it "does not display link to juror leaflet for courts without types" do
+        it "does display link to juror leaflet for courts without types" do
           get :show, id: @typeless_court.slug
           expect(response.body).to match /Juror/m
         end
