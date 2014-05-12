@@ -55,7 +55,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, js: false) do
-    Timecop.freeze
+    Timecop.freeze(Time.now.utc)
   end
 
   config.after(:each, js: false) do

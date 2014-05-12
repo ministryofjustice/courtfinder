@@ -6,7 +6,7 @@ describe AreasOfLawController do
 
   before :each do
     controller.should_receive(:enable_varnish).twice
-    controller.should_receive(:set_cache_control).with(area.updated_at.to_datetime).twice.and_call_original
+    controller.should_receive(:set_cache_control).with(area.updated_at.utc).twice.and_call_original
     controller.should_receive(:set_vary_accept).twice
   end
 
