@@ -92,3 +92,20 @@
   list-style-image: none;
   white-space: nowrap;
 }
+
+select{
+  border: 1px solid #bfc1c3;
+  padding: 4px 20px 5px 10px;
+  background: #fff;
+  background-image: url(/assets/dropdown-arrow.png);
+  background-repeat: no-repeat;
+  background-position: right center;
+  -webkit-box-shadow: 1px 1px 1px #fff;
+  -moz-box-shadow: 1px 1px 1px #fff;
+  box-shadow: 1px 1px 1px #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

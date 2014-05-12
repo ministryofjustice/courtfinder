@@ -91,6 +91,8 @@ class CourtSearch
 
   def latlng_from_postcode(postcode)
     results = make_request(postcode)
+    Rails.logger.info("Internal lookup: #{postcode}")
+
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
@@ -116,6 +118,7 @@ class CourtSearch
   end
 
   def via_mapit(postcode)
+    Rails.logger.info("Mapit lookup: #{postcode}")
     client = RestClient::Resource.new(Rails.application.config.backup_postcode_lookup_service_url, timeout: 3, open_timeout: 1)
     begin
       if block_given?
@@ -145,15 +148,15 @@ class CourtSearch
     end
 
     def not_found_error
-      {"code" => 404, "error" => "Postcode not found"}
+      {code: 404, error: "Postcode not found"}
     end
 
     def internal_server_error
-      {"code" => 500, "error" => "Internal server error"}
+      {code: 500, error: "Internal server error"}
     end
 
     def bad_request_error
-      {"code" => 400, "error" => "HTTP Error Bad request"}
+      {code: 400, error: "HTTP Error Bad request"}
     end
 
     def partial_postcode_request(postcode, client)

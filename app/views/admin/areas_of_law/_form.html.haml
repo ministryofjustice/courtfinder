@@ -1,0 +1,10 @@
+= simple_form_for([:admin, @area_of_law]) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name
+    = f.input :slug
+    = f.input :old_id
+    = f.association :group
+
+  .form-actions
+    = f.button :submit

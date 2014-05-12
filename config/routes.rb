@@ -34,7 +34,7 @@ Courtfinder::Application.routes.draw do
   # Admin section
   get 'admin', to: redirect('/admin/courts')
 
-  devise_for :users, :path_prefix => 'admin'
+  devise_for :users, path_prefix: 'admin'
 
   namespace :admin do
     resources :users
@@ -42,7 +42,7 @@ Courtfinder::Application.routes.draw do
     resources :towns
     resources :counties
     resources :countries
-    resources :address_types, :path => '/address-types'
+    resources :address_types, path: '/address-types'
 
     resources :courts do
       collection do
@@ -62,7 +62,9 @@ Courtfinder::Application.routes.draw do
 
     resources :court_types
 
-    resources :areas_of_law, :path => '/areas-of-law'
+    resources :areas_of_law, path: '/areas-of-law'
+
+    resources :area_of_law_groups, path: '/area-of-law-groups'
 
     resources :opening_types
 
@@ -74,7 +76,7 @@ Courtfinder::Application.routes.draw do
 
     resources :areas
   end
-  
+
   get '/index_area_of_law' => 'home#index_aol'
   get '/api' => 'home#api'
 

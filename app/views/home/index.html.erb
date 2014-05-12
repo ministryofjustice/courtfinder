@@ -27,40 +27,26 @@
 </section>
 
 <div class="find-nearest">
-	<form method="get" action="/search" id="local-locator-form" class="find-location-for-service">
+	<%= simple_form_for @search, url: search_path, html: { class: 'find-location-for-service', id: 'local-locator-form' } do |f| %>
 		<fieldset>
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
 				<label for="search-main">Enter a UK postcode, court or tribunal name<br />
-					<input class="postcode" id="search-main" name="q" type="text" placeholder="e.g. SW1H9AJ or Liverpool Crown Court" autocomplete="off" />
+					<%= f.input_field :q, class: 'postcode', placeholder: 'e.g. SW1H9AJ or Liverpool Crown Court', autocomplete: 'off', id: 'search-main' %>
 				</label>
 
 				<div id="results"></div>
 
 				<div id="filters">
-					<label for="area_of_law">Area of law (optional)<br />
-						<%
-							options = ''
-							@areas_of_law.each do | title, list |
-								if title == 'top-level'
-									options += options_for_select(list)
-								else
-									options += grouped_options_for_select( { title => list }, nil )
-								end
-							end
-
-							options += "<option value>All law</option>"
-						%>
-						<%= select_tag "area_of_law",
-								options,
-								:prompt => 'Please select an area of law …'
-						%>
+					<label for="area_of_law">Area of law<br />
+						<% if f.object.errors[:area_of_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
+						<%= f.input_field :area_of_law, as: :grouped_select, collection: area_of_law_groups, group_method: :areas_of_law, prompt: 'Please select an area of law …' %>
 					</label>
 					<button type="submit" class="button">Search</button>
 				</div>
 			</div>
 		</fieldset>
-	</form>
+	<% end %>
 </div>
 <h3>Other search options</h3>
 <p><%= link_to 'View all courts and tribunals', courts_path %></p>

@@ -14,11 +14,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
-  gem 'database_cleaner'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
-  gem 'capybara', github: 'jnicklas/capybara'
   gem 'launchy'
   gem 'rb-fsevent', require: false
   gem 'guard-rspec'
@@ -32,6 +30,10 @@ group :test do
   gem 'webmock', '= 1.15.2'
   gem 'vcr'
   gem 'timecop'
+  gem 'capybara', github: 'jnicklas/capybara'
+  gem 'capybara-webkit'
+  gem 'headless'
+  gem 'database_cleaner'
 end
 
 
