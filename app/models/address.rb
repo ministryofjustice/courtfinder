@@ -5,11 +5,11 @@ class Address < ActiveRecord::Base
   attr_accessible :address_line_1, :address_line_2, :address_line_3, :address_line_4, :dx, :name, :postcode, :town_id, :address_type_id, :is_primary, :town
   validates_presence_of :address_line_1, :town
 
-  has_paper_trail :ignore => [:created_at, :updated_at]
+  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip, network: :network}
 
   scope :visiting, ->() { where(:address_type_id => AddressType.find_by_name("Visiting").try(:id)) }
   scope :postal, ->() { where(:address_type_id => AddressType.find_by_name("Postal").try(:id)) }
-  
+
   # Output address_lines fields of an address separated by comma or specified delimiter
   def address_lines(glue=',')
     lines = [
@@ -32,7 +32,7 @@ class Address < ActiveRecord::Base
     end
 
     lines.push postcode
-    
+
     # Remove empty lines and join by parameter
     lines.select{|i|i.present?}.join glue
   end

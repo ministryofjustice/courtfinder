@@ -1,4 +1,4 @@
-json.set! "@context" do 
+json.set! "@context" do
   json.set! "@vocab", 'http://schema.org/'
   json.geo 'http://www.w3.org/2003/01/geo/wgs84_pos#' if @court.latitude? or @court.longitude?
 end
@@ -19,7 +19,7 @@ if address = (addresses.postal.first || addresses.visiting.first)
   json.set! :address do
     json.set! "@type", 'PostalAddress'
     json.postalCode address.postcode if address.postcode?
-    json.addressRegion address.town.county.name if address.town.county.name?
+    json.addressRegion address.town.try(:county).try(:name)
     json.town address.town.name if address.town.name?
     street_address = []
     street_address.push address.address_line_1 if address.address_line_1?

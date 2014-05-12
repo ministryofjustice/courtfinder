@@ -16,12 +16,13 @@ class HomeController < ApplicationController
 
     @courts = Court.order(:name)
     set_cache_control(@courts.maximum(:updated_at)) && return
-    @areas_of_law = AreaOfLaw.has_courts
+
+    @search = SearchForm.new
   end
 
   alias :index_aol :index
 
   def api
-    
+
   end
 end

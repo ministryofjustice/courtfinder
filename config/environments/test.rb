@@ -23,6 +23,7 @@ Courtfinder::Application.configure do
 
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
+  config.active_record.default_timezone = :utc
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -35,9 +36,11 @@ Courtfinder::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # Add 'devcfphp' to your hostfile and point it to 172.22.8.1
-  config.postcode_lookup_service_url = 'http://mapit.mysociety.org/postcode'
-
   # Devise requirement
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  # Disable Papertrail when testing
+  # config.after_initialize do
+  #    PaperTrail.enabled = false
+  # end
 end
