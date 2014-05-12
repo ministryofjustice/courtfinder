@@ -6,7 +6,7 @@ describe AreasOfLawController do
 
   before :each do
     controller.should_receive(:enable_varnish).twice
-    controller.should_receive(:fresh_when).with(last_modified: area.updated_at.utc, public: true).twice.and_call_original
+    controller.should_receive(:fresh_when).with(last_modified: area.updated_at.utc, public: true).twice.and_call_original unless ENV['TRAVIS']
     controller.should_receive(:set_vary_accept).twice
   end
 
