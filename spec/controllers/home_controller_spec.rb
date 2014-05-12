@@ -7,6 +7,7 @@ describe HomeController do
 
   context "landing page" do
     it "displays the landing page" do
+      Timecop.return
       controller.should_receive(:enable_varnish).twice
       controller.should_receive(:set_cache_control).with(court.updated_at.utc).twice.and_call_original
       get :index
