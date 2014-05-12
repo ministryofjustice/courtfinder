@@ -6,7 +6,7 @@ describe SearchController do
   describe "GET index" do
 
     before do
-      SearchForm.any_instance.should_receive(:valid?).and_return(true)
+      SearchForm.any_instance.stub(:valid?).and_return(true)
     end
 
     it "responds with a hash with the count of area(s) of law found and list of courts" do
@@ -37,25 +37,6 @@ describe SearchController do
     it "redirects to CCMCC if we're dealing with a money claim for any postcode" do
       get :index, court_search: { area_of_law: 'Designated money claims', q: ''}
       response.should redirect_to('/courts/county-court-money-claims-centre')
-    end
-  end
-
-  describe "GET index (json)" do
-
-    before :each do
-      @court = FactoryGirl.create(:court)
-    end
-
-    it "shows search page if no search term is sent" do
-      get :index, format: :json
-      page.path.should eq('/')
-    end
-
-    it "returns a list of courts as a json array" do
-      get :index, format: :json, court_search: { q: 'court' }
-      response.should be_success
-      response.content_type.should == 'application/json'
-      JSON.parse(response.body).should == [{"@id" => court_path(@court), "name" => @court.name}]
     end
   end
 
