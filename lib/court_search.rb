@@ -116,7 +116,7 @@ class CourtSearch
   end
 
   def via_mapit(postcode)
-    client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
+    client = RestClient::Resource.new(Rails.application.config.backup_postcode_lookup_service_url, timeout: 3, open_timeout: 1)
     begin
       if block_given?
         yield.(postcode, client)
