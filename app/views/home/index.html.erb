@@ -39,7 +39,7 @@
 
 				<div id="filters">
 					<label for="area_of_law">Area of law<br />
-						<% if f.object.errors[:area_tagof_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
+						<% if f.object.errors[:area_of_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
 						<%= f.select :area_of_law, area_of_law_groups, prompt: 'Please select an area of law …' %>
 					</label>
 					<button type="submit" class="button">Search</button>
