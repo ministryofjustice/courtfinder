@@ -27,7 +27,7 @@
 </section>
 
 <div class="find-nearest">
-	<%= simple_form_for @search, url: search_path, html: { class: 'find-location-for-service', id: 'local-locator-form' } do |f| %>
+	<%= simple_form_for @search, url: search_path, html: { method: 'get', class: 'find-location-for-service', id: 'local-locator-form' } do |f| %>
 		<fieldset>
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
@@ -39,8 +39,8 @@
 
 				<div id="filters">
 					<label for="area_of_law">Area of law<br />
-						<% if f.object.errors[:area_of_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
-						<%= f.input_field :area_of_law, as: :grouped_select, collection: area_of_law_groups, group_method: :areas_of_law, value_method: 'name', prompt: 'Please select an area of law …' %>
+						<% if f.object.errors[:area_tagof_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
+						<%= f.select :area_of_law, area_of_law_groups, prompt: 'Please select an area of law …' %>
 					</label>
 					<button type="submit" class="button">Search</button>
 				</div>
