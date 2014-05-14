@@ -17,7 +17,7 @@ class SearchController < ApplicationController
         @results = search_results.fetch(:courts)
         @found_in_area_of_law = search_results.fetch(:found_in_area_of_law)
         @errors = @search.court_search.errors
-        @chosen_area_of_law = AreaOfLaw.find_by_name(@search.area_of_law)
+        @chosen_area_of_law = AreaOfLaw.where("LOWER(name) = ?",@search.area_of_law.downcase).first
       rescue RestClient::RequestTimeout
         @results = []
         @found_in_area_of_law = 0
