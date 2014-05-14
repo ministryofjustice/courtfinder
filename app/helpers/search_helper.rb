@@ -17,7 +17,7 @@ module SearchHelper
     grouped_data.each do |group|
       html << content_tag(:optgroup, label: group.name) do
         group.areas_of_law.each do |area|
-          concat content_tag(:option, area.name, value: area.name)
+          concat content_tag(:option, area.name)
         end
       end
     end
