@@ -24,6 +24,7 @@ class CourtSearch
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
+        Rails.logger.info("latlng: #{latlng}")
         @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
         if @chosen_area_of_law.present?
           courts = postcode_area_search(@chosen_area_of_law, latlng)
@@ -98,12 +99,13 @@ class CourtSearch
 
   def make_request(postcode, client=@restclient)
     partial_or_full = ->(postcode, client) do
-                      if postcode.strip.size <= 4
-                        partial_postcode_request(CGI::escape(postcode), client)
-                      else
-                        JSON.parse(client[CGI::escape(postcode)].get)
-                      end
-                    end
+      if postcode.strip.size <= 4
+        partial_postcode_request(postcode, client)
+      else
+        full_postcode_request(postcode, client)
+      end
+    end
+
     begin
       partial_or_full.(postcode, client)
     rescue RestClient::BadRequest
@@ -162,7 +164,15 @@ class CourtSearch
     def partial_postcode_request(postcode, client)
       begin
         # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
-        JSON.parse(client["/partial/#{postcode}"].get)
+        JSON.parse(client["/partial/#{CGI::escape(postcode)}"].get)
+      rescue RestClient::ResourceNotFound
+        not_found_error
+      end
+    end
+
+    def full_postcode_request(postcode, client)
+      begin
+        JSON.parse(client[CGI::escape(postcode)].get)
       rescue RestClient::ResourceNotFound
         not_found_error
       end
