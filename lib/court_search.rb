@@ -25,7 +25,7 @@ class CourtSearch
       if postcode_search?
         latlng = latlng_from_postcode(@query)
         Rails.logger.info("latlng: #{latlng}")
-        @chosen_area_of_law = AreaOfLaw.where("LOWER(name) = ?", @options[:area_of_law].downcase).first
+        @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
         if @chosen_area_of_law.present?
           courts = postcode_area_search(@chosen_area_of_law, latlng)
         else
