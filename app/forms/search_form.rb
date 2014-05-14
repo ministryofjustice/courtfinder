@@ -25,7 +25,7 @@ class SearchForm
   end
 
   def court_search
-    CourtSearch.new(@q, {area_of_law: @area_of_law})
+    CourtSearch.new(@q, {area_of_law: @area_of_law == 'all' ? '' : @area_of_law})
   end
 
 end
