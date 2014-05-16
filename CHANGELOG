@@ -1,3 +1,10 @@
+2.10.0-dev
+-------------------
+
+2.9.3
+-------------------
+* Reverted to mappit as own server does not have all data
+
 2.9.2
 -------------------
 * Added All back to area of law

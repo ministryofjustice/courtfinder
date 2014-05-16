@@ -24,7 +24,6 @@ class CourtSearch
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
-        Rails.logger.info("latlng: #{latlng}")
         @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
         if @chosen_area_of_law.present?
           courts = postcode_area_search(@chosen_area_of_law, latlng)
@@ -45,6 +44,8 @@ class CourtSearch
   def lookup_council_name
     begin
       postcode_info = make_request(@query)
+      Rails.logger.debug("postcode info")
+      Rails.logger.debug(postcode_info)
       county_id = extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
@@ -55,7 +56,7 @@ class CourtSearch
   end
 
   def extract_council_from_county(postcode_info)
-    return nil if postcode_info['shortcuts']['council'].class == Fixnum
+    return nil if postcode_info['shortcuts']['council'].class == Fixnum rescue nil
     postcode_info['shortcuts']['council']['county']
   end
 
