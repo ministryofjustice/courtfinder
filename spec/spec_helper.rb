@@ -61,14 +61,12 @@ RSpec.configure do |config|
   config.after(:each, js: false) do
     Timecop.return
   end
-
-
 end
 
 require 'vcr'
 
 VCR.configure do |config|
-  config.default_cassette_options = { record: :none, serialize_with: :json }
+  config.default_cassette_options = { record: :none, serialize_with: :psych }
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
   config.ignore_hosts '127.0.0.1' # allow selenium/capybara to do its thing
