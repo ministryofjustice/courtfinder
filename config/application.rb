@@ -47,7 +47,7 @@ module Courtfinder
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
-    config.postcode_lookup_service_url = 'http://mapit.service.dsd.io/postcode'
+    config.postcode_lookup_service_url = 'http://mapit.mysociety.org/postcode' #'http://mapit.service.dsd.io/postcode'
     config.backup_postcode_lookup_service_url = 'http://mapit.mysociety.org/postcode'
 
 

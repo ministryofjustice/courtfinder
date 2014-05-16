@@ -8,6 +8,7 @@ class SearchForm
 
   def initialize(params = {})
     params.each {|k,v| self.instance_variable_set("@#{k}", v) }
+    Rails.logger.debug("params: #{params}")
   end
 
   def self.model_name
@@ -25,7 +26,7 @@ class SearchForm
   end
 
   def court_search
-    CourtSearch.new(@q, {area_of_law: @area_of_law == 'all' ? '' : @area_of_law})
+    @search ||= CourtSearch.new(@q, {area_of_law: @area_of_law == 'all' ? '' : @area_of_law})
   end
 
 end
