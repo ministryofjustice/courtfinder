@@ -187,6 +187,13 @@ $(function () {
 		return !!$.trim(search.val()).length;
 	};
 
+
+  $('select#area_of_law').on('change', function(e){
+    if($(this).val().length){
+      $(this).parent().find('.error-text').hide();
+    }
+  });
+
 	// disable form until search box contains a string
 	form.on('submit', function (e) {
 		if (!submitable()) {

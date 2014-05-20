@@ -1,5 +1,7 @@
 2.10.0-dev
 -------------------
+* Updated search form to have correct query string when posting
+* Added spec to cover search form requirements
 
 2.9.3
 -------------------

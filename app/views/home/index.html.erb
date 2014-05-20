@@ -32,15 +32,15 @@
 			<legend class="visuallyhidden">Postcode lookup</legend>
 			<div class="ask_location">
 				<label for="search-main">Enter a UK postcode, court or tribunal name<br />
-					<%= f.input_field :q, class: 'postcode', placeholder: 'e.g. SW1H9AJ or Liverpool Crown Court', autocomplete: 'off', id: 'search-main' %>
+					<%= text_field_tag :q, @search.q, class: 'postcode', placeholder: 'e.g. SW1H9AJ or Liverpool Crown Court', autocomplete: 'off', id: 'search-main' %>
 				</label>
 
 				<div id="results"></div>
 
 				<div id="filters">
 					<label for="area_of_law">Area of law<br />
-						<% if f.object.errors[:area_of_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
-						<%= f.select :area_of_law, area_of_law_groups, prompt: 'Please select an area of law …' %>
+						<% if @search.errors[:area_of_law].present? %> <div class="error-text">You must select an area of law</div><% end %>
+						<%= select_tag :area_of_law, area_of_law_groups(@search.area_of_law), prompt: 'Please select an area of law …' %>
 					</label>
 					<button type="submit" class="button">Search</button>
 				</div>
