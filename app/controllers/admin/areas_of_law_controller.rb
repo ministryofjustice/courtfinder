@@ -45,7 +45,7 @@ class Admin::AreasOfLawController < Admin::ApplicationController
     respond_to do |format|
       if @area_of_law.save
         purge_all_pages
-        format.html { redirect_to admin_area_of_law_path(@area_of_law), notice: 'Area of law was successfully created.' }
+        format.html { redirect_to admin_areas_of_law_path, notice: 'Area of law was successfully created.' }
         format.json { render json: @area_of_law, status: :created, location: @area_of_law }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class Admin::AreasOfLawController < Admin::ApplicationController
     respond_to do |format|
       if @area_of_law.update_attributes(params[:area_of_law])
         purge_all_pages
-        format.html { redirect_to admin_area_of_law_path(@area_of_law), notice: 'Area of law was successfully updated.' }
+        format.html { redirect_to admin_areas_of_law_path, notice: 'Area of law was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

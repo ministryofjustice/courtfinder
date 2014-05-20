@@ -76,12 +76,19 @@ form.find-location-for-service #filters {margin-top:1em;}
 }
 
 .court-location-wrapper {
+
+
   .map_container {
     display: none; 
   }
 
+  .map_container, .static-map img {
+    margin-top: 15px;
+  }
+
   .static-map img {
-    margin-top: 10px;
+    padding: 6px;
+    border: 1px solid #ccc;
   }
 
   body.js-enabled & {

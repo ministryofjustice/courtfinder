@@ -1,9 +1,9 @@
 class ContactValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     if is_valid_phone_format(value) == false
-      record.errors.add(attribute, "is invalid. Please enter one phone number per entry. \"#{value}\" is not a valid phone number. Please enter a valid phone number, only digits and spaces allowed, up to 12 numbers.") 
+      record.errors.add(attribute, "is invalid. Please enter one phone number per entry. \"#{value}\" is not a valid phone number. Please enter a valid phone number, only digits and spaces allowed, up to 12 numbers.")
     elsif service = check_duplicate_number(record, value)
-      record.errors.add(attribute, "is invalid. Phone number #{value} is already entered for #{service}.") 
+      record.errors.add(attribute, "is invalid. Phone number #{value} is already entered for #{service}.")
     end
   end
 
