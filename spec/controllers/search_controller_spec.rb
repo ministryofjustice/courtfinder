@@ -50,7 +50,7 @@ describe SearchController do
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
       AreaOfLaw.should_receive(:find_by_name).and_return(@area)
 
-      get :index, { q: "bs1 6gr", area_of_law: 'Children' }
+      get :index, q: "bs1 6gr", area_of_law: 'Children'
       expect(response).to be_success
       response.body.should include("Courts dealing with applications involving children for")
     end
@@ -62,7 +62,7 @@ describe SearchController do
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
       AreaOfLaw.should_receive(:find_by_name).and_return(@area)
 
-      get :index, { q: 'bs1 6gr', area_of_law: 'Children' }
+      get :index, q: 'bs1 6gr', area_of_law: 'Children'
       expect(response).to be_success
       response.body.should include("Courts dealing with applications involving children for")
     end

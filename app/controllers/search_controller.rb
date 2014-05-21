@@ -2,7 +2,7 @@ class SearchController < ApplicationController
 
   def index
 
-    if params[:area_of_law] == 'Designated money claims'
+    if params[:area_of_law] == AreaOfLaw::MONEY_CLAIMS
       redirect_to(court_path('county-court-money-claims-centre'))
       return
     end
