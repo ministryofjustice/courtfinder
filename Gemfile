@@ -24,6 +24,7 @@ group :development, :test do
   gem 'guard-livereload'
   gem 'hirb'
   gem 'letter_opener'
+  gem 'rubocop', require: false
 end
 
 group :test do

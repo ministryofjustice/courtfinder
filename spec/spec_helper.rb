@@ -33,7 +33,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -46,29 +46,37 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
 
   config.before(:suite) do
     DatabaseCleaner.clean_with :truncation
-    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean
+    DatabaseCleaner.strategy = :transaction
   end
 
   config.before(:each) do
-    Timecop.freeze
+    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
+    DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.before(:each, js: false) do
+    Timecop.freeze(Time.now.utc)
+  end
+
+  config.after(:each, js: false) do
     Timecop.return
   end
 
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
 end
 
 require 'vcr'
 
 VCR.configure do |config|
-  config.default_cassette_options = { record: :new_episodes, serialize_with: :json }
+  config.default_cassette_options = { record: :new_episodes, serialize_with: :psych }
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
   config.ignore_hosts '127.0.0.1' # allow selenium/capybara to do its thing

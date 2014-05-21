@@ -44,6 +44,8 @@ class CourtSearch
   def lookup_council_name
     begin
       postcode_info = make_request(@query)
+      Rails.logger.debug("postcode info")
+      Rails.logger.debug(postcode_info)
       county_id = extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
@@ -54,7 +56,7 @@ class CourtSearch
   end
 
   def extract_council_from_county(postcode_info)
-    return nil if postcode_info['shortcuts']['council'].class == Fixnum
+    return nil if postcode_info['shortcuts']['council'].class == Fixnum rescue nil
     postcode_info['shortcuts']['council']['county']
   end
 
@@ -98,12 +100,13 @@ class CourtSearch
 
   def make_request(postcode, client=@restclient)
     partial_or_full = ->(postcode, client) do
-                      if postcode.strip.size <= 4
-                        partial_postcode_request(CGI::escape(postcode), client)
-                      else
-                        JSON.parse(client[CGI::escape(postcode)].get)
-                      end
-                    end
+      if postcode.strip.size <= 4
+        partial_postcode_request(postcode, client)
+      else
+        full_postcode_request(postcode, client)
+      end
+    end
+
     begin
       partial_or_full.(postcode, client)
     rescue RestClient::BadRequest
@@ -119,7 +122,7 @@ class CourtSearch
 
   def via_mapit(postcode)
     Rails.logger.info("Mapit lookup: #{postcode}")
-    client = RestClient::Resource.new('http://mapit.mysociety.org/postcode', timeout: 3, open_timeout: 1)
+    client = RestClient::Resource.new(Rails.application.config.backup_postcode_lookup_service_url, timeout: 3, open_timeout: 1)
     begin
       if block_given?
         yield.(postcode, client)
@@ -162,7 +165,15 @@ class CourtSearch
     def partial_postcode_request(postcode, client)
       begin
         # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
-        JSON.parse(client["/partial/#{postcode}"].get)
+        JSON.parse(client["/partial/#{CGI::escape(postcode)}"].get)
+      rescue RestClient::ResourceNotFound
+        not_found_error
+      end
+    end
+
+    def full_postcode_request(postcode, client)
+      begin
+        JSON.parse(client[CGI::escape(postcode)].get)
       rescue RestClient::ResourceNotFound
         not_found_error
       end

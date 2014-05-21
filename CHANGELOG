@@ -1,6 +1,24 @@
-2.9.0-dev
---------------------
-* 70929758 - Group areas of law 
+2.10.0-dev
+-------------------
+* Updated search form to have correct query string when posting
+* Added spec to cover search form requirements
+
+2.9.3
+-------------------
+* Reverted to mappit as own server does not have all data
+
+2.9.2
+-------------------
+* Added All back to area of law
+* Switched search form to use a GET
+
+2.9.1
+-------------------
+* Fixed area of law
+
+2.9.0
+-------------------
+* 70929758 - Group areas of law
 * 68594216 - Treat family court as county court when choosing what leaflets to display
 * 70953704 - Change feedback form to direct to court complaint instructions
 

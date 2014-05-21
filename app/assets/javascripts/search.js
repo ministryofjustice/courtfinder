@@ -35,61 +35,61 @@ $(function () {
 		return text.replace(reg, '<b>$&</b>');
 	};
 
-    var processTextualInput = function(term) {
-        if (term.length > minText) {
-            if (postcode.test(term)) {
-                results.html("<ul><li>It looks you've entered a postcode<br /><small>Press enter to find a court near " + term + "</small></li></ul>");
-                showResults()
-            } else {
-                // Find a match client side
-                var patt = new RegExp(term, 'i'),
-                matches = [], list;
-                
-                var listResults = function (items) {
-                    var name, i = 0, results = [], item;
-                    
-                    while (i < items.length && i < 14) {
-                        item = items[i];
-                        name = markMatched(term, item[0]);
-                        results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
-                        i++;
-                    }
-                    
-                    return results
-                }
-
-                var next = function() {
-                    for (var i = 0; i < moj.courts.length; i++) {
-                        if (patt.test(moj.courts[i][0])) {
-                            matches.push(moj.courts[i]);
-                        }
-                    }
-                    
-                    if (matches.length) {
-                        list = listResults(matches);
-                        if (matches.length > list.length) {
-                            list.push('<li style="border-top:1px solid #000">Continue typing to see more results</li>')
-                        }
-                        results.html('<ul>' + list.join('') + '</ul>');
-                        showResults()
-                    } else {
-                        hideResults()
-                    }
-                }
-                
-                if (typeof moj.courts === "undefined") {
-                    $.get("/courts.json?compact=1", function(data) {
-                        moj.courts = data;
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            }
-        } else {
-            hideResults()
+  var processTextualInput = function(term) {
+    if (term.length > minText) {
+      if (postcode.test(term)) {
+          results.html("<ul><li>It looks you've entered a postcode<br /><small>Press enter to find a court near " + term + "</small></li></ul>");
+          showResults()
+      } else {
+        // Find a match client side
+        var patt = new RegExp(term, 'i'),
+        matches = [], list;
+        
+        var listResults = function (items) {
+          var name, i = 0, results = [], item;
+          
+          while (i < items.length && i < 14) {
+            item = items[i];
+            name = markMatched(term, item[0]);
+            results.push('<li><a href="/courts/' + item[1] + '">' + name + '</a></li>');
+            i++;
+          }
+          
+          return results
         }
-    };
+
+        var next = function() {
+          for (var i = 0; i < moj.courts.length; i++) {
+            if (patt.test(moj.courts[i][0])) {
+              matches.push(moj.courts[i]);
+            }
+          }
+          
+          if (matches.length) {
+            list = listResults(matches);
+            if (matches.length > list.length) {
+              list.push('<li style="border-top:1px solid #000">Continue typing to see more results</li>')
+            }
+            results.html('<ul>' + list.join('') + '</ul>');
+            showResults()
+          } else {
+            hideResults()
+          }
+        }
+        
+        if (typeof moj.courts === "undefined") {
+          $.get("/courts.json?compact=1", function(data) {
+            moj.courts = data;
+            next();
+          });
+        } else {
+          next();
+        }
+      }
+    } else {
+      hideResults()
+    }
+  };
 
 	// Only run on pages where the search box is found
 	if (search.length) {
@@ -106,18 +106,14 @@ $(function () {
 			.keydown(function (e) {
 				var path;
 				switch (e.keyCode) {
-					
 					case 38: // up arrow
 					case 40: // down
 						e.preventDefault();
-						
 						if (!active) {
 							showResults();
 							return;
 						}
-						
 						selectedResult = results.find('li.' + klass).removeClass(klass);
-						
 						if (selectedResult.length) {
 							switch (e.keyCode) {
 								case 40:
@@ -131,15 +127,12 @@ $(function () {
 						else {
 							selectedResult = results.find('li:first-child');
 						}
-						
 						selectedResult.addClass(klass);
-
 						break;
 					
 					case 13: // enter
 						if (active) {
 							path = results.find('li.selected a').attr('href');
-							
 							if (path.length) {
 								e.preventDefault();
 								window.location.href = path;
@@ -150,25 +143,22 @@ $(function () {
 					case 27: // esc
 						hideResults();
 				}
-			})
-                        .on('compositionupdate', function() {
-                            // This is a workaround for Chrome on Android.
-                            var term = $.trim($(this).val());
-		            processTextualInput(term);
-                        }).keyup(function(e) {
-                            var term, k = e.keyCode;
-                            // Allow only characters, numbers, space and hyphen
-                            if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
-                                return;
-                            }
+			}).on('compositionupdate', function() {
+        // This is a workaround for Chrome on Android.
+        var term = $.trim($(this).val());
+        processTextualInput(term);
+      }).keyup(function(e) {
+          var term, k = e.keyCode;
+          // Allow only characters, numbers, space and hyphen
+          if (!((k === 8 || k === 32 || k === 189) || (k >= 65 && k <= 90) || (k >= 48 && k <= 57))) { // backspace, spacebar, hyphen (8, 32, 189), a - z (65 - 90) or 0 - 9 (48 - 57)
+              return;
+          }
 
-                            term = $.trim($(this).val());
-                            processTextualInput(term);
-                        })
-			.blur(function () {
+          term = $.trim($(this).val());
+          processTextualInput(term);
+      }).blur(function() {
 				hideResults()
-			})
-			.focus(function () {
+			}).focus(function() {
 				showResults()
 			});
 		
@@ -186,6 +176,13 @@ $(function () {
 	var submitable = function () {
 		return !!$.trim(search.val()).length;
 	};
+
+
+  $('select#area_of_law').on('change', function(e){
+    if($(this).val().length){
+      $(this).parent().find('.error-text').hide();
+    }
+  });
 
 	// disable form until search box contains a string
 	form.on('submit', function (e) {

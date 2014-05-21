@@ -91,7 +91,7 @@
 
 -# === Facilities ===
 - if @court.court_facilities.present?
-  %h2 Building facilities
+  %h2.facilities-header Building facilities
 
   %p
     If you have a disability and need help coming to a hearing, please contact the court or tribunal to make sure the facilities meet your specific needs or to discuss a reasonable adjustment you need.
@@ -110,20 +110,24 @@
 
 -# === Map ===
 - if @court.locatable?
-  %h2#location Location of the building
-  %meta{:property => "map", :content => "http://maps.google.co.uk/maps?q=loc:#{@court.latitude}+#{@court.longitude}" }
-  %form#directions.hidden-print{:action => "http://maps.google.co.uk/maps", :method => "get", :rel => "ext"}
-    %label{:for => "saddr"} Enter a town or postcode to get directions
-    %input{:name => "saddr", :type => "text", :value => params[:from]}
-    %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
-    %input{:type => "submit", :value => "Get directions"}
+  %div.court-location-wrapper
+    %h2#location Location of the building
+    %meta{:property => "map", :content => "http://maps.google.co.uk/maps?q=loc:#{@court.latitude}+#{@court.longitude}" }
+    %form#directions.hidden-print{:action => "http://maps.google.co.uk/maps", :method => "get", :rel => "ext"}
+      %label{:for => "saddr"} Enter a town or postcode to get directions
+      %p
+        %input{:name => "saddr", :type => "text", :value => params[:from]}
+        %input{:name => "daddr", :type => "hidden", :value => "#{@court.latitude},#{@court.longitude}"}
+        %input{:type => "submit", :value => "Get directions", :class => "button" }
 
-  = gmaps({"markers" => {"data" => @court.to_gmaps4rails}, "map_options" => {"auto_zoom" => false, "zoom" => 15} })
+    %div.hidden-print
+      = gmaps({ "markers" => { "data" => @court.to_gmaps4rails }, "map_options" => { "auto_zoom" => false, "zoom" => 15 } })
 
+    %div.static-map.visible-print
+      %img{ :src => "http://maps.googleapis.com/maps/api/staticmap?center=#{@court.latitude},#{@court.longitude}&zoom=15&size=600x400&markers=#{@court.latitude},#{@court.longitude}&sensor=false" }
 
 
 -# === Court info ===
 - if @court.info.present?
   %h2 Further information
   %div{:property => "description"}= @court.info.html_safe
-

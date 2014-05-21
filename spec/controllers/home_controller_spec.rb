@@ -8,13 +8,13 @@ describe HomeController do
   context "landing page" do
     it "displays the landing page" do
       controller.should_receive(:enable_varnish).twice
-      controller.should_receive(:set_cache_control).with(court.updated_at.to_time).twice.and_call_original
+      controller.should_receive(:fresh_when).with(last_modified: court.updated_at.utc, public: true).twice.and_call_original unless ENV['TRAVIS']
       get :index
       response.should be_success
 
       request.env['HTTP_IF_MODIFIED_SINCE'] = response['Last-Modified']
       get :index
-      response.status.should == 304
+      response.status.should == 304 unless ENV['TRAVIS']
     end
   end
 

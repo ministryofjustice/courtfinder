@@ -47,6 +47,10 @@ module Courtfinder
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
+    config.postcode_lookup_service_url = ENV['MAPIT_PRIMARY'] || 'http://mapit.mysociety.org/postcode'#'http://mapit.service.dsd.io/postcode'
+    config.backup_postcode_lookup_service_url = ENV['MAPIT_SECONDARY'] || 'http://mapit.mysociety.org/postcode'
+
+
     # Enforce whitelist mode for mass assignment.
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
