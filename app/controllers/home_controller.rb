@@ -1,5 +1,9 @@
 class HomeController < ApplicationController
   def index
+    if area_of_law = params[:area_of_law]
+      @selected_area_of_law = AreaOfLaw.find(area_of_law) rescue nil
+    end
+
     if leaflet_id = params[:court_leaflets_id]
       redirect_to("http://hmctsformfinder.justice.gov.uk/HMCTS/GetLeaflet.do?court_leaflets_id=#{leaflet_id}") && return
     end

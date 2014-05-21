@@ -29,6 +29,8 @@ Courtfinder::Application.routes.draw do
     match '/repossession' => :repossession, :as => :repossession
   end
 
+  get '/for/:area_of_law', to: 'home#index', as: 'area_of_law'
+
   resources :councils, only: [:index, :show]
 
   # Admin section
