@@ -3,7 +3,7 @@ require 'spec_helper'
 feature 'Area of law landing pages' do
   let!(:area_of_law) { create(:area_of_law) }
 
-  scenario 'Enter the site using a /for/:area_of_law will take me to a preselected search' do
+  scenario 'Enter the site using a /search/:area_of_law will take me to a preselected search' do
     visit "/search/#{area_of_law.to_param}"
     expect(page).to have_select('area_of_law', selected: area_of_law.name)
   end
