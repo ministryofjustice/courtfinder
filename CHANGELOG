@@ -3,6 +3,9 @@
 * Updated search form to have correct query string when posting
 * Added spec to cover search form requirements
 * 70592184 - Survey monkey survey
+* 68572994 - Printing court info page cuts off map across pages on IE8
+* 68594216 - Treat family court as county court when choosing what leaflets to display
+* 69098760 - Better search by area of law
 
 2.9.3
 -------------------
