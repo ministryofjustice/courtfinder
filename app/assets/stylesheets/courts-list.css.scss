@@ -46,3 +46,13 @@
     border-bottom:1px solid $grey-2;
   }
 }
+
+.js-tabs-content > div {
+  display: block;
+}
+.js-enabled .js-tabs-content > div {
+  display: none;
+}
+.js-enabled .js-tabs-content > div.is-active {
+  display: block;
+}
