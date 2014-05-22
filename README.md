@@ -1,7 +1,7 @@
 # Court Finder
 
 [![Build Status](https://travis-ci.org/ministryofjustice/courtfinder.png?branch=master)](https://travis-ci.org/ministryofjustice/courtfinder)
-
+[![Code Climate](https://codeclimate.com/github/ministryofjustice/courtfinder.png)](https://codeclimate.com/github/ministryofjustice/courtfinder)
 ## Set-up
 
 ### ImageMagick
