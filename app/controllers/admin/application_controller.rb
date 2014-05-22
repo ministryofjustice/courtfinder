@@ -9,7 +9,8 @@ class Admin::ApplicationController < ::ApplicationController
         varnish_host = (ENV['VARNISH_HOST'] || '127.0.0.1')
         varnish_port = (ENV['VARNISH_PORT'] || 6081)
         
-        Varnish::Client.new(varnish_host,varnish_port,['http://', request.host].join).purge(regex_as_string)
+        response = Varnish::Client.new(varnish_host,varnish_port,['http://', request.host].join).purge(regex_as_string)
+        logger.info("PURGE: Host: #{request.host} @ #{varnish_host}:#{varnish_port}/#{regex_as_string}")
       rescue Exception => ex
         logger.info("Failed to purge cache: #{ex.message}")
       end

@@ -35,6 +35,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'headless'
   gem 'database_cleaner'
+  gem 'codeclimate-test-reporter', require: nil
 end
 
 

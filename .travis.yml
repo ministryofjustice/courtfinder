@@ -16,3 +16,4 @@ script:
   - bundle exec rake spec
 env:
   - TRAVIS=true
+  - CODECLIMATE_REPO_TOKEN=f23ddd42ccfea1b54a5ad17574fe038957bf90c0057bceaa4b652b48fa183845 
