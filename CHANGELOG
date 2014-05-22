@@ -1,4 +1,7 @@
-2.10.0-dev
+2.11.0-dev
+-------------------
+
+2.10.0
 -------------------
 * Updated search form to have correct query string when posting
 * Added spec to cover search form requirements
