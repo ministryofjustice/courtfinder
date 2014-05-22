@@ -5,7 +5,8 @@ module SearchHelper
   end
 
   def area_of_law_groups(selected = nil)
-    selected ||= ''
+    @selected = AreaOfLaw.find(selected) rescue nil
+
     grouped_data = AreaOfLawGroup.with_areas_of_law.order('areas_of_law.name').includes(:areas_of_law).all
     if AreaOfLaw.where(group_id: nil).count > 0
       other = AreaOfLawGroup.new(name: 'Other')
@@ -18,7 +19,7 @@ module SearchHelper
     grouped_data.each do |group|
       html << content_tag(:optgroup, label: group.name) do
         group.areas_of_law.each do |area|
-          concat content_tag(:option, area.name, selected: (area.name.try(:downcase) == selected.downcase) )
+          concat content_tag(:option, area.name, selected: (area == @selected) )
         end
       end
     end
