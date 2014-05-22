@@ -24,6 +24,7 @@ group :development, :test do
   gem 'guard-livereload'
   gem 'hirb'
   gem 'letter_opener'
+  gem 'rubocop', require: false
 end
 
 group :test do
@@ -34,6 +35,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'headless'
   gem 'database_cleaner'
+  gem 'codeclimate-test-reporter', require: nil
 end
 
 

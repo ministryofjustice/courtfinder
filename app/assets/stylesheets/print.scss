@@ -6,6 +6,10 @@
   display:inherit;
 }
 
+.print-no-page-break {
+  page-break-inside: avoid;
+}
+
 // Stuff to hide
 #courts-show, 
 #courts-information, 
@@ -49,4 +53,17 @@ section#content {
       }
     }
   }
+}
+
+.lte-ie8 {
+  .facilities-header {
+    page-break-before: always;    
+  }
+
+  .facilities {
+  }
+
+  .court-location-wrapper {
+    page-break-before: always;
+  }  
 }
