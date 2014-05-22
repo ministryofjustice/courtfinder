@@ -1,9 +1,8 @@
 class HomeController < ApplicationController
-  def index
-    if area_of_law = params[:area_of_law]
-      @selected_area_of_law = AreaOfLaw.find(area_of_law) rescue nil
-    end
 
+  before_filter :check_area_of_law
+
+  def index
     if leaflet_id = params[:court_leaflets_id]
       redirect_to("http://hmctsformfinder.justice.gov.uk/HMCTS/GetLeaflet.do?court_leaflets_id=#{leaflet_id}") && return
     end
@@ -21,7 +20,7 @@ class HomeController < ApplicationController
     @courts = Court.order(:name)
     set_cache_control(@courts.maximum(:updated_at)) && return
 
-    @search = SearchForm.new
+    @search = SearchForm.new(params)
   end
 
   alias :index_aol :index
@@ -29,4 +28,10 @@ class HomeController < ApplicationController
   def api
 
   end
+
+  protected
+    def check_area_of_law
+      @area = AreaOfLaw.find(params[:area_of_law])
+      redirect_to area_of_law_landing_path(@area.friendly_id), status: 301 unless @area.to_param == params[:area_of_law]
+    end
 end

@@ -28,7 +28,7 @@ FactoryGirl.define do
   end
 
   factory :area_of_law do
-    name { 'Posessions' }
+    sequence(:name) {|n| 'Law Area' }
   end
 
   factory :feedback do

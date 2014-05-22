@@ -29,7 +29,7 @@ Courtfinder::Application.routes.draw do
     match '/repossession' => :repossession, :as => :repossession
   end
 
-  get '/for/:area_of_law', to: 'home#index', as: 'area_of_law'
+  get '/search/:area_of_law', to: 'home#index', as: 'area_of_law_landing'
 
   resources :councils, only: [:index, :show]
 
