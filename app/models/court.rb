@@ -36,7 +36,7 @@ class Court < ActiveRecord::Base
 
   validate :check_postcode_errors
 
-  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip, network: :network}
+  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
