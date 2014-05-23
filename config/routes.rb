@@ -77,7 +77,7 @@ Courtfinder::Application.routes.draw do
     resources :areas
   end
 
-  get '/index_area_of_law' => 'home#index_aol'
+  get '/index_area_of_law', to: redirect('/')
   get '/api' => 'home#api'
 
   root :to => 'home#index'

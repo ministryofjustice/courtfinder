@@ -1,3 +1,8 @@
+2.10.1
+-------------------
+* 71851546 - Exception when resolver cannot get name
+* Removed split testing
+
 2.10.0
 -------------------
 * Updated search form to have correct query string when posting
