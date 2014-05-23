@@ -42,11 +42,6 @@ Some post codes are not recognised by the default map location provider. For the
 
     db/data/manual_map_locations.yml
 
-
-<!-- Then you need to process the court types by running:
-
-    rake process:court_types -->
-
 ### Admin Area
 
 [Sign-in](http://localhost:3000/admin/users/sign_in)
