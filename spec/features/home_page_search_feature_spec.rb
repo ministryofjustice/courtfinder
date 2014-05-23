@@ -11,7 +11,7 @@ feature 'Search for court from home page' do
   scenario 'Auto complete should show when entering a search for a court', js: true do
     visit '/'
     fill_in 'search-main', with: court.name[0]
-    page.execute_script "$('#search-main').trigger('keyup')"
+    page.execute_script "$('#search-main').trigger('compositionupdate')"
     expect(page).to have_content(court.name)
   end
 

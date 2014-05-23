@@ -7,7 +7,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
-require 'capybara/webkit/matchers'
+require 'capybara/poltergeist'
 require 'webmock/rspec'
 require 'headless'
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -16,7 +16,14 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
 Faker::Config.locale = 'en-gb'
-Capybara.javascript_driver = :webkit
+
+# Capybara.register_driver :poltergeist do |app|
+#   Capybara::Poltergeist::Driver.new(app, { debug: true, window_size: [1300, 1000], inspector: true # this can affect dynamic layout
+#   })
+# end
+
+
+Capybara.javascript_driver = :poltergeist
 Capybara.current_driver = :rack_test
 
 RSpec.configure do |config|
@@ -28,7 +35,6 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   config.include FactoryGirl::Syntax::Methods
-  config.include Capybara::Webkit::RspecMatchers, type: :feature
   config.include Features::SessionHelpers, type: :feature
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

@@ -32,7 +32,7 @@ group :test do
   gem 'vcr'
   gem 'timecop'
   gem 'capybara', github: 'jnicklas/capybara'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
   gem 'headless'
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter', require: nil
