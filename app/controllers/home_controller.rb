@@ -32,6 +32,6 @@ class HomeController < ApplicationController
   protected
     def check_area_of_law
       @area = AreaOfLaw.find(params[:area_of_law]) rescue nil
-      redirect_to area_of_law_landing_path(@area.friendly_id), status: 301 unless @area.nil? || @area.to_param == params[:area_of_law]
+      redirect_to area_of_law_landing_path(@area), status: 301 unless @area.nil? || (@area.to_param == params[:area_of_law])
     end
 end
