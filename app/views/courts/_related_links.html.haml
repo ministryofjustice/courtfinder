@@ -1,0 +1,32 @@
+-# === Generic Links ===
+%ul
+  %li 
+    %a(href="http://gov.uk") GOV.UK
+  %li
+    %a(href="http://hmctsformfinder.justice.gov.uk/HMCTS/FormFinder.do") Court Forms
+  %li
+    %a(href="http://www.justice.gov.uk/courts/fees") Court Fees
+
+-# === Court Type Links:
+-# 35 Family court = Family mediation: http://www.familymediationcouncil.org.uk/
+-# 31 county court = Civil mediation: http://www.civilmediation.org/
+
+-# === Area of Law Links :
+- if @court.areas_of_law.pluck(:name).include? 418
+  %li 
+    %a (href="https://www.gov.uk/make-court-claim-for-money") Money Claims
+- if @court.areas_of_law.pluck(:name).include? 407
+  %li 
+    %a (href="https://www.gov.uk/repossession") Repossessions
+  %li 
+    %a (href="https://www.gov.uk/possession-claim-online-recover-property") Claimant Repossessions
+- if @court.areas_of_law.pluck(:name).include? 356
+  %li 
+    %a (href="https://www.gov.uk/divorce") Divorce
+
+- if @court.areas_of_law.pluck(:name).include? 345
+  %li 
+    %a (href="https://www.gov.uk/child-adoption") Adoption
+- if @court.areas_of_law.pluck(:name).include? 360
+  %li 
+    %a (href="https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation") Wills, probate and Inheritance
