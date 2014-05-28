@@ -29,9 +29,6 @@
   - if @court.alert.present?
     %p.help-notice= @court.alert
 
-
-= render 'related_links'
-
 -# === Opening times ===
 - if @court.opening_times.present?
 
@@ -127,8 +124,9 @@
     %div.static-map.visible-print
       %img{ :src => "http://maps.googleapis.com/maps/api/staticmap?center=#{@court.latitude},#{@court.longitude}&zoom=15&size=600x400&markers=#{@court.latitude},#{@court.longitude}&sensor=false" }
 
-
 -# === Court info ===
 - if @court.info.present?
   %h2 Further information
   %div{:property => "description"}= @court.info.html_safe
+
+= render 'related_links'
