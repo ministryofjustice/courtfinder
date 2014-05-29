@@ -51,7 +51,6 @@ feature 'Related links for court pages' do
 
   scenario 'A Court dealing with Money Claims should have relavent links' do
     visit "/courts/liverpool-civil-and-family-court"
-    save_and_open_page
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/make-court-claim-for-money']") 
   end
 
