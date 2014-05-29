@@ -1,5 +1,6 @@
 2.11.0-dev
 -------------------
+* 70036012 - Added related links to court pages
 * 70929866 - Landing page for each aread of law
 * Moved to poltergeist for jenkins build support
 
