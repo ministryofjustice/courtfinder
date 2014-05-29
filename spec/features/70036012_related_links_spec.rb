@@ -13,24 +13,24 @@ feature 'Related links for court pages' do
   let!(:probate_court_type) { create(:court_type, id: 36, name: 'Probate court') }
   let!(:high_court_type) { create(:court_type, id: 37, name: 'High court') }
 
-  let!(:court) { create(:court, 
+  let!(:liverpool_court) { create(:court, 
                         name: 'Liverpool Civil and Family Court', 
                         areas_of_law: [money_claims_area, repossessions_area], 
                         court_types: [county_court_type]) }
   
-  let!(:court) { create(:court, 
+  let!(:barnstaple_court) { create(:court, 
                         name: 'Barnstaple Crown Court', 
                         areas_of_law: [divorce_area, adoption_area], 
                         court_types: [family_court_type]) }
 
-  let!(:court) { create(:court, 
+  let!(:london_court) { create(:court, 
                         name: 'London Probate Department', 
                         areas_of_law: [probate_area], 
                         court_types: [probate_court_type]) }
 
-  let!(:court) { create(:court, 
+  let!(:royal_court) { create(:court, 
                         name: 'Royal Courts of Justice', 
-                        areas_of_law: [Bankruptcy], 
+                        areas_of_law: [bankruptcy_area], 
                         court_types: [high_court_type]) }
 
 
@@ -50,7 +50,8 @@ feature 'Related links for court pages' do
   end
 
   scenario 'A Court dealing with Money Claims should have relavent links' do
-    visit "/courts/macclesfield-county-court-and-family-court"
+    visit "/courts/liverpool-civil-and-family-court"
+    save_and_open_page
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/make-court-claim-for-money']") 
   end
 
