@@ -1,3 +1,7 @@
+2.10.2
+-------------------
+* court council link area of law is being used to link for area of law incorrectly
+
 2.10.1
 -------------------
 * 71851546 - Exception when resolver cannot get name
