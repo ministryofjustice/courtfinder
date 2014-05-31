@@ -3959,4 +3959,140 @@ http_interactions:
         AA==
     http_version: 
   recorded_at: Fri, 16 May 2014 15:36:28 GMT
+- request:
+    method: get
+    uri: http://mapit.mysociety.org/postcode/SE240NG
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Encoding:
+      - gzip
+      Expires:
+      - Sat, 28 Jun 2014 11:45:53 GMT
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - max-age=2419200
+      Access-Control-Allow-Origin:
+      - '*'
+      Last-Modified:
+      - Sat, 31 May 2014 11:45:53 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Url:
+      - /postcode/SE240NG
+      Content-Length:
+      - '848'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 31 May 2014 11:45:53 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAPHAiVMC/8VX32+bMBD+VyyeNmmdbAMB9pZ2NJWWtNWiKtpTRINH0Igd
+        gVEUVf3fd2eaNiSk+cXWPEDss8/f9+E7n5+sRVL4zjiLtPWNuOyr43LP8214
+        +cznX4g1USqPi2WBdqtnQU8xVbmelLqAnidrNLiCd8f1qQ+2RZTH0PRt5pq5
+        pZykGXRwJ6DPaK9WUxL6LuhXRm3m+wELGGc+ZS4uOFeFnqhY4HrDkDuE3ppl
+        RVToVCYIEyYFODTKodOgCCj+zN859Eo9Rhu0ZZllMDIRUuSRTpUcT9NkCgYW
+        oIMsG8toJowTxJci+sqZwR+/mXAcYrpRZSGI+k2u1GymZGG9ENX5Es3Y1Mu5
+        GK/GP/wg91GepdCU2qpjydQCobx5eJ11sfKDjdHg3kIIBhg7hiXn77Nku1iG
+        Za7mIpIb2N8jumPK8XTDhzW6vIGuMXROIsx3Ee4rGStJukUhZo/ZcoNsuMV2
+        YzxBaORTMYV3/Plg3qFMskjG6+z73fCNfafNj935l9zPozw0lDl3vJYIo6t1
+        ulYpUz02JsthjsOsdQF6sJAWOVkRKzXkuFTvV+K9iaeq0et3DThIjm5gt6RH
+        5aymCOYuREAZpTb1nJoi/Wj2KPSUUOaHB+yHBWoQLeE5LOfwvCv1vNSka4Ki
+        Z4BmabEzMuzDlLnr9wxIh3nUb0kY46tZF44xY7u7dNkryyCN40z8D10GlS4M
+        juymfPkSDMdtGPRV0yUpKl1sbk4Oigg2oqrTqBWgJUMFoQHVwZ+jk8sEvodO
+        dSnk5Kyw6nevDDpTqrS0eVZlz7ZIzMHN49kbInEXKp6aSN/LbJFOKpFGotDk
+        VuULpeK9OtXqigNUOnAvYT2H+KAEZE5LMhlfHxNj1wD33OC6rg4nKGHbOpzA
+        VZMclHZ/Gawvm4hWJQvf2ESMQag1KnapclUmUyhNq8L7wFh7rKadFV2XdwYR
+        Vv5NGahifJRKr5eIBpV6vZpOLsjk8M1gY4wyr6bTjcilIDdpdqw0xFxsztJn
+        tErRrRV1xlejQt66Osw19xlvO19z39ouA/cq81rn5yJJq/GnqhI+/KxycsAb
+        t81JORl9fUyh00Ky6UOyMfDgjj2trrvMc2y38/wXGOAzGasPAAA=
+    http_version: 
+  recorded_at: Sat, 31 May 2014 11:45:53 GMT
+- request:
+    method: get
+    uri: http://mapit.mysociety.org/postcode/SE240NG
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Encoding:
+      - gzip
+      Expires:
+      - Sat, 28 Jun 2014 11:45:53 GMT
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - max-age=2419200
+      Access-Control-Allow-Origin:
+      - '*'
+      Last-Modified:
+      - Sat, 31 May 2014 11:45:53 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Url:
+      - /postcode/SE240NG
+      Content-Length:
+      - '848'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 31 May 2014 11:45:57 GMT
+      Age:
+      - '4'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAPHAiVMC/8VX32+bMBD+VyyeNmmdbAMB9pZ2NJWWtNWiKtpTRINH0Igd
+        gVEUVf3fd2eaNiSk+cXWPEDss8/f9+E7n5+sRVL4zjiLtPWNuOyr43LP8214
+        +cznX4g1USqPi2WBdqtnQU8xVbmelLqAnidrNLiCd8f1qQ+2RZTH0PRt5pq5
+        pZykGXRwJ6DPaK9WUxL6LuhXRm3m+wELGGc+ZS4uOFeFnqhY4HrDkDuE3ppl
+        RVToVCYIEyYFODTKodOgCCj+zN859Eo9Rhu0ZZllMDIRUuSRTpUcT9NkCgYW
+        oIMsG8toJowTxJci+sqZwR+/mXAcYrpRZSGI+k2u1GymZGG9ENX5Es3Y1Mu5
+        GK/GP/wg91GepdCU2qpjydQCobx5eJ11sfKDjdHg3kIIBhg7hiXn77Nku1iG
+        Za7mIpIb2N8jumPK8XTDhzW6vIGuMXROIsx3Ee4rGStJukUhZo/ZcoNsuMV2
+        YzxBaORTMYV3/Plg3qFMskjG6+z73fCNfafNj935l9zPozw0lDl3vJYIo6t1
+        ulYpUz02JsthjsOsdQF6sJAWOVkRKzXkuFTvV+K9iaeq0et3DThIjm5gt6RH
+        5aymCOYuREAZpTb1nJoi/Wj2KPSUUOaHB+yHBWoQLeE5LOfwvCv1vNSka4Ki
+        Z4BmabEzMuzDlLnr9wxIh3nUb0kY46tZF44xY7u7dNkryyCN40z8D10GlS4M
+        juymfPkSDMdtGPRV0yUpKl1sbk4Oigg2oqrTqBWgJUMFoQHVwZ+jk8sEvodO
+        dSnk5Kyw6nevDDpTqrS0eVZlz7ZIzMHN49kbInEXKp6aSN/LbJFOKpFGotDk
+        VuULpeK9OtXqigNUOnAvYT2H+KAEZE5LMhlfHxNj1wD33OC6rg4nKGHbOpzA
+        VZMclHZ/Gawvm4hWJQvf2ESMQag1KnapclUmUyhNq8L7wFh7rKadFV2XdwYR
+        Vv5NGahifJRKr5eIBpV6vZpOLsjk8M1gY4wyr6bTjcilIDdpdqw0xFxsztJn
+        tErRrRV1xlejQt66Osw19xlvO19z39ouA/cq81rn5yJJq/GnqhI+/KxycsAb
+        t81JORl9fUyh00Ky6UOyMfDgjj2trrvMc2y38/wXGOAzGasPAAA=
+    http_version: 
+  recorded_at: Sat, 31 May 2014 11:45:57 GMT
 recorded_with: VCR 2.8.0

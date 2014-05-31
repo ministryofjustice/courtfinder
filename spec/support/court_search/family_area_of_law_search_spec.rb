@@ -81,6 +81,11 @@ shared_examples "a search with area of law" do |area_of_law_name|
         end
       end
 
+      before(:each) do
+        court10.court_council_links.create({council_id: council.id, area_of_law_id: area.id })
+        court11.court_council_links.create({council_id: council.id, area_of_law_id: area.id })
+      end
+
       it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
         VCR.use_cassette('postcode_not_found') do
           court_search = CourtSearch.new('NE128AQ', {area_of_law: area.name})
