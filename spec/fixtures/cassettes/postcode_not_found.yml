@@ -676,4 +676,134 @@ http_interactions:
         CylkXwdVCPahZdNfPx5CPw5ivcjuvhtzyRL6+A9/xJt5qwsAAA==
     http_version: 
   recorded_at: Fri, 16 May 2014 15:34:27 GMT
+- request:
+    method: get
+    uri: http://mapit.mysociety.org/postcode/NE128AQ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Encoding:
+      - gzip
+      Expires:
+      - Sat, 28 Jun 2014 11:46:22 GMT
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - max-age=2419200
+      Access-Control-Allow-Origin:
+      - '*'
+      Last-Modified:
+      - Sat, 31 May 2014 11:46:22 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Url:
+      - /postcode/NE128AQ
+      Content-Length:
+      - '713'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 31 May 2014 11:46:22 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAA7BiVMC/8WW30/bMBDH/xUrT5s0kO04Trw3YIFJtPzYQGhPVZR4qaVg
+        V4mjqkL87zs7tLSltFTNRB/a+s45f++T89lPwbRsEjaqMht8R1F0jInAjIVC
+        MC5w/A0FuTF10cwa5w8uArA0Y1PbvLUNWJ6Ch+EZ/PIophh806wuYCgIT/yz
+        rc5VBQYahfjZ+bvVjAbbETmOeEJDzsKIhITHWMCMiWlsbgrplrtKCUXJya1b
+        VWaNVboEM6NxjBmYshqMXoTA7uP/TsCq7cj5YKzbqoKZpdSyzqwyejRW5Rgc
+        xK2VVdVIZ4/SB3HylBfvg3n5xavLzXOafpq2kcj8RWfm8dHoJnjJ09Yz53ZD
+        O5vI0Xz+/SW6yepKwVDbYFVLZaZOymuExVNH8zhu8DC8CZwEL4zskyWl27Mk
+        72WZtrWZyEyvad+W6DuP7J9uet+l62qmp2RdqOVUA/fiYCmMzy69yMYPU5w4
+        KpQ6W6uVHfmnA8GFCJbxXMEOGKO7mZaNKiQ6NbVpyzGURFfvq6TSN6iG0gIr
+        UykLuArV2FrlH4eV6rLKdLGMbHj3w+sjJCG0J2Y+1kZoZBkZiXBXlqvIGGGA
+        8S2zFLbxTj6LUqplCWIPIZPe//IqGE0o64mMj7WJTIopkIgjsq1YMGG7C0QV
+        RSXRIJvJGv1uJ/B93dpJa9EJyEZfLrzcSjWy+LqZTvgxPNfDC681jHhvm83H
+        +lQ856D6UC7nXcuFg2wDlpd+sl/DnZ+JG3rQ+Z+VLgRbihDC17vQOrlTUNTt
+        jv27DfIn9UEt58GLiRknfZ1JPtbmyiEYJyzGOyrnZCeMgZlCtfzPyhl0leNv
+        RD1xmd+uXrksui+D3ptE4Vqp0IhwvoXVTkwrtxaUw2uwyrZS57OD4LjLoj+n
+        cCIS0ddB5YN9atn0148H0I+9WCeyu+9GXLCYPP8DeqJo0qsLAAA=
+    http_version: 
+  recorded_at: Sat, 31 May 2014 11:46:22 GMT
+- request:
+    method: get
+    uri: http://mapit.mysociety.org/postcode/NE128AQ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Encoding:
+      - gzip
+      Expires:
+      - Sat, 28 Jun 2014 11:46:22 GMT
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - max-age=2419200
+      Access-Control-Allow-Origin:
+      - '*'
+      Last-Modified:
+      - Sat, 31 May 2014 11:46:22 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Url:
+      - /postcode/NE128AQ
+      Content-Length:
+      - '713'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sat, 31 May 2014 11:46:26 GMT
+      Age:
+      - '4'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAA7BiVMC/8WW30/bMBDH/xUrT5s0kO04Trw3YIFJtPzYQGhPVZR4qaVg
+        V4mjqkL87zs7tLSltFTNRB/a+s45f++T89lPwbRsEjaqMht8R1F0jInAjIVC
+        MC5w/A0FuTF10cwa5w8uArA0Y1PbvLUNWJ6Ch+EZ/PIophh806wuYCgIT/yz
+        rc5VBQYahfjZ+bvVjAbbETmOeEJDzsKIhITHWMCMiWlsbgrplrtKCUXJya1b
+        VWaNVboEM6NxjBmYshqMXoTA7uP/TsCq7cj5YKzbqoKZpdSyzqwyejRW5Rgc
+        xK2VVdVIZ4/SB3HylBfvg3n5xavLzXOafpq2kcj8RWfm8dHoJnjJ09Yz53ZD
+        O5vI0Xz+/SW6yepKwVDbYFVLZaZOymuExVNH8zhu8DC8CZwEL4zskyWl27Mk
+        72WZtrWZyEyvad+W6DuP7J9uet+l62qmp2RdqOVUA/fiYCmMzy69yMYPU5w4
+        KpQ6W6uVHfmnA8GFCJbxXMEOGKO7mZaNKiQ6NbVpyzGURFfvq6TSN6iG0gIr
+        UykLuArV2FrlH4eV6rLKdLGMbHj3w+sjJCG0J2Y+1kZoZBkZiXBXlqvIGGGA
+        8S2zFLbxTj6LUqplCWIPIZPe//IqGE0o64mMj7WJTIopkIgjsq1YMGG7C0QV
+        RSXRIJvJGv1uJ/B93dpJa9EJyEZfLrzcSjWy+LqZTvgxPNfDC681jHhvm83H
+        +lQ856D6UC7nXcuFg2wDlpd+sl/DnZ+JG3rQ+Z+VLgRbihDC17vQOrlTUNTt
+        jv27DfIn9UEt58GLiRknfZ1JPtbmyiEYJyzGOyrnZCeMgZlCtfzPyhl0leNv
+        RD1xmd+uXrksui+D3ptE4Vqp0IhwvoXVTkwrtxaUw2uwyrZS57OD4LjLoj+n
+        cCIS0ddB5YN9atn0148H0I+9WCeyu+9GXLCYPP8DeqJo0qsLAAA=
+    http_version: 
+  recorded_at: Sat, 31 May 2014 11:46:26 GMT
 recorded_with: VCR 2.8.0
