@@ -1,4 +1,4 @@
-2.11.0-dev
+2.11.0
 -------------------
 * 70929866 - Landing page for each aread of law
 * Moved to poltergeist for jenkins build support
