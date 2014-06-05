@@ -1,43 +1,43 @@
 -# === Generic Links ===
-%h2 Related links
-%ul
-  %li 
+%div{ :id => "related-links" }
+  %h2 Related links
+  %p
     %a(href="https://www.gov.uk") GOV.UK
 
-  %li
-    %a(href="http://hmctsformfinder.justice.gov.uk/HMCTS/FormFinder.do") Court Forms
+  %p
+    %a(href="http://hmctsformfinder.justice.gov.uk/HMCTS/FormFinder.do") Forms
 
-  %li
-    %a(href="http://www.justice.gov.uk/courts/fees") Court Fees
+  %p
+    %a(href="http://www.justice.gov.uk/courts/fees") Fees
 
   / Court Type Links:
   - if @court.court_types_courts.map(&:court_type).collect(&:id).include? 35
-    %li 
+    %p
       %a(href="http://www.familymediationcouncil.org.uk/") Family mediation
  
   - if @court.court_types_courts.map(&:court_type).collect(&:id).include? 31
-    %li 
+    %p
       %a(href="http://www.civilmediation.org/") Civil mediation
 
   / Area of Law Links :
   - if @court.areas_of_law.pluck(:id).include? 418
-    %li 
-      %a(href="https://www.gov.uk/make-court-claim-for-money") Money Claims
+    %p
+      %a(href="https://www.gov.uk/make-court-claim-for-money") Money claims
   
   - if @court.areas_of_law.pluck(:id).include? 407
-    %li 
-      %a(href="https://www.gov.uk/repossession") Repossessions
-    %li 
-      %a(href="https://www.gov.uk/possession-claim-online-recover-property") Claimant Repossessions
+    %p
+      %a(href="https://www.gov.uk/repossession") Repossessions (land or property)
+    %p
+      %a(href="https://www.gov.uk/possession-claim-online-recover-property")  Repossessions (for defendants and claimants)
   
   - if @court.areas_of_law.pluck(:id).include? 356
-    %li 
+    %p
       %a(href="https://www.gov.uk/divorce") Divorce
   
   - if @court.areas_of_law.pluck(:id).include? 345
-    %li 
-      %a(href="https://www.gov.uk/child-adoption") Adoption
+    %p
+      %a(href="https://www.gov.uk/child-adoption") Child adoption
   
   - if @court.areas_of_law.pluck(:id).include? 360 
-    %li 
-      %a(href="https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation") Wills, probate and Inheritance
+    %p
+      %a(href="https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation") WWills, probate and inheritance
