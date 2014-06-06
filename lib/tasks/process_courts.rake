@@ -76,7 +76,7 @@ namespace :process do
     CourtType.find_by_name('County Court').external_links.create(text: 'Civil Mediation', url: 'http://www.civilmediation.org/', always_visible: false)
 
     AreaOfLaw.find_by_name('Money claims').external_links.create(text: 'Money claims', url: 'https://www.gov.uk/make-court-claim-for-money')
-    AreaOfLaw.find_by_name('Housing possession').external_links.create(text 'Repossessions (land or property)':  , url: "https://www.gov.uk/repossession")
+    AreaOfLaw.find_by_name('Housing possession').external_links.create(text 'Repossessions (land or property)', url: "https://www.gov.uk/repossession")
     AreaOfLaw.find_by_name('Repossessions').external_links.create(text: 'Repossessions', url: "https://www.gov.uk/possession-claim-online-recover-property")
     AreaOfLaw.find_by_name('Divorce').external_links.create(text: 'Divorce', url: "https://www.gov.uk/divorce")
     AreaOfLaw.find_by_name('Adoption').external_links.create(text: 'Child adoption' , url: "https://www.gov.uk/child-adoption")
