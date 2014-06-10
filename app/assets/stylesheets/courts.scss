@@ -75,9 +75,18 @@ form.find-location-for-service #filters {margin-top:1em;}
   }
 }
 
+#related-links{
+  float:right;
+  border-top: 10px solid #0b0c0c;
+  margin-top: 1.5em;
+  width: 300px;
+}
+
+#related-links h2{
+  margin:18px 0px 0px 0px;
+}
+
 .court-location-wrapper {
-
-
   .map_container {
     display: none; 
   }
