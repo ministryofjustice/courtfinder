@@ -2,7 +2,7 @@
   "use strict";
 
   var root = this,
-      $ = root.jQuery;
+  $ = root.jQuery;
   if(typeof root.GOVUK === 'undefined') { root.GOVUK = {}; }
 
   var userSatisfaction = {

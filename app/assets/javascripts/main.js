@@ -37,11 +37,23 @@
   });
 
   // User Satisfaction Survey
-  // if it's the homepage 
-  if( $('body').attr('id') == 'home-index' ){
+  var showSurvey = function (){
     if( GOVUK && GOVUK.userSatisfaction ){
+      var $survey = $('#user-satisfaction-survey');
       GOVUK.userSatisfaction.showSurveyBar();
+
+      if( $survey.css('display') != "none" ){
+        $survey.removeClass('not-shown');
+      }
     }
-  }
+  };
+
+  setTimeout( showSurvey, (~~(Math.random() * 11) + 15) * 1000 );
+
+  $('#user-satisfaction-survey .close-on-click').click(function (event){
+    $('#user-satisfaction-survey').addClass('not-shown');    
+    event.preventDefault();
+    return false;
+  });
 
 }());
