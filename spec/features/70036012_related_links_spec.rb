@@ -1,21 +1,22 @@
 require 'spec_helper'
 
 feature 'Related links for court pages' do
-  let!(:money_claims_area) { create(:area_of_law, id: 418, name: 'Money claims')}
-  let!(:repossessions_area) { create(:area_of_law, id: 407, name: 'Repossessions')}
-  let!(:divorce_area) { create(:area_of_law, id: 356, name: 'Divorce')}
-  let!(:adoption_area) { create(:area_of_law, id: 345, name: 'Adoption')}
-  let!(:probate_area) { create(:area_of_law, id: 360, name: 'Probate')}
-  let!(:bankruptcy_area) { create(:area_of_law, id: 348, name: 'Bankruptcy')}
+  let!(:money_claims_area) { create(:area_of_law, name: 'Money claims')}
+  let!(:repossessions_area) { create(:area_of_law, name: 'Repossessions')}
+
+  let!(:divorce_area) { create(:area_of_law, name: 'Divorce')}
+  let!(:adoption_area) { create(:area_of_law, name: 'Adoption')}
+  let!(:probate_area) { create(:area_of_law, name: 'Probate')}
+  let!(:bankruptcy_area) { create(:area_of_law, name: 'Bankruptcy')}
 
   # let!(:county_court_type) { create(:court_type, id: 31, name: 'County court') }
   # let!(:family_court_type) { create(:court_type, id: 35, name: 'Family court') }
 
-  let!(:county_court_type) { CourtType.create!(name: 'Family court') }
-  let!(:family_court_type) { CourtType.create!(name: 'County Court') }
+  let!(:county_court_type) { CourtType.create!(name: 'County Court') }
+  let!(:family_court_type) { CourtType.create!(name: 'Family court') }
 
-  let!(:probate_court_type) { create(:court_type, id: 36, name: 'Probate court') }
-  let!(:high_court_type) { create(:court_type, id: 37, name: 'High court') }
+  let!(:probate_court_type) { create(:court_type, name: 'Probate court') }
+  let!(:high_court_type) { create(:court_type, name: 'High court') }
 
   let!(:liverpool_court) { create(:court,
                         name: 'Liverpool Civil and Family Court',
@@ -49,8 +50,10 @@ feature 'Related links for court pages' do
     CourtType.find_by_name('County Court').external_links.create(text: 'Civil Mediation', url: 'http://www.civilmediation.org/', always_visible: false)
 
     AreaOfLaw.find_by_name('Money claims').external_links.create(text: 'Money claims', url: 'https://www.gov.uk/make-court-claim-for-money')
-    #AreaOfLaw.find_by_name('Housing possession').external_links.create(text 'Repossessions (land or property)', url: "https://www.gov.uk/repossession")
+
+    AreaOfLaw.find_by_name('Repossessions').external_links.create(text: 'Repossessions (land or property)', url: "https://www.gov.uk/repossession")
     AreaOfLaw.find_by_name('Repossessions').external_links.create(text: 'Repossessions', url: "https://www.gov.uk/possession-claim-online-recover-property")
+
     AreaOfLaw.find_by_name('Divorce').external_links.create(text: 'Divorce', url: "https://www.gov.uk/divorce")
     AreaOfLaw.find_by_name('Adoption').external_links.create(text: 'Child adoption' , url: "https://www.gov.uk/child-adoption")
     AreaOfLaw.find_by_name('Probate').external_links.create(text: 'Wills, probate and inheritance' , url: "https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation" )
@@ -71,82 +74,82 @@ feature 'Related links for court pages' do
     expect(page).to have_xpath("//*/a[@href='http://www.justice.gov.uk/courts/fees']")
   end
 
-  scenario 'A Court dealing with Money Claims should have relavent links' do
+  scenario 'A Court dealing with Money Claims should have relevant links' do
     visit "/courts/liverpool-civil-and-family-court"
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/make-court-claim-for-money']")
   end
 
-  scenario 'A Court dealing with Repossessions (land or property) should have relavent links' do
+  scenario 'A Court dealing with Repossessions (land or property) should have relevant links' do
     visit "/courts/liverpool-civil-and-family-court"
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/repossession']")
   end
 
-  scenario 'A Court dealing with Repossessions (defendants and claimants) should have relavent links' do
+  scenario 'A Court dealing with Repossessions (defendants and claimants) should have relevant links' do
     visit "/courts/liverpool-civil-and-family-court"
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/possession-claim-online-recover-property']")
   end
 
-  scenario 'A Court dealing with Divorce should have relavent links' do
+  scenario 'A Court dealing with Divorce should have relevant links' do
     visit "/courts/barnstaple-crown-court"
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/divorce']")
   end
 
-  scenario 'A Court dealing with Adoption should have relavent links' do
+  scenario 'A Court dealing with Adoption should have relevant links' do
     visit "/courts/barnstaple-crown-court"
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/child-adoption']")
   end
 
-  scenario 'A Court dealing with Wills, Probate and Inheritance should have relavent links' do
+  scenario 'A Court dealing with Wills, Probate and Inheritance should have relevant links' do
     visit "/courts/london-probate-department"
     expect(page).to have_xpath("//*/a[@href='https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation']")
   end
 
-  scenario 'A Court NOT dealing with Money Claims should NOT have relavent links' do
+  scenario 'A Court NOT dealing with Money Claims should NOT have relevant links' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='https://www.gov.uk/make-court-claim-for-money']")
   end
 
-  scenario 'A Court NOT dealing with Repossessions (land or property) should NOT have relavent links' do
+  scenario 'A Court NOT dealing with Repossessions (land or property) should NOT have relevant links' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='https://www.gov.uk/repossession']")
   end
 
-  scenario 'A Court NOT dealing with Repossessions (defendants and claimants) should NOT have relavent links' do
+  scenario 'A Court NOT dealing with Repossessions (defendants and claimants) should NOT have relevant links' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='https://www.gov.uk/possession-claim-online-recover-property']")
   end
 
-  scenario 'A Court NOT dealing with Divorce should NOT have relavent links' do
+  scenario 'A Court NOT dealing with Divorce should NOT have relevant links' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='https://www.gov.uk/divorce']")
   end
 
-  scenario 'A Court NOT dealing with Adoption should NOT have relavent links' do
+  scenario 'A Court NOT dealing with Adoption should NOT have relevant links' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='https://www.gov.uk/child-adoption']")
   end
 
-  scenario 'A Court NOT dealing with Wills, Probate and Inheritance should NOT have relavent links' do
+  scenario 'A Court NOT dealing with Wills, Probate and Inheritance should NOT have relevant links' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation']")
   end
 
-  scenario 'A Court type of County court should have relavent links' do
+  scenario 'A Court type of County court should have relevant links' do
     visit "/courts/liverpool-civil-and-family-court"
     expect(page).to have_xpath("//*/a[@href='http://www.civilmediation.org/']")
   end
 
-  scenario 'A Court type of Family Court should have relavent links' do
+  scenario 'A Court type of Family Court should have relevant links' do
     visit "/courts/barnstaple-crown-court"
     expect(page).to have_xpath("//*/a[@href='http://www.familymediationcouncil.org.uk/']")
   end
 
-  scenario 'A Court that is NOT a type of County Court should not have relavent links for it' do
+  scenario 'A Court that is NOT a type of County Court should not have relevant links for it' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='http://www.civilmediation.org/']")
   end
 
-  scenario 'A Court that is NOT a type of Family court should not have relavent links for it' do
+  scenario 'A Court that is NOT a type of Family court should not have relevant links for it' do
     visit "/courts/royal-courts-of-justice"
     expect(page).to have_no_xpath("//*/a[@href='http://www.familymediationcouncil.org.uk/']")
   end
