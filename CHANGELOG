@@ -3,6 +3,7 @@
 
 2.11.0
 -------------------
+* 70036012 - Added related links to court pages
 * 70929866 - Landing page for each aread of law
 * Moved to poltergeist for jenkins build support
 * 71943052 - Court page "Location of the building" section moved up to below "Phone" section

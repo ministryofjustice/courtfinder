@@ -1,0 +1,19 @@
+-# === Generic Links ===
+%div{ :id => "related-links" }
+  %h2 Related links
+  - ExternalLink.visible.each do |link|
+    %p
+      = link_to link.text, link.url
+
+  / Court Type Links:
+  - @court.court_types.each do |type|
+    - type.external_links.each do |link|
+      %p
+      = link_to link.text, link.url
+
+  / Area of Law Links :
+  - @court.areas_of_law.each do |area|
+    - area.external_links.each do |link|
+      %p
+      = link_to link.text, link.url
+

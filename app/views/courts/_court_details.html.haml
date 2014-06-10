@@ -23,13 +23,12 @@
         %h3 Write to us:
         = format_address postal
 
-
 - unless print_view
   -# === Alert ===
   - if @court.alert.present?
     %p.help-notice= @court.alert
 
-
+= render 'related_links'
 
 -# === Opening times ===
 - if @court.opening_times.present?
@@ -40,8 +39,6 @@
     %p
       = precede time.opening_type.name do
         \: #{time.name}
-
-
 
 -# === Emails ===
 - if @court.emails.present?
@@ -54,8 +51,6 @@
         %span{:property => "contactType"}
           = "#{email.contact_type.name}:"
       = format_email_address email.address
-
-
 
 -# === Phone numbers ===
 - if @court.contacts.present?
