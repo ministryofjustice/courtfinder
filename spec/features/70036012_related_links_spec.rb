@@ -9,9 +9,6 @@ feature 'Related links for court pages' do
   let!(:probate_area) { create(:area_of_law, name: 'Probate')}
   let!(:bankruptcy_area) { create(:area_of_law, name: 'Bankruptcy')}
 
-  # let!(:county_court_type) { create(:court_type, id: 31, name: 'County court') }
-  # let!(:family_court_type) { create(:court_type, id: 35, name: 'Family court') }
-
   let!(:county_court_type) { CourtType.create!(name: 'County Court') }
   let!(:family_court_type) { CourtType.create!(name: 'Family court') }
 
@@ -42,9 +39,6 @@ feature 'Related links for court pages' do
     ExternalLink.create(text: 'GOV.UK', url: 'https://www.gov.uk', always_visible: true)
     ExternalLink.create(text: 'Forms', url: 'http://hmctsformfinder.justice.gov.uk/HMCTS/FormFinder.do', always_visible: true)
     ExternalLink.create(text: 'Fees', url: 'http://www.justice.gov.uk/courts/fees', always_visible: true)
-
-    #CourtType.create!(name: 'Family court')
-    #CourtType.create!(name: 'County Court')
 
     CourtType.find_by_name('Family court').external_links.create(text: 'Family Mediation', url: 'http://www.familymediationcouncil.org.uk/', always_visible: false)
     CourtType.find_by_name('County Court').external_links.create(text: 'Civil Mediation', url: 'http://www.civilmediation.org/', always_visible: false)
