@@ -113,18 +113,6 @@ describe CourtsController do
       end
     end
 
-    context "MCOL PCOL help text" do
-      it "displays MCOL and PCOL help text" do
-        get :show, id: @county_court.slug
-        expect(response.body).to match /Money claims/m
-      end
-
-      it "does not display MCOL and PCOL help text" do
-        get :show, id: @crown_court.slug
-        expect(response.body).not_to match /Money claims/m
-      end
-    end
-
     context "leaflets" do
       it "redirects to a slug of a defence leaflet" do
         get :defence, id: @court.id
