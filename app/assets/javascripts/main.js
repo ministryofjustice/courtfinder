@@ -48,12 +48,11 @@
     }
   };
 
-  setTimeout( showSurvey, (~~(Math.random() * 11) + 15) * 1000 );
+  setTimeout( showSurvey, 14000 );
 
   $('#user-satisfaction-survey .close-on-click').click(function (event){
     $('#user-satisfaction-survey').addClass('not-shown');    
     event.preventDefault();
     return false;
   });
-
 }());
