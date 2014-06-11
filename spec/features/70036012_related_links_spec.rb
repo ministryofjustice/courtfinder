@@ -45,8 +45,8 @@ feature 'Related links for court pages' do
 
     AreaOfLaw.find_by_name('Money claims').external_links.create(text: 'Money claims', url: 'https://www.gov.uk/make-court-claim-for-money')
 
-    AreaOfLaw.find_by_name('Housing possession').external_links.create(text: 'Repossessions (land or property)', url: "https://www.gov.uk/repossession")
-    AreaOfLaw.find_by_name('Housing possession').external_links.create(text: 'Repossessions', url: "https://www.gov.uk/possession-claim-online-recover-property")
+    AreaOfLaw.find_by_name('Housing possession').external_links.create(text: 'If you\'re being evicted', url: "https://www.gov.uk/repossession")
+    AreaOfLaw.find_by_name('Housing possession').external_links.create(text: 'Repossess your property', url: "https://www.gov.uk/possession-claim-online-recover-property")
 
     AreaOfLaw.find_by_name('Divorce').external_links.create(text: 'Divorce', url: "https://www.gov.uk/divorce")
     AreaOfLaw.find_by_name('Adoption').external_links.create(text: 'Child adoption' , url: "https://www.gov.uk/child-adoption")
