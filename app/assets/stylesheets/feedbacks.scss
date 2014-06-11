@@ -14,3 +14,23 @@ p.strongnote{
   font-size: 16px;
   width: 70%;
 }
+
+#user-satisfaction-survey {
+  position: fixed;
+  height: 135px;
+  width: 660px;
+  top: 25%;
+  left: 50%;
+  margin-left: -380px;
+  z-index: 10000;
+  padding: 40px 50px;
+  transition: top 400ms ease-in-out;
+
+  &.not-shown {
+    top: -250px;
+  }
+
+  p.survey-link-box {
+    margin-top: 30px;
+  }
+}
