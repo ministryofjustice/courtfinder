@@ -43,8 +43,10 @@ class CourtSearch
 
   def lookup_council_name
     begin
-      postcode_info = JSON.parse(@restclient[CGI::escape(@query)].get)
-      county_id =  extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
+      postcode_info = make_request(@query)
+      Rails.logger.debug("postcode info")
+      Rails.logger.debug(postcode_info)
+      county_id = extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
@@ -54,7 +56,7 @@ class CourtSearch
   end
 
   def extract_council_from_county(postcode_info)
-    return nil if postcode_info['shortcuts']['council'].class == Fixnum
+    return nil if postcode_info['shortcuts']['council'].class == Fixnum rescue nil
     postcode_info['shortcuts']['council']['county']
   end
 
@@ -74,8 +76,9 @@ class CourtSearch
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law
       courts = Court.visible.by_postcode_court_mapping(@query, @options[:area_of_law])
     elsif area_of_law.type_children? || area_of_law.type_adoption? || area_of_law.type_divorce?
-      courts = Court.for_council_and_area_of_law(lookup_council_name, area_of_law)
+      courts = Court.by_area_of_law(@options[:area_of_law]).for_council_and_area_of_law(lookup_council_name, area_of_law)
     end
+
 
     if latlng
       if courts.present?
@@ -90,31 +93,90 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode)
-    begin
-      results = JSON.parse(@restclient[CGI::escape(postcode)].get)
-    rescue RestClient::BadRequest
-      begin
-        # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
-        results = JSON.parse(@restclient["/partial/#{CGI::escape(postcode)}"].get)
-      rescue RestClient::ResourceNotFound
-        results = not_found_error
-      end
-    rescue RestClient::ResourceNotFound
-        results = not_found_error
-    end
+    results = make_request(postcode)
+    Rails.logger.info("Internal lookup: #{postcode}")
+
     [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
   end
 
-  def not_found_error
-    {"code" => 404, "error" => "Postcode not found"}
+  def make_request(postcode, client=@restclient)
+    partial_or_full = ->(postcode, client) do
+      if postcode.strip.size <= 4
+        partial_postcode_request(postcode, client)
+      else
+        full_postcode_request(postcode, client)
+      end
+    end
+
+    begin
+      partial_or_full.(postcode, client)
+    rescue RestClient::BadRequest
+      bad_request_error
+    rescue RestClient::ResourceNotFound
+      via_mapit(postcode){ partial_or_full }
+    rescue RestClient::ServerBrokeConnection
+      via_mapit(postcode){ partial_or_full }
+    rescue RestClient::RequestFailed
+      via_mapit(postcode){ partial_or_full }
+    end
+  end
+
+  def via_mapit(postcode)
+    Rails.logger.info("Mapit lookup: #{postcode}")
+    client = RestClient::Resource.new(Rails.application.config.backup_postcode_lookup_service_url, timeout: 3, open_timeout: 1)
+    begin
+      if block_given?
+        yield.(postcode, client)
+      else
+        JSON.parse(client[CGI::escape(postcode)].get)
+      end
+    rescue RestClient::BadRequest
+      bad_request_error
+    rescue RestClient::ResourceNotFound
+      not_found_error
+    rescue RestClient::ServerBrokeConnection
+      internal_server_error
+    rescue RestClient::RequestFailed
+      internal_server_error
+    end
   end
 
   private
+
     def found_in_area_of_law(courts)
       if @chosen_area_of_law.present? && courts.present? && courts.respond_to?(:count)
         courts.count
       else
         0
+      end
+    end
+
+    def not_found_error
+      {code: 404, error: "Postcode not found"}
+    end
+
+    def internal_server_error
+      {code: 500, error: "Internal server error"}
+    end
+
+    def bad_request_error
+      {code: 400, error: "HTTP Error Bad request"}
+    end
+
+    def partial_postcode_request(postcode, client)
+      begin
+        # if the postcode is just a part of a complete postcode, then the call above fails with BadRequest.
+        JSON.parse(client["/partial/#{CGI::escape(postcode)}"].get)
+      rescue RestClient::ResourceNotFound
+        not_found_error
+      end
+    end
+
+    def full_postcode_request(postcode, client)
+      begin
+        JSON.parse(client[CGI::escape(postcode)].get)
+      rescue RestClient::ResourceNotFound
+        not_found_error
       end
     end
 end

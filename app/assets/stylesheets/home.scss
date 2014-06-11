@@ -63,10 +63,12 @@
   text-decoration: underline;
   background: #ddd;
 }
+
 .search-results {
   padding: 0;
   list-style-image: none;
 }
+
 .search-results li {
   width: 100%;
   padding: 10px;
@@ -85,9 +87,38 @@
 .search-results .areas-of-law li {
   background: #6f777b;
   color: #fff;
+  border: 1px solid #6f777b;
   font-size: smaller;
   padding: 1px 3px;
   margin: 0.1em 0.5em;
   list-style-image: none;
   white-space: nowrap;
+}
+
+.search-results a.court-title {
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.details-link {
+  display: block;
+  margin-top: 0.4em;
+  width:6em;
+}
+
+select{
+  border: 1px solid #bfc1c3;
+  padding: 4px 20px 5px 10px;
+  background: #fff;
+  background-image: url(/assets/dropdown-arrow.png);
+  background-repeat: no-repeat;
+  background-position: right center;
+  -webkit-box-shadow: 1px 1px 1px #fff;
+  -moz-box-shadow: 1px 1px 1px #fff;
+  box-shadow: 1px 1px 1px #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

@@ -1,4 +1,5 @@
 FactoryGirl.define do
+
   factory :court do
     sequence(:name) { |n| "Court of LAW number #{n}" }
     display true
@@ -27,7 +28,7 @@ FactoryGirl.define do
   end
 
   factory :area_of_law do
-    name { 'Posessions' }
+    sequence(:name) {|n| 'Law Area' }
   end
 
   factory :feedback do
@@ -42,5 +43,15 @@ FactoryGirl.define do
 
   factory :council do
     sequence(:name) {|i| "Council #{i}"}
+  end
+
+  factory :area_of_law_group do
+    sequence(:name) {|n| "Group #{n}"}
+  end
+
+  factory :user do
+    email { Faker::Internet.email }
+    password 'password123'
+    password_confirmation 'password123'
   end
 end

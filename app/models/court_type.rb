@@ -2,12 +2,13 @@ class CourtType < ActiveRecord::Base
   attr_accessible :name, :old_id, :slug
   has_many :court_types_courts
   has_many :courts, :through => :court_types_courts
+  has_and_belongs_to_many :external_links
 
-  has_paper_trail
-  
+  has_paper_trail meta: {ip: :ip}
+
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-  
+
   include Rails.application.routes.url_helpers
 
   # Text search
@@ -28,7 +29,7 @@ class CourtType < ActiveRecord::Base
         :name => name,
         :updated_at => updated_at,
         :path => court_type_path(self),
-        :courts => courts.visible.map { |court| 
+        :courts => courts.visible.map { |court|
           {
             :name => court.name,
             :path => court_path(court)

@@ -69,7 +69,7 @@ describe Admin::CourtsController do
     it "audit trail csv returns correct information", :versioning => true do
       @court.update_attributes!(name: "Amazing Court")
       get :audit, format: :csv
-      response.body.should include "#{Time.now.utc},lol@biz.info,Amazing Court,name,update,A court of Law,Amazing Court"
+      response.body.should include "lol@biz.info,ip,Amazing Court,name,update,A court of Law,Amazing Court"
     end
 
     it "does not return the audit trail for a non super-admin user", :versioning => true do

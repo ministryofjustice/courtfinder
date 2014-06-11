@@ -36,4 +36,12 @@
     }
   });
 
+  // User Satisfaction Survey
+  // if it's the homepage 
+  if( $('body').attr('id') == 'home-index' ){
+    if( GOVUK && GOVUK.userSatisfaction ){
+      GOVUK.userSatisfaction.showSurveyBar();
+    }
+  }
+
 }());

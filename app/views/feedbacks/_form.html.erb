@@ -31,8 +31,10 @@
       <label for="feedback_email">Your email address (optional) - if you'd like us to contact you for more feedback</label>
       <br/><%= f.email_field :email %>
     </div>
-    <div>
-      <br/>
+    <div> 
+      <p class="strongnote">
+      Please do not use this feedback form for complaints about HM Courts & Tribunals Service. <a href="http://hmctsformfinder.justice.gov.uk/courtfinder/forms/ex343-eng.pdf">Complaints</a> should be sent to the office where the problem arose to help us sort out the issue quickly and accurately
+      </p>
       <input type ="hidden" name="referrer" value="<%= params[:referrer] %>" />
       <%= f.submit "Send", :class => "button", :id => "submit-button" %>
     </div>

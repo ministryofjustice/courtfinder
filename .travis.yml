@@ -1,5 +1,10 @@
+language: ruby
 rvm:
   - 2.0.0
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq phantomjs
+  
 before_script:
   - psql -c 'create database courtfinder_test;' -U postgres
 services: postgres
@@ -7,4 +12,4 @@ script:
   - bundle exec rake db:migrate
   - bundle exec rake spec
 env:
-  - TRAVIS=true
+  - TRAVIS=true CODECLIMATE_REPO_TOKEN=f23ddd42ccfea1b54a5ad17574fe038957bf90c0057bceaa4b652b48fa183845 

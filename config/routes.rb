@@ -29,12 +29,14 @@ Courtfinder::Application.routes.draw do
     match '/repossession' => :repossession, :as => :repossession
   end
 
+  get '/search/:area_of_law', to: 'home#index', as: 'area_of_law_landing'
+
   resources :councils, only: [:index, :show]
 
   # Admin section
   get 'admin', to: redirect('/admin/courts')
 
-  devise_for :users, :path_prefix => 'admin'
+  devise_for :users, path_prefix: 'admin'
 
   namespace :admin do
     resources :users
@@ -42,7 +44,7 @@ Courtfinder::Application.routes.draw do
     resources :towns
     resources :counties
     resources :countries
-    resources :address_types, :path => '/address-types'
+    resources :address_types, path: '/address-types'
 
     resources :courts do
       collection do
@@ -62,7 +64,9 @@ Courtfinder::Application.routes.draw do
 
     resources :court_types
 
-    resources :areas_of_law, :path => '/areas-of-law'
+    resources :areas_of_law, path: '/areas-of-law'
+
+    resources :area_of_law_groups, path: '/area-of-law-groups'
 
     resources :opening_types
 
@@ -74,8 +78,8 @@ Courtfinder::Application.routes.draw do
 
     resources :areas
   end
-  
-  get '/index_area_of_law' => 'home#index_aol'
+
+  get '/index_area_of_law', to: redirect('/')
   get '/api' => 'home#api'
 
   root :to => 'home#index'

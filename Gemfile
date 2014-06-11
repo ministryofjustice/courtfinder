@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 #source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
 
-gem 'rails', '3.2.17'
+gem 'rails', '3.2.18'
 gem 'pg'
 
 gem 'byebug'
@@ -14,11 +14,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
-  gem 'database_cleaner'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request' #uncomment for use with rails pannel
-  gem 'capybara', github: 'jnicklas/capybara'
   gem 'launchy'
   gem 'rb-fsevent', require: false
   gem 'guard-rspec'
@@ -26,12 +24,18 @@ group :development, :test do
   gem 'guard-livereload'
   gem 'hirb'
   gem 'letter_opener'
+  gem 'rubocop', require: false
 end
 
 group :test do
   gem 'webmock', '= 1.15.2'
   gem 'vcr'
   gem 'timecop'
+  gem 'capybara', github: 'jnicklas/capybara'
+  gem 'poltergeist'
+  gem 'headless'
+  gem 'database_cleaner'
+  gem 'codeclimate-test-reporter', require: nil
 end
 
 
@@ -53,7 +57,7 @@ gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
 gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise'                # Authentication
 gem 'devise_invitable'      # Authentication invites
-gem 'rmagick'               # Resize uploaded images
+gem 'rmagick', require: false # Resize uploaded images
 gem 'fog', '1.20.0'                   # Talks to cloud providers (e.g. S3)
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'           # Handles file uploads
 gem 'gmaps4rails'           # Maps and directions

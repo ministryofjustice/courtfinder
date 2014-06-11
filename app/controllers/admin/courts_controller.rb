@@ -64,9 +64,9 @@ class Admin::CourtsController < Admin::ApplicationController
     if @court.update_attributes(params[:court])
       purge_all_pages
       flash[:invalid_councils] = @court.invalid_councils if @court.invalid_councils
-      
+
       respond_to do |format|
-        format.html do 
+        format.html do
             redirect_to params[:redirect_url] || edit_admin_court_path(@court), notice: 'Court was successfully updated.'
         end
         format.json { head :no_content }
@@ -126,15 +126,16 @@ class Admin::CourtsController < Admin::ApplicationController
       versions = PaperTrail::Version.order("created_at DESC")
       CSV.generate do |csv|
         begin
-          csv << ["datetime", "user_email", "court_name", "field_name", "action", "value_before", "value_after"]
+          csv << ["datetime", "user_email","ip_address","court_name", "field_name", "action", "value_before", "value_after"]
           versions.each do |version|
             author_email = User.find(version.whodunnit).email if version.whodunnit
-            value_before, value_after = [], []          
+            value_before, value_after = [], []
             if version.item_type == "Court"
               court = Court.find version.item_id
               version.changeset.each do |key, value|
                 csv << [version.created_at,
                         author_email,
+                        version.ip,
                         court.name,
                         key,
                         version.event,
@@ -150,10 +151,11 @@ class Admin::CourtsController < Admin::ApplicationController
                   if court = Court.find(court_id)
                     csv << [version.created_at,
                             author_email,
+                            version.ip,
                             court.name,
                             version.item_type,
                             version.event,
-                            value_before, 
+                            value_before,
                             value_after
                             ]
                   end
@@ -163,14 +165,15 @@ class Admin::CourtsController < Admin::ApplicationController
                   if court = item.court
                     version.changeset.each do |key, value|
                       value_before << "#{key}: #{value[0]}" unless version.event == "create"
-                      value_after << "#{key}: #{value[1]}"          
+                      value_after << "#{key}: #{value[1]}"
                     end
                     csv << [version.created_at,
                             author_email,
+                            version.ip,
                             court.name,
                             version.item_type,
                             version.event,
-                            value_before, 
+                            value_before,
                             value_after
                             ]
                   end

@@ -16,8 +16,10 @@
     <td><%= area.name %></td>
     <td><%= area.region.name if area.region.present? %></td>
     <!-- <td><%#= link_to 'Show', admin_area_path(area) %></td> -->
-    <td><%= link_to 'Edit', edit_admin_area_path(area) %></td>
-    <td><%= link_to 'Delete', admin_area_path(area), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td>
+      <%= link_to 'Edit', edit_admin_area_path(area) %>
+      <%= link_to 'Delete', admin_area_path(area), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </td>
   </tr>
 <% end %>
 </table>

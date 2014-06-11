@@ -1,3 +1,52 @@
+2.12.0
+-------------------
+* 72727734 - Remove MCOL and PCOL paragraphs
+* 72329292 - 'View Details' link added to court search results
+* 70036012 - Added related links to court pages
+
+2.11.0
+-------------------
+* 70929866 - Landing page for each aread of law
+* Moved to poltergeist for jenkins build support
+* 71943052 - Court page "Location of the building" section moved up to below "Phone" section
+
+2.10.2
+-------------------
+* court council link area of law is being used to link for area of law incorrectly
+
+2.10.1
+-------------------
+* 71851546 - Exception when resolver cannot get name
+* Removed split testing
+
+2.10.0
+-------------------
+* Updated search form to have correct query string when posting
+* Added spec to cover search form requirements
+* 70592184 - Survey monkey survey
+* 68572994 - Printing court info page cuts off map across pages on IE8
+* 68594216 - Treat family court as county court when choosing what leaflets to display
+* 69098760 - Better search by area of law
+
+2.9.3
+-------------------
+* Reverted to mappit as own server does not have all data
+
+2.9.2
+-------------------
+* Added All back to area of law
+* Switched search form to use a GET
+
+2.9.1
+-------------------
+* Fixed area of law
+
+2.9.0
+-------------------
+* 70929758 - Group areas of law
+* 68594216 - Treat family court as county court when choosing what leaflets to display
+* 70953704 - Change feedback form to direct to court complaint instructions
+
 2.8.0
 --------------------
 * JSON-LD API: use better media type application/ld+json

@@ -75,9 +75,54 @@ form.find-location-for-service #filters {margin-top:1em;}
   }
 }
 
+#related-links{
+  float:right;
+  border-top: 10px solid #0b0c0c;
+  margin-top: 1.5em;
+  width: 300px;
+}
+
+#related-links h2{
+  margin:18px 0px 0px 0px;
+}
+
+.court-location-wrapper {
+  .map_container {
+    display: none; 
+  }
+
+  .map_container, .static-map img {
+    margin-top: 15px;
+  }
+
+  .static-map img {
+    padding: 6px;
+    border: 1px solid #ccc;
+  }
+
+  body.js-enabled & {
+    .map_container {
+      display: block;
+    }
+
+    .static-map {
+      display: none;
+    }
+  }
+}
+
+@media print {
+  .court-location-wrapper .static-map {
+    &, & img {
+      display: block!important;      
+    }
+  }
+}
+
 form#directions input#from {margin:0 0 1em 0;}
 
 .facilities {
+
   dt {
     float:left; 
     clear:left; 
@@ -85,6 +130,7 @@ form#directions input#from {margin:0 0 1em 0;}
     height:50px; 
     margin:0 0 10px;
   }
+
   dd {
     min-height:50px; margin:0; padding:10px 0 0 60px;
   }

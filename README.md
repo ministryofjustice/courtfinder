@@ -1,7 +1,7 @@
 # Court Finder
 
 [![Build Status](https://travis-ci.org/ministryofjustice/courtfinder.png?branch=master)](https://travis-ci.org/ministryofjustice/courtfinder)
-
+[![Code Climate](https://codeclimate.com/github/ministryofjustice/courtfinder.png)](https://codeclimate.com/github/ministryofjustice/courtfinder)
 ## Set-up
 
 ### ImageMagick
@@ -41,11 +41,6 @@ After court data has been imported, some courts may be missing their map locatio
 Some post codes are not recognised by the default map location provider. For them, please use Google Maps Labs and enter their location manually in the file below before re-running the script.
 
     db/data/manual_map_locations.yml
-
-
-<!-- Then you need to process the court types by running:
-
-    rake process:court_types -->
 
 ### Admin Area
 
