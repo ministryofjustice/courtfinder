@@ -1,11 +1,17 @@
-2.13.0-dev
+2.14.0-dev
 -------------------
+*
+
+2.13.0
+-------------------
+* 72263802 - Survey design has been changed and now pops up on all pages after 14 seconds
 
 2.12.0
 -------------------
 * 72727734 - Remove MCOL and PCOL paragraphs
 * 72329292 - 'View Details' link added to court search results
 * 70036012 - Added related links to court pages
+* 72263802 - Survey design has been changed and now pops up on all pages after 14 seconds
 
 2.11.0
 -------------------
