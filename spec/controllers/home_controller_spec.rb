@@ -3,12 +3,11 @@ require 'spec_helper'
 describe HomeController do
   render_views
 
-  let(:court) { create(:court, old_id: 1, name: "A court of L.A.W.") }
+  let!(:court) { create(:court, old_id: 1, name: "A court of L.A.W.") }
 
   context "landing page" do
     it "displays the landing page" do
       controller.should_receive(:enable_varnish).twice
-      controller.should_receive(:fresh_when).with(last_modified: court.updated_at.utc, public: true).twice.and_call_original unless ENV['TRAVIS']
       get :index
       response.should be_success
 
