@@ -60,8 +60,8 @@ shared_examples "a search with area of law" do |area_of_law_name|
           results = court_search.results
           expect(results.fetch(:found_in_area_of_law)).to be > 0
           expect(results.fetch(:courts)).to eq [court7, court9]
-          expect(results.fetch(:courts)[0].distance).to eq "3.72484732920979"
-          expect(results.fetch(:courts)[1].distance).to eq "3.72484732920979"
+          expect(results.fetch(:courts)[0].distance.to_d).to be_within(0.0001).of(3.72484732920979)
+          expect(results.fetch(:courts)[1].distance.to_d).to be_within(0.0001).of(3.72484732920979)
         end
       end
     end

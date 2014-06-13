@@ -6,7 +6,7 @@ class CourtsController < ApplicationController
   before_filter :find_court, except: [:index]
   before_filter :set_page_expiration, except: [:index]
   before_filter :set_vary_accept, only: [:index, :show]
-  
+
   def index
     set_cache_control(Court.maximum(:updated_at)) && return
     @courts = Court.by_name
@@ -28,7 +28,7 @@ class CourtsController < ApplicationController
       end
     end
   end
-  
+
   def information
     if request.path != information_path(@court, format: params[:format])
       redirect_to information_path(@court, format: params[:format]), status: :moved_permanently
@@ -36,7 +36,7 @@ class CourtsController < ApplicationController
       respond_with @court
     end
   end
-  
+
   def defence
     if request.path != defence_path(@court, format: params[:format])
       redirect_to defence_path(@court, format: params[:format]), status: :moved_permanently
@@ -44,7 +44,7 @@ class CourtsController < ApplicationController
       respond_with @court
     end
   end
-  
+
   def prosecution
     if request.path != prosecution_path(@court, format: params[:format])
       redirect_to prosecution_path(@court, format: params[:format]), status: :moved_permanently
@@ -52,7 +52,7 @@ class CourtsController < ApplicationController
       respond_with @court
     end
   end
-  
+
   def juror
     if request.path != juror_path(@court, format: params[:format])
       redirect_to juror_path(@court, format: params[:format]), status: :moved_permanently
@@ -79,7 +79,7 @@ class CourtsController < ApplicationController
   def find_court
     @court = Court.find(params[:id])
   end
-  
+
   def set_page_expiration
     set_cache_control(@court.updated_at)
   end
