@@ -1,0 +1,170 @@
+/*
+  http://csswizardry.com/2013/04/shame-css/
+
+  We've put off the responsive work for now but we're trying to make sure we 
+  deliver as much as we can without diving too deep.
+  
+  When the time comes, the layout should be replaced by the grid system based
+  on GOV.UK Elements: http://govuk-elements.herokuapp.com/
+*/
+
+// Breakpoints. Should be replaced with a proper grid system
+@mixin tablet {
+  @media (max-width: 770px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
+// This is the global padding we apply to body > *
+@mixin tablet-padding {
+  @include tablet {
+      padding: 8px 16px;
+  }
+}
+
+@mixin extra-margins {
+  @media (max-width: 1020px) and (min-width: 770px) {
+    margin: 0 30px;
+  }
+}
+
+/*
+  Implementing the new indicator style based on the GOV.UK Elements page.
+  Rather hacky for now.
+*/
+.indicator {
+  max-width: 960px;
+  padding: 0;
+  background: none!important;
+  color: white;
+  border-bottom: 1px solid #c2c2c2;
+  border-top: 10px solid #005ea5;
+
+  p {
+    padding: 10px 0;
+    background: none;
+    
+    @include tablet {
+      margin: 0;
+    }
+
+    strong {
+      background-color: #f47738;
+      padding: 3px 6px 0px 6px;
+      color: white;
+    }
+  }
+
+  @include tablet-padding;
+  @include extra-margins;
+}
+
+// Removing the bottom beta border
+body.beta #wrapper {
+  border-bottom: none;
+}
+
+
+// Making sure everything lines up
+header.page-header,
+.browse-container article .inner {
+  padding-left: 0!important;
+  padding-right: 0!important;
+
+  form {
+    margin: 0!important;
+    padding: 1em!important;
+  }
+}
+
+header.page-header h1 {
+  @include tablet {
+    font-size: 36px!important;
+  }
+}
+
+#global-breadcrumb {
+  padding-left: 0;
+
+  ol {
+    @media (max-width: 1020px){
+      margin-left: 0;
+    }
+  }
+
+  @include tablet-padding;
+  @include extra-margins;
+}
+
+// Removing the 
+nav#proposition-menu small.beta {
+  display: none;
+}
+
+#wrapper {
+    @include extra-margins;
+}
+
+#wrapper, footer {
+  @include tablet-padding;
+}
+
+footer .footer-wrapper {
+  @media (max-width: 1020px) and (min-width: 770px) {
+    margin: 0 30px!important;
+  }
+}
+
+// Cleanup for the results page
+.search-results {
+  .areas-of-law {
+    margin-right: 0;
+    padding-top: 0;
+    padding-right: 0;
+
+    @include tablet {
+      display: block;
+      float: none;
+      padding-left: 0;
+      margin-top: 10px;
+      width: inherit;
+    }
+
+    li {
+      margin: 2px 0;
+
+      @include tablet {
+        border: none;
+        background: none;
+        color: inherit;
+        padding: 0;
+        margin: 0;
+        display: inline;
+
+        &::after {
+          content: ', ';
+        }
+
+        &:last-child::after {
+          content: '';
+        }
+      }
+    }
+  }
+
+  .court-name-and-address {
+    @include tablet {
+      display: block;
+      float: none;
+    }
+  }
+}
+
+// 
+
