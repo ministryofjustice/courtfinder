@@ -33,28 +33,24 @@ shared_examples "a search with area of law" do |area_of_law_name|
       end
     end
 
-    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
-      # Location: http://mapit.service.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
-      VCR.use_cassette('postcode_found') do
-        court_search = CourtSearch.new('SE240NG', { area_of_law: area.name})
-        expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
-        expect(court_search.results.fetch(:courts)).to eq [court7]
-      end
-    end
-
     context 'when there are multiple courts' do
       # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
       let(:court9) do
         VCR.use_cassette('postcode_found') do
-         create(:court, court_number: 435, name: "#{area.name} Court B", display: true, areas_of_law: [area],
-                                          :address_ids => [@visiting_address3.id])
+        create(:court,
+               court_number: 435,
+               name: "#{area.name} Court B",
+               display: true,
+               areas_of_law: [area],
+               :address_ids => [@visiting_address3.id])
         end
       end
 
-      it 'should return multiple courts sorted by distance' do
+      before(:each) do
         court9.court_council_links.create({council_id: council.id, area_of_law_id: area.id})
+      end
 
+      it 'should return multiple courts sorted by distance' do
         VCR.use_cassette('multiple_courts') do
           court_search = CourtSearch.new('SE240NG', {area_of_law: area.name})
           results = court_search.results
@@ -62,6 +58,21 @@ shared_examples "a search with area of law" do |area_of_law_name|
           expect(results.fetch(:courts)).to eq [court7, court9]
           expect(results.fetch(:courts)[0].distance.to_d).to be_within(0.0001).of(3.72484732920979)
           expect(results.fetch(:courts)[1].distance.to_d).to be_within(0.0001).of(3.72484732920979)
+        end
+      end
+
+      context 'when one of the multiple courts does not have long/lat' do
+        it 'should return multiple courts sorted by distance including a court which did not have long/lat' do
+          VCR.use_cassette('multiple_courts') do
+            court7.update_attribute(:longitude, nil)
+            court7.update_attribute(:latitude, nil)
+            court_search = CourtSearch.new('SE240NG', {area_of_law: area.name})
+            results = court_search.results
+            expect(results.fetch(:found_in_area_of_law)).to be > 0
+            expect(results.fetch(:courts)).to eq [court9, court7]
+            expect(results.fetch(:courts)[0].distance.to_d).to be_within(0.0001).of(3.72484732920979)
+            expect(results.fetch(:courts)[1].distance.to_d).to eq -1
+          end
         end
       end
     end
