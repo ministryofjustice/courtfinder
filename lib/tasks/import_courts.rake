@@ -115,7 +115,7 @@ namespace :import do
   task :address_types => :environment do
     puts "Importing address types"
 
-    types = ['Postal']
+    types = ['Postal', 'Visiting']
 
     types.each do |i|
       type = AddressType.new
@@ -248,10 +248,13 @@ namespace :import do
 
     counter = 0
 
+    visiting = AddressType.find_or_create_by_name('Visiting')
+    postal = AddressType.find_or_create_by_name('Postal')
+
     # id, postal flag, line1, line2...
     csv.each do |row|
 
-      if row[1].to_i == 1
+      if row[1].to_s == "true"
         court = Court.find_by_old_postal_address_id(row[0])
       else
         court = Court.find_by_old_court_address_id(row[0])
@@ -264,15 +267,14 @@ namespace :import do
 
         addr = Address.new
 
-        if row[1].to_i == 1
-          # puts "Looking for court with old postal address id of #{row[0]}"
-          addr.court_id = court.id
-          addr.address_type_id = 1 # Postal
+        if row[1].to_s == "true"
+          addr.address_type = postal
         else
-          addr.court_id = court.id
-          # addr.address_type_id = 1 # Visiting
+          addr.address_type = visiting
           addr.is_primary = true
         end
+
+        addr.court_id = court.id
         addr.address_line_1 = row[2] unless row[2] == 'NULL'
         addr.address_line_2 = row[3] unless row[3] == 'NULL'
         addr.address_line_3 = row[4] unless row[4] == 'NULL'
@@ -286,7 +288,7 @@ namespace :import do
         unless row[10].empty? || row[11].empty?
           court.latitude = row[10]
           court.longitude = row[11]
-          court.save!
+          court.save!(validate: false)
         end
 
         counter += 1
@@ -462,7 +464,7 @@ namespace :import do
 
         contact.sort = row[4].to_i
 
-        counter += 1 if contact.save!
+        counter += 1 if contact.save!(validate: false)
       end
     end
 
@@ -483,9 +485,7 @@ namespace :import do
         contact = Contact.new
 
         puts "Adding '#{row[1]}'"
-        # "court_contacts_id","court_contacts_name","court_contacts_no","court_id","court_contact_type_id","court_contacts_order"
 
-        contact.name = row[1].strip if row[1].present? and row[1] != 'NULL'
         contact.telephone = row[2] if row[1] != 'NULL'
         contact.court_id = court.id
         contact.in_leaflet = false
@@ -495,7 +495,7 @@ namespace :import do
 
         contact.sort = row[5].to_i + 1000 # added 1000 to make sure contacts appear after general contacts
 
-        counter += 1 if contact.save!
+        counter += 1 if contact.save!(validate: false)
       end
     end
 
@@ -523,11 +523,10 @@ namespace :import do
         addr = row[2].strip
         puts "Adding '#{addr}'"
 
-        email.description = row[1].strip if row[1].present?
         email.address = addr if row[2].present?
         email.court_id = court.id
 
-        counter += 1 if email.save!
+        counter += 1 if email.save!(validate: false)
       end
     end
 
@@ -556,7 +555,7 @@ namespace :import do
 
         court.old_image_id = row[1]
 
-        counter += 1 if court.save!
+        counter += 1 if court.save!(validate: false)
       end
 
     end
@@ -594,7 +593,7 @@ namespace :import do
           court.image_description = row[1]
           court.image = row[2]
 
-          court_counter += 1 if court.save!
+          court_counter += 1 if court.save!(validate: false)
         end
       end
 
