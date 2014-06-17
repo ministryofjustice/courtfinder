@@ -33,11 +33,6 @@ describe SearchController do
         get :index
       }.to raise_error(StandardError)
     end
-
-    it "redirects to CCMCC if we're dealing with a money claim for any postcode" do
-      get :index, { area_of_law: 'Designated money claims', q: '' }
-      response.should redirect_to('/courts/county-court-money-claims-centre')
-    end
   end
 
   describe "GET index for children" do
@@ -66,6 +61,6 @@ describe SearchController do
       expect(response).to be_success
       response.body.should include("Courts dealing with applications involving children for")
     end
-
   end
+  
 end

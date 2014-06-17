@@ -3,7 +3,7 @@
 <% if @results.present? %>
   <% if @search.postcode_search? %>
     <% if @chosen_area_of_law && (@chosen_area_of_law.type_possession? || @chosen_area_of_law.type_bankruptcy? || @chosen_area_of_law.type_money_claims?) && @results.length == 1 %>
-      <p>This court handles <%= @chosen_area_of_law.name %> for the post code <strong><%= @search.q %></strong>:
+      <p>This court handles <strong><%= @chosen_area_of_law.name %></strong> for the post code <strong><%= @search.q %></strong>:
     <% elsif @chosen_area_of_law && (@chosen_area_of_law.type_children? || @chosen_area_of_law.type_divorce? || @chosen_area_of_law.type_adoption?) && (@found_in_area_of_law > 0) %>
       <p><%= family_court_search_found(@search.court_search, @chosen_area_of_law) %></p>
     <% else %>
@@ -28,6 +28,16 @@
         <% end %>
         <% if court.addresses.count > 0 %>
           <%= format_address court.addresses.first %>
+        <% end %>
+        <% if @money_claims_court %>
+          <p class="search-related-information">
+            It will be cheaper to <a href="https://www.gov.uk/make-money-claim-online">make a money claim online</a>.
+          </p>
+        <% end %>
+        <% if @possession_court %>
+          <p class="search-related-information">
+            You may be able to <a href="https://www.gov.uk/possession-claim-online-recover-property">start a possession claim online</a>.
+          </p>
         <% end %>
         <%= link_to('View details', court_path(court, qs), class: "details-link") %>
       </li>
