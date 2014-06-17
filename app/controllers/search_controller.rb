@@ -7,7 +7,7 @@ class SearchController < ApplicationController
 
     money_claims_aol = AreaOfLaw.where(type_money_claims: true).first
 
-    if params[:area_of_law] == money_claims_aol.name
+    if params[:area_of_law] && params[:area_of_law] == money_claims_aol.try(:name)
       @results = Court.where(slug: 'county-court-money-claims-centre-ccmcc')
       @found_in_area_of_law = money_claims_aol
       @errors = nil
@@ -17,7 +17,7 @@ class SearchController < ApplicationController
       return
     end
 
-    if params[:area_of_law] == AreaOfLaw.where(type_possession: true).first.name
+    if params[:area_of_law] == AreaOfLaw.where(type_possession: true).first.try(:name)
       @possession_court = true
     end
 
