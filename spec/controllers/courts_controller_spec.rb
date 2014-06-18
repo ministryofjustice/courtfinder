@@ -354,7 +354,7 @@ describe CourtsController do
         get :index, format: :csv
         response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
                                 "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
-                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.37831481703049,-0.1017849333816599,,London,Some other street,,,\n"\
+                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.3783148170305,-0.10178493338166,,London,Some other street,,,\n"\
                                 "/courts/capita-combined-court,Capita Combined Court,,,,,,,,,\n"\
                                 "/courts/capita-crown-court,Capita Crown Court,,,,,London,Some other street,,,\n"\
                                 "/courts/capita-family-court,Capita Family Court,,,,,,,,,\n"\

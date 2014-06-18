@@ -1,5 +1,10 @@
+2.14.0
+-------------------
+* 71921908 - When searched for a court for money claims or reposessions, the user can see a helpful text below search results
+
 2.13.0
 -------------------
+* 72263802 - Survey design has been changed and now pops up on all pages after 14 seconds
 
 2.12.0
 -------------------

@@ -2,13 +2,24 @@ class SearchController < ApplicationController
 
   def index
 
-    if params[:area_of_law] == AreaOfLaw::MONEY_CLAIMS
-      redirect_to(court_path('county-court-money-claims-centre'))
+    @search = SearchForm.new(params)
+    @results = []
+
+    money_claims_aol = AreaOfLaw.where(type_money_claims: true).first
+
+    if params[:area_of_law] && params[:area_of_law] == money_claims_aol.try(:name)
+      @results = Court.where(slug: 'county-court-money-claims-centre-ccmcc')
+      @found_in_area_of_law = money_claims_aol
+      @errors = nil
+      @chosen_area_of_law = money_claims_aol
+      @money_claims_court = true
+
       return
     end
 
-    @search = SearchForm.new(params)
-    @results = []
+    if params[:area_of_law] == AreaOfLaw.where(type_possession: true).first.try(:name)
+      @possession_court = true
+    end
 
     if @search.valid?
       begin
