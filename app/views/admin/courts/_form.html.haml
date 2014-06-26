@@ -101,7 +101,7 @@
           %ul.sortable
             = f.simple_fields_for :contacts do |builder|
               = render 'contact_fields', f: builder
-          = link_to_add_fields "Add phone", f, :contacts, 'initNewFieldBlock'
+          = link_to_add_fields "Add contact information", f, :contacts, 'initNewFieldBlock'
       #email-contacts
         .group-emails
           %a.field-group{:href => "#", "data-alt" => "edit emails"} reorder emails
