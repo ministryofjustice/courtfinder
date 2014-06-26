@@ -16,8 +16,8 @@ feature 'DX number' do
 
       visit '/admin/courts/the-court/edit'
       page.should have_content('Editing court')
-      click_link 'Phone'
-      click_link 'Add phone'
+      click_link 'Contact Numbers'
+      click_link 'Add contact information'
 
       within_fieldset('contact-element') do
         select 'DX', from: 'Service type'
