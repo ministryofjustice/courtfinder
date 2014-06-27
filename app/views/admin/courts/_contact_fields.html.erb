@@ -3,7 +3,7 @@
     <span class="ui-icon ui-icon-grip-dotted-vertical"></span>
     <span class="type"></span>: <span class="tel"><span></span>
   </div>
-  <fieldset>
+  <fieldset id="contact-element">
     <%= f.association :contact_type, :include_blank => false %>
     <%= f.input :telephone %>
     <%= f.input :in_leaflet, :label => 'Show this contact in print out' %>

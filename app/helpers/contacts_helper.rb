@@ -19,11 +19,27 @@ module ContactsHelper
 
   def contacts_as_group(contacts, glue=' or ')
     contact_list = []
-    
+
     contacts.each do |contact|
-      contact_list << link_to(contact.telephone, ['tel:', GlobalPhone.normalize(contact.telephone, :gb)].join)
+
+      contact_number = if is_telephone_number_valid?(contact)
+        make_telephone_number_clickable(contact.telephone)
+      else
+        contact.telephone
+      end
+
+      contact_list << contact_number
     end
 
     contact_list.join(glue).html_safe
+  end
+
+  def make_telephone_number_clickable(telephone)
+    link_to(telephone, ['tel:', GlobalPhone.normalize(telephone, :gb)].join)
+  end
+
+
+  def is_telephone_number_valid?(contact)
+    contact.contact_type.try(:name) != 'DX'
   end
 end

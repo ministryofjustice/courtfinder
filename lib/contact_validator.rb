@@ -1,5 +1,6 @@
 class ContactValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
+    return if is_dx_number?(record)
     if is_valid_phone_format(value) == false
       record.errors.add(attribute, "is invalid. Please enter one phone number per entry. \"#{value}\" is not a valid phone number. Please enter a valid phone number, only digits and spaces allowed, up to 12 numbers.")
     elsif service = check_duplicate_number(record, value)
@@ -25,5 +26,9 @@ class ContactValidator < ActiveModel::EachValidator
     has_invalid_chars = !(phone_number =~ /[^\d ]+/).nil?
 
     !more_than_13_digits && !has_invalid_chars
+  end
+
+  def is_dx_number?(record)
+    record.contact_type.try(:name) == 'DX'
   end
 end

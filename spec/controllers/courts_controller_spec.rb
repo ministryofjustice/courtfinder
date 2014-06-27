@@ -36,6 +36,8 @@ describe CourtsController do
 
   context "a court exists" do
     before :each do
+      CourtSearch.any_instance.stub(:latlng_from_postcode).and_return([51.37831, -0.10178])
+
       @at_visiting = create(:address_type, :name => "Visiting")
       @at_postal = create(:address_type, :name => "Postal")
       @town = create(:town, :name => "London")
@@ -354,7 +356,7 @@ describe CourtsController do
         get :index, format: :csv
         response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
                                 "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
-                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.3783148170305,-0.10178493338166,,London,Some other street,,,\n"\
+                                "/courts/and-justice-for-all-county-court,And Justice For All County Court,,51.37831,-0.10178,,London,Some other street,,,\n"\
                                 "/courts/capita-combined-court,Capita Combined Court,,,,,,,,,\n"\
                                 "/courts/capita-crown-court,Capita Crown Court,,,,,London,Some other street,,,\n"\
                                 "/courts/capita-family-court,Capita Family Court,,,,,,,,,\n"\

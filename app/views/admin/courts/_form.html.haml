@@ -33,7 +33,7 @@
       %li
         %a{:href => "#opening-times"} Opening times
       %li
-        %a{:href => "#phone"} Phone
+        %a{:href => "#contact-numbers"} Contact Numbers
       %li
         %a{:href => "#email-contacts"} Email
       %li
@@ -90,10 +90,10 @@
             = f.simple_fields_for :opening_times do |builder|
               = render 'opening_time_fields', f: builder
           = link_to_add_fields "Add opening time", f, :opening_times, 'initNewFieldBlock'
-      #phone
+      #contact-numbers
         #group-contacts
           %a.field-group{:href => "#", "data-alt" => "edit contacts"} reorder phone numbers
-          %h2 Phone
+          %h2 Contact Numbers
           %p
             List phone number for enquiries first. No duplicate phone numbers. Please adhere to the GOV.UK content design principles when
             = succeed '.' do
@@ -101,7 +101,7 @@
           %ul.sortable
             = f.simple_fields_for :contacts do |builder|
               = render 'contact_fields', f: builder
-          = link_to_add_fields "Add phone", f, :contacts, 'initNewFieldBlock'
+          = link_to_add_fields "Add contact information", f, :contacts, 'initNewFieldBlock'
       #email-contacts
         .group-emails
           %a.field-group{:href => "#", "data-alt" => "edit emails"} reorder emails

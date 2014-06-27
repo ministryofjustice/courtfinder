@@ -55,7 +55,7 @@
 -# === Phone numbers ===
 - if @court.contacts.present?
 
-  %h2 Phone
+  %h2 Contact Numbers
   - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
     %p{:property => "telephone"}
       = succeed ": " do
