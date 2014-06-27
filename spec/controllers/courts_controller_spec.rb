@@ -351,6 +351,8 @@ describe CourtsController do
       end
 
       it "csv api returns correct information" do
+        CourtSearch.any_instance.stub(:latlng_from_postcode).and_return([51.37831481703049, -0.10178493338165995])
+
         get :index, format: :csv
         response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
                                 "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
