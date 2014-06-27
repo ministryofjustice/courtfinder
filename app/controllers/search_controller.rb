@@ -14,6 +14,10 @@ class SearchController < ApplicationController
       @chosen_area_of_law = money_claims_aol
       @money_claims_court = true
 
+      respond_to do |format|
+        format.html
+        format.json { render json: @results }
+      end
       return
     end
 
@@ -28,13 +32,20 @@ class SearchController < ApplicationController
         @found_in_area_of_law = search_results.fetch(:found_in_area_of_law)
         @errors = @search.court_search.errors
         @chosen_area_of_law = AreaOfLaw.find_by_name(@search.area_of_law)
+       respond_to do |format|
+          format.html
+          format.json { render json: @results }
+        end
       rescue RestClient::RequestTimeout
         @results = []
         @found_in_area_of_law = 0
         @timeout = true
       end
     else
-      render template: '/home/index'
+     respond_to do |format|
+        format.html { render template: '/home/index' }
+        format.json { render json: @results }
+      end
     end
   end
 
