@@ -47,11 +47,11 @@ form.find-location-for-service select#area_of_law {width:285px;}
 form.find-location-for-service #filters {margin-top:1em;}
 
 .inner div.addresses {
-  min-height:275px; 
-  padding-left:30px; 
+  min-height:275px;
+  padding-left:30px;
   background:$grey;
   width: auto;
-  
+
   @include media(mobile) {
     width: auto;
   }
@@ -75,20 +75,20 @@ form.find-location-for-service #filters {margin-top:1em;}
   }
 }
 
-#related-links{
+#areas-of-law{
   float:right;
   border-top: 10px solid #0b0c0c;
   margin-top: 1.5em;
   width: 300px;
 }
 
-#related-links h2{
+#areas-of-law h2{
   margin:18px 0px 0px 0px;
 }
 
 .court-location-wrapper {
   .map_container {
-    display: none; 
+    display: none;
   }
 
   .map_container, .static-map img {
@@ -114,7 +114,7 @@ form.find-location-for-service #filters {margin-top:1em;}
 @media print {
   .court-location-wrapper .static-map {
     &, & img {
-      display: block!important;      
+      display: block!important;
     }
   }
 }
@@ -124,10 +124,10 @@ form#directions input#from {margin:0 0 1em 0;}
 .facilities {
 
   dt {
-    float:left; 
-    clear:left; 
-    width:50px; 
-    height:50px; 
+    float:left;
+    clear:left;
+    width:50px;
+    height:50px;
     margin:0 0 10px;
   }
 
@@ -148,7 +148,7 @@ i.icon {
     $bottom-row: -70px;
 
     position:absolute; top:$top-row; left:-10px; max-width:inherit !important;
-    
+
     // Top row
     // &.loop_hearing -< default
     &.video_conf { top:$top-row; @include column(2); }
@@ -159,7 +159,7 @@ i.icon {
     &.hotspot { top:$top-row; @include column(7); }
     &.children { top:$top-row; @include column(8); }
     &.no-parking { top:$top-row; @include column(9); }
-    
+
     &.disabled { top:$bottom-row; }
     &.guide_dogs { top:$bottom-row; @include column(2); }
     &.phone { top:$bottom-row; @include column(3); }
@@ -181,7 +181,7 @@ i.icon {
     $block-offset: 5px;
 
     width:500px; height:175px; top:$top-row; left:-5px;
-    
+
     &.video_conf { top:$top-row; @include column(2, $block-size, $block-offset); }
     &.interview { top:$top-row; @include column(3, $block-size, $block-offset); }
     // &.eye { top:$top-row; @include column(4, $block-size, $block-offset); }
@@ -190,7 +190,7 @@ i.icon {
     &.hotspot { top:$top-row; @include column(7, $block-size, $block-offset); }
     &.children { top:$top-row; @include column(8, $block-size, $block-offset); }
     &.no-parking { top:$top-row; @include column(9, $block-size, $block-offset); }
-    
+
     &.disabled { top:$bottom-row; }
     &.guide_dogs { top:$bottom-row; left:-60px; }
     &.phone { top:$bottom-row; @include column(3, $block-size, $block-offset); }
