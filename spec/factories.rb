@@ -8,7 +8,7 @@ FactoryGirl.define do
     longitude 0
 
   end
-  
+
   factory :postcode_court do
     postcode Faker::Address.postcode
     sequence(:court_number)
@@ -25,6 +25,7 @@ FactoryGirl.define do
   end
 
   factory :address_type do
+    name 'Visiting'
   end
 
   factory :area_of_law do
@@ -53,5 +54,18 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password 'password123'
     password_confirmation 'password123'
+  end
+
+  factory :court_facility do
+    description 'Disabled access and toilet facilities'
+  end
+
+  factory :facility do
+    name 'Disabled access'
+    image_description 'Wheelchair'
+  end
+
+  factory :external_link do
+    always_visible true
   end
 end
