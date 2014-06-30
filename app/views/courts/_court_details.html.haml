@@ -35,8 +35,8 @@
     %h2 Areas of law covered
 
     - AreaOfLaw.all.each do |area|
-      - highlight = "*" if @court.areas_of_law.include?(area)
-      %p= "#{highlight} #{area.name}"
+      - highlight_class = "highlight" if @court.areas_of_law.include?(area)
+      %p{:class => highlight_class}= "#{area.name}"
 
 -# === Opening times ===
 - if @court.opening_times.present?

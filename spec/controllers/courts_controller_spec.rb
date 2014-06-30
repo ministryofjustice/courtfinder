@@ -100,7 +100,6 @@ describe CourtsController do
       expect(response.body).to match /0800 800 8081/m
       expect(response.body).to match /a> or <a href/m
       expect(response.body).to match /0800 800 8080/m
-
     end
 
     context "API" do
