@@ -15,9 +15,6 @@
         %h3= postal.present? ? 'Visit us:' : 'Visit or write to us:'
         = format_address visiting
 
-      - if @court.locatable? && !print_view
-        %a.hidden-print(href="#location") Map and directions
-
     - if postal.present?
       .postal
         %h3 Write to us:
