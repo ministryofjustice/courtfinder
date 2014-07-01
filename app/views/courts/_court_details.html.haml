@@ -53,7 +53,7 @@
       = format_email_address email.address
 
 -# === Phone numbers ===
-- if @court.contacts.present?
+- if @court.contacts.present? && @court.contacts.with_telephones.present?
 
   %h2 Contact Numbers
   - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
@@ -116,6 +116,12 @@
   %div{:property => "description"}= @court.info.html_safe
 
 -# === For Legal Professionals ===
-- if true
+- if @court.contacts.present? && @court.contacts.with_dx_numbers.present?
   %h2 For legal professionals
   %div#for-legal-professionals
+    - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
+      %p{:property => "telephone"}
+        = succeed ": " do
+          = enforce_label type
+        = contacts_as_group contacts
+
