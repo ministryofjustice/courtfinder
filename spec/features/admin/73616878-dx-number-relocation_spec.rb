@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 feature 'DX number' do
+  let!(:contact_type) { create(:contact_type, name: 'DX') }
 
   context 'admin' do
-    let!(:user) { create(:user) }
     let!(:court) { create(:court, name: 'the-court') }
-    let!(:contact_type) { create(:contact_type, name: 'DX') }
+    let!(:user) { create(:user) }
 
     before do
       visit '/admin'
@@ -33,4 +33,21 @@ feature 'DX number' do
 
   end
 
+  context 'legal professional user' do
+    let!(:court) do
+      contact_type_dx_id = ContactType.find_by_name('DX').id
+      create(:court,
+             name: 'the-court',
+             contacts: [FactoryGirl.create(:contact, telephone: '2343', contact_type_id: contact_type_dx_id)])
+    end
+
+    scenario 'see the DX number in the \'For legal professionals section\'' do
+      visit '/courts/the-court'
+      save_and_open_page
+      page.should have_content('For legal professionals')
+      within(:css, "div#for-legal-professionals") do
+        page.should have_content('DX: 2343')
+      end
+    end
+  end
 end
