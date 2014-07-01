@@ -39,10 +39,10 @@ feature 'Remove irrelevant information in court information page' do
     expect(page).not_to have_content("Disabled access and toilet facilities")
   end
 
-  it 'should have building facilities and areas of law' do
+  it 'should have disabled access and areas of law' do
     visit "/courts/liverpool-civil-and-family-court"
 
-    expect(page).to have_content("Building facilities")
+    expect(page).to have_content("Disabled access")
     expect(page).to have_content("Areas of law covered")
   end
 
