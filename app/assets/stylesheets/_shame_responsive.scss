@@ -34,6 +34,11 @@
   }
 }
 
+@mixin flush-sides {
+  margin-left: -15px;
+  padding: 0 15px;
+}
+
 /*
   Implementing the new indicator style based on the GOV.UK Elements page.
   Rather hacky for now.
@@ -123,6 +128,11 @@ footer .footer-wrapper {
 
 // Cleanup for the results page
 .search-results {
+
+  & > li {
+    margin: 15px 0;
+  }
+
   .areas-of-law {
     margin-right: 0;
     padding-top: 0;
@@ -166,5 +176,34 @@ footer .footer-wrapper {
   }
 }
 
-// 
+// Courts
+#courts-show {
+  .court-addresses, .court-information, .court-photo, .court-areas-of-law {
+    @include tablet {
+      width: 100%;
+      margin: 15px 0;
+    }
+  }
+
+  .court-addresses {
+    @include tablet {
+      @include flush-sides;
+    }
+  }
+
+  .court-addresses .addresses > div {
+    @include mobile {
+      width: 100%;
+      padding: 5px 0;
+    }
+  }
+
+  .court-areas-of-law {
+    @include tablet {
+      width: 100%;
+      max-width: none;
+      @include flush-sides; 
+    }
+  }
+} 
 

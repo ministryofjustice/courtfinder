@@ -6,11 +6,21 @@ $grid-width: 310px;
     float: left;
   }
 
+  .court-addresses, .court-information {
+    width: $grid-width * 2;
+    margin-right: $gutter-width / 2;
+    margin-bottom: 30px;
+  }
+
+  .court-photo, .court-areas-of-law {
+    max-width: $grid-width;
+    margin-left: $gutter-width / 2;
+
+  }
+
   .court-addresses {
     background: #e6e6e6;
-    width: $grid-width * 2;
     min-height: 275px;
-    margin-right: $gutter-width / 2;
 
     .addresses > div {
       box-sizing: border-box;
@@ -21,8 +31,6 @@ $grid-width: 310px;
   }
 
   .court-photo {
-    max-width: $grid-width;
-    margin-left: $gutter-width / 2;
     overflow: hidden;
 
     // Currently the photos are bigger than the container boxes.
@@ -34,21 +42,20 @@ $grid-width: 310px;
   }
 
   .court-information {
-    width: $grid-width * 2;
-    margin-right: $gutter-width / 2;
+    .court-opening-hours {
+      margin-top: 0;
+    }
   }
 
   .court-areas-of-law {
-    width: $grid-width;
-    margin-left: $gutter-width / 2;
+    border-top: 10px solid #005ea5;
 
     p {
       margin: 0.2em 0;
-
-      &.disabled {
-        color: #e2e2e2;
-        text-decoration: line-through;
-      }
     }
+  }
+
+  .meta-data {
+    margin: 4em 0 0 0;
   }
 }

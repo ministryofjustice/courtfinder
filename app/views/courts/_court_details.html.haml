@@ -31,7 +31,7 @@
   -# === Opening times ===
   - if @court.opening_times.present?
 
-    %h2 Opening hours
+    %h2.court-opening-hours Opening hours
 
     - @court.opening_times.each do |time|
       %p
@@ -80,5 +80,5 @@
     %h2 Areas of law covered
 
     - AreaOfLaw.all.each do |area|
-      - highlight_class = "disabled" unless @court.areas_of_law.include?(area)
-      %p{:class => highlight_class}= "#{area.name}"
+      - if @court.areas_of_law.include?(area)
+        %p #{area.name}
