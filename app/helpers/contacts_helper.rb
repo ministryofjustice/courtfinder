@@ -13,25 +13,28 @@ module ContactsHelper
     (print_view && contact.in_leaflet) || !print_view
   end
 
-  def contacts_for_view(contacts)
+  def contacts_for_view(contacts, filter = 'only_telephones')
     contacts.reject { |contact| !contact_visible_in_view(contact) }
+    if filter == 'only_telephones'
+      contacts.reject { |contact| contact.contact_type.try(:name) == 'DX' }
+    elsif filter == 'only_dx_numbers'
+      contacts.reject { |contact| contact.contact_type.try(:name) != 'DX' }
+    end
   end
 
-  def contacts_as_group(contacts, glue=' or ')
-    contact_list = []
+  def contacts_as_group_for_telephones(contacts, glue=' or ')
+    contacts.inject([]) do |contact_list, contact|
+      contact_list <<  make_telephone_number_clickable(contact.telephone) if is_telephone_number_valid?(contact)
+      contact_list
+    end.join(glue).html_safe
+  end
 
-    contacts.each do |contact|
 
-      contact_number = if is_telephone_number_valid?(contact)
-        make_telephone_number_clickable(contact.telephone)
-      else
-        contact.telephone
-      end
-
-      contact_list << contact_number
-    end
-
-    contact_list.join(glue).html_safe
+  def contacts_as_group_for_dx_numbers(contacts, glue=' or ')
+      contacts.inject([]) do |contact_list, contact|
+      contact_list <<  make_telephone_number_clickable(contact.telephone) unless is_telephone_number_valid?(contact)
+      contact_list
+    end.join(glue).html_safe
   end
 
   def make_telephone_number_clickable(telephone)

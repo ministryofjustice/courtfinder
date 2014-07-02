@@ -60,7 +60,7 @@
     %p{:property => "telephone"}
       = succeed ": " do
         = enforce_label type
-      = contacts_as_group contacts
+      = contacts_as_group_for_telephones contacts
 
 -# === Map ===
 - if @court.locatable?
@@ -119,9 +119,9 @@
 - if @court.contacts.present? && @court.contacts.with_dx_numbers.present?
   %h2 For legal professionals
   %div#for-legal-professionals
-    - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
+    - contacts_for_view(@court.contacts, "only_dx_numbers").group_by(&:contact_type_id).each do |type, contacts|
       %p{:property => "telephone"}
         = succeed ": " do
           = enforce_label type
-        = contacts_as_group contacts
+        = contacts_as_group_for_dx_numbers contacts
 
