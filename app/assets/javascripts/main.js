@@ -48,7 +48,9 @@
     }
   };
 
-  setTimeout( showSurvey, 14000 );
+  if( document.body.id == "home-index" || document.body.id == "search-index" ){
+    setTimeout( showSurvey, 2000 );    
+  }
 
   $('#user-satisfaction-survey .close-on-click').click(function (event){
     $('#user-satisfaction-survey').addClass('not-shown');    
