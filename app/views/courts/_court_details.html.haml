@@ -51,14 +51,14 @@
         = format_email_address email.address
 
   -# === Phone numbers ===
-  - if @court.contacts.present?
+  - if @court.contacts.present? && @court.contacts.with_telephones.present?
 
     %h2 Contact Numbers
     - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
       %p{:property => "telephone"}
         = succeed ": " do
           = enforce_label type
-        = contacts_as_group contacts
+        = contacts_as_group_for_telephones contacts
 
   -# === Facilities ===
   - if @court.court_facilities.present?
@@ -72,6 +72,13 @@
   - if @court.court_number.present? && @court.court_number != 0
     %p
       #{display_court_numbers(@court, true)}
+  - if @court.contacts.present? && @court.contacts.with_dx_numbers.present?
+    %div.for-legal-professionals
+      - contacts_for_view(@court.contacts, "only_dx_numbers").group_by(&:contact_type_id).each do |type, contacts|
+        %p{:property => "telephone"}
+          = succeed ": " do
+            = enforce_label type
+          = contacts_as_group_for_dx_numbers contacts
 
 
 -# === Areas of law ===
@@ -79,6 +86,5 @@
   - if @court.areas_of_law.present?
     %h2 Areas of law covered
 
-    - AreaOfLaw.all.each do |area|
-      - if @court.areas_of_law.include?(area)
-        %p #{area.name}
+    - @court.areas_of_law.each do |area|
+      %p #{area.name}

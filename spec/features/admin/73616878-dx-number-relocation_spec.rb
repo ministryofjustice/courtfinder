@@ -1,11 +1,14 @@
 require 'spec_helper'
 
 feature 'DX number' do
+  let!(:contact_types) do
+    create(:contact_type, name: 'DX')
+    create(:contact_type, name: 'telephone')
+  end
 
   context 'admin' do
-    let!(:user) { create(:user) }
     let!(:court) { create(:court, name: 'the-court') }
-    let!(:contact_type) { create(:contact_type, name: 'DX') }
+    let!(:user) { create(:user) }
 
     before do
       visit '/admin'
@@ -15,7 +18,7 @@ feature 'DX number' do
     scenario 'edit a court and verify the change', js: true do
 
       visit '/admin/courts/the-court/edit'
-      page.should have_content('Editing court')
+      expect(page).to have_content('Editing court')
       click_link 'Contact Numbers'
       click_link 'Add contact information'
 
@@ -25,7 +28,7 @@ feature 'DX number' do
       end
 
       click_button 'Update'
-      page.should have_content('Court was successfully updated')
+      expect(page).to have_content('Court was successfully updated')
 
       visit '/courts/the-court'
       page.should have_content('DX 160040 Strand 4')
@@ -33,4 +36,21 @@ feature 'DX number' do
 
   end
 
+  context 'legal professional user' do
+    let!(:court) do
+      create(:court, name: 'the-court') do |court|
+        court.contacts << create(:contact, telephone: '2343', contact_type_id: ContactType.find_by_name('DX').id, court_id: 1)
+        court.contacts << create(:contact, telephone: '01 1234 56678', contact_type_id: ContactType.find_by_name('telephone').id, court_id: 1)
+      end
+    end
+
+    scenario 'see the DX number in the \'For legal professionals section\'' do
+      visit '/courts/the-court'
+      page.should have_content('Legal professionals')
+      within(:css, "div.for-legal-professionals") do
+        expect(page).to have_content('DX: 2343')
+        expect(page).not_to have_content('01 1234 56678')
+      end
+    end
+  end
 end
