@@ -47,11 +47,11 @@ feature 'Remove irrelevant information in court information page' do
   end
 
   context 'areas of law' do
-    it 'should display all areas of law' do
+    it 'should display only relevant areas of law to the court' do
       visit "/courts/liverpool-civil-and-family-court"
 
-      within(:css, "div#areas-of-law") do
-        all_areas_of_law.each { |name| expect(page).to have_content(name) }
+      within(:css, "div.court-areas-of-law") do
+        ['Money claims', 'Housing possession'].each { |name| expect(page).to have_content(name) }
       end
     end
   end
