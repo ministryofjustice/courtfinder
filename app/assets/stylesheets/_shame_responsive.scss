@@ -57,6 +57,9 @@
     
     @include tablet {
       margin: 0;
+      line-height: 1.8em;
+      padding-top: 0;
+      padding-bottom: 0;
     }
 
     strong {
@@ -179,14 +182,14 @@ footer .footer-wrapper {
 // Courts
 #courts-show {
   .court-addresses, .court-information, .court-photo, .court-areas-of-law {
-    @include tablet {
+    @media (max-width: 932px) {
       width: 100%;
       margin: 15px 0;
     }
   }
 
   .court-addresses {
-    @include tablet {
+    @media (max-width: 932px) {
       @include flush-sides;
     }
   }
@@ -199,11 +202,20 @@ footer .footer-wrapper {
   }
 
   .court-areas-of-law {
-    @include tablet {
+    @media (max-width: 932px) {
       width: 100%;
       max-width: none;
       @include flush-sides; 
     }
   }
+
+  .court-information {
+    p {
+      @include tablet {
+        margin: 0.5em 0;
+      }
+    }
+  }
+
 } 
 

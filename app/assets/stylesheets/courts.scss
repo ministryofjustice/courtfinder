@@ -26,7 +26,7 @@ $grid-width: 310px;
       box-sizing: border-box;
       width: 50%;
       float: left;
-      padding: 15px;
+      padding: 15px 30px;
     }
   }
 
@@ -45,10 +45,23 @@ $grid-width: 310px;
     .court-opening-hours {
       margin-top: 0;
     }
+
+    > h2 {
+      margin-top: 1.7em;
+    }
+
+    p {
+      margin: 0.15em 0;
+    }
   }
 
   .court-areas-of-law {
+    width: $grid-width;
     border-top: 10px solid #005ea5;
+
+    > h2 {
+      margin-top: 15px;
+    }
 
     p {
       margin: 0.2em 0;
