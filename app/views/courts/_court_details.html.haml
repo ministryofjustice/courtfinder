@@ -1,75 +1,84 @@
-- if @court.court_number.present? && @court.court_number != 0
-  %p
-    #{display_court_numbers(@court, true)}
--# === Photo ===
-- if @court.image_file_url.present?
-  = image_tag(@court.image_file_url.to_s, :id => 'court-photo', :property => 'image') if @court.image_file
 
 -# === Addresses ===
-- if @court.addresses.present?
-  - visiting = @court.addresses.visiting.first
-  - postal = @court.addresses.postal.first
-  .addresses
-    .visit
-      - if visiting.present?
-        %h3= postal.present? ? 'Visit us:' : 'Visit or write to us:'
-        = format_address visiting
+%div.court-addresses
+  - if @court.addresses.present?
+    - visiting = @court.addresses.visiting.first
+    - postal = @court.addresses.postal.first
+    .addresses
+      .visit
+        - if visiting.present?
+          %h3= postal.present? ? 'Visit us:' : 'Visit or write to us:'
+          = format_address visiting
 
-    - if postal.present?
-      .postal
-        %h3 Write to us:
-        = format_address postal
+      - if postal.present?
+        .postal
+          %h3 Write to us:
+          = format_address postal
 
-- unless print_view
-  -# === Alert ===
-  - if @court.alert.present?
-    %p.help-notice= @court.alert
+-# === Photo ===
+%div.court-photo
+  - if @court.image_file_url.present?
+    = image_tag(@court.image_file_url.to_s, :id => 'court-photo', :property => 'image') if @court.image_file
+
+
+-# === Main Content ===
+%div.court-information
+  - unless print_view
+    -# === Alert ===
+    - if @court.alert.present?
+      %p.help-notice= @court.alert
+
+  -# === Opening times ===
+  - if @court.opening_times.present?
+
+    %h2 Opening hours
+
+    - @court.opening_times.each do |time|
+      %p
+        = precede time.opening_type.name do
+          \: #{time.name}
+
+  -# === Emails ===
+  - if @court.emails.present?
+
+    %h2 Email
+
+    - @court.emails.each do |email|
+      %p{:property => "contactPoint", :typeof => "ContactPoint"}
+        - if email.contact_type and email.contact_type.name.present?
+          %span{:property => "contactType"}
+            = "#{email.contact_type.name}:"
+        = format_email_address email.address
+
+  -# === Phone numbers ===
+  - if @court.contacts.present?
+
+    %h2 Contact Numbers
+    - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
+      %p{:property => "telephone"}
+        = succeed ": " do
+          = enforce_label type
+        = contacts_as_group contacts
+
+  -# === Facilities ===
+  - if @court.court_facilities.present?
+    %h2.facilities-header Disabled access
+
+    %p
+      Contact us if you need help coming to a hearing or have any questions about disabled facilities.
+
+  -# === Legal Professionals ===
+  %h2 Legal professionals
+  - if @court.court_number.present? && @court.court_number != 0
+    %p
+      #{display_court_numbers(@court, true)}
+
 
 -# === Areas of law ===
-%div{ :id => "areas-of-law" }
+%div.court-areas-of-law
   - if @court.areas_of_law.present?
-
     %h2 Areas of law covered
 
     - AreaOfLaw.all.each do |area|
-      - highlight_class = "highlight" if @court.areas_of_law.include?(area)
+      - highlight_class = "disabled" unless @court.areas_of_law.include?(area)
       %p{:class => highlight_class}= "#{area.name}"
-
--# === Opening times ===
-- if @court.opening_times.present?
-
-  %h2 Opening hours
-
-  - @court.opening_times.each do |time|
-    %p
-      = precede time.opening_type.name do
-        \: #{time.name}
-
--# === Emails ===
-- if @court.emails.present?
-
-  %h2 Email
-
-  - @court.emails.each do |email|
-    %p{:property => "contactPoint", :typeof => "ContactPoint"}
-      - if email.contact_type and email.contact_type.name.present?
-        %span{:property => "contactType"}
-          = "#{email.contact_type.name}:"
-      = format_email_address email.address
-
--# === Phone numbers ===
-- if @court.contacts.present?
-
-  %h2 Contact Numbers
-  - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
-    %p{:property => "telephone"}
-      = succeed ": " do
-        = enforce_label type
-      = contacts_as_group contacts
-
--# === Facilities ===
-- if @court.court_facilities.present?
-  %h2.facilities-header Disabled access
-
-  %p
-    Contact us if you need help coming to a hearing or have any questions about disabled facilities.
