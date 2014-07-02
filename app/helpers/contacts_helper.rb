@@ -32,7 +32,7 @@ module ContactsHelper
 
   def contacts_as_group_for_dx_numbers(contacts, glue=' or ')
       contacts.inject([]) do |contact_list, contact|
-      contact_list <<  make_telephone_number_clickable(contact.telephone) unless is_telephone_number_valid?(contact)
+      contact_list <<  contact.telephone unless is_telephone_number_valid?(contact)
       contact_list
     end.join(glue).html_safe
   end
@@ -44,5 +44,12 @@ module ContactsHelper
 
   def is_telephone_number_valid?(contact)
     contact.contact_type.try(:name) != 'DX'
+  end
+
+  def show_legal_professional_section?
+    @court.court_number.present? &&
+    @court.court_number != 0 &&
+    @court.contacts.present? &&
+    @court.contacts.with_dx_numbers.present?
   end
 end

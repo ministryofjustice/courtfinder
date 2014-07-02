@@ -53,7 +53,7 @@
   -# === Phone numbers ===
   - if @court.contacts.present? && @court.contacts.with_telephones.present?
 
-    %h2 Contact Numbers
+    %h2 Phone Numbers
     - contacts_for_view(@court.contacts).group_by(&:contact_type_id).each do |type, contacts|
       %p{:property => "telephone"}
         = succeed ": " do
@@ -68,17 +68,18 @@
       Contact us if you need help coming to a hearing or have any questions about disabled facilities.
 
   -# === Legal Professionals ===
-  %h2 Legal professionals
-  - if @court.court_number.present? && @court.court_number != 0
-    %p
-      #{display_court_numbers(@court, true)}
-  - if @court.contacts.present? && @court.contacts.with_dx_numbers.present?
-    %div.for-legal-professionals
-      - contacts_for_view(@court.contacts, "only_dx_numbers").group_by(&:contact_type_id).each do |type, contacts|
-        %p{:property => "telephone"}
-          = succeed ": " do
-            = enforce_label type
-          = contacts_as_group_for_dx_numbers contacts
+  - if show_legal_professional_section?
+    %h2 Legal professionals
+    - if @court.court_number.present? && @court.court_number != 0
+      %p
+        #{display_court_numbers(@court, true)}
+    - if @court.contacts.present? && @court.contacts.with_dx_numbers.present?
+      %div.for-legal-professionals
+        - contacts_for_view(@court.contacts, "only_dx_numbers").group_by(&:contact_type_id).each do |type, contacts|
+          %p{:property => "telephone"}
+            = succeed ": " do
+              = enforce_label type
+            = contacts_as_group_for_dx_numbers contacts
 
 
 -# === Areas of law ===
