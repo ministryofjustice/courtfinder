@@ -1,214 +1,74 @@
-$grey:#eaedef;
+$gutter-width: 30px;
+$grid-width: 310px;
 
-.courts {
+#courts-show {
+  .court-addresses, .court-photo, .court-information, .court-areas-of-law {
+    float: left;
+  }
 
-  article .inner {
-    h2 {
-      clear:left;
-      margin-bottom:0;
+  .court-addresses, .court-information {
+    width: $grid-width * 2;
+    margin-right: $gutter-width / 2;
+    margin-bottom: 30px;
+  }
+
+  .court-photo, .court-areas-of-law {
+    max-width: $grid-width;
+    margin-left: $gutter-width / 2;
+
+  }
+
+  .court-addresses {
+    background: #e6e6e6;
+    min-height: 275px;
+
+    .addresses > div {
+      box-sizing: border-box;
+      width: 50%;
+      float: left;
+      padding: 15px 30px;
+    }
+  }
+
+  .court-photo {
+    overflow: hidden;
+
+    // Currently the photos are bigger than the container boxes.
+    // Photos: 350px wide, container box: 310px;
+    // That's why we're centring the image by nudging it 20px to the left;
+    & > img {
+      margin-left: -20px;
+    }
+  }
+
+  .court-information {
+    .court-opening-hours {
+      margin-top: 0;
+    }
+
+    > h2 {
+      margin-top: 1.7em;
     }
 
     p {
-      margin:0;
-    }
-
-    .well {
-      margin-bottom:1em; padding:.5em .75em; background:$grey;
-    }
-
-    .help-notice {
-      float:right; margin:1em 0; padding:.25em 50px .25em .5em; max-width:50%; background-position:98%;
+      margin: 0.15em 0;
     }
   }
 
-  .leaflet-code {
-    float:right;
-  }
+  .court-areas-of-law {
+    width: $grid-width;
+    border-top: 10px solid #005ea5;
 
-  article{
-    table.allcourts {
-      margin: 2em auto;
-      width: auto;
-      th, td {
-        font-size: 12px;
-        &.c {
-          text-align: center;
-        }
-      }
+    > h2 {
+      margin-top: 15px;
+    }
+
+    p {
+      margin: 0.2em 0;
     }
   }
 
-}
-
-#local-locator-form input#search-main {margin-left: 0;}
-
-form.find-location-for-service {background:$grey url(https://assets.digital.cabinet-office.gov.uk/static/locator-icon.png) no-repeat 1em 2.7em;}
-form.find-location-for-service select#area_of_law {width:285px;}
-form.find-location-for-service #filters {margin-top:1em;}
-
-.inner div.addresses {
-  min-height:275px; 
-  padding-left:30px; 
-  background:$grey;
-  width: auto;
-  
-  @include media(mobile) {
-    width: auto;
-  }
-
-  .postal,
-  .visit {
-    width:30%; float:left;
-
-    @include media(mobile) {
-      width: auto; float: none;
-    }
-  }
-}
-
-#court-photo {
-  float:right;
-
-  @include media(mobile) {
-    float: none;
-    margin-right: 0;
-  }
-}
-
-#related-links{
-  float:right;
-  border-top: 10px solid #0b0c0c;
-  margin-top: 1.5em;
-  width: 300px;
-}
-
-#related-links h2{
-  margin:18px 0px 0px 0px;
-}
-
-.court-location-wrapper {
-  .map_container {
-    display: none; 
-  }
-
-  .map_container, .static-map img {
-    margin-top: 15px;
-  }
-
-  .static-map img {
-    padding: 6px;
-    border: 1px solid #ccc;
-  }
-
-  body.js-enabled & {
-    .map_container {
-      display: block;
-    }
-
-    .static-map {
-      display: none;
-    }
-  }
-}
-
-@media print {
-  .court-location-wrapper .static-map {
-    &, & img {
-      display: block!important;      
-    }
-  }
-}
-
-form#directions input#from {margin:0 0 1em 0;}
-
-.facilities {
-
-  dt {
-    float:left; 
-    clear:left; 
-    width:50px; 
-    height:50px; 
-    margin:0 0 10px;
-  }
-
-  dd {
-    min-height:50px; margin:0; padding:10px 0 0 60px;
-  }
-}
-
-@mixin column($pos:1, $block:60px, $offset:10px) {
-  left: -($offset + (($pos - 1) * $block));
-}
-
-i.icon {
-  display:block; width:50px; height:50px; overflow:hidden; position:relative;
-
-  img {
-    $top-row: -10px;
-    $bottom-row: -70px;
-
-    position:absolute; top:$top-row; left:-10px; max-width:inherit !important;
-    
-    // Top row
-    // &.loop_hearing -< default
-    &.video_conf { top:$top-row; @include column(2); }
-    &.interview { top:$top-row; @include column(3); }
-    // &.eye { top:$top-row; @include column(4); }
-    &.firstaid { top:$top-row; @include column(5); }
-    &.waiting { top:$top-row; @include column(6); }
-    &.hotspot { top:$top-row; @include column(7); }
-    &.children { top:$top-row; @include column(8); }
-    &.no-parking { top:$top-row; @include column(9); }
-    
-    &.disabled { top:$bottom-row; }
-    &.guide_dogs { top:$bottom-row; @include column(2); }
-    &.phone { top:$bottom-row; @include column(3); }
-    &.disabledwc { top:$bottom-row; @include column(4); }
-    &.public_toilets { top:$bottom-row; @include column(5); }
-    &.baby { top:$bottom-row; @include column(6); }
-    &.prayer { top:$bottom-row; @include column(7); }
-    &.hot_vending { top:$bottom-row; @include column(8); }
-    &.parking { top:$bottom-row; @include column(9); }
-  }
-}
-
-// Double icon size for Retina and print
-@media print, (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  i.icon img {
-    $top-row: -65px;
-    $bottom-row: -120px;
-    $block-size: 55px;
-    $block-offset: 5px;
-
-    width:500px; height:175px; top:$top-row; left:-5px;
-    
-    &.video_conf { top:$top-row; @include column(2, $block-size, $block-offset); }
-    &.interview { top:$top-row; @include column(3, $block-size, $block-offset); }
-    // &.eye { top:$top-row; @include column(4, $block-size, $block-offset); }
-    &.firstaid { top:$top-row; @include column(5, $block-size, $block-offset); }
-    &.waiting { top:$top-row; @include column(6, $block-size, $block-offset); }
-    &.hotspot { top:$top-row; @include column(7, $block-size, $block-offset); }
-    &.children { top:$top-row; @include column(8, $block-size, $block-offset); }
-    &.no-parking { top:$top-row; @include column(9, $block-size, $block-offset); }
-    
-    &.disabled { top:$bottom-row; }
-    &.guide_dogs { top:$bottom-row; left:-60px; }
-    &.phone { top:$bottom-row; @include column(3, $block-size, $block-offset); }
-    &.disabledwc { top:$bottom-row; @include column(4, $block-size, $block-offset); }
-    &.public_toilets { top:$bottom-row; @include column(5, $block-size, $block-offset); }
-    &.baby { top:$bottom-row; @include column(6, $block-size, $block-offset); }
-    &.prayer { top:$bottom-row; @include column(7, $block-size, $block-offset); }
-    &.hot_vending { top:$bottom-row; @include column(8, $block-size, $block-offset); }
-    &.parking { top:$bottom-row; @include column(9, $block-size, $block-offset); }
-  }
-}
-
-@include media(mobile) {
-  input[name=saddr] { display: block; }
-  #directions [type=submit] { margin: 5px 0; }
-  .map_container { width: auto; }
-  .gmaps4rails_map {
-    width: auto;
-    height: 300px;
+  .meta-data {
+    margin: 4em 0 0 0;
   }
 }

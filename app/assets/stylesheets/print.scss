@@ -41,16 +41,25 @@ section#content {
   }
 }
 
-.courts {
-  article[role="article"] {
-    width:auto; margin:0;
+#courts-show {
+  div.inner > div {
+    float: none;
+    display: block;
+    width: 100%;
+  }
 
-    .inner {
-      padding:0;
+  .court-addresses {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5mm;
+    height: auto;
+    min-height: inherit;
+    overflow: hidden;
 
-      p {
-        margin:0.75em 0;
-      }
+    .addresses > div {
+      margin: 0;
+      padding: 0;
+      width: 50%;
     }
   }
 }

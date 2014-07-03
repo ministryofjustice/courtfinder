@@ -20,6 +20,9 @@
 @import "feedbacks";
 @import "courts-list";
 
+// Shame
+@import "shame_responsive";
+
 // GOV.UK footer overrides
 
 #footer {
@@ -69,12 +72,6 @@ header.page-header {
   span {
     margin-bottom:.25em;
   }
-}
-
-// Allow for content boxes to align with phase indicator
-section#content {
-  max-width:1020px;
-  width:1020px;
 }
 
 article{
