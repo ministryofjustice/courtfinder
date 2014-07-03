@@ -26,13 +26,19 @@ class CourtSearch
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
-        @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
-        if @chosen_area_of_law.present?
-          courts = postcode_area_search(@chosen_area_of_law, latlng)
+
+        if country_name == "Northern Ireland"
+          @errors << "Northern Ireland is not currently supported by this tool"
         else
-          courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
+          @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
+          if @chosen_area_of_law.present?
+            courts = postcode_area_search(@chosen_area_of_law, latlng)
+          else
+            courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
+          end
+
+          @errors << "We couldn't find that post code. Please try again." if courts.blank?
         end
-        @errors << "We couldn't find that post code. Please try again." if courts.blank?
       else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
       end
@@ -63,6 +69,11 @@ class CourtSearch
 
   def extract_council_from_council(postcode_info)
     postcode_info['shortcuts']['council']
+  end
+
+  def country_name
+    county_id = extract_council_from_county(@postcode_info) || extract_council_from_council(@postcode_info)
+    postcode_info['areas'][county_id.to_s]['country_name']
   end
 
   def postcode_search?
