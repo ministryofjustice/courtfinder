@@ -4,6 +4,7 @@ require 'awesome_print' unless Rails.env.production?
 class CourtSearch
 
   attr_accessor :query, :options
+  attr_accessor :postcode_info
 
   def initialize(query, options={})
     @query = query && query.strip
@@ -11,6 +12,7 @@ class CourtSearch
     @errors = []
     @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
     RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
+    @postcode_info = nil
   end
 
   def errors
@@ -43,10 +45,9 @@ class CourtSearch
 
   def lookup_council_name
     begin
-      postcode_info = make_request(@query)
       Rails.logger.debug("postcode info")
-      Rails.logger.debug(postcode_info)
-      county_id = extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
+      Rails.logger.debug(@postcode_info)
+      county_id = extract_council_from_county(@postcode_info) || extract_council_from_council(@postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
@@ -79,7 +80,6 @@ class CourtSearch
       courts = Court.by_area_of_law(@options[:area_of_law]).for_council_and_area_of_law(lookup_council_name, area_of_law)
     end
 
-
     if latlng
       if courts.present?
         # Calling near just so that court.distance works in the view, courts without location (lon, lat) are filtered out.
@@ -95,10 +95,10 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode)
-    results = make_request(postcode)
+    @postcode_info = make_request(postcode)
     Rails.logger.info("Internal lookup: #{postcode}")
 
-    [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
+    [@postcode_info['wgs84_lat'], @postcode_info['wgs84_lon']] unless @postcode_info['error']
   end
 
   def make_request(postcode, client=@restclient)
