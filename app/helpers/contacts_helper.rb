@@ -47,9 +47,7 @@ module ContactsHelper
   end
 
   def show_legal_professional_section?
-    @court.court_number.present? &&
-    @court.court_number != 0 &&
-    @court.contacts.present? &&
-    @court.contacts.with_dx_numbers.present?
+    (@court.court_number.present? && @court.court_number != 0) ||
+    (@court.contacts.present? && @court.contacts.with_dx_numbers.present?)
   end
 end
