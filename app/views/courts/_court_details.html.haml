@@ -5,8 +5,8 @@
     - visiting = @court.addresses.visiting.first
     - postal = @court.addresses.postal.first
     .addresses
-      .visit
-        - if visiting.present?
+      - if visiting.present?
+        .visit
           %h3= postal.present? ? 'Visit us:' : 'Visit or write to us:'
           = format_address visiting
 
