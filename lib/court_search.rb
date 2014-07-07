@@ -71,7 +71,7 @@ class CourtSearch
 
   def query_is_in_Northern_Ireland?
     # BT is the prefix for postcodes in Northern Ireland
-    @query.match(/^BT/) != nil
+    @query.match(/^BT/i) != nil
 end
 
   def postcode_search?
