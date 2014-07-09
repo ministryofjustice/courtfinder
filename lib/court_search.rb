@@ -23,7 +23,7 @@ class CourtSearch
     courts = []
     if @query.blank?
       @errors << 'A search term must be provided'
-    elsif query_is_in_Northern_Ireland?
+    elsif query_is_in_Northern_Ireland? && !area_of_law_is_valid_for_Northern_Ireland?
       @errors << "We are sorry, Northern Ireland is not supported by this tool"
     else
       if postcode_search?
@@ -72,7 +72,11 @@ class CourtSearch
   def query_is_in_Northern_Ireland?
     # BT is the prefix for postcodes in Northern Ireland
     @query.match(/^BT/i) != nil
-end
+  end
+
+  def area_of_law_is_valid_for_Northern_Ireland?
+    @options[:area_of_law] == "" || @options[:area_of_law] == "Immigration"
+  end
 
   def postcode_search?
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
