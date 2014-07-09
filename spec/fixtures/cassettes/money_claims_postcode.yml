@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://mapit.mysociety.org/postcode/SW1H9AJ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Encoding:
+      - gzip
+      Expires:
+      - Tue, 05 Aug 2014 13:59:41 GMT
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - max-age=2419200
+      Access-Control-Allow-Origin:
+      - "*"
+      Last-Modified:
+      - Tue, 08 Jul 2014 13:59:41 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Url:
+      - "/postcode/SW1H9AJ"
+      Content-Length:
+      - '859'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 08 Jul 2014 13:59:41 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAE35u1MC/8VX227iMBD9lSgv25V2qzhxbvtGEaVqg9pdVPGIUuKFSMFG
+        sSOEqv77zjjcAuFWoi0PAV8yPnOYOeN5N+djGdBhFivzl+GSWxqGgUcch1LP
+        ps4PwxwJkSdyIXHd7JowIyciV6NCSZh5Nwe9Nnx7ru+GsDaP8wSGgeuF+t2C
+        j9IMJmzXoh+4Xp4mOMz9tG6J41qW5wWB54XUdQnsmAmpRiJheFx/QB6MsPWI
+        p7JYqpSPEaUdujSAqTiHSQ0itPCjf85glqshrsGYF1kGO8eMszxWqeDDSTqe
+        wAJBfHGWDXk8ZdoIwksRfGlMw082S7gPMT2IQjJD/DXaYjoVXJpLP1W+wGUc
+        qsWMDVf7X5+MlzjPUhhyZVaxZGKOUDYW1m/9XNnBwaD3YiIEDYxc4qVtH/eS
+        HPKyU+RixmK+g/2YowdeudzdzmvpLrFcCJuG3C2Nbbtr4p+Hx1nEsqjvEHOb
+        gAGTappyqVhuWLbV2vG+s+d+JOawNYoX8OwXM3g+F2pWKKMFoI2brgabpZIl
+        3+tpcWp46fBxFvNkm53nqKuBUhs8aogcbaueGxuiJPTDY9ycpKaXJknG/gc3
+        ve4mUbwmE8U7lCiR4IngRktKNn3LFmeESWW/oYGdmyY1LketvnbZtqnfkMNo
+        qhIMBU/VUC+ZlFBaTZQuHISBsHKsUFAeUnWaiWMvfpaNbtQq2YBy0xQbYKou
+        NSzr7klDlctM0XHiODi3RRghxKMHs6cN/kIhKavkmaHzJnJRAOprgubuWUNy
+        aOAGDfGkbX2dhtwD5GvF434jHnXKuhaCy+WjIq5Ny4dxIyfwfUg7z9WRTll0
+        SWDXhcRSFC6ruWirEhKrZHFsffugO8mC6rIfJkYbcEB9uJicEUSgSlXB+Ogq
+        VYlabQ3KtwK/qZKrbX3ddaSBdInKdMGrfl28lLJ5ESfrrqFGaru/K2LrYirS
+        3fhBsbUrvPWV8YjnfNu9p5+SV0N3Mldp7GCVUI1dRbStWob8bXaIqzsYfz+7
+        ILX31eckM+ubfc7Gabn/s6x0Xv9oBLpfbIiVVe+5LzOEYpg44Q4RGJtWhQio
+        wymT2NUtowBgG1s5d5KiSpd3hvCcmWTYXH9ooNByT8r2l/ih67gf/wAoM9w1
+        ug8AAA==
+    http_version: 
+  recorded_at: Tue, 08 Jul 2014 13:59:41 GMT
+recorded_with: VCR 2.8.0

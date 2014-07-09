@@ -44,7 +44,7 @@ feature 'DX number' do
       end
     end
 
-    scenario 'see the DX number in the \'For legal professionals section\'' do
+    scenario 'see the DX number in the \'Legal professionals section\'' do
       visit '/courts/the-court'
       page.should have_content('Legal professionals')
       within(:css, "div.for-legal-professionals") do

@@ -7,6 +7,7 @@ gem 'pg'
 
 gem 'byebug'
 gem 'pry'
+gem 'pry-nav'
 gem 'awesome_print'
 
 group :development, :test do
@@ -25,6 +26,7 @@ group :development, :test do
   gem 'hirb'
   gem 'letter_opener'
   gem 'rubocop', require: false
+  gem 'selenium-webdriver'
 end
 
 group :test do
