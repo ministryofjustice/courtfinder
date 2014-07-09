@@ -24,7 +24,7 @@ Faker::Config.locale = 'en-gb'
 
 
 Capybara.javascript_driver = :poltergeist
-#Capybara.javascript_driver = :selenium
+# Capybara.javascript_driver = :selenium
 Capybara.current_driver = :rack_test
 
 RSpec.configure do |config|
