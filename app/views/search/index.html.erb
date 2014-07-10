@@ -4,7 +4,7 @@
   <% if @search.postcode_search? %>
     <% if @chosen_area_of_law && (@chosen_area_of_law.type_possession? || @chosen_area_of_law.type_bankruptcy?) && @results.length == 1 %>
       <p>This court handles <strong><%= @chosen_area_of_law.name %></strong> for the post code <strong><%= @search.q %></strong>:</p>
-    <% elsif @chosen_area_of_law.type_money_claims? && (@results.length == 1) %>
+    <% elsif @chosen_area_of_law && @chosen_area_of_law.type_money_claims? && (@results.length == 1) %>
       <%= render partial: 'search/money_claims', locals: {money_claims_centre: @money_claims_centre} %>
     <% elsif @chosen_area_of_law && (@chosen_area_of_law.type_children? || @chosen_area_of_law.type_divorce? || @chosen_area_of_law.type_adoption?) && (@found_in_area_of_law > 0) %>
       <p><%= family_court_search_found(@search.court_search, @chosen_area_of_law) %></p>
