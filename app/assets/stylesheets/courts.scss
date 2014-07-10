@@ -72,3 +72,54 @@ $grid-width: 310px;
     margin: 4em 0 0 0;
   }
 }
+
+.facilities {
+
+  dt {
+    float:left;
+    clear:left;
+    width:50px;
+    height:50px;
+    margin:0 0 10px;
+  }
+
+  dd {
+    min-height:50px; margin:0; padding:10px 0 0 60px;
+  }
+}
+
+@mixin column($pos:1, $block:60px, $offset:10px) {
+  left: -($offset + (($pos - 1) * $block));
+}
+
+i.icon {
+  display:block; width:50px; height:50px; overflow:hidden; position:relative;
+
+  img {
+    $top-row: -10px;
+    $bottom-row: -70px;
+
+    position:absolute; top:$top-row; left:-10px; max-width:inherit !important;
+
+    // Top row
+    // &.loop_hearing -< default
+    &.video_conf { top:$top-row; @include column(2); }
+    &.interview { top:$top-row; @include column(3); }
+    // &.eye { top:$top-row; @include column(4); }
+    &.firstaid { top:$top-row; @include column(5); }
+    &.waiting { top:$top-row; @include column(6); }
+    &.hotspot { top:$top-row; @include column(7); }
+    &.children { top:$top-row; @include column(8); }
+    &.no-parking { top:$top-row; @include column(9); }
+
+    &.disabled { top:$bottom-row; }
+    &.guide_dogs { top:$bottom-row; @include column(2); }
+    &.phone { top:$bottom-row; @include column(3); }
+    &.disabledwc { top:$bottom-row; @include column(4); }
+    &.public_toilets { top:$bottom-row; @include column(5); }
+    &.baby { top:$bottom-row; @include column(6); }
+    &.prayer { top:$bottom-row; @include column(7); }
+    &.hot_vending { top:$bottom-row; @include column(8); }
+    &.parking { top:$bottom-row; @include column(9); }
+  }
+}
