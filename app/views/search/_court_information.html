@@ -1,0 +1,22 @@
+<div class="court-name-and-address">
+  <% qs = {} %>
+  <% qs[:from] = @search.q if @search.postcode_search? %>
+  <%= link_to(court.name, court_path(court, qs), class: "court-title") %>
+  <% if @search.postcode_search? && court.respond_to?(:distance) %>
+    <br /><small><%= court.distance.to_f.round(2) %> miles from <%= @search.q %></small>
+  <% end %>
+  <% if court.addresses.count > 0 %>
+    <%= format_address court.addresses.first %>
+  <% end %>
+  <% if @money_claims_court %>
+    <p class="search-related-information">
+      It will be cheaper to <a href="https://www.gov.uk/make-money-claim-online">make a money claim online</a>.
+    </p>
+  <% end %>
+  <% if @possession_court %>
+    <p class="search-related-information">
+      You may be able to <a href="https://www.gov.uk/possession-claim-online-recover-property">start a possession claim online</a>.
+    </p>
+  <% end %>
+  <%= link_to('View details', court_path(court, qs), class: "details-link") %>
+</div>

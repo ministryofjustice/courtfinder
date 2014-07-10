@@ -1,0 +1,13 @@
+%p
+  These courts handle <strong>#{@chosen_area_of_law.name}</strong> for the post code <strong>#{@search.q}</strong>.
+
+%section.money-claims-bulk-information
+  %p
+    All paper claim forms should be sent to:
+
+  %li.court-money-claims-bulk-centre
+    %p
+      = render partial: 'search/court_information', locals: {court: money_claims_centre}
+
+%p
+  Hearings can be held at:

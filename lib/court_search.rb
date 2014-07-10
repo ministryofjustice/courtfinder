@@ -4,6 +4,7 @@ require 'awesome_print' unless Rails.env.production?
 class CourtSearch
 
   attr_accessor :query, :options
+  attr_accessor :postcode_info
 
   def initialize(query, options={})
     @query = query && query.strip
@@ -11,6 +12,7 @@ class CourtSearch
     @errors = []
     @restclient = RestClient::Resource.new(Rails.application.config.postcode_lookup_service_url, timeout: 3, open_timeout: 1)
     RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
+    @postcode_info = nil
   end
 
   def errors
@@ -21,15 +23,19 @@ class CourtSearch
     courts = []
     if @query.blank?
       @errors << 'A search term must be provided'
+    elsif query_is_in_Northern_Ireland? && !area_of_law_is_valid_for_Northern_Ireland?
+      @errors << "We are sorry, Northern Ireland is not supported by this tool"
     else
       if postcode_search?
         latlng = latlng_from_postcode(@query)
+
         @chosen_area_of_law = AreaOfLaw.find_by_name(@options[:area_of_law])
         if @chosen_area_of_law.present?
           courts = postcode_area_search(@chosen_area_of_law, latlng)
         else
           courts = Court.visible.by_area_of_law(@options[:area_of_law]).near(latlng, @options[:distance] || 200).limit(20) if latlng
         end
+
         @errors << "We couldn't find that post code. Please try again." if courts.blank?
       else
         courts = Court.visible.by_area_of_law(@options[:area_of_law]).search(@query)
@@ -43,10 +49,9 @@ class CourtSearch
 
   def lookup_council_name
     begin
-      postcode_info = make_request(@query)
       Rails.logger.debug("postcode info")
-      Rails.logger.debug(postcode_info)
-      county_id = extract_council_from_county(postcode_info) || extract_council_from_council(postcode_info)
+      Rails.logger.debug(@postcode_info)
+      county_id = extract_council_from_county(@postcode_info) || extract_council_from_council(@postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
@@ -64,6 +69,15 @@ class CourtSearch
     postcode_info['shortcuts']['council']
   end
 
+  def query_is_in_Northern_Ireland?
+    # BT is the prefix for postcodes in Northern Ireland
+    @query.match(/^BT/i) != nil
+  end
+
+  def area_of_law_is_valid_for_Northern_Ireland?
+    @options[:area_of_law] == "" || @options[:area_of_law] == "Immigration"
+  end
+
   def postcode_search?
     # Allow full postcode (e.g. W4 1SE) or outgoing postcode (e.g. W4)
     @query =~ /^([g][i][r][0][a][a])$|^((([a-pr-uwyz]{1}\d{1,2})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1,2})|([a-pr-uwyz]{1}\d{1}[a-hjkps-uw]{1})|([a-pr-uwyz]{1}[a-hk-y]{1}\d{1}[a-z]{1})) ?(\d[abd-hjlnp-uw-z]{2})?)$/i
@@ -78,7 +92,6 @@ class CourtSearch
     elsif area_of_law.type_children? || area_of_law.type_adoption? || area_of_law.type_divorce?
       courts = Court.by_area_of_law(@options[:area_of_law]).for_council_and_area_of_law(lookup_council_name, area_of_law)
     end
-
 
     if latlng
       if courts.present?
@@ -95,10 +108,10 @@ class CourtSearch
   end
 
   def latlng_from_postcode(postcode)
-    results = make_request(postcode)
+    @postcode_info = make_request(postcode)
     Rails.logger.info("Internal lookup: #{postcode}")
 
-    [results['wgs84_lat'], results['wgs84_lon']] unless results['error']
+    [@postcode_info['wgs84_lat'], @postcode_info['wgs84_lon']] unless @postcode_info['error']
   end
 
   def make_request(postcode, client=@restclient)

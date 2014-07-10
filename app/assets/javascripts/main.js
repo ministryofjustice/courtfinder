@@ -53,7 +53,8 @@
   }
 
   $('#user-satisfaction-survey .close-on-click').click(function (event){
-    $('#user-satisfaction-survey').addClass('not-shown');    
+    $('#user-satisfaction-survey').addClass('not-shown');
+    GOVUK.userSatisfaction.setCookieTakenSurvey()
     event.preventDefault();
     return false;
   });

@@ -39,12 +39,12 @@ feature 'DX number' do
   context 'legal professional user' do
     let!(:court) do
       create(:court, name: 'the-court') do |court|
-        court.contacts << create(:contact, telephone: '2343', contact_type_id: ContactType.find_by_name('DX').id, court_id: 1)
-        court.contacts << create(:contact, telephone: '01 1234 56678', contact_type_id: ContactType.find_by_name('telephone').id, court_id: 1)
+        court.contacts << create(:contact, telephone: '2343', contact_type_id: ContactType.find_by_name('DX').id, court_id: court.id)
+        court.contacts << create(:contact, telephone: '01 1234 56678', contact_type_id: ContactType.find_by_name('telephone').id, court_id: court.id)
       end
     end
 
-    scenario 'see the DX number in the \'For legal professionals section\'' do
+    scenario 'see the DX number in the \'Legal professionals section\'' do
       visit '/courts/the-court'
       page.should have_content('Legal professionals')
       within(:css, "div.for-legal-professionals") do
