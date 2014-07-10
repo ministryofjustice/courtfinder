@@ -67,6 +67,15 @@
     %p
       Contact us if you need help coming to a hearing or have any questions about disabled facilities.
 
+    %dl.facilities
+      - @court.court_facilities.each do |court_facility|
+        -if court_facility.facility.relates_to_disabled_access?
+          %dt
+            %i.icon
+              %img{:src => '/assets/facility_icons.png', :class => court_facility.facility.image, :alt => court_facility.facility.image_description, :title => court_facility.facility.name}
+          - if court_facility.description.present?
+            %dd= court_facility.description.html_safe
+
   -# === Legal Professionals ===
   - if show_legal_professional_section?
     %h2 Legal professionals
