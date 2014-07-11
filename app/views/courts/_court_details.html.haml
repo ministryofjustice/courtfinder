@@ -10,6 +10,15 @@
           %h3= postal.present? ? 'Visit us:' : 'Visit or write to us:'
           = format_address visiting
 
+          %p.maps
+            - maps_url = "https://google.com/maps?q=#{@court.latitude},#{@court.longitude}"
+            - if Rails.env == 'production'
+              - track_js = "_gaq.push(['_trackEvent', 'court-detail-page', 'google-maps-clicked']);"
+            - else
+              - track_js = ''
+
+            %a{target: '_blank', href: maps_url, onclick: track_js} Click here for maps and directions
+
       - if postal.present?
         .postal
           %h3 Write to us:
