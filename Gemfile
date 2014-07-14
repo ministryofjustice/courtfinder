@@ -27,6 +27,8 @@ group :development, :test do
   gem 'letter_opener'
   gem 'rubocop', require: false
   gem 'selenium-webdriver'
+  gem 'rspec-core'
+  gem "capybara-webkit"
 end
 
 group :test do
