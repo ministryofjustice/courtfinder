@@ -23,7 +23,8 @@ Faker::Config.locale = 'en-gb'
 # end
 
 
-Capybara.javascript_driver = :poltergeist
+#Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :webkit
 # Capybara.javascript_driver = :selenium
 Capybara.current_driver = :rack_test
 
