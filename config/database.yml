@@ -15,6 +15,7 @@ test:
   adapter: postgresql
   database: courtfinder_test
   host: localhost
+  username: courtfinder
 
 production:
   adapter: postgresql
