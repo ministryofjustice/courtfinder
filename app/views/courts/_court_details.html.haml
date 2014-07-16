@@ -83,9 +83,10 @@
 
 
   -# === Parking ===
-  %h2.facilities-header Parking
-  - @court.parkings.each do |parking|
-    %p= "#{parking.parking_type} : #{parking.paid ? 'Yes' : 'No'}"
+  - unless @court.parkings.empty?
+    %h2.facilities-header Parking
+    - @court.parkings.each do |parking|
+      %p= "#{parking.parking_type} : #{parking.paid ? 'Yes' : 'No'}"
 
 
   -# === Legal Professionals ===
