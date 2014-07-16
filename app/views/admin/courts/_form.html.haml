@@ -60,6 +60,9 @@
         %p Use this field to display a temporary notice of building closure. This is limited to 250 characters including spaces.
         = f.input :alert, :maxlength => 250, :hint => 'Remove all text to hide the alert'
       #addresses
+        %h2 Local Information
+        %p Useful local landmarks that people might use to navigate to the court building, for example: 'The court is opposite the Marriot Hotel'
+        = f.input :directions, label: false, :input_html => { :class => 'directions' }
         %h2 Location
         %p
           Latitude and longitude are automatically calculated based on the visiting address postcode.

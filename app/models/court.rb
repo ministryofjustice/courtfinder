@@ -19,7 +19,7 @@ class Court < ActiveRecord::Base
                   :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list
+                  :postcode_list, :directions
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
