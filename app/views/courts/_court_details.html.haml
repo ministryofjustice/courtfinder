@@ -81,6 +81,13 @@
         - if court_facility.description.present?
           %dd= court_facility.description.html_safe
 
+
+  -# === Parking ===
+  %h2.facilities-header Parking
+  - @court.parkings.each do |parking|
+    %p= "#{parking.parking_type} : #{parking.paid ? 'Yes' : 'No'}"
+
+
   -# === Legal Professionals ===
   - if show_legal_professional_section?
     %h2 Legal professionals
