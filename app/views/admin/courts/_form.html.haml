@@ -41,6 +41,8 @@
       %li
         %a{:href => "#facilities"} Facilities
       %li
+        %a{:href => "#parking"} Parking
+      %li
         %a{:href => "#further-info"} Further information
       - if current_user.admin
         %li
@@ -121,6 +123,24 @@
             = f.simple_fields_for :court_facilities do |builder|
               = render 'court_facility_fields', f: builder
           = link_to_add_fields "Add facility", f, :court_facilities, 'initNewFieldBlock'
+      #parking
+        %h3 Does this court have:
+        %ul.parking-options
+          %li 
+            %label 
+              %input{type: 'checkbox', name: 'parking-inside' }
+              Parking facilities inside the court property? 
+          %li.free-parking-question 
+            %label
+              %input{type: 'checkbox', name: 'parking-inside-free' }          
+              Is it free?
+          %li
+            %label
+              %inpit{type: 'checkbox', name: 'parking-outside'}
+              Outside the court property? 
+          %li.free-parking-question 
+            Is it free?
+            %checkbox
       #further-info
         %h2 Further information
         %p Please only add concise details about this particular court, no contact details or guidance on going to court.
