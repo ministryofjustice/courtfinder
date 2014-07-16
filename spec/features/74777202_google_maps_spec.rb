@@ -14,6 +14,6 @@ feature 'Google Maps links for visiting addresses' do
 
   scenario 'Enter the site using a /search/:area_of_law will take me to a preselected search' do
     visit "/courts/st-albans-county-court"
-    expect(page).to have_content('Click here for maps and directions')
+    expect(page).to have_content('Maps and directions')
   end
 end
