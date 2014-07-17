@@ -11,7 +11,6 @@ feature 'As a resident from Northern Ireland, I need to know that CF is not appl
       VCR.use_cassette('valid_ni_postcode') do
         click_button 'Search'
       end
-
       expect(page).to have_content('Northern Ireland is not supported by this tool')
     end
 
@@ -27,7 +26,7 @@ feature 'As a resident from Northern Ireland, I need to know that CF is not appl
       expect(page).to have_content('Northern Ireland is not supported by this tool')
     end
 
-    scenario 'then a partial postcode is entered' do
+    scenario 'when a partial postcode is entered' do
       visit '/'
       fill_in 'search-main', with: 'bt80'
       select 'All law', from: 'Area of law'
@@ -37,6 +36,19 @@ feature 'As a resident from Northern Ireland, I need to know that CF is not appl
       end
 
       expect(page).to have_content('Northern Ireland is not supported by this tool')
+    end
+
+    let!(:area_of_law) { create(:area_of_law, name: 'Immigration') }
+    scenario 'when a postcode is entered with Immigration as the area of law' do
+      visit '/'
+      fill_in 'search-main', with: 'bt80'
+      select 'Immigration', from: 'Area of law'
+
+      VCR.use_cassette('valid_ni_postcode') do
+        click_button 'Search'
+      end
+      # The search is performed. No results are found because the db is empty.
+      expect(page).to have_content('We couldn\'t find that post code')
     end
   end
 

@@ -75,7 +75,7 @@ class CourtSearch
   end
 
   def area_of_law_is_valid_for_Northern_Ireland?
-    @options[:area_of_law] == "" || @options[:area_of_law] == "Immigration"
+    @options[:area_of_law] == "Immigration"
   end
 
   def postcode_search?

@@ -77,6 +77,9 @@ GEM
       columnize (~> 0.3.6)
       debugger-linecache (~> 1.2.0)
     callsite (0.0.11)
+    capybara-webkit (1.2.0)
+      capybara (>= 2.0.2, < 2.4.0)
+      json
     celluloid (0.15.2)
       timers (~> 1.1.0)
     celluloid-io (0.15.0)
@@ -385,6 +388,7 @@ DEPENDENCIES
   binding_of_caller
   byebug
   capybara!
+  capybara-webkit
   carrierwave!
   ckeditor_rails
   codeclimate-test-reporter
@@ -426,6 +430,7 @@ DEPENDENCIES
   rdiscount
   rest-client
   rmagick
+  rspec-core
   rspec-rails
   rubocop
   sass-rails (~> 3.2.3)

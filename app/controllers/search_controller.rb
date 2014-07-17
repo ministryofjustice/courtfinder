@@ -24,7 +24,7 @@ class SearchController < ApplicationController
         @chosen_area_of_law = AreaOfLaw.find_by_name(@search.area_of_law)
        respond_to do |format|
           format.html
-          format.json { render json: @results }
+          format.json { render json: @results.to_json(include: :addresses) }
         end
       rescue RestClient::RequestTimeout
         @results = []
@@ -38,5 +38,4 @@ class SearchController < ApplicationController
       end
     end
   end
-
 end

@@ -23,7 +23,8 @@ Faker::Config.locale = 'en-gb'
 # end
 
 
-Capybara.javascript_driver = :poltergeist
+#Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :webkit
 # Capybara.javascript_driver = :selenium
 Capybara.current_driver = :rack_test
 
@@ -90,4 +91,7 @@ VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
   config.ignore_hosts '127.0.0.1','codeclimate.com'
+  puts "VRC is logging to #{Rails.root}\/log\/vcr.log"
+  config.debug_logger = File.open("#{Rails.root}\/log\/vcr.log", 'w')
+  config.allow_http_connections_when_no_cassette = true
 end

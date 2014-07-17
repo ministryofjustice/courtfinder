@@ -1,4 +1,8 @@
-2.18.0-dev
+2.19.0
+-------------------
+* 74777202 -As a user I need to have an obvious route to google maps so that google maps opens in a new tab with the court location, or forces it to open in an app
+
+2.18.0
 -------------------
 * 74773778 - Include disabled access information for every court // Restored to section Building Facilities
 
