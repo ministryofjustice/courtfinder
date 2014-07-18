@@ -7,7 +7,6 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
 	<%= render 'shared/head', :title => (content_for?(:title) ? yield(:title) + " - GOV.UK" : "GOV.UK - The best place to find government services and information") %>
-  <%= render 'shared/ga' %>
 	<%- if admin_area? %>
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.base.css" rel="stylesheet" type="text/css"/>
 		<link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery.ui.theme.css" rel="stylesheet" type="text/css"/>
@@ -99,5 +98,6 @@
 		<%= javascript_include_tag "admin" %>
 	<% end %>
 	<%= yield :scripts %>
+	<%= render 'shared/ga' %>
 </body>
 </html>

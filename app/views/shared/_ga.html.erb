@@ -8,4 +8,17 @@
   ga('create', 'UA-37377084-3', 'service.gov.uk');
   ga('send', 'pageview');
 </script>
+<script>
+  if( document.body.id == 'courts-show' ){
+    $('#courts-show p.maps a').click(function (){
+      ga('send', 'event', 'court-detail-page', 'gmaps-click', 'Google Maps link clicked');
+    });
+  }
+
+  if( document.body.id == 'home-index' ){
+    $('.find-nearest .ask_location').on("click", "#results li a", function (){
+      ga('send', 'event', 'index-page', 'autocomplete-click', 'Automcomplete link clicked');
+    });
+  }
+</script>
 <% end %>
