@@ -129,7 +129,9 @@
           %li
             %p On site parking:
             =# f.association :parkings, as: :radio_buttons, label_method: :location_and_cost, label: false
-            = f.association :parkings, as: :radio_buttons, label_method: :label_text, label: false
+            = f.association :parkings, as: :radio_buttons, label_method: :label_text, label: false, collection: Parking.onsite
+            %p Off site parking:
+            = f.association :parkings, as: :radio_buttons, label_method: :label_text, label: false, collection: Parking.offsite
 
       #further-info
         %h2 Further information
