@@ -2,11 +2,20 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  # Parking translation for citizen's view
   parking_onsite_free: Free, on site parking is available, provided by the court.
   parking_onsite_paid: Paid, on site parking is available, provided by the court.
   parking_offsite_free: Free parking is available within a 5 minute walk.
   parking_offsite_paid: Paid parking is available within a 5 minute walk.
   parking_none: No parking facilities are available at or near the court.
+
+  # Parking translation for admin's view  onsite_free: Free
+  onsite_free: Free
+  onsite_paid: Paid
+  onsite_none: No onsite parking available
+  offsite_free: Free
+  offsite_paid: Paid
+  offsite_none: No offsite parking available
 
   activerecord:
     attributes:
@@ -32,7 +41,6 @@ en:
     hints:
       court:
         image_file: This photo will be forced to fit 350x275 pixels
-
 
 
 

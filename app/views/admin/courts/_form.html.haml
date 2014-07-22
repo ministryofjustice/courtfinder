@@ -127,8 +127,9 @@
         %h3 This court has:
         %ul.parking-options
           %li
-            %label
-              = f.association :parkings, as: :check_boxes, label_method: :location_and_cost, label: false
+            %p On site parking:
+            =# f.association :parkings, as: :radio_buttons, label_method: :location_and_cost, label: false
+            = f.association :parkings, as: :radio_buttons, label_method: :label_text, label: false
 
       #further-info
         %h2 Further information
