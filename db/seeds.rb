@@ -6,9 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Parking.create(location_and_cost:'inside-free')
-Parking.create(location_and_cost: 'inside-paid')
-Parking.create(location_and_cost: 'outside-free')
-Parking.create(location_and_cost: 'outside-paid')
+Parking.create(location_and_cost: 'parking_onsite_free')
+Parking.create(location_and_cost: 'parking_onsite_paid')
+Parking.create(location_and_cost: 'parking_onsite_none')
+
+Parking.create(location_and_cost: 'parking_offsite_free')
+Parking.create(location_and_cost: 'parking_offsite_paid')
+Parking.create(location_and_cost: 'parking_offsite_none')
 
 
