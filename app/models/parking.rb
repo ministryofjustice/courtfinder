@@ -1,6 +1,6 @@
 class Parking < ActiveRecord::Base
-  attr_accessible :parking_type, :paid
-  belongs_to :court
+  attr_accessible :location_and_cost, :paid
+  has_and_belongs_to_many :courts
 
   #INSIDE = :inside
   #OUTSIDE = :outside

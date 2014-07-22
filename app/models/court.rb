@@ -12,7 +12,7 @@ class Court < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :areas_of_law, through: :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  has_many :parkings
+  has_and_belongs_to_many :parkings
 
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
@@ -20,13 +20,14 @@ class Court < ActiveRecord::Base
                   :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list
+                  :postcode_list, :parking_ids
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
+  accepts_nested_attributes_for :parkings
 
   before_validation :convert_visiting_to_location
 

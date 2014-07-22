@@ -86,7 +86,7 @@
   - unless @court.parkings.empty?
     %h2.facilities-header Parking
     - @court.parkings.sort.each do |parking|
-      %p= parking_text_for(parking.parking_type, parking.paid)
+      %p= parking_text_for(parking.location_and_cost)
 
   -# === Legal Professionals ===
   - if show_legal_professional_section?
