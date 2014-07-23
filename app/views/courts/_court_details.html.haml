@@ -85,8 +85,8 @@
   -# === Parking ===
   - unless @court.parking_onsite.nil? && @court.parking_offsite.nil?
     %h2.facilities-header Parking
-    %p= parking_text_for @court.parking_onsite
-    %p= parking_text_for @court.parking_offsite
+    - parking_text_for(@court.parking_onsite, @court.parking_offsite).each do |text|
+      %p= text
 
   -# === Legal Professionals ===
   - if show_legal_professional_section?

@@ -161,7 +161,7 @@ class Court < ActiveRecord::Base
     collection = [
       Struct::Option.new( I18n.t('onsite_free'), "parking_onsite_free"),
       Struct::Option.new( I18n.t('onsite_paid'), "parking_onsite_paid"),
-      Struct::Option.new( I18n.t('onsite_none'), "parking_none")
+      Struct::Option.new( I18n.t('onsite_none'), "parking_onsite_none")
     ]
   end
 
@@ -170,7 +170,7 @@ class Court < ActiveRecord::Base
     collection = [
       Struct::Option.new( I18n.t('offsite_free'), "parking_offsite_none"),
       Struct::Option.new( I18n.t('offsite_paid'), "parking_offsite_paid"),
-      Struct::Option.new( I18n.t('offsite_none'), "parking_none")
+      Struct::Option.new( I18n.t('offsite_none'), "parking_offsite_none")
     ]
   end
 

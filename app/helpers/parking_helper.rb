@@ -1,10 +1,8 @@
 module ParkingHelper
-  def parking_text_for(location_and_cost)
-    if location_and_cost == 'parking_onsite_none'
-      @no_onsite_parking = true
-      return nil
-    end
-    return t('parking_none') if location_and_cost == 'parking_offsite_none' && @no_onsite_parking
-    t(location_and_cost)
+  def parking_text_for(onsite, offsite)
+    return [t('parking_none')] if onsite == 'parking_onsite_none' && offsite == 'parking_offsite_none'
+    return [t(onsite)] if offsite == 'parking_offsite_none'
+    return [t(offsite)] if onsite == 'parking_onsite_none'
+    [t(onsite),t(offsite)]
   end
 end

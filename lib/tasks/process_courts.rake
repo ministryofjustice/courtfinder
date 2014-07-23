@@ -82,15 +82,4 @@ namespace :process do
     AreaOfLaw.find_by_name('Adoption').external_links.create(text: 'Child adoption' , url: "https://www.gov.uk/child-adoption")
     AreaOfLaw.find_by_name('Probate').external_links.create(text: 'Wills, probate and inheritance' , url: "https://www.gov.uk/wills-probate-inheritance/applying-for-a-grant-of-representation" )
   end
-
-  desc "Add default parking locations"
-  task :add_parking_locations => :environment do
-    Parking.create(location_and_cost: 'parking_onsite_free')
-    Parking.create(location_and_cost: 'parking_onsite_paid')
-    Parking.create(location_and_cost: 'parking_onsite_none')
-
-    Parking.create(location_and_cost: 'parking_offsite_free')
-    Parking.create(location_and_cost: 'parking_offsite_paid')
-    Parking.create(location_and_cost: 'parking_offsite_none')
-  end
 end
