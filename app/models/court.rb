@@ -12,22 +12,19 @@ class Court < ActiveRecord::Base
   has_many :courts_areas_of_law
   has_many :areas_of_law, through: :courts_areas_of_law
   has_many :postcode_courts, dependent: :destroy
-  has_and_belongs_to_many :parkings
-
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,
                   :old_court_type_id, :area, :addresses_attributes, :latitude, :longitude, :court_type_ids,
                   :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list, :parking_ids
+                  :postcode_list, :parking_onsite, :parking_offsite
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
   accepts_nested_attributes_for :contacts, allow_destroy: true
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
-  accepts_nested_attributes_for :parkings
 
   before_validation :convert_visiting_to_location
 
@@ -157,6 +154,24 @@ class Court < ActiveRecord::Base
       self.latitude = nil
       self.longitude = nil
     end
+  end
+
+  def self.onsite_parking_options
+    Struct.new("Option", :label, :value)
+    collection = [
+      Struct::Option.new( I18n.t('onsite_free'), "parking_onsite_free"),
+      Struct::Option.new( I18n.t('onsite_paid'), "parking_onsite_paid"),
+      Struct::Option.new( I18n.t('onsite_none'), "parking_none")
+    ]
+  end
+
+  def self.offsite_parking_options
+    Struct.new("Option", :label, :value)
+    collection = [
+      Struct::Option.new( I18n.t('offsite_free'), "parking_offsite_none"),
+      Struct::Option.new( I18n.t('offsite_paid'), "parking_offsite_paid"),
+      Struct::Option.new( I18n.t('offsite_none'), "parking_none")
+    ]
   end
 
   private
