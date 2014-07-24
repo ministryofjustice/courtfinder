@@ -1,4 +1,4 @@
-2.20.0-dev
+2.20.0
 -------------------
 * Small fix to court page (icon misplaced)
 * Tracking js for server vs client time
