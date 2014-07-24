@@ -12,9 +12,7 @@
 
           %p.maps
             - maps_url = "https://maps.google.com/maps?q=#{@court.latitude},#{@court.longitude}"
-            - track_js = "_gaq.push(['_trackEvent', 'court-detail-page', 'google-maps-clicked']);" if Rails.env.production?
-
-            %a{target: '_blank', href: maps_url, onclick: track_js, rel: 'external'} Maps and directions
+            %a{target: '_blank', href: maps_url, rel: 'external'} Maps and directions
 
       - if postal.present?
         .postal

@@ -1,6 +1,11 @@
+2.20.0
+-------------------
+* Small fix to court page (icon misplaced)
+* Tracking js for server vs client time
+
 2.19.0
 -------------------
-* 74777202 -As a user I need to have an obvious route to google maps so that google maps opens in a new tab with the court location, or forces it to open in an app
+* 74777202 - As a user I need to have an obvious route to google maps so that google maps opens in a new tab with the court location, or forces it to open in an app
 
 2.18.0
 -------------------
