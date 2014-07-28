@@ -1,10 +1,9 @@
-2.21.0
+2.21.0-dev
 -------------------
-*
+* Small fix to court page (icon misplaced)
 
 2.20.0
 -------------------
-* Small fix to court page (icon misplaced)
 * Tracking js for server vs client time
 
 2.19.0
