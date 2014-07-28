@@ -36,26 +36,4 @@
     }
   });
 
-  // User Satisfaction Survey
-  var showSurvey = function (){
-    if( GOVUK && GOVUK.userSatisfaction ){
-      var $survey = $('#user-satisfaction-survey');
-      GOVUK.userSatisfaction.showSurveyBar();
-
-      if( $survey.css('display') != "none" ){
-        $survey.removeClass('not-shown');
-      }
-    }
-  };
-
-  if( document.body.id == "home-index" || document.body.id == "search-index" ){
-    setTimeout( showSurvey, 2000 );    
-  }
-
-  $('#user-satisfaction-survey .close-on-click').click(function (event){
-    $('#user-satisfaction-survey').addClass('not-shown');
-    GOVUK.userSatisfaction.setCookieTakenSurvey()
-    event.preventDefault();
-    return false;
-  });
 }());

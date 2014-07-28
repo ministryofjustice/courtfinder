@@ -19,6 +19,4 @@
 //= require modules/moj.cookie-message
 //= require modules/moj.tabs
 //= require search
-//= require cookie-functions
-//= require user-satisfaction-survey
 //= require main
