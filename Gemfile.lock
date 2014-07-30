@@ -29,7 +29,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://gem.fury.io/govuk/
+  remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
   specs:
     actionmailer (3.2.18)
       actionpack (= 3.2.18)
