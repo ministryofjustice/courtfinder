@@ -1,6 +1,6 @@
 class CourtTypesController < ApplicationController
 
-  before_filter :set_vary_accept
+  before_filter :set_vary_header
   respond_to :html, :json
 
   # GET /court-types

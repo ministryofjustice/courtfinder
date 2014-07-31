@@ -5,7 +5,7 @@ describe AreasOfLawController do
   let!(:area){ create(:area_of_law)}
 
   before :each do
-    controller.should_receive(:set_vary_accept).once
+    controller.should_receive(:set_vary_header).once
   end
 
   it "displays a list of areas of law" do

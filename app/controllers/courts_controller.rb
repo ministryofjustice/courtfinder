@@ -3,7 +3,7 @@ class CourtsController < ApplicationController
   respond_to :html, :json, :csv
 
   before_filter :find_court, except: [:index]
-  before_filter :set_vary_accept, only: [:index, :show]
+  before_filter :set_vary_header, only: [:index, :show]
 
   def index
     @courts = Court.by_name

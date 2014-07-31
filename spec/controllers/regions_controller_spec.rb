@@ -5,7 +5,7 @@ describe RegionsController do
 
   before :each do
     @region = Region.create!(name: 'hobbiton').reload
-    controller.should_receive(:set_vary_accept).once
+    controller.should_receive(:set_vary_header).once
   end
 
   it "displays a list of regions" do

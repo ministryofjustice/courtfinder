@@ -5,7 +5,7 @@ describe CourtTypesController do
 
   before :each do
     @court_type = CourtType.create!.reload
-    controller.should_receive(:set_vary_accept).once
+    controller.should_receive(:set_vary_header).once
   end
 
   it "displays a list of court types" do

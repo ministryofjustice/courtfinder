@@ -12,7 +12,7 @@ describe CourtsController do
 
   context "a list of courts" do
     before :each do
-      controller.should_receive(:set_vary_accept).once
+      controller.should_receive(:set_vary_header).once
     end
 
     it "displays a list of courts" do
@@ -64,7 +64,7 @@ describe CourtsController do
     end
 
     it "should set a vary header" do
-      controller.should_receive(:set_vary_accept)
+      controller.should_receive(:set_vary_header)
       get :show, id: @tribunal.slug
     end
 

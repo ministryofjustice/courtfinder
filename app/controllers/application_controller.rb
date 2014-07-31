@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def set_vary_accept
+  def set_vary_header
     headers['Vary'] = '*'
   end
 end
