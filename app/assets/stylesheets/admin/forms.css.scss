@@ -215,6 +215,12 @@ textarea.admin-only,
   background: #eee;
 }
 
+textarea#court_directions {
+  width: 530px;
+  height: 75px;
+  resize: none;
+}
+
 textarea.leaflet {
   width: 568px;
   height: 100px;

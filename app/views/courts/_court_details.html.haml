@@ -64,6 +64,12 @@
           = enforce_label type
         = contacts_as_group_for_telephones contacts
 
+  -# === Directions to court ===
+  - if @court.directions.present?
+
+    %h2 Local information
+    %p= @court.directions
+
   -# === Facilities ===
   - if @court.court_facilities.present?
     %h2.facilities-header Building facilities
