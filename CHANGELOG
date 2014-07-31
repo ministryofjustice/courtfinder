@@ -1,6 +1,7 @@
 2.22.0-dev
 -------------------
-* 75810024 remove survey
+* 75810024 - remove survey
+* 75903118 - Remove rails app internal cache
 
 2.21.0
 -------------------

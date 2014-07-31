@@ -2,13 +2,10 @@ class CourtsController < ApplicationController
 
   respond_to :html, :json, :csv
 
-  before_filter :enable_varnish
   before_filter :find_court, except: [:index]
-  before_filter :set_page_expiration, except: [:index]
-  before_filter :set_vary_accept, only: [:index, :show]
+  before_filter :set_vary_header, only: [:index, :show]
 
   def index
-    set_cache_control(Court.maximum(:updated_at)) && return
     @courts = Court.by_name
     if params[:compact]
       respond_to do |format|
@@ -78,10 +75,6 @@ class CourtsController < ApplicationController
   private
   def find_court
     @court = Court.find(params[:id])
-  end
-
-  def set_page_expiration
-    set_cache_control(@court.updated_at)
   end
 
   def courts_csv
