@@ -226,3 +226,20 @@ textarea.leaflet {
   font-size: 1.4rem;
 }
 
+#parking  {
+  ul.parking-options {
+    list-style: none;
+
+    li {
+      &.free-parking-question {
+        margin-left: 2em;
+        margin-bottom: 1em;
+      }
+      margin-bottom: 1em;
+    }
+    label {
+      margin: 0.2em 0;
+      display: block;
+    }
+  }
+}
