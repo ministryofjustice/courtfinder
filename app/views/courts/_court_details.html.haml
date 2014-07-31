@@ -64,6 +64,12 @@
           = enforce_label type
         = contacts_as_group_for_telephones contacts
 
+  -# === Directions to court ===
+  - if @court.directions.present?
+
+    %h2 Local information
+    %p= @court.directions
+
   -# === Facilities ===
   - if @court.court_facilities.present?
     %h2.facilities-header Building facilities
@@ -78,6 +84,13 @@
             %img{:src => '/assets/facility_icons.png', :class => court_facility.facility.image, :alt => court_facility.facility.image_description, :title => court_facility.facility.name}
         - if court_facility.description.present?
           %dd= court_facility.description.html_safe
+
+
+  -# === Parking ===
+  - unless @court.parking_onsite.nil? && @court.parking_offsite.nil?
+    %h2.facilities-header Parking
+    - parking_text_for(@court.parking_onsite, @court.parking_offsite).each do |text|
+      %p= text
 
   -# === Legal Professionals ===
   - if show_legal_professional_section?

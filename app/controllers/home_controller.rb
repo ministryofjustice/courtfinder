@@ -15,11 +15,7 @@ class HomeController < ApplicationController
       redirect_to(court_path(Court.find_by_old_id(court_id)), status: 301) && return
     end
 
-    enable_varnish
-
     @courts = Court.order(:name)
-    set_cache_control(@courts.maximum(:updated_at)) && return
-
     @search = SearchForm.new(params)
   end
 

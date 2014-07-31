@@ -3,22 +3,8 @@ class Admin::ApplicationController < ::ApplicationController
 
   before_filter :authenticate_user!
 
-  def purge_cache(regex_as_string)
-    unless Rails.env.development?
-      begin
-        varnish_host = (ENV['VARNISH_HOST'] || '127.0.0.1')
-        varnish_port = (ENV['VARNISH_PORT'] || 6081)
-        
-        response = Varnish::Client.new(varnish_host,varnish_port,['http://', request.host].join).purge(regex_as_string)
-        logger.info("PURGE: Host: #{request.host} @ #{varnish_host}:#{varnish_port}/#{regex_as_string}")
-      rescue Exception => ex
-        logger.info("Failed to purge cache: #{ex.message}")
-      end
-    end
-  end
-
   def purge_all_pages
-    purge_cache('.*')
+    # Placeholder for feature functionality
   end
 
   private

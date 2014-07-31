@@ -72,7 +72,6 @@ gem 'govuk_frontend_toolkit'# Sass helpers
 gem 'global_phone'          # Phone number validation and formatting
 gem 'nokogiri'              # HTML processing
 gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.1.0'
-gem 'varnish-client', require: 'varnish/client'
 gem 'jbuilder'              # json api templating
 gem 'httparty'
 gem 'appsignal'

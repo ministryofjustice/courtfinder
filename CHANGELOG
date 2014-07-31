@@ -1,3 +1,10 @@
+2.22.0
+-------------------
+* 75810024 - Remove survey
+* 74777518 - As a user who cannot read maps I short, accurate directions that reference local landmarks so that I can navigate to court
+* 75903118 - Remove rails app internal cache
+* 76067816 - Add simple parking information to the court pages
+
 2.21.0
 -------------------
 * Small fix to court page (icon misplaced)
