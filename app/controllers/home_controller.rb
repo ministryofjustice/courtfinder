@@ -16,8 +16,6 @@ class HomeController < ApplicationController
     end
 
     @courts = Court.order(:name)
-    set_cache_control(@courts.maximum(:updated_at)) && return
-
     @search = SearchForm.new(params)
   end
 

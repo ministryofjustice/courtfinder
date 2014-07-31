@@ -4,7 +4,6 @@ class PostcodesController < ApplicationController
   before_filter :set_vary_accept, only: [:index, :show]
 
   def repossession
-    set_cache_control(Court.maximum(:updated_at)) && return
     @postcode_courts = PostcodeCourt.includes(:court).all
     respond_to do |format|
         format.csv do

@@ -9,10 +9,6 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def set_cache_control(timestamp)
-    fresh_when(last_modified: timestamp.utc, public: true) if timestamp
-  end
-
   def set_vary_accept
     headers['Vary'] = '*'
   end

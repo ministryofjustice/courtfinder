@@ -9,18 +9,10 @@ describe HomeController do
     it "displays the landing page" do
       get :index
       response.should be_success
-
-      request.env['HTTP_IF_MODIFIED_SINCE'] = response['Last-Modified']
-      get :index
-      response.status.should == 304 unless ENV['TRAVIS']
     end
   end
 
   context "legacy url redirection" do
-    before :each do
-      controller.should_receive(:set_cache_control).never
-    end
-
     it "redirects by court_id" do
       get :index, court_id: court.old_id
       response.should redirect_to(court_path(court))
