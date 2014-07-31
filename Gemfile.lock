@@ -362,7 +362,6 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    varnish-client (0.0.1)
     vcr (2.8.0)
     verbs (2.1.4)
       activesupport (>= 2.3.4)
@@ -441,7 +440,6 @@ DEPENDENCIES
   turbo-sprockets-rails3
   uglifier (>= 1.0.3)
   unicorn
-  varnish-client
   vcr
   verbs
   webmock (= 1.15.2)

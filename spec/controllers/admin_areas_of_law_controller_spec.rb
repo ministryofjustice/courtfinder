@@ -4,7 +4,6 @@ describe Admin::AreasOfLawController do
   render_views
 
   before :each do
-    controller.should_receive(:enable_varnish).never
     sign_in create(:user, admin: true)
   end
 
@@ -15,7 +14,7 @@ describe Admin::AreasOfLawController do
     response.should redirect_to(admin_areas_of_law_path)
   end
 
-  it "purges the cache when a new area is created" do 
+  it "purges the cache when a new area is created" do
     expect {
       controller.should_receive(:purge_all_pages)
       post :create, area_of_law: { name: 'New area' }

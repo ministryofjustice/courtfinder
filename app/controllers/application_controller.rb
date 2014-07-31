@@ -9,15 +9,11 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def enable_varnish
-    headers['X-Varnish-Enable'] = '1'
-  end
-
   def set_cache_control(timestamp)
     fresh_when(last_modified: timestamp.utc, public: true) if timestamp
   end
 
   def set_vary_accept
-    headers['Vary'] = 'Accept'
+    headers['Vary'] = '*'
   end
 end

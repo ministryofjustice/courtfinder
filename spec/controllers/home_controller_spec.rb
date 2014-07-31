@@ -7,7 +7,6 @@ describe HomeController do
 
   context "landing page" do
     it "displays the landing page" do
-      controller.should_receive(:enable_varnish).twice
       get :index
       response.should be_success
 
@@ -20,7 +19,6 @@ describe HomeController do
   context "legacy url redirection" do
     before :each do
       controller.should_receive(:set_cache_control).never
-      controller.should_receive(:enable_varnish).never
     end
 
     it "redirects by court_id" do

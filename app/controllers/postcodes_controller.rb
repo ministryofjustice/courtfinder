@@ -1,7 +1,6 @@
 class PostcodesController < ApplicationController
   respond_to :csv
 
-  before_filter :enable_varnish
   before_filter :set_vary_accept, only: [:index, :show]
 
   def repossession

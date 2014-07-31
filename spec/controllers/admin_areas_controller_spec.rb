@@ -4,7 +4,6 @@ describe Admin::AreasController do
   render_views
 
   before :each do
-    controller.should_receive(:enable_varnish).never
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
@@ -15,7 +14,7 @@ describe Admin::AreasController do
     response.should redirect_to(edit_admin_area_path(at))
   end
 
-  it "purges the cache when a new area is created" do 
+  it "purges the cache when a new area is created" do
     expect {
       controller.should_receive(:purge_all_pages)
       post :create, area: {}

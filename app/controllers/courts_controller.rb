@@ -2,7 +2,6 @@ class CourtsController < ApplicationController
 
   respond_to :html, :json, :csv
 
-  before_filter :enable_varnish
   before_filter :find_court, except: [:index]
   before_filter :set_page_expiration, except: [:index]
   before_filter :set_vary_accept, only: [:index, :show]

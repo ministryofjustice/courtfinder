@@ -1,6 +1,5 @@
 class AreasOfLawController < ApplicationController
 
-  before_filter :enable_varnish
   before_filter :set_vary_accept
   respond_to :html, :json
 

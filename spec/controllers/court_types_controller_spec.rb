@@ -5,7 +5,6 @@ describe CourtTypesController do
 
   before :each do
     @court_type = CourtType.create!.reload
-    controller.should_receive(:enable_varnish).twice
     controller.should_receive(:set_vary_accept).twice
   end
 

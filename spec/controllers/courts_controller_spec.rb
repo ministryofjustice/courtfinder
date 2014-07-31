@@ -10,18 +10,6 @@ describe CourtsController do
     @court = create(:court, :name => 'A court of LAW').reload
   end
 
-  before :each do
-    controller.should_receive(:enable_varnish).at_least(1)
-  end
-
-  context "enable_varnish" do
-    it "calls set_cache_control" do
-      # This isn't great.
-      controller.should_receive(:set_cache_control).with(@court.updated_at.to_time).once
-      get :show, id: @court.id
-    end
-  end
-
   context "a list of courts" do
     before :each do
       controller.should_receive(:set_cache_control).with(@court.updated_at).once
