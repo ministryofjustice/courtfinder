@@ -1,11 +1,9 @@
 class PostcodesController < ApplicationController
   respond_to :csv
 
-  before_filter :enable_varnish
-  before_filter :set_vary_accept, only: [:index, :show]
+  before_filter :set_vary_header, only: [:index, :show]
 
   def repossession
-    set_cache_control(Court.maximum(:updated_at)) && return
     @postcode_courts = PostcodeCourt.includes(:court).all
     respond_to do |format|
         format.csv do

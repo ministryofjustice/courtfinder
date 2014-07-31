@@ -4,10 +4,9 @@ describe Admin::CourtsController do
   render_views
 
   before :each do
-    controller.should_receive(:enable_varnish).never
     @user = User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
     sign_in @user
-    @court = create(:court, name: 'A court of Law')    
+    @court = create(:court, name: 'A court of Law')
   end
 
   it "displays a list of courts" do
@@ -63,7 +62,7 @@ describe Admin::CourtsController do
 
     it "returns the audit trail as a CSV file", :versioning => true do
       get :audit, format: :csv
-      response.should be_successful    
+      response.should be_successful
     end
 
     it "audit trail csv returns correct information", :versioning => true do
@@ -75,7 +74,7 @@ describe Admin::CourtsController do
     it "does not return the audit trail for a non super-admin user", :versioning => true do
       sign_in User.create!(name: 'notadmin', admin: false, email: 'lolcoin@biz.info', password: 'irrelevant')
       get :audit, format: :csv
-      response.should_not be_successful    
+      response.should_not be_successful
     end
   end
 end

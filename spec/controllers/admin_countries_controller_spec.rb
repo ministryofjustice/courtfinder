@@ -4,7 +4,6 @@ describe Admin::CountriesController do
   render_views
 
   before :each do
-    controller.should_receive(:enable_varnish).never
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
@@ -15,7 +14,7 @@ describe Admin::CountriesController do
     response.should redirect_to(edit_admin_country_path(object))
   end
 
-  it "purges the cache when a new object is created" do 
+  it "purges the cache when a new object is created" do
     expect {
       controller.should_receive(:purge_all_pages)
       post :create, country: {}

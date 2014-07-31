@@ -4,7 +4,6 @@ describe Admin::AddressTypesController do
   render_views
 
   before :each do
-    controller.should_receive(:enable_varnish).never
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
