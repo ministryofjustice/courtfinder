@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: emails
+#
+#  id              :integer          not null, primary key
+#  address         :string(255)
+#  court_id        :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  sort            :integer
+#  contact_type_id :integer
+#
+
 require 'email_validator'
 
 class Email < ActiveRecord::Base

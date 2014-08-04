@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: court_types
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  old_description :string(255)
+#  old_id          :integer
+#  old_ids_split   :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  slug            :string(255)
+#
+
 class CourtType < ActiveRecord::Base
   attr_accessible :name, :old_id, :slug
   has_many :court_types_courts

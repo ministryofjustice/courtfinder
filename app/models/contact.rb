@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: contacts
+#
+#  id              :integer          not null, primary key
+#  telephone       :string(255)
+#  court_id        :integer
+#  contact_type_id :integer
+#  in_leaflet      :boolean
+#  sort            :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class Contact < ActiveRecord::Base
   belongs_to :court
   belongs_to :contact_type
