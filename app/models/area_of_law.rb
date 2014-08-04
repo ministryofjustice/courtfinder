@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: areas_of_law
+#
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  old_id            :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  old_ids_split     :string(255)
+#  action            :string(255)
+#  sort              :integer
+#  slug              :string(255)
+#  type_possession   :boolean          default(FALSE)
+#  type_bankruptcy   :boolean          default(FALSE)
+#  type_money_claims :boolean          default(FALSE)
+#  type_children     :boolean          default(FALSE)
+#  type_divorce      :boolean          default(FALSE)
+#  type_adoption     :boolean          default(FALSE)
+#  group_id          :integer
+#
+
 class AreaOfLaw < ActiveRecord::Base
 
   MONEY_CLAIMS = 'Designated money claims'

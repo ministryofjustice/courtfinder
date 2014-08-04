@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: opening_times
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  court_id        :integer
+#  opening_type_id :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  sort            :integer
+#
+
 class OpeningTime < ActiveRecord::Base
   belongs_to :court
   belongs_to :opening_type

@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: addresses
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  address_line_1  :string(255)
+#  address_line_2  :string(255)
+#  address_line_3  :string(255)
+#  address_line_4  :string(255)
+#  postcode        :string(255)
+#  dx              :string(255)
+#  town_id         :integer
+#  address_type_id :integer
+#  court_id        :integer
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  is_primary      :boolean
+#
+
 class Address < ActiveRecord::Base
   belongs_to :town
   belongs_to :address_type

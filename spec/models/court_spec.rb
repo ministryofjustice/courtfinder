@@ -1,3 +1,39 @@
+# == Schema Information
+#
+# Table name: courts
+#
+#  id                    :integer          not null, primary key
+#  name                  :string(255)
+#  court_number          :integer
+#  info                  :text
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  area_id               :integer
+#  cci_code              :integer
+#  old_id                :integer
+#  old_court_type_id     :integer
+#  slug                  :string(255)
+#  old_postal_address_id :integer
+#  old_court_address_id  :integer
+#  latitude              :decimal(, )
+#  longitude             :decimal(, )
+#  old_image_id          :integer
+#  image                 :string(255)
+#  image_description     :string(255)
+#  image_file            :string(255)
+#  display               :boolean
+#  gmaps                 :boolean
+#  alert                 :string(255)
+#  info_leaflet          :text
+#  defence_leaflet       :text
+#  prosecution_leaflet   :text
+#  juror_leaflet         :text
+#  cci_identifier        :integer
+#  directions            :text
+#  parking_onsite        :string(255)
+#  parking_offsite       :string(255)
+#
+
 require "spec_helper"
 
 describe Court do
