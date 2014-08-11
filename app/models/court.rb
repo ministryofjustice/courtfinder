@@ -216,7 +216,7 @@ class Court < ActiveRecord::Base
   def self.offsite_parking_options
     Struct.new("Option", :label, :value)
     collection = [
-      Struct::Option.new( I18n.t('offsite_free'), "parking_offsite_none"),
+      Struct::Option.new( I18n.t('offsite_free'), "parking_offsite_free"),
       Struct::Option.new( I18n.t('offsite_paid'), "parking_offsite_paid"),
       Struct::Option.new( I18n.t('offsite_none'), "parking_offsite_none")
     ]
