@@ -68,7 +68,6 @@ class CourtsController < ApplicationController
           render content_type:'application/ld+json'
         end
       end
-
     end
   end
 
