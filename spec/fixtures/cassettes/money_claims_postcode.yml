@@ -18,10 +18,22 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Content-Encoding:
-      - gzip
+      Via:
+      - 1.1 WFRW001
+      Connection:
+      - Keep-Alive
+      Proxy-Connection:
+      - Keep-Alive
+      Transfer-Encoding:
+      - chunked
+      Age:
+      - '538173'
       Expires:
-      - Tue, 05 Aug 2014 13:59:41 GMT
+      - Tue, 02 Sep 2014 08:47:36 GMT
+      Date:
+      - Mon, 11 Aug 2014 14:17:09 GMT
+      Content-Type:
+      - application/json; charset=utf-8
       Vary:
       - Accept-Encoding
       Cache-Control:
@@ -29,44 +41,63 @@ http_interactions:
       Access-Control-Allow-Origin:
       - "*"
       Last-Modified:
-      - Tue, 08 Jul 2014 13:59:41 GMT
-      Content-Type:
-      - application/json; charset=utf-8
+      - Tue, 05 Aug 2014 08:47:36 GMT
       X-Url:
       - "/postcode/SW1H9AJ"
-      Content-Length:
-      - '859'
-      Accept-Ranges:
-      - bytes
-      Date:
-      - Tue, 08 Jul 2014 13:59:41 GMT
-      Age:
-      - '0'
-      Connection:
-      - keep-alive
     body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIAE35u1MC/8VX227iMBD9lSgv25V2qzhxbvtGEaVqg9pdVPGIUuKFSMFG
-        sSOEqv77zjjcAuFWoi0PAV8yPnOYOeN5N+djGdBhFivzl+GSWxqGgUcch1LP
-        ps4PwxwJkSdyIXHd7JowIyciV6NCSZh5Nwe9Nnx7ru+GsDaP8wSGgeuF+t2C
-        j9IMJmzXoh+4Xp4mOMz9tG6J41qW5wWB54XUdQnsmAmpRiJheFx/QB6MsPWI
-        p7JYqpSPEaUdujSAqTiHSQ0itPCjf85glqshrsGYF1kGO8eMszxWqeDDSTqe
-        wAJBfHGWDXk8ZdoIwksRfGlMw082S7gPMT2IQjJD/DXaYjoVXJpLP1W+wGUc
-        qsWMDVf7X5+MlzjPUhhyZVaxZGKOUDYW1m/9XNnBwaD3YiIEDYxc4qVtH/eS
-        HPKyU+RixmK+g/2YowdeudzdzmvpLrFcCJuG3C2Nbbtr4p+Hx1nEsqjvEHOb
-        gAGTappyqVhuWLbV2vG+s+d+JOawNYoX8OwXM3g+F2pWKKMFoI2brgabpZIl
-        3+tpcWp46fBxFvNkm53nqKuBUhs8aogcbaueGxuiJPTDY9ycpKaXJknG/gc3
-        ve4mUbwmE8U7lCiR4IngRktKNn3LFmeESWW/oYGdmyY1LketvnbZtqnfkMNo
-        qhIMBU/VUC+ZlFBaTZQuHISBsHKsUFAeUnWaiWMvfpaNbtQq2YBy0xQbYKou
-        NSzr7klDlctM0XHiODi3RRghxKMHs6cN/kIhKavkmaHzJnJRAOprgubuWUNy
-        aOAGDfGkbX2dhtwD5GvF434jHnXKuhaCy+WjIq5Ny4dxIyfwfUg7z9WRTll0
-        SWDXhcRSFC6ruWirEhKrZHFsffugO8mC6rIfJkYbcEB9uJicEUSgSlXB+Ogq
-        VYlabQ3KtwK/qZKrbX3ddaSBdInKdMGrfl28lLJ5ESfrrqFGaru/K2LrYirS
-        3fhBsbUrvPWV8YjnfNu9p5+SV0N3Mldp7GCVUI1dRbStWob8bXaIqzsYfz+7
-        ILX31eckM+ubfc7Gabn/s6x0Xv9oBLpfbIiVVe+5LzOEYpg44Q4RGJtWhQio
-        wymT2NUtowBgG1s5d5KiSpd3hvCcmWTYXH9ooNByT8r2l/ih67gf/wAoM9w1
-        ug8AAA==
+      encoding: UTF-8
+      string: '{"wgs84_lat": 51.49986133446243, "coordsyst": "G", "shortcuts": {"WMC":
+        65759, "ward": 8569, "council": 2504}, "wgs84_lon": -0.1350066886694551, "postcode":
+        "SW1H 9AJ", "easting": 529548, "areas": {"900000": {"parent_area": null, "generation_high":
+        19, "all_names": {}, "id": 900000, "codes": {}, "name": "House of Commons",
+        "country": "", "type_name": "UK Parliament", "generation_low": 1, "country_name":
+        "-", "type": "WMP"}, "900001": {"parent_area": null, "generation_high": 22,
+        "all_names": {}, "id": 900001, "codes": {}, "name": "European Parliament",
+        "country": "", "type_name": "European Parliament", "generation_low": 1, "country_name":
+        "-", "type": "EUP"}, "105250": {"parent_area": null, "generation_high": 22,
+        "all_names": {}, "id": 105250, "codes": {"ons": "E01004731"}, "name": "Westminster
+        020A", "country": "E", "type_name": "Lower Layer Super Output Area (Generalised)",
+        "generation_low": 13, "country_name": "England", "type": "OLG"}, "42052":
+        {"parent_area": null, "generation_high": 22, "all_names": {}, "id": 42052,
+        "codes": {"ons": "E02000979"}, "name": "Westminster 020", "country": "E",
+        "type_name": "Middle Layer Super Output Area (Generalised)", "generation_low":
+        13, "country_name": "England", "type": "OMG"}, "900006": {"parent_area": null,
+        "generation_high": 22, "all_names": {}, "id": 900006, "codes": {}, "name":
+        "London Assembly", "country": "E", "type_name": "London Assembly area", "generation_low":
+        1, "country_name": "England", "type": "LAS"}, "2247": {"parent_area": null,
+        "generation_high": 22, "all_names": {}, "id": 2247, "codes": {"unit_id": "41441"},
+        "name": "Greater London Authority", "country": "E", "type_name": "Greater
+        London Authority", "generation_low": 1, "country_name": "England", "type":
+        "GLA"}, "2504": {"parent_area": null, "generation_high": 22, "all_names":
+        {}, "id": 2504, "codes": {"ons": "00BK", "gss": "E09000033", "unit_id": "11164"},
+        "name": "Westminster City Council", "country": "E", "type_name": "London borough",
+        "generation_low": 1, "country_name": "England", "type": "LBO"}, "34858": {"parent_area":
+        null, "generation_high": 22, "all_names": {}, "id": 34858, "codes": {"ons":
+        "E02000979"}, "name": "Westminster 020", "country": "E", "type_name": "Middle
+        Layer Super Output Area (Full)", "generation_low": 13, "country_name": "England",
+        "type": "OMF"}, "900002": {"parent_area": 900006, "generation_high": 22, "all_names":
+        {}, "id": 900002, "codes": {}, "name": "London Assembly", "country": "E",
+        "type_name": "London Assembly area (shared)", "generation_low": 1, "country_name":
+        "England", "type": "LAE"}, "11828": {"parent_area": 2247, "generation_high":
+        22, "all_names": {}, "id": 11828, "codes": {"gss": "E32000014", "unit_id":
+        "41449"}, "name": "West Central", "country": "E", "type_name": "London Assembly
+        constituency", "generation_low": 1, "country_name": "England", "type": "LAC"},
+        "70872": {"parent_area": null, "generation_high": 22, "all_names": {}, "id":
+        70872, "codes": {"ons": "E01004731"}, "name": "Westminster 020A", "country":
+        "E", "type_name": "Lower Layer Super Output Area (Full)", "generation_low":
+        13, "country_name": "England", "type": "OLF"}, "8569": {"parent_area": 2504,
+        "generation_high": 22, "all_names": {}, "id": 8569, "codes": {"ons": "00BKGQ",
+        "gss": "E05000644", "unit_id": "11162"}, "name": "St James''s", "country":
+        "E", "type_name": "London borough ward", "generation_low": 1, "country_name":
+        "England", "type": "LBW"}, "11806": {"parent_area": null, "generation_high":
+        22, "all_names": {}, "id": 11806, "codes": {"ons": "07", "gss": "E15000007",
+        "unit_id": "41428"}, "name": "London", "country": "E", "type_name": "European
+        region", "generation_low": 1, "country_name": "England", "type": "EUR"}, "65759":
+        {"parent_area": null, "generation_high": 22, "all_names": {}, "id": 65759,
+        "codes": {"gss": "E14000639", "unit_id": "25040"}, "name": "Cities of London
+        and Westminster", "country": "E", "type_name": "UK Parliament constituency",
+        "generation_low": 13, "country_name": "England", "type": "WMC"}}, "northing":
+        179535}'
     http_version: 
-  recorded_at: Tue, 08 Jul 2014 13:59:41 GMT
+  recorded_at: Mon, 11 Aug 2014 14:17:09 GMT
 recorded_with: VCR 2.8.0

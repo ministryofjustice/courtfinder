@@ -28,28 +28,27 @@ feature 'Money claims and possession should show helpful messages' do
   context 'Money claims' do
 
     scenario 'When searched for a money claims court, it should only show the County Court Money Claims Centre (CCMCC) as the only search result', js: true do
-      visit '/'
-      fill_in 'search-main', with: 'SW1H9AJ'
-      select 'Money claims', from: 'Area of law'
-
       VCR.use_cassette('money_claims_postcode') do
+        visit '/'
+        fill_in 'search-main', with: 'SW1H9AJ'
+        select 'Money claims', from: 'Area of law'
+
         click_button 'Search'
-      end
-    # save_and_open_page
 
-      # Check the search results are present
-      expect(page).to have_content('All paper claim forms should be sent to:')
-      within(:css, "li.court-money-claims-bulk-centre") do
-        expect(page.find('.court-title')).to have_content('County Court Money Claims Centre')
-      end
+        # Check the search results are present
+        expect(page).to have_content('All paper claim forms should be sent to:')
+        within(:css, "li.court-money-claims-bulk-centre") do
+          expect(page.find('.court-title')).to have_content('County Court Money Claims Centre')
+        end
 
-      # Check the search results are present
-      expect(page.all('.search-results > li').count).to eq 1
-      expect(page).to have_content('Hearings can be held at:')
-      within(:css, "ul.search-results") do
-        expect(page.find('.court-title')).to have_content('Central London County Court')
-      end
+        # Check the search results are present
+        expect(page.all('.search-results > li').count).to eq 1
+        expect(page).to have_content('Hearings can be held at:')
+        within(:css, "ul.search-results") do
+          expect(page.find('.court-title')).to have_content('Central London County Court')
+        end
 
+      end
     end
 
   end
