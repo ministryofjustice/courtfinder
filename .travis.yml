@@ -4,17 +4,16 @@ rvm:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq phantomjs
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-
-before_script:
-  - psql -c 'create database courtfinder_test;' -U postgres
+  - sudo apt-get install xvfb
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
+before_script:
+  - psql -c 'create database courtfinder_test;' -U postgres
 services: postgres
 script:
   - bundle exec rake db:migrate
+  - "export DISPLAY=:99.0"
   - bundle exec rake spec
 env:
   - TRAVIS=true CODECLIMATE_REPO_TOKEN=f23ddd42ccfea1b54a5ad17574fe038957bf90c0057bceaa4b652b48fa183845
