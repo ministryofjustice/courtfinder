@@ -117,6 +117,11 @@ class Admin::CourtsController < Admin::ApplicationController
     @area_of_law = AreaOfLaw.where(id: params[:area_of_law_id]).first || AreaOfLaw.where(name: 'Children').first
   end
 
+  def civil
+    @courts = Court.by_area_of_law(['Money claims','Housing possession','Bankruptcy']).by_name.paginate(page: params[:page], per_page: 30)
+    @area_of_law = AreaOfLaw.where(id: params[:area_of_law_id]).first || AreaOfLaw.where(name: 'Bankruptcy').first
+  end
+
   def audit
     @courts = Court.by_name
     render text: audit_csv

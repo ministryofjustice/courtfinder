@@ -5,7 +5,7 @@ module Concerns
 
       included do
         attr_accessor :invalid_councils
-        attr_accessible :children_councils_list, :divorce_councils_list, :adoption_councils_list
+        attr_accessible :children_councils_list, :divorce_councils_list, :adoption_councils_list, :money_claims_councils_list, :bankruptcy_councils_list, :housing_possession_councils_list
 
         has_many :court_council_links
         has_many :councils, through: :court_council_links
@@ -67,9 +67,46 @@ module Concerns
           self.set_area_councils_list list, 'Divorce'
         end
 
+        def money_claims_councils
+          self.area_councils 'Money claims'
+        end
+
+        def money_claims_councils_list
+          self.area_councils_list 'Money claims'
+        end
+
+        def money_claims_councils_list=(list)
+          self.set_area_councils_list list, 'Money claims'
+        end
+
+        def bankruptcy_councils
+          self.area_councils 'Bankruptcy'
+        end
+
+        def bankruptcy_councils_list
+          self.area_councils_list 'Bankruptcy'
+        end
+
+        def bankruptcy_councils_list=(list)
+          self.set_area_councils_list list, 'Bankruptcy'
+        end
+
+        def housing_possession_councils
+          self.area_councils 'Housing possession'
+        end
+
+        def housing_possession_councils_list
+          self.area_councils_list 'Housing possession'
+        end
+
+        def housing_possession_councils_list=(list)
+          self.set_area_councils_list list, 'Housing possession'
+        end
+
         def adoption_councils
           self.area_councils 'Adoption'
         end
+
 
         def adoption_councils_list
           self.area_councils_list 'Adoption'
