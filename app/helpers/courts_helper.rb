@@ -23,5 +23,11 @@ module CourtsHelper
       block.call area.name, area.id
     end
   end
-  
+
+  def civil_areas_of_law(&block)
+    AreaOfLaw.where(name: ['Money claims', 'Bankruptcy', 'Housing possession']).each do |area|
+      block.call area.name, area.id
+    end
+  end
+
 end
