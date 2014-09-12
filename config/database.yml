@@ -15,6 +15,7 @@ test:
   adapter: postgresql
   database: courtfinder_test
   host: localhost
+  pool: 50
   username: <%= ENV['JENKINS'] ? 'courtfinder' : `whoami`.strip %>
 
 production:
