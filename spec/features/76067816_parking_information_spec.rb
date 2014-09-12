@@ -10,6 +10,7 @@ feature 'Adding simple parking information to a court' do
       sign_in user
 
       visit '/admin/courts/the-court/edit'
+      expect(page.status_code).to eq(200)
       expect(page).to have_content('Editing court')
       click_link 'Parking'
     end
