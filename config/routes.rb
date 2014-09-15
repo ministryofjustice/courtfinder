@@ -25,9 +25,6 @@ Courtfinder::Application.routes.draw do
     match '/' => :index, :as => :regions
     match '/:id' => :show, :as => :region
   end
-  scope 'postcodes', :controller => :postcodes do
-    match '/repossession' => :repossession, :as => :repossession
-  end
 
   get '/search/:area_of_law', to: 'home#index', as: 'area_of_law_landing'
 
@@ -50,7 +47,7 @@ Courtfinder::Application.routes.draw do
       collection do
         get :areas_of_law
         get :court_types
-        get :postcodes
+        get :civil
         get :family
         get :audit
       end

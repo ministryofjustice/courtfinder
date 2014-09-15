@@ -166,6 +166,9 @@ describe Court do
     let!(:children) { create(:area_of_law, name: 'Children') }
     let!(:divorce)  { create(:area_of_law, name: 'Divorce') }
     let!(:adoption) { create(:area_of_law, name: 'Adoption') }
+    let!(:possession) { create(:area_of_law, name: 'Housing possession') }
+    let!(:bankruptcy) { create(:area_of_law, name: 'Bankruptcy') }
+    let!(:money) { create(:area_of_law, name: 'Money claims') }
     let!(:court) { create(:court) }
     let!(:council) { create(:council) }
 
@@ -180,6 +183,20 @@ describe Court do
       it 'returns a comma seperated list of council names' do
         court.court_council_links.create(council: council, area_of_law: divorce)
         court.divorce_councils_list.should eq(council.name)
+      end
+    end
+
+    describe '#possession_councils_list' do
+      it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: council, area_of_law: possession)
+        court.housing_possession_councils_list.should eq(council.name)
+      end
+    end
+
+    describe '#money_councils_list' do
+      it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: council, area_of_law: money)
+        court.money_claims_councils_list.should eq(council.name)
       end
     end
 
@@ -206,6 +223,32 @@ describe Court do
         court.children_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
         court.children_councils.count.should eq(2)
         court.children_councils.should eq(councils)
+      end
+    end
+
+    describe '#bankruptcy_councils_list=' do
+      let(:councils) { 2.times.map{ create(:council) } }
+
+      it 'assigns new councils from comma seperated list' do
+        court.bankruptcy_councils_list = councils.map(&:name).join(',')
+        court.bankruptcy_councils.should include(councils.first)
+        court.bankruptcy_councils.should include(councils.last)
+      end
+
+      it 'removes councils not in list' do
+        councils.each do |council|
+          court.court_council_links.create(area_of_law: bankruptcy, council_id: council.id)
+        end
+
+        court.bankruptcy_councils_list = councils.first.name
+        court.bankruptcy_councils.count.should eq(1)
+        court.bankruptcy_councils.first.name.should eq(councils.first.name)
+      end
+
+      it 'does not add a council unless the name is matched' do
+        court.bankruptcy_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
+        court.bankruptcy_councils.count.should eq(2)
+        court.bankruptcy_councils.should eq(councils)
       end
     end
 
