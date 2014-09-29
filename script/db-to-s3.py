@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# This script generates 
+# This script generates
 #
 #
 #
@@ -14,10 +14,12 @@ import json
 try:
     S3_KEY=os.environ['S3_KEY']
     S3_SECRET=os.environ['S3_SECRET']
+    S3_BUCKET=os.environ['S3_BUCKET']
     DBNAME=os.environ['COURTFINDER_DBNAME']
     DBUSER=os.environ['COURTFINDER_DBUSER']
+
 except KeyError:
-    print "You must set the following environment variables: S3_KEY, S3_SECRET, COURTFINDER_DBUSER and COURTFINDER_DBNAME"
+    print "You must set the following environment variables: S3_KEY, S3_SECRET, S3_BUCKET, COURTFINDER_DBUSER and COURTFINDER_DBNAME"
     sys.exit(-1)
 
 conn = psycopg2.connect("dbname='COURTFINDER_DBNAME' user='COURTFINDER_DBUSER' host='localhost'")
@@ -252,9 +254,9 @@ def upload_to_s3():
                              tls=True,
                              endpoint='s3-eu-west-1.amazonaws.com')
     f = open('/tmp/courts.json', 'rb')
-    conn.upload('courts.json', f, 'moj-courtfinder-search-data')
+    conn.upload('courts.json', f, S3_BUCKET)
     f = open('/tmp/countries.json', 'rb')
-    conn.upload('countries.json', f, 'moj-courtfinder-search-data')
+    conn.upload('countries.json', f, S3_BUCKET)
     print 'uploaded'
 
 
