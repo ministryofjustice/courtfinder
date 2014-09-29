@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# This script generates
-#
-#
-#
+# This script generates json files from the courtfinder admin database,
+# and uploads them to an S3 bucket.
+# Those files are then expected to be consumed by the courtfinder search
+# application
 
 import os
 import sys
