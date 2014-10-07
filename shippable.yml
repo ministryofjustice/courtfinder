@@ -1,0 +1,33 @@
+language: ruby
+
+rvm:
+  - ruby-2.0.0
+
+env:
+  global:
+    - PROJECT=courtfinder
+    - HIPCHAT_ROOM=147294
+    - APP_NAME=courtfinder
+    - secure: AilDTDdphOGoqoXo8qyDEMA7SqK+uUTplkxUd74YoLKjxvhskN15RyLGZpDMIQB9gbKY2/S3WbNbcs0EnMA3bsafx6V8thoVSek5mZak9umppjrt0AzphfMzm2df9sCHhxF8uVGRp+ufJwvYnjBDugatPg54eMDpud9uUWhITpcFysQSvda8NGwwKsuRSTf917puEDy4qKscwut/6rksZKo0ZpHyyGuNti4JUl/PmgDsIIN96XO8/F0rRet9gSeIHaYg4l+y+EoVtq7BjsXbcV2W/tdifZMU5N80+HpK8bEX+ds3pzEMhYFj+qJf4eVGjbK23v1YVrSBI+iFpOQ1GQ==
+
+before_install:
+  - mkdir -p shippable/testresults
+  - mkdir -p shippable/codecoverage
+  - rvm list
+  - rvm install ruby
+
+install:
+  - bundle install
+
+#after_failure:
+#  - python hipchat_notifier.py --project $PROJECT --room $CF_HIPCHAT_ROOM --token $CF_HIPCHAT_TOKEN
+#
+#after_success:
+#  - python hipchat_notifier.py --project $PROJECT --room $CF_HIPCHAT_ROOM --token $CF_HIPCHAT_TOKEN -s
+#
+#notifications:
+#     email:
+#         recipients:
+#             - courtfinder@digital.justice.gov.uk
+#         on_success: change
+#         on_failure: always
