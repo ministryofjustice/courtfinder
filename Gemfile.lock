@@ -80,6 +80,9 @@ GEM
       columnize (~> 0.3.6)
       debugger-linecache (~> 1.2.0)
     callsite (0.0.11)
+    capybara-email (2.3.0)
+      capybara (~> 2.2.0)
+      mail
     capybara-webkit (1.2.0)
       capybara (>= 2.0.2, < 2.4.0)
       json
@@ -391,6 +394,7 @@ DEPENDENCIES
   binding_of_caller
   byebug
   capybara!
+  capybara-email
   capybara-webkit
   carrierwave!
   ckeditor_rails
