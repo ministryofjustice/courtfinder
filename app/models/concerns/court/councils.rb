@@ -28,18 +28,18 @@ module Concerns
           names = list.split(',').compact
 
           # map existing councils
-          exisiting_council_ids = court_council_links.where(area_of_law_id: area_of_law_id).map(&:council_id)
+          existing_council_ids = court_council_links.where(area_of_law_id: area_of_law_id).map(&:council_id)
           self.invalid_councils = []
           new_council_ids = names.map{|name| Council.where(name: name).first.try(:id) || self.invalid_councils << name }.compact
           
           # delete old records removed from list 
-          exisiting_council_ids.each do |id|
+          existing_council_ids.each do |id|
             court_council_links.where(council_id: id, area_of_law_id: area_of_law_id).first.delete unless new_council_ids.include?(id)
           end
 
           # add new records included in list
           new_council_ids.each do |id|
-            court_council_links.create!(council_id: id, area_of_law_id: area_of_law_id) unless exisiting_council_ids.include?(id)
+            court_council_links.create!(council_id: id, area_of_law_id: area_of_law_id) unless existing_council_ids.include?(id)
           end
         end
 
