@@ -29,7 +29,7 @@ install:
   - bundle exec rake db:test:prepare
 
 script:
-  - DISPLAY=localhost:1.0 xvfb-run rake
+  - DISPLAY=localhost:1.0 xvfb-run bundle exec rake
   - tar cvzf ../build.tar.gz .
   - ls -l ../
 
