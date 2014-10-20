@@ -19,13 +19,13 @@ module CourtsHelper
   end
 
   def family_areas_of_law(&block)
-    AreaOfLaw.where(name: ['Children', 'Divorce', 'Adoption']).each do |area|
+    AreaOfLaw.where(name: [AreaOfLaw::Name::CHILDREN, AreaOfLaw::Name::DIVORCE, AreaOfLaw::Name::ADOPTION]).each do |area|
       block.call area.name, area.id
     end
   end
 
   def civil_areas_of_law(&block)
-    AreaOfLaw.where(name: ['Money claims', 'Bankruptcy', 'Housing possession']).each do |area|
+    AreaOfLaw.where(name: [AreaOfLaw::Name::MONEY_CLAIMS, AreaOfLaw::Name::BANKRUPTCY, AreaOfLaw::Name::HOUSING_POSSESSION]).each do |area|
       block.call area.name, area.id
     end
   end
