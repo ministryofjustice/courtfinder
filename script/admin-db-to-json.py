@@ -280,23 +280,6 @@ class Data:
 
     def write_to_json(self, filename, data):
         js = json.dumps(data, indent=4, separators=(',', ': '), cls=DjangoJSONEncoder)
-        f = open('/tmp/%s.json' % filename, 'w')
-        print >> f, data
-        if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
-            with open('%s/%s.json' % (self.output_dir, filename), 'w') as f:
-                f.write(js)
-        else:
-            self.s3_upload('%s.json' % filename)
-
-    def s3_upload(self, filename):
-        k = Key(self.bucket)
-        k.key = filename
-        k.set_contents_from_filename('/tmp/%s' % filename)
-        # k.set_contents_from_string(data)
-        print "Upload to S3:", k.key
-
-    def write_to_json(self, filename, data):
-        js = json.dumps(data, indent=4, separators=(',', ': '))
         if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
             with open('%s/%s.json' % (self.output_dir, filename), 'w') as f:
                 f.write(js)
