@@ -26,7 +26,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
-  before_validation :convert_visiting_to_location
+  before_validation :convert_visiting_to_location, if: :visiting_postcode_changed?
 
   validates :name, presence: true
 
