@@ -1,6 +1,6 @@
 # Court Finder
 
-[![Build Status](https://travis-ci.org/ministryofjustice/courtfinder.png?branch=master)](https://travis-ci.org/ministryofjustice/courtfinder)
+[![Build Status](https://api.shippable.com/projects/54325aba80088cee586d4ca6/badge?branchName=master)](https://app.shippable.com/projects/54325aba80088cee586d4ca6/builds/latest)
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/courtfinder.png)](https://codeclimate.com/github/ministryofjustice/courtfinder)
 ## Set-up
 

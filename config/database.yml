@@ -15,9 +15,10 @@ test:
   adapter: postgresql
   database: courtfinder_test
   host: localhost
-  username: <%= ENV['JENKINS'] ? 'courtfinder' : `whoami`.strip %>
+  <% if ENV['SHIPPABLE'] %>
   username: courtfinder_test
   password: 123456
+  <% end %>
 
 production:
   adapter: postgresql
