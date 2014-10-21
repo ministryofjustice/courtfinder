@@ -16,8 +16,10 @@ test:
   database: courtfinder_test
   host: localhost
   pool: 50
+  <% if ENV['JENKINS'] %>
   username: courtfinder_test
   password: 123456
+  <% end %>
 
 production:
   adapter: postgresql
