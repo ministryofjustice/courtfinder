@@ -62,7 +62,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
-  before_validation :convert_visiting_to_location
+  before_validation :convert_visiting_to_location, if: :visiting_address_postcode_changed?
 
   validates :name, presence: true
 
@@ -173,6 +173,10 @@ class Court < ActiveRecord::Base
   def has_visiting_address?
     #Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
     visiting_addresses.count > 0
+  end
+
+  def visiting_address_postcode_changed?
+    visiting_addresses.first.try(:postcode_changed?)
   end
 
   def convert_visiting_to_location
