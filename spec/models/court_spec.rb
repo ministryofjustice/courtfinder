@@ -267,4 +267,46 @@ describe Court do
       end
     end
   end
+
+  describe '#visiting_postcode_changed?' do
+    context 'for an existing court with a visiting address' do
+      let(:court) { @county_court }
+
+      context 'which has changed' do
+        before(:each) do
+          court.visiting_addresses.first.postcode = 'SW1A 1AA'
+        end
+
+        it 'returns true' do
+          expect(court.visiting_postcode_changed?).to be_true
+        end
+      end
+
+      context 'which hasn\'t changed' do
+        it 'returns false' do
+          expect(court.visiting_postcode_changed?).to be_false
+        end
+      end
+    end
+
+    context 'for a new court' do
+      let(:court) { Court.new }
+
+      context 'with a visiting address with a postcode' do
+        before(:each) do
+          court.addresses = [@visiting_address1]
+        end
+
+        it 'returns true' do
+          expect(court.visiting_postcode_changed?).to be_true
+        end
+      end
+
+      context 'without a visiting address' do
+        it 'returns false' do
+          expect(court.visiting_postcode_changed?).to be_false
+        end
+      end
+    end
+  end
 end

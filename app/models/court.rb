@@ -179,6 +179,14 @@ class Court < ActiveRecord::Base
     visiting_addresses.first.try(:postcode)
   end
 
+  def visiting_postcode_changed?
+    if persisted?
+      self.class.find(id).visiting_postcode != visiting_postcode
+    else
+      visiting_postcode.present?
+    end
+  end
+
   def convert_visiting_to_location
     if visiting_postcode.present?
       begin
