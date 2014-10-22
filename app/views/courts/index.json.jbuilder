@@ -13,8 +13,8 @@ json.courts do
     json.description court.info if court.info?
     
     json.set! "@type", [ "Courthouse" ]
-    json.set! "geo:latitude", court.latitude if court.latitude?
-    json.set! "geo:longitude", court.longitude if court.longitude?
+    json.set! "geo:latitude", court.latitude if court.latitude.present?
+    json.set! "geo:longitude", court.longitude if court.longitude.present?
     
     addresses = court.addresses
     if address = (addresses.postal.first || addresses.visiting.first)
