@@ -26,7 +26,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
-  before_validation :convert_visiting_to_location
+  before_validation :convert_visiting_to_location, if: :visiting_postcode_changed?
 
   validates :name, presence: true
 
@@ -139,8 +139,20 @@ class Court < ActiveRecord::Base
     visiting_addresses.count > 0
   end
 
+  def visiting_postcode
+    visiting_addresses.first.try(:postcode)
+  end
+
+  def visiting_postcode_changed?
+    if persisted?
+      self.class.find(id).visiting_postcode != visiting_postcode
+    else
+      visiting_postcode.present?
+    end
+  end
+
   def convert_visiting_to_location
-    if visiting_postcode = visiting_addresses.first.try(:postcode)
+    if visiting_postcode.present?
       begin
         @cs = CourtSearch.new(visiting_postcode)
         if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
