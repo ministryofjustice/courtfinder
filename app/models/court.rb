@@ -139,8 +139,12 @@ class Court < ActiveRecord::Base
     visiting_addresses.count > 0
   end
 
+  def visiting_postcode
+    visiting_addresses.first.try(:postcode)
+  end
+
   def convert_visiting_to_location
-    if visiting_postcode = visiting_addresses.first.try(:postcode)
+    if visiting_postcode.present?
       begin
         @cs = CourtSearch.new(visiting_postcode)
         if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
