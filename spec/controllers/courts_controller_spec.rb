@@ -7,7 +7,7 @@ describe CourtsController do
     @ct_magistrate = create(:court_type, :name => "Magistrates Court")
     @ct_county = create(:court_type, :name => "County Court")
 
-    @court = create(:court, :name => 'A court of LAW').reload
+    @court = create(:court, :name => 'A court of LAW', :latitude => nil, :longitude => nil).reload
   end
 
   context "a list of courts" do
@@ -42,25 +42,31 @@ describe CourtsController do
                                            :address_ids => [@visiting_address.id, @postal_address.id])
       end
       @family_court = create(:court, :name => 'Capita Family Court',
+                                         :latitude => nil, :longitude => nil,
                                          :info_leaflet => "some useful info",
                                          :court_type_ids => [@ct_family.id], :display => true)
       @tribunal = create(:court, :name => 'Capita Tribunal',
+                                     :latitude => nil, :longitude => nil,
                                      :info_leaflet => "some useful info",
                                      :court_type_ids => [@ct_tribunal.id], :display => true)
       @magistrates_court = create(:court, :name => 'Capita Magistrates Court',
+                                              :latitude => nil, :longitude => nil,
                                               :info_leaflet => "some useful info",
                                               :court_type_ids => [@ct_magistrate.id], :display => true)
       @crown_court = create(:court, :name => 'Capita Crown Court',
+                                        :latitude => nil, :longitude => nil,
                                         :info_leaflet => "some useful info",
                                         :court_type_ids => [@ct_crown.id], :display => true) do |court|
         court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
       end
       @combined_court = create(:court, :name => 'Capita Combined Court',
+                                           :latitude => nil, :longitude => nil,
                                            :info_leaflet => "some useful info",
                                            :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
       @typeless_court = create(:court, :name => 'Capita Typeless Court',
+                                           :latitude => nil, :longitude => nil,
                                            :info_leaflet => "some useful info",
-                                           :display => true, :latitude => 50.0, :longitude => 0.0)
+                                           :display => true)
     end
 
     it "should set a vary header" do
