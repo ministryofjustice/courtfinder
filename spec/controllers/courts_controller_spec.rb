@@ -115,6 +115,22 @@ describe CourtsController do
                                               "@type"=>["Courthouse"]}
       end
 
+      context 'for a court on the prime meridian' do
+        before(:each) do
+          @court.update_attributes! latitude: 50, longitude: 0
+        end
+
+        it "json api returns correct information" do
+          get :show, id: @court.slug, format: :json
+          JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/","geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"},
+                                                "@id"=>"/courts/a-court-of-law",
+                                                "name"=>"A court of LAW",
+                                                "geo:latitude"=>"50.0",
+                                                "geo:longitude"=>"0.0",
+                                                "@type"=>["Courthouse"]}
+        end
+      end
+
       it "json api returns correct extra information" do
         @court.update_attributes(:info => 'some information')
         get :show, id: @court.slug, format: :json
