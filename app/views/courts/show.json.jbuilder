@@ -1,6 +1,6 @@
 json.set! "@context" do
   json.set! "@vocab", 'http://schema.org/'
-  json.geo 'http://www.w3.org/2003/01/geo/wgs84_pos#' if @court.latitude? or @court.longitude?
+  json.geo 'http://www.w3.org/2003/01/geo/wgs84_pos#' if @court.latitude.present? or @court.longitude.present?
 end
 
 json.set! "@id", court_path(@court)
@@ -11,8 +11,8 @@ json.name @court.name if @court.name?
 json.description @court.info if @court.info?
 
 json.set! "@type", [ "Courthouse" ]
-json.set! "geo:latitude", @court.latitude if @court.latitude?
-json.set! "geo:longitude", @court.longitude if @court.longitude?
+json.set! "geo:latitude", @court.latitude if @court.latitude.present?
+json.set! "geo:longitude", @court.longitude if @court.longitude.present?
 
 addresses = @court.addresses
 if address = (addresses.postal.first || addresses.visiting.first)
