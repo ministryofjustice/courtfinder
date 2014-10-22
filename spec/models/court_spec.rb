@@ -254,4 +254,17 @@ describe Court do
 
   end
 
+  describe '#visiting_postcode' do
+    context 'when the court has a visiting address' do
+      it 'returns the postcode of the visiting address' do
+        expect(@county_court.visiting_postcode).to eq 'SW1H9AJ'
+      end
+    end
+
+    context 'when the court doesn\'t have a visiting address' do
+      it 'returns nil' do
+        expect(@crown_court.visiting_postcode).to be_nil
+      end
+    end
+  end
 end
