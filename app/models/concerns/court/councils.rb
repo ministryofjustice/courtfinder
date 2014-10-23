@@ -15,15 +15,13 @@ module Concerns
           relation.map(&:name).join(',')
         end
 
-        def area_councils(area_of_law_name)
-          area_of_law = AreaOfLaw.find_by_name! area_of_law_name
+        def area_councils(area_of_law)
           councils.by_name.where court_council_links: { area_of_law_id: area_of_law.id }
         end
 
-        def set_area_councils_list(council_names_list, area_of_law_name)
+        def set_area_councils_list(council_names_list, area_of_law)
           council_names = council_names_list.split(',')
           councils = Council.find_all_by_name council_names
-          area_of_law = AreaOfLaw.find_by_name! area_of_law_name
 
           self.invalid_councils = council_names - councils.map(&:name)
           CourtCouncilLink.with_scope(create: { area_of_law: area_of_law }) do
@@ -32,76 +30,76 @@ module Concerns
         end
 
         def children_councils
-          self.area_councils AreaOfLaw.children.name
+          self.area_councils AreaOfLaw.children
         end
 
         def children_councils_list
-          self.area_councils_list AreaOfLaw.children.name
+          self.area_councils_list AreaOfLaw.children
         end
 
         def children_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.children.name
+          self.set_area_councils_list list, AreaOfLaw.children
         end
 
         def divorce_councils
-          self.area_councils AreaOfLaw.divorce.name
+          self.area_councils AreaOfLaw.divorce
         end
         
         def divorce_councils_list
-          self.area_councils_list AreaOfLaw.divorce.name
+          self.area_councils_list AreaOfLaw.divorce
         end
 
         def divorce_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.divorce.name
+          self.set_area_councils_list list, AreaOfLaw.divorce
         end
 
         def money_claims_councils
-          self.area_councils AreaOfLaw.money_claims.name
+          self.area_councils AreaOfLaw.money_claims
         end
 
         def money_claims_councils_list
-          self.area_councils_list AreaOfLaw.money_claims.name
+          self.area_councils_list AreaOfLaw.money_claims
         end
 
         def money_claims_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.money_claims.name
+          self.set_area_councils_list list, AreaOfLaw.money_claims
         end
 
         def bankruptcy_councils
-          self.area_councils AreaOfLaw.bankruptcy.name
+          self.area_councils AreaOfLaw.bankruptcy
         end
 
         def bankruptcy_councils_list
-          self.area_councils_list AreaOfLaw.bankruptcy.name
+          self.area_councils_list AreaOfLaw.bankruptcy
         end
 
         def bankruptcy_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.bankruptcy.name
+          self.set_area_councils_list list, AreaOfLaw.bankruptcy
         end
 
         def housing_possession_councils
-          self.area_councils AreaOfLaw.housing_possession.name
+          self.area_councils AreaOfLaw.housing_possession
         end
 
         def housing_possession_councils_list
-          self.area_councils_list AreaOfLaw.housing_possession.name
+          self.area_councils_list AreaOfLaw.housing_possession
         end
 
         def housing_possession_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.housing_possession.name
+          self.set_area_councils_list list, AreaOfLaw.housing_possession
         end
 
         def adoption_councils
-          self.area_councils AreaOfLaw.adoption.name
+          self.area_councils AreaOfLaw.adoption
         end
 
 
         def adoption_councils_list
-          self.area_councils_list AreaOfLaw.adoption.name
+          self.area_councils_list AreaOfLaw.adoption
         end
 
         def adoption_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.adoption.name
+          self.set_area_councils_list list, AreaOfLaw.adoption
         end
       end
 
