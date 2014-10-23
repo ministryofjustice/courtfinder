@@ -175,12 +175,14 @@ describe Court do
     describe '#children_councils_list' do
       it 'returns a comma seperated list of council names' do
         court.court_council_links.create(council: council, area_of_law: children)
+        court.court_council_links.create(council: create(:council), area_of_law: divorce)
         court.children_councils_list.should eq(council.name)
       end
     end
 
     describe '#divorce_councils_list' do
       it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: create(:council), area_of_law: children)
         court.court_council_links.create(council: council, area_of_law: divorce)
         court.divorce_councils_list.should eq(council.name)
       end
@@ -201,7 +203,7 @@ describe Court do
     end
 
     describe '#children_councils_list=' do
-      let(:councils) { 2.times.map{ create(:council) } }
+      let(:councils) { ['A', 'B'].map{ |name| create(:council, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
         court.children_councils_list = councils.map(&:name).join(',')
@@ -224,10 +226,21 @@ describe Court do
         court.children_councils.count.should eq(2)
         court.children_councils.should eq(councils)
       end
+
+      it 'reports invalid council names' do
+        court.children_councils_list = ['Bad council 1', councils.map(&:name), 'Bad council 2'].flatten.join(',')
+        expect(court.invalid_councils.size).to eq 2
+        expect(court.invalid_councils).to include('Bad council 1', 'Bad council 2')
+      end
+
+      it 'reports no invalid council names if there aren\'t any' do
+        court.children_councils_list = [councils.map(&:name)].flatten.join(',')
+        expect(court.invalid_councils).to be_empty
+      end
     end
 
     describe '#bankruptcy_councils_list=' do
-      let(:councils) { 2.times.map{ create(:council) } }
+      let(:councils) { ['A', 'B'].map{ |name| create(:council, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
         court.bankruptcy_councils_list = councils.map(&:name).join(',')
@@ -249,6 +262,17 @@ describe Court do
         court.bankruptcy_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
         court.bankruptcy_councils.count.should eq(2)
         court.bankruptcy_councils.should eq(councils)
+      end
+
+      it 'reports invalid council names' do
+        court.bankruptcy_councils_list = ['Bad council 1', councils.map(&:name), 'Bad council 2'].flatten.join(',')
+        expect(court.invalid_councils.size).to eq 2
+        expect(court.invalid_councils).to include('Bad council 1', 'Bad council 2')
+      end
+
+      it 'reports no invalid council names if there aren\'t any' do
+        court.bankruptcy_councils_list = [councils.map(&:name)].flatten.join(',')
+        expect(court.invalid_councils).to be_empty
       end
     end
 

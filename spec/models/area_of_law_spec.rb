@@ -61,4 +61,19 @@ describe AreaOfLaw do
       area.as_json.should include('path')
     end
   end
+
+  describe 'class methods for named records' do
+    it 'finds the record with the right name' do
+      names = ['Adoption', 'Bankruptcy', 'Children', 'Divorce', 'Housing possession', 'Money claims']
+      adoption, bankruptcy, children, divorce, housing_possession, money_claims =
+        names.map { |name| create :area_of_law, name: name }
+
+      expect(AreaOfLaw.adoption).to eq adoption
+      expect(AreaOfLaw.bankruptcy).to eq bankruptcy
+      expect(AreaOfLaw.children).to eq children
+      expect(AreaOfLaw.divorce).to eq divorce
+      expect(AreaOfLaw.housing_possession).to eq housing_possession
+      expect(AreaOfLaw.money_claims).to eq money_claims
+    end
+  end
 end
