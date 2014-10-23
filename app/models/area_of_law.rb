@@ -31,6 +31,21 @@ class AreaOfLaw < ActiveRecord::Base
     MONEY_CLAIMS       = 'Money claims'
   end
 
+  class << self
+    {
+      adoption:           Name::ADOPTION,
+      bankruptcy:         Name::BANKRUPTCY,
+      children:           Name::CHILDREN,
+      divorce:            Name::DIVORCE,
+      housing_possession: Name::HOUSING_POSSESSION,
+      money_claims:       Name::MONEY_CLAIMS
+    }.each do |method_name, area_of_law_name|
+      define_method method_name do
+        find_by_name! area_of_law_name
+      end
+    end
+  end
+
   attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children, :type_adoption, :type_divorce, :group_id
   has_many :courts_areas_of_law
   has_many :courts, through: :courts_areas_of_law
