@@ -24,22 +24,13 @@ module Concerns
         end
 
         def set_area_councils_list(list, area_of_law)
-          area_of_law_id = AreaOfLaw.where(name: area_of_law).first.id
-          names = list.split(',').compact
+          council_names = list.split(',')
+          councils = Council.find_all_by_name council_names
+          area_of_law = AreaOfLaw.find_by_name! area_of_law
 
-          # map existing councils
-          existing_council_ids = court_council_links.where(area_of_law_id: area_of_law_id).map(&:council_id)
-          self.invalid_councils = []
-          new_council_ids = names.map{|name| Council.where(name: name).first.try(:id) || self.invalid_councils << name }.compact
-          
-          # delete old records removed from list 
-          existing_council_ids.each do |id|
-            court_council_links.where(council_id: id, area_of_law_id: area_of_law_id).first.delete unless new_council_ids.include?(id)
-          end
-
-          # add new records included in list
-          new_council_ids.each do |id|
-            court_council_links.create!(council_id: id, area_of_law_id: area_of_law_id) unless existing_council_ids.include?(id)
+          self.invalid_councils = council_names - councils.map(&:name)
+          CourtCouncilLink.with_scope(create: { area_of_law: area_of_law }) do
+            self.councils = councils
           end
         end
 
