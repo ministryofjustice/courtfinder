@@ -175,12 +175,14 @@ describe Court do
     describe '#children_councils_list' do
       it 'returns a comma seperated list of council names' do
         court.court_council_links.create(council: council, area_of_law: children)
+        court.court_council_links.create(council: create(:council), area_of_law: divorce)
         court.children_councils_list.should eq(council.name)
       end
     end
 
     describe '#divorce_councils_list' do
       it 'returns a comma seperated list of council names' do
+        court.court_council_links.create(council: create(:council), area_of_law: children)
         court.court_council_links.create(council: council, area_of_law: divorce)
         court.divorce_councils_list.should eq(council.name)
       end
