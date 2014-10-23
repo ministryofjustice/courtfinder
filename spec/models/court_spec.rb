@@ -203,7 +203,7 @@ describe Court do
     end
 
     describe '#children_councils_list=' do
-      let(:councils) { 2.times.map{ create(:council) } }
+      let(:councils) { ['A', 'B'].map{ |name| create(:council, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
         court.children_councils_list = councils.map(&:name).join(',')
@@ -240,7 +240,7 @@ describe Court do
     end
 
     describe '#bankruptcy_councils_list=' do
-      let(:councils) { 2.times.map{ create(:council) } }
+      let(:councils) { ['A', 'B'].map{ |name| create(:council, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
         court.bankruptcy_councils_list = councils.map(&:name).join(',')
