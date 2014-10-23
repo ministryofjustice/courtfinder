@@ -23,7 +23,7 @@ module Concerns
           relation.map(&:council).compact
         end
 
-        def set_area_councils_list(list, area_of_law = nil)
+        def set_area_councils_list(list, area_of_law)
           area_of_law_id = AreaOfLaw.where(name: area_of_law).first.id
           names = list.split(',').compact
 
