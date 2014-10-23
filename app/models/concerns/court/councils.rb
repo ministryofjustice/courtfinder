@@ -23,10 +23,10 @@ module Concerns
           relation.map(&:council).compact
         end
 
-        def set_area_councils_list(list, area_of_law)
-          council_names = list.split(',')
+        def set_area_councils_list(council_names_list, area_of_law_name)
+          council_names = council_names_list.split(',')
           councils = Council.find_all_by_name council_names
-          area_of_law = AreaOfLaw.find_by_name! area_of_law
+          area_of_law = AreaOfLaw.find_by_name! area_of_law_name
 
           self.invalid_councils = council_names - councils.map(&:name)
           CourtCouncilLink.with_scope(create: { area_of_law: area_of_law }) do
