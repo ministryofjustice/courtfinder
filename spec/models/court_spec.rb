@@ -224,6 +224,17 @@ describe Court do
         court.children_councils.count.should eq(2)
         court.children_councils.should eq(councils)
       end
+
+      it 'reports invalid council names' do
+        court.children_councils_list = ['Bad council 1', councils.map(&:name), 'Bad council 2'].flatten.join(',')
+        expect(court.invalid_councils.size).to eq 2
+        expect(court.invalid_councils).to include('Bad council 1', 'Bad council 2')
+      end
+
+      it 'reports no invalid council names if there aren\'t any' do
+        court.children_councils_list = [councils.map(&:name)].flatten.join(',')
+        expect(court.invalid_councils).to be_empty
+      end
     end
 
     describe '#bankruptcy_councils_list=' do
@@ -249,6 +260,17 @@ describe Court do
         court.bankruptcy_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
         court.bankruptcy_councils.count.should eq(2)
         court.bankruptcy_councils.should eq(councils)
+      end
+
+      it 'reports invalid council names' do
+        court.bankruptcy_councils_list = ['Bad council 1', councils.map(&:name), 'Bad council 2'].flatten.join(',')
+        expect(court.invalid_councils.size).to eq 2
+        expect(court.invalid_councils).to include('Bad council 1', 'Bad council 2')
+      end
+
+      it 'reports no invalid council names if there aren\'t any' do
+        court.bankruptcy_councils_list = [councils.map(&:name)].flatten.join(',')
+        expect(court.invalid_councils).to be_empty
       end
     end
 
