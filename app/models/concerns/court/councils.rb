@@ -15,8 +15,8 @@ module Concerns
           relation.map(&:name).join(',')
         end
 
-        def area_councils(area_of_law)
-          area_of_law = AreaOfLaw.find_by_name! area_of_law
+        def area_councils(area_of_law_name)
+          area_of_law = AreaOfLaw.find_by_name! area_of_law_name
           councils.by_name.where court_council_links: { area_of_law_id: area_of_law.id }
         end
 
