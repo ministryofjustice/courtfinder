@@ -29,77 +29,18 @@ module Concerns
           end
         end
 
-        def children_councils
-          self.area_councils AreaOfLaw.children
-        end
+        %i(children divorce money_claims bankruptcy housing_possession adoption).each do |method_name|
+          define_method :"#{method_name}_councils" do
+            area_councils AreaOfLaw.send(method_name)
+          end
 
-        def children_councils_list
-          self.area_councils_list AreaOfLaw.children
-        end
+          define_method :"#{method_name}_councils_list" do
+            area_councils_list AreaOfLaw.send(method_name)
+          end
 
-        def children_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.children
-        end
-
-        def divorce_councils
-          self.area_councils AreaOfLaw.divorce
-        end
-        
-        def divorce_councils_list
-          self.area_councils_list AreaOfLaw.divorce
-        end
-
-        def divorce_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.divorce
-        end
-
-        def money_claims_councils
-          self.area_councils AreaOfLaw.money_claims
-        end
-
-        def money_claims_councils_list
-          self.area_councils_list AreaOfLaw.money_claims
-        end
-
-        def money_claims_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.money_claims
-        end
-
-        def bankruptcy_councils
-          self.area_councils AreaOfLaw.bankruptcy
-        end
-
-        def bankruptcy_councils_list
-          self.area_councils_list AreaOfLaw.bankruptcy
-        end
-
-        def bankruptcy_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.bankruptcy
-        end
-
-        def housing_possession_councils
-          self.area_councils AreaOfLaw.housing_possession
-        end
-
-        def housing_possession_councils_list
-          self.area_councils_list AreaOfLaw.housing_possession
-        end
-
-        def housing_possession_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.housing_possession
-        end
-
-        def adoption_councils
-          self.area_councils AreaOfLaw.adoption
-        end
-
-
-        def adoption_councils_list
-          self.area_councils_list AreaOfLaw.adoption
-        end
-
-        def adoption_councils_list=(list)
-          self.set_area_councils_list list, AreaOfLaw.adoption
+          define_method :"#{method_name}_councils_list=" do |council_names_list|
+            set_area_councils_list council_names_list, AreaOfLaw.send(method_name)
+          end
         end
       end
 
