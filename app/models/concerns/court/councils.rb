@@ -16,11 +16,8 @@ module Concerns
         end
 
         def area_councils(area_of_law)
-          area_of_law_id = AreaOfLaw.where(name: area_of_law).first.id
-
-          relation = court_council_links.by_name
-          relation = relation.where(area_of_law_id: area_of_law_id)
-          relation.map(&:council).compact
+          area_of_law = AreaOfLaw.find_by_name! area_of_law
+          councils.by_name.where court_council_links: { area_of_law_id: area_of_law.id }
         end
 
         def set_area_councils_list(council_names_list, area_of_law_name)
