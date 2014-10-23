@@ -5,7 +5,6 @@ module Concerns
 
       included do
         attr_accessor :invalid_councils
-        attr_accessible :children_councils_list, :divorce_councils_list, :adoption_councils_list, :money_claims_councils_list, :bankruptcy_councils_list, :housing_possession_councils_list
 
         has_many :court_council_links
         has_many :councils, through: :court_council_links
@@ -41,6 +40,7 @@ module Concerns
           define_method :"#{method_name}_councils_list=" do |council_names_list|
             set_area_councils_list council_names_list, AreaOfLaw.send(method_name)
           end
+          attr_accessible :"#{method_name}_councils_list"
         end
       end
 
