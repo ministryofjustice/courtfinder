@@ -82,6 +82,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.include IsExpectedHelper
 end
 
 require 'vcr'
