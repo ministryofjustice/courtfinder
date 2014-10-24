@@ -45,8 +45,8 @@ class Court < ActiveRecord::Base
   has_many :court_facilities
   has_many :court_types_courts
   has_many :court_types, through: :court_types_courts
-  has_many :courts_areas_of_law
-  has_many :areas_of_law, through: :courts_areas_of_law
+  has_many :remits
+  has_many :areas_of_law, through: :remits
   has_many :postcode_courts, dependent: :destroy
 
   attr_accessible :court_number, :info, :name, :slug, :area_id, :cci_code, :old_id,

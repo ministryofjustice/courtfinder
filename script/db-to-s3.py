@@ -110,9 +110,9 @@ def areas_of_law_for_court( slug ):
     # areas of law for court
     cur = conn.cursor()
     sql = """SELECT a.name
-               FROM courts as c, areas_of_law as a, courts_areas_of_law as ac
-              WHERE ac.court_id = c.id
-                AND ac.area_of_law_id = a.id
+               FROM courts as c, areas_of_law as a, remits as r
+              WHERE r.court_id = c.id
+                AND r.area_of_law_id = a.id
                 AND c.slug = '%s'""" % slug
 
     cur.execute(sql)

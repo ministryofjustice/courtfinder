@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: courts_areas_of_law
+# Table name: remits
 #
 #  id             :integer          not null, primary key
 #  court_id       :integer
@@ -9,9 +9,9 @@
 #  updated_at     :datetime         not null
 #
 
-class CourtsAreasOfLaw < ActiveRecord::Base
+class Remit < ActiveRecord::Base
   belongs_to :court
   belongs_to :area_of_law
   attr_accessible :court_id, :area_of_law_id
-  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
+  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
 end

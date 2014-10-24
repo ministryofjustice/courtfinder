@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140723124913) do
+ActiveRecord::Schema.define(:version => 20141024103005) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -202,16 +202,6 @@ ActiveRecord::Schema.define(:version => 20140723124913) do
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
 
-  create_table "courts_areas_of_law", :force => true do |t|
-    t.integer  "court_id"
-    t.integer  "area_of_law_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
-  add_index "courts_areas_of_law", ["area_of_law_id"], :name => "index_courts_areas_of_law_on_area_of_law_id"
-  add_index "courts_areas_of_law", ["court_id"], :name => "index_courts_areas_of_law_on_court_id"
-
   create_table "emails", :force => true do |t|
     t.string   "address"
     t.integer  "court_id"
@@ -286,6 +276,16 @@ ActiveRecord::Schema.define(:version => 20140723124913) do
     t.datetime "updated_at", :null => false
     t.string   "slug"
   end
+
+  create_table "remits", :force => true do |t|
+    t.integer  "court_id"
+    t.integer  "area_of_law_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "remits", ["area_of_law_id"], :name => "index_remits_on_area_of_law_id"
+  add_index "remits", ["court_id"], :name => "index_remits_on_court_id"
 
   create_table "towns", :force => true do |t|
     t.string   "name"
