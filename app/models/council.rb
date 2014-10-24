@@ -14,6 +14,7 @@ class Council < ActiveRecord::Base
   
   has_many :court_council_links
   has_many :courts, through: :court_council_links
+  has_many :jurisdictions
 
   scope :by_name, -> { order('LOWER(name)') }
   scope :search, ->(query){ where('LOWER(name) like ?', "#{query.downcase}%").limit(10) }

@@ -15,7 +15,10 @@ describe Council do
   it { should validate_presence_of :name }
   it { should validate_uniqueness_of :name }
 
-  it { should have_many(:courts).through(:court_council_links) }
+  describe 'associations' do
+    it { is_expected.to have_many(:courts).through(:court_council_links) }
+    it { is_expected.to have_many :jurisdictions }
+  end
 
   describe '#unassigned_for_area_of_law' do
   	let(:children) { create(:area_of_law, name: 'Children') }
