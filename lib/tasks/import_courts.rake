@@ -222,7 +222,7 @@ namespace :import do
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.court_council_links.where({council_id: council.id, area_of_law_id: @area_of_law.id}).first_or_initialize.save!
+            court.remits.find_or_create_by_area_of_law_id!(@area_of_law.id).councils << council
           end
         end
       end
