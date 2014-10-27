@@ -96,7 +96,7 @@ class Court < ActiveRecord::Base
   scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
   scope :for_council,     -> (council) { joins(:councils).where("councils.name" => council) }
   scope :for_council_and_area_of_law, -> (council, area_of_law) {
-    joins(:councils).where("councils.name" => council, "court_council_links.area_of_law_id" => "#{area_of_law.id}")
+    joins(:councils).where("councils.name" => council, "remits.area_of_law_id" => "#{area_of_law.id}")
   }
   scope :by_postcode_court_mapping, -> (postcode, area_of_law = nil) {
     if postcode.present?
