@@ -187,7 +187,8 @@ class Data:
                         AND ccl.area_of_law_id = aol.id
                         AND ccl.council_id = co.id
                         AND c.slug = '%s'
-                        AND aol.name = '%s'""" % (slug, aol_name)
+                        AND aol.name = '%s'
+                      ORDER BY co.name""" % (slug, aol_name)
             cur.execute(sql)
             councils = [c[0] for c in cur.fetchall()]
             aols.append({
