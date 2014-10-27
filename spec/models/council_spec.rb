@@ -16,12 +16,18 @@ describe Council do
   it { should validate_uniqueness_of :name }
 
   describe 'associations' do
-    it { is_expected.to have_many(:courts).through(:court_council_links) }
     it { is_expected.to have_many :jurisdictions }
+    it { is_expected.to have_many(:remits).through(:jurisdictions) }
+    it { is_expected.to have_many(:courts).through(:remits) }
   end
 
   describe '#unassigned_for_area_of_law' do
     include CourtCouncilHelper
+
+    # Temporarily override the add_councils_to_court helper until court_spec is ready for it
+    def add_councils_to_court(councils:, court:, area_of_law:)
+      court.remits.find_or_create_by_area_of_law_id!(area_of_law.id).councils << councils
+    end
 
     let(:children) { create :area_of_law }
     let(:divorce)  { create :area_of_law }
