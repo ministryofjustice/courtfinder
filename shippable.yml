@@ -1,7 +1,7 @@
 language: ruby
 
 rvm:
-  - ruby-2.0.0
+  - ruby-2.1.1
 
 env:
   global:
@@ -19,7 +19,7 @@ before_install:
   - psql -c 'CREATE DATABASE "courtfinder_test";' -U postgres
   - psql -c "ALTER USER courtfinder_test WITH PASSWORD '123456';" -U postgres
   - rvm list
-  - rvm install 2.0.0
+  - rvm install 2.1.1
 
 install:
   - ruby -v
