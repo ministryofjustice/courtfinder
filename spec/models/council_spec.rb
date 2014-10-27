@@ -21,6 +21,8 @@ describe Council do
   end
 
   describe '#unassigned_for_area_of_law' do
+    include CourtCouncilHelper
+
     let(:children) { create(:area_of_law, name: 'Children') }
     let(:divorce) { create(:area_of_law, name: 'Divorce') }
     let(:council) { create(:council) }
@@ -31,7 +33,7 @@ describe Council do
     end
 
     it 'returns empty array when all all councils have assigned a court for an area of law' do
-      council.court_council_links.create!(court: court, area_of_law: children)
+      add_councils_to_court councils: [council], court: court, area_of_law: children
       
       Council.unassigned_for_area_of_law(children).should eq([])
       Council.unassigned_for_area_of_law(divorce).should eq([council])
@@ -40,8 +42,8 @@ describe Council do
     context 'a court with councils assigned for multiple areas_of_law' do
       
       it 'returns empty array when all all councils have assigned a court for an area of law' do
-        council.court_council_links.create!(court: court, area_of_law: children)
-        council.court_council_links.create!(court: court, area_of_law: divorce)
+        add_councils_to_court councils: [council], court: court, area_of_law: children
+        add_councils_to_court councils: [council], court: court, area_of_law: divorce
         
         Council.unassigned_for_area_of_law(children).should eq([])
       end

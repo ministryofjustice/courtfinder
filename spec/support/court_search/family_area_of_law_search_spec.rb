@@ -9,6 +9,8 @@ shared_examples "a search with area of law" do |area_of_law_name|
     :address_type_id => at_visiting.id, :postcode => 'SE19NH', :town_id => town.id) }
 
   context "Chosen area of law is #{area_of_law_name}" do
+    include CourtCouncilHelper
+
   	let!(:area) { AreaOfLaw.find_by_name(area_of_law_name)}
     # Location: http://mapit.service.dsd.io/nearest/4326/-0.110768,51449126: SW2 2YH (Inside the Lambeth Borough Council)
     let!(:court7) do
@@ -20,7 +22,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
     let!(:council) { Council.create(name: 'Lambeth Borough Council') }
 
     before(:each) do
-      court7.court_council_links.create({council_id: council.id, area_of_law_id: area.id })
+      add_councils_to_court councils: [council], court: court7, area_of_law: area
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
@@ -47,7 +49,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
       end
 
       before(:each) do
-        court9.court_council_links.create({council_id: council.id, area_of_law_id: area.id})
+        add_councils_to_court councils: [council], court: court9, area_of_law: area
       end
 
       it 'should return multiple courts sorted by distance' do
@@ -93,8 +95,8 @@ shared_examples "a search with area of law" do |area_of_law_name|
       end
 
       before(:each) do
-        court10.court_council_links.create({council_id: council.id, area_of_law_id: area.id })
-        court11.court_council_links.create({council_id: council.id, area_of_law_id: area.id })
+        add_councils_to_court councils: [council], court: court10, area_of_law: area
+        add_councils_to_court councils: [council], court: court11, area_of_law: area
       end
 
       it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
