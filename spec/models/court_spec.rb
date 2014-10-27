@@ -133,11 +133,13 @@ describe Court do
   end
 
   describe 'Find court by council name' do
+    include CourtCouncilHelper
+
     before(:each) do
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
       @council = Council.create(:name => 'Lambeth Borough Council')
       @area_of_law = create(:area_of_law, name: "Children", type_children: true)
-      @court7.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
+      add_councils_to_court councils: [@council], court: @court7, area_of_law: @area_of_law
     end
 
     context 'should return the name/names of the court for a given council' do
@@ -153,7 +155,7 @@ describe Court do
           it 'should return multiple courts sorted by name' do
 
             @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
-            @court9.court_council_links.create(council_id: @council.id, area_of_law_id: @area_of_law.id)
+            add_councils_to_court councils: [@council], court: @court9, area_of_law: @area_of_law
 
             expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
           end
@@ -163,6 +165,8 @@ describe Court do
   end
 
   context 'with areas_of_law' do
+    include CourtCouncilHelper
+
     let!(:children) { create(:area_of_law, name: 'Children') }
     let!(:divorce)  { create(:area_of_law, name: 'Divorce') }
     let!(:adoption) { create(:area_of_law, name: 'Adoption') }
@@ -174,30 +178,30 @@ describe Court do
 
     describe '#children_councils_list' do
       it 'returns a comma seperated list of council names' do
-        court.court_council_links.create(council: council, area_of_law: children)
-        court.court_council_links.create(council: create(:council), area_of_law: divorce)
+        add_councils_to_court councils: [council], court: court, area_of_law: children
+        add_councils_to_court councils: [create(:council)], court: court, area_of_law: divorce
         court.children_councils_list.should eq(council.name)
       end
     end
 
     describe '#divorce_councils_list' do
       it 'returns a comma seperated list of council names' do
-        court.court_council_links.create(council: create(:council), area_of_law: children)
-        court.court_council_links.create(council: council, area_of_law: divorce)
+        add_councils_to_court councils: [create(:council)], court: court, area_of_law: children
+        add_councils_to_court councils: [council], court: court, area_of_law: divorce
         court.divorce_councils_list.should eq(council.name)
       end
     end
 
     describe '#possession_councils_list' do
       it 'returns a comma seperated list of council names' do
-        court.court_council_links.create(council: council, area_of_law: possession)
+        add_councils_to_court councils: [council], court: court, area_of_law: possession
         court.housing_possession_councils_list.should eq(council.name)
       end
     end
 
     describe '#money_councils_list' do
       it 'returns a comma seperated list of council names' do
-        court.court_council_links.create(council: council, area_of_law: money)
+        add_councils_to_court councils: [council], court: court, area_of_law: money
         court.money_claims_councils_list.should eq(council.name)
       end
     end
@@ -213,7 +217,7 @@ describe Court do
 
       it 'removes councils not in list' do
         councils.each do |council|
-          court.court_council_links.create(area_of_law: children, council_id: council.id)
+          add_councils_to_court councils: [council], court: court, area_of_law: children
         end
 
         court.children_councils_list = councils.first.name
@@ -250,7 +254,7 @@ describe Court do
 
       it 'removes councils not in list' do
         councils.each do |council|
-          court.court_council_links.create(area_of_law: bankruptcy, council_id: council.id)
+          add_councils_to_court councils: [council], court: court, area_of_law: bankruptcy
         end
 
         court.bankruptcy_councils_list = councils.first.name
