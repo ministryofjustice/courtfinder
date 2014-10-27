@@ -24,11 +24,6 @@ describe Council do
   describe '#unassigned_for_area_of_law' do
     include CourtCouncilHelper
 
-    # Temporarily override the add_councils_to_court helper until court_spec is ready for it
-    def add_councils_to_court(councils:, court:, area_of_law:)
-      court.remits.find_or_create_by_area_of_law_id!(area_of_law.id).councils << councils
-    end
-
     let(:children) { create :area_of_law }
     let(:divorce)  { create :area_of_law }
 

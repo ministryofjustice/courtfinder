@@ -70,7 +70,9 @@ describe Court do
   end
 
   describe 'associations' do
-    it { should have_many(:councils).through(:court_council_links) }
+    it { should have_many :remits }
+    it { should have_many(:jurisdictions).through(:remits) }
+    it { should have_many(:councils).through(:jurisdictions) }
   end
 
   describe "searching" do
