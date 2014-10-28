@@ -24,4 +24,29 @@ feature 'manage the councils for civil and family courts' do
       expect(find_field('court[children_councils_list]').value).to eq @councils.map(&:name).join(',')
     end
   end
+
+  scenario 'mark a court as single point of entry' do
+    visit '/admin/courts/family'
+
+    click_link 'Children'
+    within :xpath, "//tr[contains(.,'#{@court.name}')]" do
+      check 'Single point of entry'
+      click_button 'Save'
+    end
+
+    expect(page).to have_content 'Court was successfully updated.'
+    within :xpath, "//tr[contains(.,'#{@court.name}')]" do
+      expect(page).to have_checked_field 'Single point of entry'
+    end
+
+    click_link 'Divorce'
+    within :xpath, "//tr[contains(.,'#{@court.name}')]" do
+      expect(page).to have_unchecked_field 'Single point of entry'
+    end
+
+    click_link 'Children'
+    within :xpath, "//tr[contains(.,'#{@court.name}')]" do
+      expect(page).to have_checked_field 'Single point of entry'
+    end
+  end
 end
