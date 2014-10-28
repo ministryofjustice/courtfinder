@@ -6,5 +6,8 @@
           %li= msg
 
   = f.text_field "#{area_of_law.name.downcase.gsub(' ','_')}_councils_list", class: 'council js-tags'
+  = label_tag do
+    = f.check_box "#{area_of_law.name.downcase.gsub(' ','_')}_single_point_of_entry"
+    Single point of entry
   = f.submit 'Save', class: 'button right'
 
