@@ -282,6 +282,62 @@ describe Court do
       end
     end
 
+    describe '#children_single_point_of_entry' do
+      context 'when the court is a single point of entry for Children' do
+        before(:each) do
+          court.remits.create! do |remit|
+            remit.area_of_law = children
+            remit.single_point_of_entry = true
+          end
+        end
+
+        it 'returns true' do
+          expect(court.children_single_point_of_entry).to be_true
+        end
+      end
+
+      context 'when the court is not a single point of entry for Children' do
+        before(:each) do
+          court.remits.create! do |remit|
+            remit.area_of_law = children
+            remit.single_point_of_entry = false
+          end
+        end
+
+        it 'returns false' do
+          expect(court.children_single_point_of_entry).to be_false
+        end
+      end
+
+      context 'when the court has no remit for Children' do
+        it 'returns false' do
+          expect(court.children_single_point_of_entry).to be_false
+        end
+      end
+    end
+
+    describe '#children_single_point_of_entry=' do
+      context 'when the court already has a remit for Children' do
+        before(:each) do
+          court.remits.create! do |remit|
+            remit.area_of_law = children
+            remit.single_point_of_entry = false
+          end
+        end
+
+        it 'updates the remit' do
+          court.children_single_point_of_entry = true
+          expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_true
+        end
+      end
+
+      context 'when the court has no remit for Children' do
+        it 'creates a remit with the appropriate value' do
+          court.children_single_point_of_entry = true
+          expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_true
+        end
+      end
+    end
   end
 
   describe '#visiting_postcode' do
