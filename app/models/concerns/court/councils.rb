@@ -26,6 +26,17 @@ module Concerns
           remits.find_or_create_by_area_of_law_id!(area_of_law.id).councils = councils
         end
 
+        def single_point_of_entry_for?(area_of_law)
+          remit = remits.find_by_area_of_law_id(area_of_law.id)
+          remit.present? && remit.single_point_of_entry?
+        end
+
+        def set_single_point_of_entry_for(area_of_law, value)
+          remit = remits.find_or_create_by_area_of_law_id!(area_of_law.id)
+          remit.single_point_of_entry = value
+          remit.save!
+        end
+
         %i(children divorce money_claims bankruptcy housing_possession adoption).each do |method_name|
           define_method :"#{method_name}_councils" do
             area_councils AreaOfLaw.send(method_name)
@@ -39,6 +50,15 @@ module Concerns
             set_area_councils_list council_names_list, AreaOfLaw.send(method_name)
           end
           attr_accessible :"#{method_name}_councils_list"
+
+          define_method :"#{method_name}_single_point_of_entry" do
+            single_point_of_entry_for? AreaOfLaw.send(method_name)
+          end
+
+          define_method :"#{method_name}_single_point_of_entry=" do |value|
+            set_single_point_of_entry_for AreaOfLaw.send(method_name), value
+          end
+          attr_accessible :"#{method_name}_single_point_of_entry"
         end
       end
 

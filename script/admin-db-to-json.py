@@ -168,15 +168,15 @@ class Data:
     def areas_of_law_for_court(self, slug):
         # areas of law for court
         cur = self.conn.cursor()
-        sql = """SELECT a.name
+        sql = """SELECT a.name, r.single_point_of_entry
                    FROM courts as c, areas_of_law as a, remits as r
                   WHERE r.court_id = c.id
                     AND r.area_of_law_id = a.id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
-        aol_list = [a[0] for a in cur.fetchall()]
+        aol_list = [(a[0], a[1]) for a in cur.fetchall()]
         aols = []
-        for aol_name in aol_list:
+        for aol_name, spoe in aol_list:
             cur = self.conn.cursor()
             sql = """SELECT co.name
                        FROM remits as r,
@@ -193,10 +193,16 @@ class Data:
                       ORDER BY co.name""" % (slug, aol_name)
             cur.execute(sql)
             councils = [c[0] for c in cur.fetchall()]
-            aols.append({
+
+            entry = {
                 "name": aol_name,
                 "councils": councils
-            })
+            }
+
+            if spoe:
+                entry['single_point_of_entry'] = spoe
+
+            aols.append(entry)
         return aols
 
     def postcodes_for_court(self, slug):

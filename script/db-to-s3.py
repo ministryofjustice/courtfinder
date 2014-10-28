@@ -109,17 +109,17 @@ def court_types_for_court( slug ):
 def areas_of_law_for_court( slug ):
     # areas of law for court
     cur = conn.cursor()
-    sql = """SELECT a.name
+    sql = """SELECT a.name, r.single_point_of_entry
                FROM courts as c, areas_of_law as a, remits as r
               WHERE r.court_id = c.id
                 AND r.area_of_law_id = a.id
                 AND c.slug = '%s'""" % slug
 
     cur.execute(sql)
-    aol_list = [a[0] for a in cur.fetchall()]
+    aol_list = [(a[0], a[1]) for a in cur.fetchall()]
 
     aols = []
-    for aol_name in aol_list:
+    for aol_name, spoe in aol_list:
         cur = conn.cursor()
         sql = """SELECT co.name
                    FROM remits as r,
@@ -140,7 +140,8 @@ def areas_of_law_for_court( slug ):
 
         aols.append({
             "name": aol_name,
-            "councils": councils
+            "councils": councils,
+            "single_point_of_entry": spoe
         })
 
     return aols

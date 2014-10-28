@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141027170544) do
+ActiveRecord::Schema.define(:version => 20141028100813) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -282,8 +282,9 @@ ActiveRecord::Schema.define(:version => 20141027170544) do
   create_table "remits", :force => true do |t|
     t.integer  "court_id"
     t.integer  "area_of_law_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.boolean  "single_point_of_entry", :default => false, :null => false
   end
 
   add_index "remits", ["area_of_law_id"], :name => "index_remits_on_area_of_law_id"
