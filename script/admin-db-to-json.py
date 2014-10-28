@@ -193,11 +193,16 @@ class Data:
                       ORDER BY co.name""" % (slug, aol_name)
             cur.execute(sql)
             councils = [c[0] for c in cur.fetchall()]
-            aols.append({
+
+            entry = {
                 "name": aol_name,
-                "councils": councils,
-                "single_point_of_entry": spoe
-            })
+                "councils": councils
+            }
+
+            if spoe:
+                entry['single_point_of_entry'] = spoe
+
+            aols.append(entry)
         return aols
 
     def postcodes_for_court(self, slug):
