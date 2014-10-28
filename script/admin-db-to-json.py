@@ -169,9 +169,9 @@ class Data:
         # areas of law for court
         cur = self.conn.cursor()
         sql = """SELECT a.name
-                   FROM courts as c, areas_of_law as a, courts_areas_of_law as ac
-                  WHERE ac.court_id = c.id
-                    AND ac.area_of_law_id = a.id
+                   FROM courts as c, areas_of_law as a, remits as r
+                  WHERE r.court_id = c.id
+                    AND r.area_of_law_id = a.id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
         aol_list = [a[0] for a in cur.fetchall()]
@@ -179,13 +179,15 @@ class Data:
         for aol_name in aol_list:
             cur = self.conn.cursor()
             sql = """SELECT co.name
-                       FROM court_council_links as ccl,
+                       FROM remits as r,
+                            jurisdictions as j,
                             areas_of_law as aol,
                             courts as c,
                             councils as co
-                      WHERE ccl.court_id = c.id
-                        AND ccl.area_of_law_id = aol.id
-                        AND ccl.council_id = co.id
+                      WHERE r.court_id = c.id
+                        AND r.area_of_law_id = aol.id
+                        AND j.remit_id = r.id
+                        AND j.council_id = co.id
                         AND c.slug = '%s'
                         AND aol.name = '%s'
                       ORDER BY co.name""" % (slug, aol_name)
