@@ -1,29 +1,29 @@
 module Concerns
   module Court
-    module Councils
+    module LocalAuthorities
       extend ActiveSupport::Concern
 
       included do
-        attr_accessor :invalid_councils
+        attr_accessor :invalid_local_authorities
 
         has_many :jurisdictions, through: :remits
         has_many :local_authorities, through: :jurisdictions
 
-        def area_councils_list(area_of_law = nil)
-          relation = area_councils(area_of_law)
+        def area_local_authorities_list(area_of_law = nil)
+          relation = area_local_authorities(area_of_law)
           relation.map(&:name).join(',')
         end
 
-        def area_councils(area_of_law)
+        def area_local_authorities(area_of_law)
           local_authorities.by_name.where remits: { area_of_law_id: area_of_law.id }
         end
 
-        def set_area_councils_list(council_names_list, area_of_law)
-          council_names = council_names_list.split(',')
-          councils = LocalAuthority.find_all_by_name council_names
+        def set_area_local_authorities_list(local_authority_names_list, area_of_law)
+          local_authority_names = local_authority_names_list.split(',')
+          local_authorities = LocalAuthority.find_all_by_name local_authority_names
 
-          self.invalid_councils = council_names - councils.map(&:name)
-          remits.find_or_create_by_area_of_law_id!(area_of_law.id).local_authorities = councils
+          self.invalid_local_authorities = local_authority_names - local_authorities.map(&:name)
+          remits.find_or_create_by_area_of_law_id!(area_of_law.id).local_authorities = local_authorities
         end
 
         def single_point_of_entry_for?(area_of_law)
@@ -38,18 +38,18 @@ module Concerns
         end
 
         %i(children divorce money_claims bankruptcy housing_possession adoption).each do |method_name|
-          define_method :"#{method_name}_councils" do
-            area_councils AreaOfLaw.send(method_name)
+          define_method :"#{method_name}_local_authorities" do
+            area_local_authorities AreaOfLaw.send(method_name)
           end
 
-          define_method :"#{method_name}_councils_list" do
-            area_councils_list AreaOfLaw.send(method_name)
+          define_method :"#{method_name}_local_authorities_list" do
+            area_local_authorities_list AreaOfLaw.send(method_name)
           end
 
-          define_method :"#{method_name}_councils_list=" do |council_names_list|
-            set_area_councils_list council_names_list, AreaOfLaw.send(method_name)
+          define_method :"#{method_name}_local_authorities_list=" do |local_authority_names_list|
+            set_area_local_authorities_list local_authority_names_list, AreaOfLaw.send(method_name)
           end
-          attr_accessible :"#{method_name}_councils_list"
+          attr_accessible :"#{method_name}_local_authorities_list"
 
           define_method :"#{method_name}_single_point_of_entry" do
             single_point_of_entry_for? AreaOfLaw.send(method_name)

@@ -9,7 +9,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
     :address_type_id => at_visiting.id, :postcode => 'SE19NH', :town_id => town.id) }
 
   context "Chosen area of law is #{area_of_law_name}" do
-    include CourtCouncilHelper
+    include CourtLocalAuthorityHelper
 
   	let!(:area) { AreaOfLaw.find_by_name(area_of_law_name)}
     # Location: http://mapit.service.dsd.io/nearest/4326/-0.110768,51449126: SW2 2YH (Inside the Lambeth Borough Council)
@@ -19,10 +19,10 @@ shared_examples "a search with area of law" do |area_of_law_name|
                                       :address_ids => [visiting_address.id])
       end
     end
-    let!(:council) { LocalAuthority.create(name: 'Lambeth Borough Council') }
+    let!(:local_authority) { LocalAuthority.create(name: 'Lambeth Borough Council') }
 
     before(:each) do
-      add_councils_to_court councils: [council], court: court7, area_of_law: area
+      add_local_authorities_to_court local_authorities: [local_authority], court: court7, area_of_law: area
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
@@ -49,7 +49,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
       end
 
       before(:each) do
-        add_councils_to_court councils: [council], court: court9, area_of_law: area
+        add_local_authorities_to_court local_authorities: [local_authority], court: court9, area_of_law: area
       end
 
       it 'should return multiple courts sorted by distance' do
@@ -95,8 +95,8 @@ shared_examples "a search with area of law" do |area_of_law_name|
       end
 
       before(:each) do
-        add_councils_to_court councils: [council], court: court10, area_of_law: area
-        add_councils_to_court councils: [council], court: court11, area_of_law: area
+        add_local_authorities_to_court local_authorities: [local_authority], court: court10, area_of_law: area
+        add_local_authorities_to_court local_authorities: [local_authority], court: court11, area_of_law: area
       end
 
       it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do

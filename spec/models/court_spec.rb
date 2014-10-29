@@ -135,21 +135,21 @@ describe Court do
   end
 
   describe 'Find court by council name' do
-    include CourtCouncilHelper
+    include CourtLocalAuthorityHelper
 
     before(:each) do
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
-      @council = LocalAuthority.create(:name => 'Lambeth Borough Council')
+      @local_authority = LocalAuthority.create(:name => 'Lambeth Borough Council')
       @area_of_law = create(:area_of_law, name: "Children", type_children: true)
-      add_councils_to_court councils: [@council], court: @court7, area_of_law: @area_of_law
+      add_local_authorities_to_court local_authorities: [@local_authority], court: @court7, area_of_law: @area_of_law
     end
 
     context 'should return the name/names of the court for a given council' do
 
-      describe '#for_council_and_area_of_law' do
+      describe '#for_local_authority_and_area_of_law' do
         context 'when there is only one court' do
           it 'should return Children Court' do
-            expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7]
+            expect(Court.for_local_authority_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7]
           end
         end
 
@@ -157,9 +157,9 @@ describe Court do
           it 'should return multiple courts sorted by name' do
 
             @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
-            add_councils_to_court councils: [@council], court: @court9, area_of_law: @area_of_law
+            add_local_authorities_to_court local_authorities: [@local_authority], court: @court9, area_of_law: @area_of_law
 
-            expect(Court.for_council_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
+            expect(Court.for_local_authority_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
           end
         end
       end
@@ -167,7 +167,7 @@ describe Court do
   end
 
   context 'with areas_of_law' do
-    include CourtCouncilHelper
+    include CourtLocalAuthorityHelper
 
     let!(:children) { create(:area_of_law, name: 'Children') }
     let!(:divorce)  { create(:area_of_law, name: 'Divorce') }
@@ -176,109 +176,109 @@ describe Court do
     let!(:bankruptcy) { create(:area_of_law, name: 'Bankruptcy') }
     let!(:money) { create(:area_of_law, name: 'Money claims') }
     let!(:court) { create(:court) }
-    let!(:council) { create(:local_authority) }
+    let!(:local_authority) { create(:local_authority) }
 
-    describe '#children_councils_list' do
+    describe '#children_local_authorities_list' do
       it 'returns a comma seperated list of council names' do
-        add_councils_to_court councils: [council], court: court, area_of_law: children
-        add_councils_to_court councils: [create(:local_authority)], court: court, area_of_law: divorce
-        court.children_councils_list.should eq(council.name)
+        add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: children
+        add_local_authorities_to_court local_authorities: [create(:local_authority)], court: court, area_of_law: divorce
+        court.children_local_authorities_list.should eq(local_authority.name)
       end
     end
 
-    describe '#divorce_councils_list' do
+    describe '#divorce_local_authorities_list' do
       it 'returns a comma seperated list of council names' do
-        add_councils_to_court councils: [create(:local_authority)], court: court, area_of_law: children
-        add_councils_to_court councils: [council], court: court, area_of_law: divorce
-        court.divorce_councils_list.should eq(council.name)
+        add_local_authorities_to_court local_authorities: [create(:local_authority)], court: court, area_of_law: children
+        add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: divorce
+        court.divorce_local_authorities_list.should eq(local_authority.name)
       end
     end
 
-    describe '#possession_councils_list' do
+    describe '#possession_local_authorities_list' do
       it 'returns a comma seperated list of council names' do
-        add_councils_to_court councils: [council], court: court, area_of_law: possession
-        court.housing_possession_councils_list.should eq(council.name)
+        add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: possession
+        court.housing_possession_local_authorities_list.should eq(local_authority.name)
       end
     end
 
-    describe '#money_councils_list' do
+    describe '#money_local_authorities_list' do
       it 'returns a comma seperated list of council names' do
-        add_councils_to_court councils: [council], court: court, area_of_law: money
-        court.money_claims_councils_list.should eq(council.name)
+        add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: money
+        court.money_claims_local_authorities_list.should eq(local_authority.name)
       end
     end
 
-    describe '#children_councils_list=' do
-      let(:councils) { ['A', 'B'].map{ |name| create(:local_authority, name: "Council #{name}") } }
+    describe '#children_local_authorities_list=' do
+      let(:local_authorities) { ['A', 'B'].map{ |name| create(:local_authority, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
-        court.children_councils_list = councils.map(&:name).join(',')
-        court.children_councils.should include(councils.first)
-        court.children_councils.should include(councils.last)
+        court.children_local_authorities_list = local_authorities.map(&:name).join(',')
+        court.children_local_authorities.should include(local_authorities.first)
+        court.children_local_authorities.should include(local_authorities.last)
       end
 
       it 'removes councils not in list' do
-        councils.each do |council|
-          add_councils_to_court councils: [council], court: court, area_of_law: children
+        local_authorities.each do |local_authority|
+          add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: children
         end
 
-        court.children_councils_list = councils.first.name
-        court.children_councils.count.should eq(1)
-        court.children_councils.first.name.should eq(councils.first.name)
+        court.children_local_authorities_list = local_authorities.first.name
+        court.children_local_authorities.count.should eq(1)
+        court.children_local_authorities.first.name.should eq(local_authorities.first.name)
       end
 
       it 'does not add a council unless the name is matched' do
-        court.children_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
-        court.children_councils.count.should eq(2)
-        court.children_councils.should eq(councils)
+        court.children_local_authorities_list = [local_authorities.map(&:name), 'Noname'].flatten.join(',')
+        court.children_local_authorities.count.should eq(2)
+        court.children_local_authorities.should eq(local_authorities)
       end
 
       it 'reports invalid council names' do
-        court.children_councils_list = ['Bad council 1', councils.map(&:name), 'Bad council 2'].flatten.join(',')
-        expect(court.invalid_councils.size).to eq 2
-        expect(court.invalid_councils).to include('Bad council 1', 'Bad council 2')
+        court.children_local_authorities_list = ['Bad council 1', local_authorities.map(&:name), 'Bad council 2'].flatten.join(',')
+        expect(court.invalid_local_authorities.size).to eq 2
+        expect(court.invalid_local_authorities).to include('Bad council 1', 'Bad council 2')
       end
 
       it 'reports no invalid council names if there aren\'t any' do
-        court.children_councils_list = [councils.map(&:name)].flatten.join(',')
-        expect(court.invalid_councils).to be_empty
+        court.children_local_authorities_list = [local_authorities.map(&:name)].flatten.join(',')
+        expect(court.invalid_local_authorities).to be_empty
       end
     end
 
-    describe '#bankruptcy_councils_list=' do
-      let(:councils) { ['A', 'B'].map{ |name| create(:local_authority, name: "Council #{name}") } }
+    describe '#bankruptcy_local_authorities_list=' do
+      let(:local_authorities) { ['A', 'B'].map{ |name| create(:local_authority, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
-        court.bankruptcy_councils_list = councils.map(&:name).join(',')
-        court.bankruptcy_councils.should include(councils.first)
-        court.bankruptcy_councils.should include(councils.last)
+        court.bankruptcy_local_authorities_list = local_authorities.map(&:name).join(',')
+        court.bankruptcy_local_authorities.should include(local_authorities.first)
+        court.bankruptcy_local_authorities.should include(local_authorities.last)
       end
 
       it 'removes councils not in list' do
-        councils.each do |council|
-          add_councils_to_court councils: [council], court: court, area_of_law: bankruptcy
+        local_authorities.each do |local_authority|
+          add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: bankruptcy
         end
 
-        court.bankruptcy_councils_list = councils.first.name
-        court.bankruptcy_councils.count.should eq(1)
-        court.bankruptcy_councils.first.name.should eq(councils.first.name)
+        court.bankruptcy_local_authorities_list = local_authorities.first.name
+        court.bankruptcy_local_authorities.count.should eq(1)
+        court.bankruptcy_local_authorities.first.name.should eq(local_authorities.first.name)
       end
 
       it 'does not add a council unless the name is matched' do
-        court.bankruptcy_councils_list = [councils.map(&:name), 'Noname'].flatten.join(',')
-        court.bankruptcy_councils.count.should eq(2)
-        court.bankruptcy_councils.should eq(councils)
+        court.bankruptcy_local_authorities_list = [local_authorities.map(&:name), 'Noname'].flatten.join(',')
+        court.bankruptcy_local_authorities.count.should eq(2)
+        court.bankruptcy_local_authorities.should eq(local_authorities)
       end
 
       it 'reports invalid council names' do
-        court.bankruptcy_councils_list = ['Bad council 1', councils.map(&:name), 'Bad council 2'].flatten.join(',')
-        expect(court.invalid_councils.size).to eq 2
-        expect(court.invalid_councils).to include('Bad council 1', 'Bad council 2')
+        court.bankruptcy_local_authorities_list = ['Bad council 1', local_authorities.map(&:name), 'Bad council 2'].flatten.join(',')
+        expect(court.invalid_local_authorities.size).to eq 2
+        expect(court.invalid_local_authorities).to include('Bad council 1', 'Bad council 2')
       end
 
       it 'reports no invalid council names if there aren\'t any' do
-        court.bankruptcy_councils_list = [councils.map(&:name)].flatten.join(',')
-        expect(court.invalid_councils).to be_empty
+        court.bankruptcy_local_authorities_list = [local_authorities.map(&:name)].flatten.join(',')
+        expect(court.invalid_local_authorities).to be_empty
       end
     end
 

@@ -197,11 +197,11 @@ class Data:
                         AND aol.name = '%s'
                       ORDER BY la.name""" % (slug, aol_name)
             cur.execute(sql)
-            councils = [c[0] for c in cur.fetchall()]
+            local_authorities = [la[0] for la in cur.fetchall()]
 
             entry = {
                 "name": aol_name,
-                "councils": councils
+                "local_authorities": local_authorities
             }
 
             if spoe:

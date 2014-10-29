@@ -22,7 +22,7 @@ describe LocalAuthority do
   end
 
   describe '#unassigned_for_area_of_law' do
-    include CourtCouncilHelper
+    include CourtLocalAuthorityHelper
 
     let(:children) { create :area_of_law }
     let(:divorce)  { create :area_of_law }
@@ -31,33 +31,33 @@ describe LocalAuthority do
     let(:divorce_court)  { create :court }
 
     before(:each) do
-      @council_with_both     = create :local_authority
-      @council_with_children = create :local_authority
-      @council_with_divorce  = create :local_authority
-      @council_with_neither  = create :local_authority
+      @local_authority_with_both     = create :local_authority
+      @local_authority_with_children = create :local_authority
+      @local_authority_with_divorce  = create :local_authority
+      @local_authority_with_neither  = create :local_authority
 
-      add_councils_to_court councils: [@council_with_both, @council_with_children], court: children_court, area_of_law: children
-      add_councils_to_court councils: [@council_with_both, @council_with_divorce], court: divorce_court, area_of_law: divorce
+      add_local_authorities_to_court local_authorities: [@local_authority_with_both, @local_authority_with_children], court: children_court, area_of_law: children
+      add_local_authorities_to_court local_authorities: [@local_authority_with_both, @local_authority_with_divorce], court: divorce_court, area_of_law: divorce
     end
 
     it 'returns a councils without assignments for area of law' do
       unassigned_for_children = LocalAuthority.unassigned_for_area_of_law(children)
 
       expect(unassigned_for_children.size).to eq 2
-      expect(unassigned_for_children).to include @council_with_divorce, @council_with_neither
+      expect(unassigned_for_children).to include @local_authority_with_divorce, @local_authority_with_neither
     end
 
     it 'returns empty array when all all councils have assigned a court for an area of law' do
-      add_councils_to_court councils: [@council_with_divorce, @council_with_neither], court: children_court, area_of_law: children
+      add_local_authorities_to_court local_authorities: [@local_authority_with_divorce, @local_authority_with_neither], court: children_court, area_of_law: children
 
       expect(LocalAuthority.unassigned_for_area_of_law(children)).to be_empty
-      expect(LocalAuthority.unassigned_for_area_of_law(divorce)).to include @council_with_children, @council_with_neither
+      expect(LocalAuthority.unassigned_for_area_of_law(divorce)).to include @local_authority_with_children, @local_authority_with_neither
     end
 
     context 'a court with councils assigned for multiple areas_of_law' do
       it 'returns empty array when all all councils have assigned a court for an area of law' do
-        add_councils_to_court councils: [@council_with_divorce, @council_with_neither], court: children_court, area_of_law: children
-        add_councils_to_court councils: [@council_with_children, @council_with_neither], court: divorce_court, area_of_law: divorce
+        add_local_authorities_to_court local_authorities: [@local_authority_with_divorce, @local_authority_with_neither], court: children_court, area_of_law: children
+        add_local_authorities_to_court local_authorities: [@local_authority_with_children, @local_authority_with_neither], court: divorce_court, area_of_law: divorce
 
         expect(LocalAuthority.unassigned_for_area_of_law(children)).to be_empty
         expect(LocalAuthority.unassigned_for_area_of_law(divorce)).to be_empty

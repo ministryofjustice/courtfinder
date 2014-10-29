@@ -17,15 +17,15 @@
           %a{ data: { expand: true } } view list
           .list
             %ul
-              - unassigned.each do |council|
-                %li= council.name
+              - unassigned.each do |local_authority|
+                %li= local_authority.name
 
-    - if invalid_councils = flash[:invalid_councils]
-      - unless invalid_councils.empty?
+    - if invalid_local_authorities = flash[:invalid_local_authorities]
+      - unless invalid_local_authorities.empty?
         .warning
           %strong Some councils were not added, as they could not be found:
           %ul
-            - invalid_councils.each do |name|
+            - invalid_local_authorities.each do |name|
               %li= name
 
     %p.sub-list
@@ -33,7 +33,7 @@
       - civil_areas_of_law do |area, id|
         = link_to "#{area} (#{@courts.by_area_of_law(area).count})", civil_admin_courts_path(area_of_law_id: id), data: { disabled: (id == @area_of_law.id) }
 
-    %table#js-council-tbl
+    %table#js-local-authority-tbl
       %thead
         %tr
           %th
@@ -51,7 +51,7 @@
             %td
               = link_to(court.name, court)
             %td
-              = render "court_councils", court: court, area_of_law: @area_of_law, redirect_url: civil_admin_courts_path(@area_of_law.id)
+              = render "court_local_authorities", court: court, area_of_law: @area_of_law, redirect_url: civil_admin_courts_path(@area_of_law.id)
 
 
 .pagination-row.cf

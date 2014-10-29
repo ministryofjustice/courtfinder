@@ -1,0 +1,17 @@
+= simple_form_for([:admin, @local_authority], html: { multipart: true }) do |f|
+  - if @local_authority.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@local_authority.errors.count, "error")
+        prohibited this council from being saved:
+      %ul
+        - @local_authority.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.input :name
+
+  .form-actions.cf
+    = link_to 'View Council', @local_authority, class: 'button button-secondary', target: '_blank'
+    = f.button :submit, class: 'right'
+
+

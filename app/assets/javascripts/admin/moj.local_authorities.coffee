@@ -4,7 +4,7 @@
 
 # Tabs modules for MOJ
 # Dependencies: moj, jQuery
-moj.Modules.councils = (->
+moj.Modules.localAuthorities = (->
   "use strict"
   
   # public vars
@@ -18,7 +18,7 @@ moj.Modules.councils = (->
       width: "96%"
       height: "67px"
       defaultText: "add council"
-      autocomplete_url: '/admin/councils/complete'
+      autocomplete_url: '/admin/local_authorities/complete'
       autocomplete:
         selectFirst: true
         autoFill: true
@@ -26,12 +26,12 @@ moj.Modules.councils = (->
     return
 
   cacheEls = ->
-    $table = $("#js-council-tbl")
-    $tagInputs = $(".council.js-tags", $table)
+    $table = $("#js-local-authority-tbl")
+    $tagInputs = $(".local-authority.js-tags", $table)
     return
   # public methods
   init: init
 )()
 
 # call as main.js is called before this file as it's admin only - REFACTOR?
-moj.Modules.councils.init()
+moj.Modules.localAuthorities.init()

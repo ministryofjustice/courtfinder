@@ -1,0 +1,22 @@
+- content_for :title, 'Listing councils'
+= link_to 'New Council', new_admin_local_authority_path
+
+%ul.tabs-nav.clearfix
+  = a_to_z initial_list(@local_authorities), 'councils'
+%table
+  %thead
+    %tr
+      %th Name
+      %th
+      - if current_user.admin
+        %th.admin-only
+  - last_letter = ''
+  %tbody
+    - @local_authorities.each do |local_authority|
+      - this_letter = local_authority.name.first.downcase
+      %tr
+        %td{ id: (this_letter != last_letter) ? "local_authorities-by-#{this_letter}".html_safe : "" }= local_authority.name
+        %td= link_to 'Edit', edit_admin_local_authority_path(local_authority)
+        - if current_user.admin
+          %td.admin-only= link_to 'Delete', admin_local_authority_path(local_authority), method: :delete, confirm: 'Are you sure?'
+      - last_letter = this_letter
