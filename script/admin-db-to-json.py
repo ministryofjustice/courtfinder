@@ -14,7 +14,8 @@ class Data:
                      "parking_offsite_free": "Free parking is available within a 5 minute walk.",
                      "parking_offsite_paid": "Paid parking is available within a 5 minute walk.",
                      "parking_none": "No parking facilities are available at or near the court.",
-                     "parking_onsite_none": "No parking facilities are available at or near the court."}
+                     "parking_onsite_none": "No parking facilities are available at or near the court.",
+                     "parking_offsite_none": "No parking facilities are available near the court."}
 
 
     def __init__(self, host, user, password, database, output_dir, access, secret, bucket):
