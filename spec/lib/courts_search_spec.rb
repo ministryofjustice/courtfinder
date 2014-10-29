@@ -253,9 +253,9 @@ describe CourtSearch do
     end
   end
 
-  context "Finding Council name from postcode" do
-    context "when the council is located in shortcuts/council/county" do
-      it 'should return the name of the council for a postcode' do
+  context "Finding local authority name from postcode" do
+    context "when the local authority is located in shortcuts/council/county" do
+      it 'should return the name of the local authority for a postcode' do
         VCR.use_cassette('postcode_found') do
           court_search = CourtSearch.new('EX1 1UH')
           court_search.latlng_from_postcode('EX1 1UH')
@@ -264,8 +264,8 @@ describe CourtSearch do
       end
     end
 
-    context "when the council is located in shortcuts/council" do
-      it 'should return the name of the council for a postcode' do
+    context "when the local authority is located in shortcuts/council" do
+      it 'should return the name of the local authority for a postcode' do
         VCR.use_cassette('postcode_found') do
           court_search = CourtSearch.new('SE24 0NG')
           court_search.latlng_from_postcode('SE24 0NG')

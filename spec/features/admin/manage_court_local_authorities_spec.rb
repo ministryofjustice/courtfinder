@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'manage the councils for civil and family courts' do
+feature 'manage the local authorities for civil and family courts' do
   before(:each) do
     areas_of_law = %w(Children Divorce Adoption).map { |name| create :area_of_law, name: name }
     @court = create :court, areas_of_law: areas_of_law
@@ -10,7 +10,7 @@ feature 'manage the councils for civil and family courts' do
     sign_in create(:user)
   end
 
-  scenario 'add councils to a court' do
+  scenario 'add local authorities to a court' do
     visit '/admin/courts/family'
 
     click_link 'Children'
