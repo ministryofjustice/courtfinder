@@ -72,7 +72,7 @@ describe Court do
   describe 'associations' do
     it { should have_many :remits }
     it { should have_many(:jurisdictions).through(:remits) }
-    it { should have_many(:councils).through(:jurisdictions) }
+    it { should have_many(:local_authorities).through(:jurisdictions) }
   end
 
   describe "searching" do
@@ -139,7 +139,7 @@ describe Court do
 
     before(:each) do
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
-      @council = Council.create(:name => 'Lambeth Borough Council')
+      @council = LocalAuthority.create(:name => 'Lambeth Borough Council')
       @area_of_law = create(:area_of_law, name: "Children", type_children: true)
       add_councils_to_court councils: [@council], court: @court7, area_of_law: @area_of_law
     end
@@ -176,19 +176,19 @@ describe Court do
     let!(:bankruptcy) { create(:area_of_law, name: 'Bankruptcy') }
     let!(:money) { create(:area_of_law, name: 'Money claims') }
     let!(:court) { create(:court) }
-    let!(:council) { create(:council) }
+    let!(:council) { create(:local_authority) }
 
     describe '#children_councils_list' do
       it 'returns a comma seperated list of council names' do
         add_councils_to_court councils: [council], court: court, area_of_law: children
-        add_councils_to_court councils: [create(:council)], court: court, area_of_law: divorce
+        add_councils_to_court councils: [create(:local_authority)], court: court, area_of_law: divorce
         court.children_councils_list.should eq(council.name)
       end
     end
 
     describe '#divorce_councils_list' do
       it 'returns a comma seperated list of council names' do
-        add_councils_to_court councils: [create(:council)], court: court, area_of_law: children
+        add_councils_to_court councils: [create(:local_authority)], court: court, area_of_law: children
         add_councils_to_court councils: [council], court: court, area_of_law: divorce
         court.divorce_councils_list.should eq(council.name)
       end
@@ -209,7 +209,7 @@ describe Court do
     end
 
     describe '#children_councils_list=' do
-      let(:councils) { ['A', 'B'].map{ |name| create(:council, name: "Council #{name}") } }
+      let(:councils) { ['A', 'B'].map{ |name| create(:local_authority, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
         court.children_councils_list = councils.map(&:name).join(',')
@@ -246,7 +246,7 @@ describe Court do
     end
 
     describe '#bankruptcy_councils_list=' do
-      let(:councils) { ['A', 'B'].map{ |name| create(:council, name: "Council #{name}") } }
+      let(:councils) { ['A', 'B'].map{ |name| create(:local_authority, name: "Council #{name}") } }
 
       it 'assigns new councils from comma seperated list' do
         court.bankruptcy_councils_list = councils.map(&:name).join(',')

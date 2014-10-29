@@ -10,7 +10,7 @@
   %div
     %h3 Civil courts
     - civil_areas_of_law do |area, id|
-      - if (unassigned = Council.unassigned_for_area_of_law(id)).count > 0
+      - if (unassigned = LocalAuthority.unassigned_for_area_of_law(id)).count > 0
         .warning
           %strong Warning:
           = "#{unassigned.count} councils do not currently have a civil court that deals with #{area.downcase} attached "

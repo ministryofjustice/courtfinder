@@ -98,14 +98,6 @@ ActiveRecord::Schema.define(:version => 20141030143104) do
   add_index "contacts", ["contact_type_id"], :name => "index_contacts_on_contact_type_id"
   add_index "contacts", ["court_id"], :name => "index_contacts_on_court_id"
 
-  create_table "councils", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "councils", ["name"], :name => "index_councils_on_name"
-
   create_table "counties", :force => true do |t|
     t.string   "name"
     t.integer  "country_id"
@@ -235,14 +227,22 @@ ActiveRecord::Schema.define(:version => 20141030143104) do
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "jurisdictions", :force => true do |t|
-    t.integer  "remit_id",   :null => false
-    t.integer  "council_id", :null => false
+    t.integer  "remit_id",           :null => false
+    t.integer  "local_authority_id", :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "jurisdictions", ["local_authority_id"], :name => "index_jurisdictions_on_local_authority_id"
+  add_index "jurisdictions", ["remit_id"], :name => "index_jurisdictions_on_remit_id"
+
+  create_table "local_authorities", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "jurisdictions", ["council_id"], :name => "index_jurisdictions_on_council_id"
-  add_index "jurisdictions", ["remit_id"], :name => "index_jurisdictions_on_remit_id"
+  add_index "local_authorities", ["name"], :name => "index_local_authorities_on_name"
 
   create_table "opening_times", :force => true do |t|
     t.string   "name"

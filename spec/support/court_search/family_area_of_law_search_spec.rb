@@ -19,7 +19,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
                                       :address_ids => [visiting_address.id])
       end
     end
-    let!(:council) { Council.create(name: 'Lambeth Borough Council') }
+    let!(:council) { LocalAuthority.create(name: 'Lambeth Borough Council') }
 
     before(:each) do
       add_councils_to_court councils: [council], court: court7, area_of_law: area

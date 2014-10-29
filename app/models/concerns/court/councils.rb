@@ -7,7 +7,7 @@ module Concerns
         attr_accessor :invalid_councils
 
         has_many :jurisdictions, through: :remits
-        has_many :councils, through: :jurisdictions
+        has_many :local_authorities, through: :jurisdictions
 
         def area_councils_list(area_of_law = nil)
           relation = area_councils(area_of_law)
@@ -15,15 +15,15 @@ module Concerns
         end
 
         def area_councils(area_of_law)
-          councils.by_name.where remits: { area_of_law_id: area_of_law.id }
+          local_authorities.by_name.where remits: { area_of_law_id: area_of_law.id }
         end
 
         def set_area_councils_list(council_names_list, area_of_law)
           council_names = council_names_list.split(',')
-          councils = Council.find_all_by_name council_names
+          councils = LocalAuthority.find_all_by_name council_names
 
           self.invalid_councils = council_names - councils.map(&:name)
-          remits.find_or_create_by_area_of_law_id!(area_of_law.id).councils = councils
+          remits.find_or_create_by_area_of_law_id!(area_of_law.id).local_authorities = councils
         end
 
         def single_point_of_entry_for?(area_of_law)

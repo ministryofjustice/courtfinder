@@ -4,7 +4,7 @@ feature 'manage the councils for civil and family courts' do
   before(:each) do
     areas_of_law = %w(Children Divorce Adoption).map { |name| create :area_of_law, name: name }
     @court = create :court, areas_of_law: areas_of_law
-    @councils = 3.times.map { create :council }
+    @councils = 3.times.map { create :local_authority }
 
     visit '/admin'
     sign_in create(:user)

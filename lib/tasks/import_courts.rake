@@ -217,12 +217,12 @@ namespace :import do
       else
         puts "Adding local authorities(LA) for '#{court.name}'"
         row[1].split(',').each do |local_authority_name|
-          council = Council.find_by_name(local_authority_name)
+          council = LocalAuthority.find_by_name(local_authority_name)
           if council.nil?
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.remits.find_or_create_by_area_of_law_id!(@area_of_law.id).councils << council
+            court.remits.find_or_create_by_area_of_law_id!(@area_of_law.id).local_authorities << council
           end
         end
       end
@@ -675,7 +675,7 @@ namespace :import do
     csv.each do |row|
       puts "Adding local authority: #{row[1]}"
 
-      council = Council.new
+      council = LocalAuthority.new
 
       council.name = row[1]
 
@@ -767,7 +767,7 @@ namespace :import do
           authorities = row.values.drop(2).inject([]) { |array, c| array << (c.strip unless c.blank?) }.reject { |c| c.nil? }
 
           authorities.each do |local_authority_name|
-            council = Council.find_by_name(local_authority_name)
+            council = LocalAuthority.find_by_name(local_authority_name)
             if council.nil?
               puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
               errors_found += 1
