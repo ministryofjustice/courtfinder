@@ -13,7 +13,7 @@
       - if (unassigned = LocalAuthority.unassigned_for_area_of_law(id)).count > 0
         .warning
           %strong Warning:
-          = "#{unassigned.count} councils do not currently have a civil court that deals with #{area.downcase} attached "
+          = "#{unassigned.count} local authorities do not currently have a civil court that deals with #{area.downcase} attached "
           %a{ data: { expand: true } } view list
           .list
             %ul
@@ -23,7 +23,7 @@
     - if invalid_local_authorities = flash[:invalid_local_authorities]
       - unless invalid_local_authorities.empty?
         .warning
-          %strong Some councils were not added, as they could not be found:
+          %strong Some local authorities were not added, as they could not be found:
           %ul
             - invalid_local_authorities.each do |name|
               %li= name
@@ -41,8 +41,8 @@
           %th
             Court name
           %th
-            Councils
-            .hint Use the auto complete boxes to add councils, start typing a council name to see options.
+            Local authorities
+            .hint Use the auto complete boxes to add local authorities, start typing a local authority name to see options.
       %tbody
         - @courts.by_area_of_law(@area_of_law.name).each do |court|
           %tr{ class: cycle('even', 'odd') }

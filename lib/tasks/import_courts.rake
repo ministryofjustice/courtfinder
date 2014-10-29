@@ -663,7 +663,7 @@ namespace :import do
 
   desc "Import concil names"
   task :local_authorities => :environment do
-    puts "Importing councils"
+    puts "Importing local authorities"
 
     # "authority_id","authority_name"
     csv_file = File.read('db/data/local_authorities.csv')

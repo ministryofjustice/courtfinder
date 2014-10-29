@@ -1,8 +1,8 @@
-- content_for :title, 'Listing councils'
-= link_to 'New Council', new_admin_local_authority_path
+- content_for :title, 'Listing local authorities'
+= link_to 'New Local Authority', new_admin_local_authority_path
 
 %ul.tabs-nav.clearfix
-  = a_to_z initial_list(@local_authorities), 'councils'
+  = a_to_z initial_list(@local_authorities), 'local authorities'
 %table
   %thead
     %tr

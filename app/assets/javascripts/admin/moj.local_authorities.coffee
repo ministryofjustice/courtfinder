@@ -17,7 +17,7 @@ moj.Modules.localAuthorities = (->
     $tagInputs.tagsInput
       width: "96%"
       height: "67px"
-      defaultText: "add council"
+      defaultText: "add local authority"
       autocomplete_url: '/admin/local_authorities/complete'
       autocomplete:
         selectFirst: true

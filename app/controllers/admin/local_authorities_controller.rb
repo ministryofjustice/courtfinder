@@ -18,7 +18,7 @@ class Admin::LocalAuthoritiesController < Admin::ApplicationController
 
 	def create
 		@local_authority = LocalAuthority.new(params[:local_authority])
-		flash[:notice] ='Council was successfully updated.' if @local_authority.save
+		flash[:notice] ='Local authority was successfully updated.' if @local_authority.save
 		purge_all_pages
 		respond_with @local_authority, location: admin_local_authorities_path
 	end
@@ -30,14 +30,14 @@ class Admin::LocalAuthoritiesController < Admin::ApplicationController
 
 	def update
 		@local_authority = LocalAuthority.find(params[:id])
-		flash[:notice] ='Council was successfully updated.' if @local_authority.update_attributes(params[:local_authority])
+		flash[:notice] ='Local authority was successfully updated.' if @local_authority.update_attributes(params[:local_authority])
 		purge_all_pages
 		respond_with @local_authority, location: admin_local_authorities_path
 	end
 
 	def destroy
 		@local_authority = LocalAuthority.find(params[:id])
-		flash[:notice] ='Council was deleted.' if @local_authority.destroy
+		flash[:notice] ='Local authority was deleted.' if @local_authority.destroy
 		
 		respond_with @local_authority, location: admin_local_authorities_path
 	end
