@@ -204,30 +204,29 @@ class Court < ActiveRecord::Base
     end
   end
 
+  ParkingOption = Struct.new(:label, :value)
+
   def self.onsite_parking_options
-    Struct.new("Option", :label, :value)
-    collection = [
-      Struct::Option.new( I18n.t('onsite_free'), "parking_onsite_free"),
-      Struct::Option.new( I18n.t('onsite_paid'), "parking_onsite_paid"),
-      Struct::Option.new( I18n.t('onsite_none'), "parking_onsite_none")
+    [
+      ParkingOption.new(I18n.t('onsite_free'), "parking_onsite_free"),
+      ParkingOption.new(I18n.t('onsite_paid'), "parking_onsite_paid"),
+      ParkingOption.new(I18n.t('onsite_none'), "parking_onsite_none")
     ]
   end
 
   def self.offsite_parking_options
-    Struct.new("Option", :label, :value)
-    collection = [
-      Struct::Option.new( I18n.t('offsite_free'), "parking_offsite_free"),
-      Struct::Option.new( I18n.t('offsite_paid'), "parking_offsite_paid"),
-      Struct::Option.new( I18n.t('offsite_none'), "parking_offsite_none")
+    [
+      ParkingOption.new(I18n.t('offsite_free'), "parking_offsite_free"),
+      ParkingOption.new(I18n.t('offsite_paid'), "parking_offsite_paid"),
+      ParkingOption.new(I18n.t('offsite_none'), "parking_offsite_none")
     ]
   end
 
   def self.blue_badge_parking_options
-    Struct.new("Option", :label, :value)
-    collection = [
-      Struct::Option.new( I18n.t('blue_badge_available'), "parking_blue_badge_available"),
-      Struct::Option.new( I18n.t('blue_badge_limited'), "parking_blue_badge_limited"),
-      Struct::Option.new( I18n.t('blue_badge_none'), "parking_blue_badge_none")
+    [
+      ParkingOption.new(I18n.t('blue_badge_available'), "parking_blue_badge_available"),
+      ParkingOption.new(I18n.t('blue_badge_limited'), "parking_blue_badge_limited"),
+      ParkingOption.new(I18n.t('blue_badge_none'), "parking_blue_badge_none")
     ]
   end
 
