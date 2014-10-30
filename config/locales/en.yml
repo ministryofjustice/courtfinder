@@ -10,12 +10,12 @@ en:
   parking_none: No parking facilities are available at or near the court.
 
   # Parking translation for admin's view  onsite_free: Free
-  onsite_free: Free
-  onsite_paid: Paid
-  onsite_none: No onsite parking available
-  offsite_free: Free
-  offsite_paid: Paid
-  offsite_none: No offsite parking available
+  onsite_free: Free on site parking
+  onsite_paid: Paid on site parking
+  onsite_none: No on site parking
+  offsite_free: Free off site parking
+  offsite_paid: Paid off site parking
+  offsite_none: No off site parking
 
   activerecord:
     attributes:
