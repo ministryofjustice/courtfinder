@@ -222,6 +222,15 @@ class Court < ActiveRecord::Base
     ]
   end
 
+  def self.blue_badge_parking_options
+    Struct.new("Option", :label, :value)
+    collection = [
+      Struct::Option.new( I18n.t('blue_badge_available'), "parking_blue_badge_available"),
+      Struct::Option.new( I18n.t('blue_badge_limited'), "parking_blue_badge_limited"),
+      Struct::Option.new( I18n.t('blue_badge_none'), "parking_blue_badge_none")
+    ]
+  end
+
   private
 
     def resolve_leaflets
