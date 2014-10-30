@@ -127,13 +127,13 @@
               = render 'court_facility_fields', f: builder
           = link_to_add_fields "Add facility", f, :court_facilities, 'initNewFieldBlock'
       #parking
-        %h3 This court has:
+        %h3 This venue has:
         %ul.parking-options
           %li
-            %p On site parking:
+            %p On site parking, located at the venue:
             = f.input :parking_onsite, as: :radio_buttons, label: false, collection: Court.onsite_parking_options, label_method: :label, value_method: :value
           %li
-            %p Off site parking:
+            %p Off site parking, within 500m of the venue:
             = f.input :parking_offsite, as: :radio_buttons, label: false, collection: Court.offsite_parking_options, label_method: :label, value_method: :value
 
       #further-info
