@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141028100813) do
+ActiveRecord::Schema.define(:version => 20141030143104) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(:version => 20141028100813) do
     t.text     "directions"
     t.string   "parking_onsite"
     t.string   "parking_offsite"
+    t.string   "parking_blue_badge"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
