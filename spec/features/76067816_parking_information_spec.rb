@@ -23,8 +23,8 @@ feature 'Adding simple parking information to a court' do
       expect(page).to have_content('Court was successfully updated')
 
       visit '/courts/the-court'
-      expect(page).to have_content('Free parking is available within a 5 minute walk.')
-      expect(page).to have_content('Free, on site parking is available, provided by the court.')
+      expect(page).to have_content('Free off site parking is available within 500m of this venue.')
+      expect(page).to have_content('Free on site parking is available at this venue.')
     end
 
     scenario 'A court that has paid inside parking and outsite parking', js: true do
@@ -35,8 +35,8 @@ feature 'Adding simple parking information to a court' do
       expect(page).to have_content('Court was successfully updated')
 
       visit '/courts/the-court'
-      expect(page).to have_content('Paid, on site parking is available, provided by the court')
-      expect(page).to have_content('Paid parking is available within a 5 minute walk')
+      expect(page).to have_content('Paid on site parking is available at this venue.')
+      expect(page).to have_content('Paid off site parking is available within 500m of this venue.')
     end
   end
 end

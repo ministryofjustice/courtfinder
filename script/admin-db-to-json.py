@@ -9,13 +9,13 @@ from boto.s3.key import Key
 class Data:
 
     # these descriptions are found in the admin app's locale files, not in the database
-    parking_types = {"parking_onsite_free": "Free, on site parking is available, provided by the court.",
-                     "parking_onsite_paid": "Paid, on site parking is available, provided by the court.",
-                     "parking_offsite_free": "Free parking is available within a 5 minute walk.",
-                     "parking_offsite_paid": "Paid parking is available within a 5 minute walk.",
-                     "parking_none": "No parking facilities are available at or near the court.",
-                     "parking_onsite_none": "No parking facilities are available at or near the court.",
-                     "parking_offsite_none": "No parking facilities are available near the court."}
+    parking_types = {"parking_onsite_free": "Free on site parking is available at this venue.",
+                     "parking_onsite_paid": "Paid on site parking is available at this venue.",
+                     "parking_offsite_free": "Free off site parking is available within 500m of this venue.",
+                     "parking_offsite_paid": "Paid off site parking is available within 500m of this venue.",
+                     "parking_none": "Parking is not available at this venue.",
+                     "parking_onsite_none": "On site parking is not available at this venue.",
+                     "parking_offsite_none": "Off site parking is not available within 500m of this venue."}
 
 
     def __init__(self, host, user, password, database, output_dir, access, secret, bucket):
