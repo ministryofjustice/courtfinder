@@ -52,11 +52,11 @@ class Data:
             facilities = self.facilities_for_court(slug)
             opening_times = self.opening_times_for_court(slug)
             parking = {}
-            if parking_onsite is not None:
+            if parking_onsite is not None and parking_onsite != '':
                 parking["onsite"] =  Data.parking_types[parking_onsite]
-            if parking_offsite is not None:
+            if parking_offsite is not None and parking_offsite != '':
                 parking["offsite"] =  Data.parking_types[parking_offsite]
-            if parking_blue_badge is not None:
+            if parking_blue_badge is not None and parking_blue_badge != '':
                 parking["blue_badge"] =  Data.parking_types[parking_blue_badge]
             court_object = {
                 "admin_id": admin_id,

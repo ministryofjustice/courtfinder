@@ -18,12 +18,15 @@ en:
   onsite_free: Free on site parking
   onsite_paid: Paid on site parking
   onsite_none: No on site parking
+  onsite_no_info: No information available
   offsite_free: Free off site parking
   offsite_paid: Paid off site parking
   offsite_none: No off site parking
+  offsite_no_info: No information available
   blue_badge_available: On site blue badge parking
   blue_badge_limited: Limited on site blue badge parking, please contact venue
   blue_badge_none: No on site blue badge parking
+  blue_badge_no_info: No information available
 
   activerecord:
     attributes:
