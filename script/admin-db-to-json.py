@@ -15,7 +15,6 @@ class Data:
                      "parking_offsite_paid": "Paid off site parking is available within 500m of this venue.",
                      "parking_blue_badge_available": "Blue badge parking is available on site.",
                      "parking_blue_badge_limited": "Limited blue badge parking is available on site (please contact the venue for details).",
-                     "parking_none": "Parking is not available at this venue.",
                      "parking_onsite_none": "On site parking is not available at this venue.",
                      "parking_offsite_none": "Off site parking is not available within 500m of this venue.",
                      "parking_blue_badge_none": "Blue badge parking is not available at this venue."}
