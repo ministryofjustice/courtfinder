@@ -13,9 +13,12 @@ class Data:
                      "parking_onsite_paid": "Paid on site parking is available at this venue.",
                      "parking_offsite_free": "Free off site parking is available within 500m of this venue.",
                      "parking_offsite_paid": "Paid off site parking is available within 500m of this venue.",
+                     "parking_blue_badge_available": "Blue badge parking is available on site.",
+                     "parking_blue_badge_limited": "Limited blue badge parking is available on site (please contact the venue for details).",
                      "parking_none": "Parking is not available at this venue.",
                      "parking_onsite_none": "On site parking is not available at this venue.",
-                     "parking_offsite_none": "Off site parking is not available within 500m of this venue."}
+                     "parking_offsite_none": "Off site parking is not available within 500m of this venue.",
+                     "parking_blue_badge_none": "Blue badge parking is not available at this venue."}
 
 
     def __init__(self, host, user, password, database, output_dir, access, secret, bucket):
@@ -34,10 +37,10 @@ class Data:
     def courts(self):
         all_courts = []
         cur = self.conn.cursor()
-        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, directions, cci_code, created_at, updated_at FROM courts")
+        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at FROM courts")
         rows = cur.fetchall()
         for row in rows:
-            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, directions, cci_code, created_at, updated_at = row
+            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at = row
             if name == None or slug == None:
                 print "- %s\n\tslug: %s, lat: %s, lon: %s" % (name, slug, lat, lon)
                 continue
@@ -54,6 +57,8 @@ class Data:
                 parking["onsite"] =  Data.parking_types[parking_onsite]
             if parking_offsite is not None:
                 parking["offsite"] =  Data.parking_types[parking_offsite]
+            if parking_blue_badge is not None:
+                parking["blue_badge"] =  Data.parking_types[parking_blue_badge]
             court_object = {
                 "admin_id": admin_id,
                 "name": name,
