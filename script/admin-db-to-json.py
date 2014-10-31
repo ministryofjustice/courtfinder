@@ -183,25 +183,25 @@ class Data:
         aols = []
         for aol_name, spoe in aol_list:
             cur = self.conn.cursor()
-            sql = """SELECT co.name
+            sql = """SELECT la.name
                        FROM remits as r,
                             jurisdictions as j,
                             areas_of_law as aol,
                             courts as c,
-                            councils as co
+                            local_authorities as la
                       WHERE r.court_id = c.id
                         AND r.area_of_law_id = aol.id
                         AND j.remit_id = r.id
-                        AND j.council_id = co.id
+                        AND j.local_authority_id = la.id
                         AND c.slug = '%s'
                         AND aol.name = '%s'
-                      ORDER BY co.name""" % (slug, aol_name)
+                      ORDER BY la.name""" % (slug, aol_name)
             cur.execute(sql)
-            councils = [c[0] for c in cur.fetchall()]
+            local_authorities = [la[0] for la in cur.fetchall()]
 
             entry = {
                 "name": aol_name,
-                "councils": councils
+                "local_authorities": local_authorities
             }
 
             if spoe:

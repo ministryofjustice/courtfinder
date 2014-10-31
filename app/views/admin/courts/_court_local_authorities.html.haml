@@ -1,11 +1,11 @@
-= form_for [:admin, court], url: admin_court_path(court, redirect_url: redirect_url), html: { class: 'js-council-tag-form' } do |f|
+= form_for [:admin, court], url: admin_court_path(court, redirect_url: redirect_url), html: { class: 'js-local-authority-tag-form' } do |f|
   - if court.errors.any?
     #error_explanation
       %ul
         - court.errors.full_messages.each do |msg|
           %li= msg
 
-  = f.text_field "#{area_of_law.name.downcase.gsub(' ','_')}_councils_list", class: 'council js-tags'
+  = f.text_field "#{area_of_law.name.downcase.gsub(' ','_')}_local_authorities_list", class: 'local-authority js-tags'
   = label_tag do
     = f.check_box "#{area_of_law.name.downcase.gsub(' ','_')}_single_point_of_entry"
     Single point of entry

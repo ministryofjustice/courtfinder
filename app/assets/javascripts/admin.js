@@ -14,4 +14,4 @@
 //= require admin/courts
 //= require jquery.tagsinput.min.js
 //= require admin/moj.postcodes
-//= require admin/moj.councils
+//= require admin/moj.local_authorities

@@ -63,7 +63,7 @@ class Admin::CourtsController < Admin::ApplicationController
     @court = Court.find(params[:id])
     if @court.update_attributes(params[:court])
       purge_all_pages
-      flash[:invalid_councils] = @court.invalid_councils if @court.invalid_councils
+      flash[:invalid_local_authorities] = @court.invalid_local_authorities if @court.invalid_local_authorities
 
       respond_to do |format|
         format.html do

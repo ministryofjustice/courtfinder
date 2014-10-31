@@ -28,7 +28,7 @@ Courtfinder::Application.routes.draw do
 
   get '/search/:area_of_law', to: 'home#index', as: 'area_of_law_landing'
 
-  resources :councils, only: [:index, :show]
+  resources :local_authorities, only: [:index, :show]
 
   # Admin section
   get 'admin', to: redirect('/admin/courts')
@@ -53,7 +53,7 @@ Courtfinder::Application.routes.draw do
       end
     end
 
-    resources :councils do
+    resources :local_authorities do
       collection do
         get :complete
       end

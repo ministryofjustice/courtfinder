@@ -42,8 +42,8 @@ FactoryGirl.define do
   factory :contact do
   end
 
-  factory :council do
-    sequence(:name) {|i| "Council #{i}"}
+  factory :local_authority do
+    sequence(:name) {|i| "Local Authority #{i}"}
   end
 
   factory :area_of_law_group do

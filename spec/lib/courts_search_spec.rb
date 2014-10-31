@@ -253,23 +253,23 @@ describe CourtSearch do
     end
   end
 
-  context "Finding Council name from postcode" do
-    context "when the council is located in shortcuts/council/county" do
-      it 'should return the name of the council for a postcode' do
+  context "Finding local authority name from postcode" do
+    context "when the local authority is located in shortcuts/council/county" do
+      it 'should return the name of the local authority for a postcode' do
         VCR.use_cassette('postcode_found') do
           court_search = CourtSearch.new('EX1 1UH')
           court_search.latlng_from_postcode('EX1 1UH')
-          expect(court_search.lookup_council_name).to eq 'Devon County Council'
+          expect(court_search.lookup_local_authority_name).to eq 'Devon County Council'
         end
       end
     end
 
-    context "when the council is located in shortcuts/council" do
-      it 'should return the name of the council for a postcode' do
+    context "when the local authority is located in shortcuts/council" do
+      it 'should return the name of the local authority for a postcode' do
         VCR.use_cassette('postcode_found') do
           court_search = CourtSearch.new('SE24 0NG')
           court_search.latlng_from_postcode('SE24 0NG')
-          expect(court_search.lookup_council_name).to eq 'Lambeth Borough Council'
+          expect(court_search.lookup_local_authority_name).to eq 'Lambeth Borough Council'
         end
       end
     end
@@ -278,14 +278,14 @@ describe CourtSearch do
       it 'should return nil for a partial postcode' do
         VCR.use_cassette('partial_postcode') do
           court_search = CourtSearch.new('EX1')
-          expect(court_search.lookup_council_name).to be_nil
+          expect(court_search.lookup_local_authority_name).to be_nil
         end
       end
 
       it 'should return nil for a wrong postcode' do
         VCR.use_cassette('postcode_not_found') do
           court_search = CourtSearch.new('invalid')
-          expect(court_search.lookup_council_name).to be_nil
+          expect(court_search.lookup_local_authority_name).to be_nil
         end
       end
     end

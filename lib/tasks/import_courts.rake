@@ -217,12 +217,12 @@ namespace :import do
       else
         puts "Adding local authorities(LA) for '#{court.name}'"
         row[1].split(',').each do |local_authority_name|
-          council = Council.find_by_name(local_authority_name)
-          if council.nil?
+          local_authority = LocalAuthority.find_by_name(local_authority_name)
+          if local_authority.nil?
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.remits.find_or_create_by_area_of_law_id!(@area_of_law.id).councils << council
+            court.remits.find_or_create_by_area_of_law_id!(@area_of_law.id).local_authorities << local_authority
           end
         end
       end
@@ -662,11 +662,11 @@ namespace :import do
   end
 
   desc "Import concil names"
-  task :councils => :environment do
-    puts "Importing councils"
+  task :local_authorities => :environment do
+    puts "Importing local authorities"
 
     # "authority_id","authority_name"
-    csv_file = File.read('db/data/councils.csv')
+    csv_file = File.read('db/data/local_authorities.csv')
 
     csv = CSV.parse(csv_file, :headers => true)
 
@@ -675,11 +675,11 @@ namespace :import do
     csv.each do |row|
       puts "Adding local authority: #{row[1]}"
 
-      council = Council.new
+      local_authority = LocalAuthority.new
 
-      council.name = row[1]
+      local_authority.name = row[1]
 
-      counter += 1 if council.save!
+      counter += 1 if local_authority.save!
     end
 
     puts ">>> #{counter} of #{csv.length} local authorities added"
@@ -767,8 +767,8 @@ namespace :import do
           authorities = row.values.drop(2).inject([]) { |array, c| array << (c.strip unless c.blank?) }.reject { |c| c.nil? }
 
           authorities.each do |local_authority_name|
-            council = Council.find_by_name(local_authority_name)
-            if council.nil?
+            local_authority = LocalAuthority.find_by_name(local_authority_name)
+            if local_authority.nil?
               puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
               errors_found += 1
               error_file.puts "#{errors_found}. \"#{court_name}\",\"#{local_authority_name}\" [Local authority not found]"

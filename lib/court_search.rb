@@ -47,11 +47,11 @@ class CourtSearch
     }
   end
 
-  def lookup_council_name
+  def lookup_local_authority_name
     begin
       Rails.logger.debug("postcode info")
       Rails.logger.debug(@postcode_info)
-      county_id = extract_council_from_county(@postcode_info) || extract_council_from_council(@postcode_info)
+      county_id = extract_local_authority_from_county(@postcode_info) || extract_local_authority_from_council(@postcode_info)
       postcode_info['areas'][county_id.to_s]['name']
     rescue => e
       Rails.logger.debug "Error: #{e.message}"
@@ -60,12 +60,12 @@ class CourtSearch
     end
   end
 
-  def extract_council_from_county(postcode_info)
+  def extract_local_authority_from_county(postcode_info)
     return nil if postcode_info['shortcuts']['council'].class == Fixnum rescue nil
     postcode_info['shortcuts']['council']['county']
   end
 
-  def extract_council_from_council(postcode_info)
+  def extract_local_authority_from_council(postcode_info)
     postcode_info['shortcuts']['council']
   end
 
@@ -90,7 +90,7 @@ class CourtSearch
       #For Bankruptcy, we do an additional check that the postcode matched court also has Bankruptcy listed as an area of law
       courts = Court.visible.by_postcode_court_mapping(@query, @options[:area_of_law])
     elsif area_of_law.type_children? || area_of_law.type_adoption? || area_of_law.type_divorce?
-      courts = Court.by_area_of_law(@options[:area_of_law]).for_council_and_area_of_law(lookup_council_name, area_of_law)
+      courts = Court.by_area_of_law(@options[:area_of_law]).for_local_authority_and_area_of_law(lookup_local_authority_name, area_of_law)
     end
 
     if latlng
