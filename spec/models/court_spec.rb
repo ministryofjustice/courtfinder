@@ -172,9 +172,6 @@ describe Court do
     let!(:children) { create(:area_of_law, name: 'Children') }
     let!(:divorce)  { create(:area_of_law, name: 'Divorce') }
     let!(:adoption) { create(:area_of_law, name: 'Adoption') }
-    let!(:possession) { create(:area_of_law, name: 'Housing possession') }
-    let!(:bankruptcy) { create(:area_of_law, name: 'Bankruptcy') }
-    let!(:money) { create(:area_of_law, name: 'Money claims') }
     let!(:court) { create(:court) }
     let!(:local_authority) { create(:local_authority) }
 
@@ -191,20 +188,6 @@ describe Court do
         add_local_authorities_to_court local_authorities: [create(:local_authority)], court: court, area_of_law: children
         add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: divorce
         court.divorce_local_authorities_list.should eq(local_authority.name)
-      end
-    end
-
-    describe '#possession_local_authorities_list' do
-      it 'returns a comma seperated list of local authority names' do
-        add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: possession
-        court.housing_possession_local_authorities_list.should eq(local_authority.name)
-      end
-    end
-
-    describe '#money_local_authorities_list' do
-      it 'returns a comma seperated list of local authority names' do
-        add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: money
-        court.money_claims_local_authorities_list.should eq(local_authority.name)
       end
     end
 
@@ -241,43 +224,6 @@ describe Court do
 
       it 'reports no invalid local authority names if there aren\'t any' do
         court.children_local_authorities_list = [local_authorities.map(&:name)].flatten.join(',')
-        expect(court.invalid_local_authorities).to be_empty
-      end
-    end
-
-    describe '#bankruptcy_local_authorities_list=' do
-      let(:local_authorities) { ['A', 'B'].map{ |name| create(:local_authority, name: "Local authority #{name}") } }
-
-      it 'assigns new local authorities from comma seperated list' do
-        court.bankruptcy_local_authorities_list = local_authorities.map(&:name).join(',')
-        court.bankruptcy_local_authorities.should include(local_authorities.first)
-        court.bankruptcy_local_authorities.should include(local_authorities.last)
-      end
-
-      it 'removes local authorities not in list' do
-        local_authorities.each do |local_authority|
-          add_local_authorities_to_court local_authorities: [local_authority], court: court, area_of_law: bankruptcy
-        end
-
-        court.bankruptcy_local_authorities_list = local_authorities.first.name
-        court.bankruptcy_local_authorities.count.should eq(1)
-        court.bankruptcy_local_authorities.first.name.should eq(local_authorities.first.name)
-      end
-
-      it 'does not add a local authority unless the name is matched' do
-        court.bankruptcy_local_authorities_list = [local_authorities.map(&:name), 'Noname'].flatten.join(',')
-        court.bankruptcy_local_authorities.count.should eq(2)
-        court.bankruptcy_local_authorities.should eq(local_authorities)
-      end
-
-      it 'reports invalid local authority names' do
-        court.bankruptcy_local_authorities_list = ['Bad local authority 1', local_authorities.map(&:name), 'Bad local authority 2'].flatten.join(',')
-        expect(court.invalid_local_authorities.size).to eq 2
-        expect(court.invalid_local_authorities).to include('Bad local authority 1', 'Bad local authority 2')
-      end
-
-      it 'reports no invalid local authority names if there aren\'t any' do
-        court.bankruptcy_local_authorities_list = [local_authorities.map(&:name)].flatten.join(',')
         expect(court.invalid_local_authorities).to be_empty
       end
     end
