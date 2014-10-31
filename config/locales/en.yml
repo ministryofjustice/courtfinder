@@ -3,19 +3,30 @@
 
 en:
   # Parking translation for citizen's view
-  parking_onsite_free: Free, on site parking is available, provided by the court.
-  parking_onsite_paid: Paid, on site parking is available, provided by the court.
-  parking_offsite_free: Free parking is available within a 5 minute walk.
-  parking_offsite_paid: Paid parking is available within a 5 minute walk.
-  parking_none: No parking facilities are available at or near the court.
+  parking_onsite_free: Free on site parking is available at this venue.
+  parking_onsite_paid: Paid on site parking is available at this venue.
+  parking_onsite_none: On site parking is not available at this venue.
+  parking_offsite_free: Free off site parking is available within 500m of this venue.
+  parking_offsite_paid: Paid off site parking is available within 500m of this venue.
+  parking_offsite_none: Off site parking is not available at this venue.
+  parking_blue_badge_available: Blue badge parking is available on site.
+  parking_blue_badge_limited: Limited blue badge parking is available on site (please contact the venue for details).
+  parking_blue_badge_none: Blue badge parking is not available at this venue.
+  parking_none: Parking is not available at this venue.
 
   # Parking translation for admin's view  onsite_free: Free
-  onsite_free: Free
-  onsite_paid: Paid
-  onsite_none: No onsite parking available
-  offsite_free: Free
-  offsite_paid: Paid
-  offsite_none: No offsite parking available
+  onsite_free: Free on site parking
+  onsite_paid: Paid on site parking
+  onsite_none: No on site parking
+  onsite_no_info: No information available
+  offsite_free: Free off site parking
+  offsite_paid: Paid off site parking
+  offsite_none: No off site parking
+  offsite_no_info: No information available
+  blue_badge_available: On site blue badge parking
+  blue_badge_limited: Limited on site blue badge parking, please contact venue
+  blue_badge_none: No on site blue badge parking
+  blue_badge_no_info: No information available
 
   activerecord:
     attributes:

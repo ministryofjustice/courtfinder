@@ -54,7 +54,7 @@ class Court < ActiveRecord::Base
                   :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list, :directions, :parking_onsite, :parking_offsite
+                  :postcode_list, :directions, :parking_onsite, :parking_offsite, :parking_blue_badge
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true
@@ -204,21 +204,32 @@ class Court < ActiveRecord::Base
     end
   end
 
+  ParkingOption = Struct.new(:label, :value)
+
   def self.onsite_parking_options
-    Struct.new("Option", :label, :value)
-    collection = [
-      Struct::Option.new( I18n.t('onsite_free'), "parking_onsite_free"),
-      Struct::Option.new( I18n.t('onsite_paid'), "parking_onsite_paid"),
-      Struct::Option.new( I18n.t('onsite_none'), "parking_onsite_none")
+    [
+      ParkingOption.new(I18n.t('onsite_free'), "parking_onsite_free"),
+      ParkingOption.new(I18n.t('onsite_paid'), "parking_onsite_paid"),
+      ParkingOption.new(I18n.t('onsite_none'), "parking_onsite_none"),
+      ParkingOption.new(I18n.t('onsite_no_info'), "")
     ]
   end
 
   def self.offsite_parking_options
-    Struct.new("Option", :label, :value)
-    collection = [
-      Struct::Option.new( I18n.t('offsite_free'), "parking_offsite_free"),
-      Struct::Option.new( I18n.t('offsite_paid'), "parking_offsite_paid"),
-      Struct::Option.new( I18n.t('offsite_none'), "parking_offsite_none")
+    [
+      ParkingOption.new(I18n.t('offsite_free'), "parking_offsite_free"),
+      ParkingOption.new(I18n.t('offsite_paid'), "parking_offsite_paid"),
+      ParkingOption.new(I18n.t('offsite_none'), "parking_offsite_none"),
+      ParkingOption.new(I18n.t('offsite_no_info'), "")
+    ]
+  end
+
+  def self.blue_badge_parking_options
+    [
+      ParkingOption.new(I18n.t('blue_badge_available'), "parking_blue_badge_available"),
+      ParkingOption.new(I18n.t('blue_badge_limited'), "parking_blue_badge_limited"),
+      ParkingOption.new(I18n.t('blue_badge_none'), "parking_blue_badge_none"),
+      ParkingOption.new(I18n.t('blue_badge_no_info'), "")
     ]
   end
 
