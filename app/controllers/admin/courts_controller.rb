@@ -115,7 +115,6 @@ class Admin::CourtsController < Admin::ApplicationController
 
   def civil
     @courts = Court.by_area_of_law([AreaOfLaw::Name::MONEY_CLAIMS, AreaOfLaw::Name::HOUSING_POSSESSION, AreaOfLaw::Name::BANKRUPTCY]).by_name.paginate(page: params[:page], per_page: 30)
-    @area_of_law = AreaOfLaw.where(id: params[:area_of_law_id]).first || AreaOfLaw.where(name: AreaOfLaw::Name::BANKRUPTCY).first
   end
 
   def audit
