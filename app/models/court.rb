@@ -91,8 +91,8 @@ class Court < ActiveRecord::Base
 
   # Scope methods
   scope :visible,         -> { where(display: true) }
-  scope :by_name,         -> { order('LOWER(courts.name)') }
-  scope :by_area_of_law,  -> (area_of_law) { joins(:areas_of_law).where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
+  scope :by_name,         -> { order('courts.name') }
+  scope :by_area_of_law,  -> (area_of_law) { select('courts.*, lower(courts.name)').joins(:areas_of_law).uniq.where(areas_of_law: {name: area_of_law}) if area_of_law.present? }
   scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
   scope :for_local_authority, -> (local_authority) { joins(:local_authorities).where("local_authorities.name" => local_authority) }
   scope :for_local_authority_and_area_of_law, -> (local_authority, area_of_law) {
