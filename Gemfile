@@ -41,6 +41,7 @@ group :test do
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter', require: nil
   gem 'capybara-email'
+  gem 'simplecov', require: false, group: :test
 end
 
 
