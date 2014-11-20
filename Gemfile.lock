@@ -444,6 +444,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   simple_form
+  simplecov
   timecop
   turbo-sprockets-rails3
   uglifier (>= 1.0.3)

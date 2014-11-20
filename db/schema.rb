@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(:version => 20141031165214) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.integer  "area_id"
+    t.integer  "cci_identifier"
     t.integer  "cci_code"
     t.integer  "old_id"
     t.integer  "old_court_type_id"
@@ -178,7 +179,6 @@ ActiveRecord::Schema.define(:version => 20141031165214) do
     t.text     "defence_leaflet"
     t.text     "prosecution_leaflet"
     t.text     "juror_leaflet"
-    t.integer  "cci_identifier"
     t.text     "directions"
     t.string   "parking_onsite"
     t.string   "parking_offsite"
