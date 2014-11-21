@@ -56,4 +56,35 @@ describe CourtsHelper do
       end
     end
   end
+
+  describe "towns_with_county_where_duplicates_exist" do
+    let(:town1){ Town.new(name:'town 1') }
+    let(:town2){ Town.new(name:'town 2') }
+    let(:towns){ [town1, town2] }
+    before{ Town.stub(with_county_name: Town, with_duplicate_count: Town, select: towns) }
+
+    it "gets the Towns with county name" do
+      Town.should_receive(:with_county_name).and_return(Town)
+      helper.towns_with_county_where_duplicates_exist
+    end
+
+    it "gets the Towns with duplicate count" do
+      Town.should_receive(:with_duplicate_count).and_return(Town)
+      helper.towns_with_county_where_duplicates_exist
+    end
+
+    it "manually selects the towns.id and towns.name" do
+      Town.should_receive(:select).with('towns.id, towns.name').and_return(towns)
+      helper.towns_with_county_where_duplicates_exist
+    end
+    
+    describe "each returned town" do
+
+      it "is mapped to a new TownDisambiguator" do
+        TownDisambiguator.should_receive( :new ).exactly(:once).ordered.with(town1).and_return('disambiguated town 1')
+        TownDisambiguator.should_receive( :new ).exactly(:once).ordered.with(town2).and_return('disambiguated town 2')
+        expect( helper.towns_with_county_where_duplicates_exist ).to eq( ['disambiguated town 1', 'disambiguated town 2'] )
+      end
+    end
+  end
 end
