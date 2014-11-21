@@ -225,6 +225,7 @@ class Data:
         # addresses for court
         cur = self.conn.cursor()
         sql = """SELECT t.name as town,
+                        cnt.name as county,
                         at.name as address_type,
                         a.address_line_1,
                         a.address_line_2,
@@ -234,17 +235,20 @@ class Data:
                    FROM courts as c,
                         address_types as at,
                         addresses as a,
-                        towns as t
+                        towns as t,
+                        counties as cnt
                   WHERE a.court_id = c.id
                     AND a.address_type_id = at.id
                     AND a.town_id = t.id
+                    AND cnt.id = t.county_id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
         addresses = [{
-            "type": row[1],
-            "address" : "\n".join([row[2], row[3], row[4], row[5]]),
-            "postcode": row[6],
+            "type": row[2],
+            "address" : "\n".join([row[3], row[4], row[5], row[6]]),
+            "postcode": row[7],
             "town": row[0],
+            "county": row[1],
         } for row in cur.fetchall()]
         return addresses
 
