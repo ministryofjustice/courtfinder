@@ -14,7 +14,7 @@ class TownDisambiguator
 	def unambiguous_name
 	  name = [town.name]
 	  if can_disambiguate? && town.duplicates.to_i > 0
-	    name << "(#{town.county_name})"
+	    name << "(#{town.county_name.to_s})"
 	  end
 	  name.join(' ')
 	end
