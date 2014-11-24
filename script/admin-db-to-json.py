@@ -252,50 +252,6 @@ class Data:
         } for row in cur.fetchall()]
         return addresses
 
-    def areas_of_law(self):
-        cur = self.conn.cursor()
-        cur.execute("SELECT name, slug FROM areas_of_law")
-        rows = cur.fetchall()
-        all_aols = [{"name": name, "slug": slug} for name, slug in rows]
-        self.write_to_json('areas_of_law', all_aols)
-
-    def court_types(self):
-        cur = self.conn.cursor()
-        cur.execute("SELECT name, slug FROM court_types")
-        rows = cur.fetchall()
-        all_court_types = [{"name": name, "slug": slug} for name, slug in rows]
-        self.write_to_json('court_types', all_court_types)
-
-    def town_county_country(self):
-        cur = self.conn.cursor()
-        cur.execute("SELECT id, name FROM countries")
-        countries = []
-        country_names = cur.fetchall()
-        for country_id, country_name in country_names:
-            cur.execute("""SELECT co.id, co.name
-                             FROM countries as c,
-                                  counties as co
-                            WHERE co.country_id = c.id
-                              AND c.id = %s""" % country_id )
-            counties = []
-            county_names = cur.fetchall()
-            for county_id, county_name in county_names:
-                cur.execute("""SELECT t.name
-                                 FROM counties as c,
-                                      towns as t
-                                WHERE t.county_id = c.id
-                                  AND c.id = %s""" % county_id)
-                towns = [r[0] for r in cur.fetchall()]
-                counties.append({
-                    "name": county_name,
-                    "towns": towns
-                })
-            countries.append({
-                "name": country_name,
-                "counties": counties
-            })
-        self.write_to_json("countries", countries)
-
     def write_to_json(self, filename, data):
         js = json.dumps(data, indent=4, separators=(',', ': '), cls=DjangoJSONEncoder)
         if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
