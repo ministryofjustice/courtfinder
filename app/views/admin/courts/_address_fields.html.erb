@@ -5,7 +5,7 @@
   <%= f.input :address_line_2 %>
   <%= f.input :address_line_3 %>
   <%= f.input :address_line_4 %>
-  <%= f.association :town, :collection => Town.all(:order => 'name') %>
+  <%= f.association :town, :collection => towns_with_county_where_duplicates_exist %>
   <%= f.input :postcode %>
 
   <div class="destroy">

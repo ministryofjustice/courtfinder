@@ -23,4 +23,11 @@ module CourtsHelper
       block.call area.name, area.id
     end
   end
+
+  def towns_with_county_where_duplicates_exist
+    towns = Town.with_county_name.with_duplicate_count.select('towns.id, towns.name')
+    towns.map{|town| TownDisambiguator.new(town) }
+  end
+
+
 end
