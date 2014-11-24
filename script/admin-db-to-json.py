@@ -287,9 +287,6 @@ def main():
     (options, args) = parser.parse_args()
     obj = Data(options.host, options.user, options.password, options.database, options.output,
                options.access, options.secret, options.bucket)
-    obj.areas_of_law()
-    obj.court_types()
-    obj.town_county_country()
     obj.courts()
 
 if __name__ == '__main__':
