@@ -209,7 +209,7 @@ describe Admin::AddressesController do
 
     it "finds the right address" do 
       Address.should_receive(:find).with(address.id.to_s).and_return(address)
-      get :edit, id: town.id
+      get :edit, id: address.id
     end
 
     it "assigns the address" do
