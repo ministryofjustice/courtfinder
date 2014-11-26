@@ -17,7 +17,9 @@ class Admin::AddressTypesController < Admin::ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @address_type }
+      format.json { 
+        render json: @address_type 
+      }
     end
   end
 
@@ -46,7 +48,7 @@ class Admin::AddressTypesController < Admin::ApplicationController
       if @address_type.save
         purge_all_pages
         format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully created.' }
-        format.json { render json: @address_type, status: :created, location: @address_type }
+        format.json { render json: @address_type, status: :created, location: admin_address_types_url(@address_type) }
       else
         format.html { render action: "new" }
         format.json { render json: @address_type.errors, status: :unprocessable_entity }
