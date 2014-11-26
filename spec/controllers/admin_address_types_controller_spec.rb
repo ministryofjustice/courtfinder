@@ -42,6 +42,32 @@ describe Admin::AddressTypesController do
       end
     end
 
+    context "that doesn't work" do
+      before{ 
+        AddressType.any_instance.stub(update_attributes: true)
+      }
+
+      it "purges the cache" do
+        controller.should_receive(:purge_all_pages)
+        post :update, params
+      end
+
+      it "redirects to the edit path" do
+        post :update, params
+        response.should redirect_to(edit_admin_address_type_path(address_type))
+      end
+    
+      it "responds to html" do
+        post :update, params.merge(format: :html)
+        expect(response.content_type).to eq('text/html')
+      end
+
+      it "responds to json" do
+        post :update, params.merge(format: :json)
+        expect(response.content_type).to eq('application/json')
+      end
+    end
+
   end
 
   describe "#create" do
