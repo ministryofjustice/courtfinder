@@ -1,17 +1,7 @@
 require 'spec_helper'
 
 describe Admin::AreasOfLawController do
-  render_views
-
-  before :each do
-    sign_in create(:user, admin: true)
-  end
-
-
-  require 'spec_helper'
-
-describe Admin::AreasController do
-  render_views
+  
 
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
@@ -305,15 +295,4 @@ describe Admin::AreasController do
     }.to change { AreaOfLaw.count }.by(-1)
   end
 
-end
-
-
-  it "purges the cache when an area_of_law is destroyed" do
-    at = create(:area_of_law)
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_areas_of_law_path)
-    }.to change { AreaOfLaw.count }.by(-1)
-  end
 end
