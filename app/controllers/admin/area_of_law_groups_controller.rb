@@ -13,12 +13,23 @@ class Admin::AreaOfLawGroupsController < Admin::ApplicationController
 
   def create
     @group = AreaOfLawGroup.new(params[:area_of_law_group])
-    if @group.save
-      purge_all_pages
-      flash[:notice] = 'Group was successfully created.' 
-      respond_with @group, location: admin_area_of_law_groups_path
-    else
-      render 'new'
+    respond_to do |format|
+      if @group.save
+        purge_all_pages
+        format.html {
+          flash[:notice] = 'Group was successfully created.' 
+          respond_with @group, location: admin_area_of_law_groups_path
+        }
+        format.json{ render json: @group, status: :created }
+      else
+        format.html{
+          flash[:error] = 'Group could not be created'
+          render 'new'
+        }
+        format.json{
+          render json: @group.errors, status: :unprocessable_entity
+        }
+      end
     end
   end
 
@@ -33,6 +44,7 @@ class Admin::AreaOfLawGroupsController < Admin::ApplicationController
       flash[:notice] = 'Group was successfully updated.' 
       respond_with @group, location: admin_area_of_law_groups_path
     else
+      flash[:error] = 'Group could not be updated'
       render 'edit'
     end
   end
