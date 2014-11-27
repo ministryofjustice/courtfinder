@@ -29,7 +29,6 @@ class Admin::CourtTypesController < Admin::ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @court_type }
     end
   end
 
@@ -47,7 +46,7 @@ class Admin::CourtTypesController < Admin::ApplicationController
       if @court_type.save
         purge_all_pages
         format.html { redirect_to edit_admin_court_type_path(@court_type), notice: 'Court type was successfully created.' }
-        format.json { render json: @court_type, status: :created, location: @court_type }
+        format.json { render json: @court_type, status: :created, location: admin_court_type_url(@court_type) }
       else
         format.html { render action: "new" }
         format.json { render json: @court_type.errors, status: :unprocessable_entity }

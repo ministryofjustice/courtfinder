@@ -229,22 +229,5 @@ describe Admin::OpeningTypesController do
     end
   end
 
-  it "purges the cache when a opening type is destroyed" do
-    at = OpeningType.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_opening_types_path)
-    }.to change { OpeningType.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = OpeningType.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_opening_types_path)
-    }.to change { OpeningType.count }.by(-1)
-  end
 
 end
