@@ -241,6 +241,72 @@ describe Admin::CourtsController do
   
   end
 
+  describe "#areas_of_law" do
+    let(:mock_courts_by_name){ mock('courts by name', paginate: 'paginated courts by name') }
+    before{ 
+      Court.stub(:by_name).and_return(mock_courts_by_name)
+      AreaOfLaw.stub(:all).and_return('all areas of law')
+    }
+    it "gets one page of courts by name" do
+      mock_courts_by_name.should_receive(:paginate).with(page: '1', per_page: 30).and_return 'paginated courts by name'
+      get :areas_of_law, page: 1
+    end
+
+    it "assigns the paginated courts by name to @courts" do
+      get :areas_of_law
+      expect(assigns[:courts]).to eq('paginated courts by name')
+    end
+
+    it "gets all areas of law" do
+      AreaOfLaw.should_receive(:all).and_return('all areas of law')
+      get :areas_of_law
+    end
+
+    it "assigns all areas of law to @areas_of_law" do
+      get :areas_of_law
+      expect(assigns[:areas_of_law]).to eq('all areas of law')
+    end
+  end
+
+
+  describe "#court_types" do
+    let(:mock_courts_by_name){ mock('courts by name', paginate: 'paginated courts by name') }
+    before{ 
+      Court.stub(:by_name).and_return(mock_courts_by_name)
+      CourtType.stub(:order).and_return('all court types')
+    }
+    it "gets one page of courts by name" do
+      mock_courts_by_name.should_receive(:paginate).with(page: '1', per_page: 30).and_return 'paginated courts by name'
+      get :court_types, page: 1
+    end
+
+    it "assigns the paginated courts by name to @courts" do
+      get :court_types
+      expect(assigns[:courts]).to eq('paginated courts by name')
+    end
+
+    it "gets all court types in name order" do
+      CourtType.should_receive(:order).with(:name).and_return('all court types')
+      get :court_types
+    end
+
+    it "assigns all court types to @court_types" do
+      get :court_types
+      expect(assigns[:court_types]).to eq('all court types')
+    end
+  end
+
+
+  describe "#civil" do
+    before{
+      Court.stub_chain(:by_area_of_law, :by_name, :paginate).and_return('courts')
+    }
+    it "assigns courts" do
+      get :civil
+      expect(assigns(:courts)).to eq('courts')
+    end
+  end
+
   describe '#family' do
 
     it 'assigns @courts' do
