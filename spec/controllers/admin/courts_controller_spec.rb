@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Admin::CourtsController do
-  render_views
-
   before :each do
     @user = User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
     sign_in @user
@@ -15,18 +13,121 @@ describe Admin::CourtsController do
     response.should be_success
   end
 
-  it "purges the cache when a court is updated" do
-    controller.should_receive(:purge_all_pages)
-    post :update, id: @court.id, court: { name: 'Another court of law' }
-    response.should redirect_to(edit_admin_court_path(@court.reload))
+  describe "#update" do
+    let(:params){ {id: @court.id, court: { name: 'Another court of law' }} }
+
+    context "that works" do
+      before{
+        Court.any_instance.stub(update_attributes: true)
+      }
+      it "purges the cache" do
+        controller.should_receive(:purge_all_pages)
+        post :update, params
+      end
+
+      context "a html request" do
+        it "redirects to the edit path" do
+          post :update, params
+          response.should redirect_to(edit_admin_court_path(@court.reload))
+        end
+      end
+      context "a json request" do
+        before{ params[:format] = :json }
+
+        it "responds with no content" do
+          post :update, params
+          expect(response.status).to eq(204)
+        end
+      end
+    end
+
+    context "that doesn't work" do
+      before{
+        Court.any_instance.stub(update_attributes: false)
+      }
+
+      it "does not purge the cache" do
+        controller.should_not_receive(:purge_all_pages)
+        post :update, params
+      end
+
+      context "a html request" do
+        context "with a redirect_url param" do
+          before{ params[:redirect_url] = 'http://some.com'}
+
+          it "redirects to the given redirect_url" do
+            post :update, params
+            expect(response).to redirect_to(params[:redirect_url])
+          end
+        end
+        context "without a redirect_url param" do
+          it "rerenders the edit template" do
+            post :update, params
+            response.should render_template(:edit)
+          end
+        end
+      end
+      context "a json request" do
+        before{ params[:format] = :json }
+
+        it "responds with unprocessable_entity" do
+          post :update, params
+          expect(response.status).to eq(422)
+        end
+      end
+    end
   end
 
-  it "purges the cache when a new court is created" do
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :create, court: { name: 'A court of LAW', latitude:50, longitude:0 }
-      response.should redirect_to(edit_admin_court_path(assigns(:court)))
-    }.to change { Court.count }.by(1)
+  describe "#create" do
+    let(:params){ {court: { name: 'A court of LAW', latitude:50, longitude:0 }} }
+
+    context "that works" do
+      it "purges the cache" do
+        controller.should_receive(:purge_all_pages)
+        put :create, params
+      end
+
+      context "a html request" do
+        it "redirects to the edit path" do
+          put :create, params
+          response.should redirect_to(edit_admin_court_path(Court.last))
+        end
+      end
+      context "a json request" do
+        before{ params[:format] = :json }
+
+        it "responds with created" do
+          put :create, params
+          expect(response.status).to eq(201)
+        end
+      end
+    end
+
+    context "that doesn't work" do
+      before{
+        Court.any_instance.stub(save: false)
+      }
+
+      it "does not purge the cache" do
+        controller.should_not_receive(:purge_all_pages)
+        put :create, params
+      end
+
+      context "a html request" do
+        it "rerenders the new template" do
+          put :create, params
+          response.should render_template(:new)
+        end
+      end
+      context "a json request" do
+        before{ params[:format] = :json }
+
+        it "responds with unprocessable_entity" do
+          put :create, params
+          expect(response.status).to eq(422)
+        end
+      end
+    end
   end
 
   it "purges the cache when a court is destroyed" do
@@ -35,6 +136,109 @@ describe Admin::CourtsController do
       post :destroy, id: @court.id
       response.should redirect_to(admin_courts_path)
     }.to change { Court.count }.by(-1)
+  end
+
+  describe "#new" do
+    it "assigns a new court to @court" do
+      get :new
+      expect(assigns[:court]).to be_a(Court)
+    end
+
+    describe "a html request" do
+      it "responds with html" do
+        get :index
+        expect(response.content_type).to eq('text/html')
+      end
+
+      it "responds with :ok" do
+        get :new, format: :html
+        expect( response.status ).to eq(200)
+      end
+    end
+    
+    describe "a json request" do
+      it "responds with json" do
+        get :new, format: :json
+        expect(response.content_type).to eq('application/json')
+      end
+
+      it "responds with :ok" do
+        get :new, format: :json
+        expect( response.status ).to eq(200)
+      end
+    end
+  end
+
+  describe "#show" do
+    let(:court){ Court.create(name: 'My Court') }
+
+    it "finds the right court" do 
+      Court.should_receive(:find).with(court.id.to_s).and_return(court)
+      get :show, id: court.id
+    end
+
+    it "assigns the court" do
+      get :show, id: court.id
+      expect(assigns[:court]).to eq(court)
+    end
+
+    describe "a html request" do
+      it "responds with html" do
+        get :show, id: court.id, format: :html
+        expect(response.content_type).to eq('text/html')
+      end
+
+      it "responds with :ok" do
+        get :show, id: court.id, format: :html
+        expect( response.status ).to eq(200)
+      end
+    end
+    
+    describe "a json request" do
+      it "responds with json" do
+        get :show, id: court.id, format: :json
+        expect(response.content_type).to eq('application/json')
+      end
+
+      it "responds with :ok" do
+        get :show, id: court.id, format: :json
+        expect( response.status ).to eq(200)
+      end
+    end
+  end
+
+  describe "#edit" do
+    let(:court){ Court.create(name: 'My Court') }
+
+    it "finds the right court" do 
+      Court.should_receive(:find).with(court.id.to_s).and_return(court)
+      get :edit, id: court.id
+    end
+
+    it "assigns the court" do
+      get :edit, id: court.id
+      expect(assigns[:court]).to eq(court)
+    end
+
+    it "assigns the courts contacts in :sort order to @court_contacts" do
+      Court.stub(:find).and_return(court)
+      court.contacts.should_receive(:order).with(:sort).and_return('sorted contacts')
+      get :edit, id: court.id
+      expect(assigns[:court_contacts]).to eq('sorted contacts')
+    end
+
+    describe "a html request" do
+      it "responds with html" do
+        get :edit, id: court.id, format: :html
+        expect(response.content_type).to eq('text/html')
+      end
+
+      it "responds with :ok" do
+        get :edit, id: court.id, format: :html
+        expect( response.status ).to eq(200)
+      end
+    end
+  
   end
 
   describe '#family' do
