@@ -10,6 +10,7 @@ env:
     - APP_NAME=courtfinder
     - DISPLAY=localhost:1.0
     - secure: AilDTDdphOGoqoXo8qyDEMA7SqK+uUTplkxUd74YoLKjxvhskN15RyLGZpDMIQB9gbKY2/S3WbNbcs0EnMA3bsafx6V8thoVSek5mZak9umppjrt0AzphfMzm2df9sCHhxF8uVGRp+ufJwvYnjBDugatPg54eMDpud9uUWhITpcFysQSvda8NGwwKsuRSTf917puEDy4qKscwut/6rksZKo0ZpHyyGuNti4JUl/PmgDsIIN96XO8/F0rRet9gSeIHaYg4l+y+EoVtq7BjsXbcV2W/tdifZMU5N80+HpK8bEX+ds3pzEMhYFj+qJf4eVGjbK23v1YVrSBI+iFpOQ1GQ==
+    - secure: g3k+Ssdr6GUuYy6K5RtWN4s/Vnz+abv3M4JjgnCDBURsGW/Wmw1vBHmOQFDfjyickzLnUi5dmzrt17F827SMnefo1MvSDgMtsorDVVOPAB0i1m/tNyLHqIPUE6UVs6SkdFtAdkRZkHPv28sGYkf94KC83UsmP39w9dFQRPlo07OtuKf73M7yFPvU9ZSFtiGBm5OHOvG/f8WgrErDSFv1SxWMXh+K9Yuj6c5OgV/T4gZ4GDA9ZZzlMFNM3DJ0nG4pltGj3G+p7u/Z8oo8aCuambHRyLN+WeMaed3AqGe74q+VMFT5Vz7Nk68jmbkEOxkyZ6r71LXuPm3xezmEL22wzg==
 
 before_install:
   - sudo apt-get install -y libqt4-dev
