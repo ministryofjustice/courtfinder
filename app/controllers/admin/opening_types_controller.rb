@@ -46,7 +46,7 @@ class Admin::OpeningTypesController < Admin::ApplicationController
       if @opening_type.save
         purge_all_pages
         format.html { redirect_to admin_opening_type_path(@opening_type), notice: 'Opening type was successfully created.' }
-        format.json { render json: @opening_type, status: :created, location: @opening_type }
+        format.json { render json: @opening_type, status: :created, location: admin_opening_type_url(@opening_type) }
       else
         format.html { render action: "new" }
         format.json { render json: @opening_type.errors, status: :unprocessable_entity }

@@ -13,9 +13,7 @@ class Admin::UsersController < Admin::ApplicationController
     respond_with @user
   end
 
-  def edit
-    @user = User.find(params[:id])
-  end
+
 
   def update
     @user = User.find(params[:id])
@@ -31,7 +29,11 @@ class Admin::UsersController < Admin::ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    if @user.destroy
+      flash[:notice] = 'User successfully destroyed'
+    else
+      flash[:error] = 'Could not destroy the user'
+    end 
 
     respond_to do |format|
       format.html { redirect_to admin_users_url }

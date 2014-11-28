@@ -46,7 +46,7 @@ class Admin::CountriesController < Admin::ApplicationController
       if @country.save
         purge_all_pages
         format.html { redirect_to edit_admin_country_path(@country), notice: 'Country was successfully created.' }
-        format.json { render json: @country, status: :created, location: @country }
+        format.json { render json: @country, status: :created, location: admin_country_url(@country) }
       else
         format.html { render action: "new" }
         format.json { render json: @country.errors, status: :unprocessable_entity }

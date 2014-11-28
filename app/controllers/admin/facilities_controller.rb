@@ -46,7 +46,7 @@ class Admin::FacilitiesController < Admin::ApplicationController
       if @facility.save
         purge_all_pages
         format.html { redirect_to admin_facility_path(@facility), notice: 'Facility type was successfully created.' }
-        format.json { render json: @facility, status: :created, location: @facility }
+        format.json { render json: @facility, status: :created, location: admin_facility_path(@facility) }
       else
         format.html { render action: "new" }
         format.json { render json: @facility.errors, status: :unprocessable_entity }

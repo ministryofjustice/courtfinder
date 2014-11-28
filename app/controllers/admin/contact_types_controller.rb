@@ -46,7 +46,7 @@ class Admin::ContactTypesController < Admin::ApplicationController
       if @contact_type.save
         purge_all_pages
         format.html { redirect_to admin_contact_type_path(@contact_type), notice: 'Contact type was successfully created.' }
-        format.json { render json: @contact_type, status: :created, location: @contact_type }
+        format.json { render json: @contact_type, status: :created, location: admin_contact_type_url(@contact_type) }
       else
         format.html { render action: "new" }
         format.json { render json: @contact_type.errors, status: :unprocessable_entity }

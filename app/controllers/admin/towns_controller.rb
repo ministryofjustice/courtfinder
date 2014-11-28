@@ -46,7 +46,7 @@ class Admin::TownsController < Admin::ApplicationController
       if @town.save
         purge_all_pages
         format.html { redirect_to admin_town_path(@town), notice: 'Town was successfully created.' }
-        format.json { render json: @town, status: :created, location: @town }
+        format.json { render json: @town, status: :created, location: admin_town_url(@town) }
       else
         format.html { render action: "new" }
         format.json { render json: @town.errors, status: :unprocessable_entity }

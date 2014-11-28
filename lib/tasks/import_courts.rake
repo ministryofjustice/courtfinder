@@ -1,4 +1,4 @@
-require_relative 'google_spreadsheet/connection.rb'
+require 'google_spreadsheet/connection.rb'
 require 'awesome_print'
 
 namespace :import do
@@ -741,7 +741,7 @@ namespace :import do
 
   desc "Generate csv File with Local Authorities for Courts from Google Spreadsheet"
   task :generate_csv_with_local_authorities => :environment do
-    session =Connection.get_drive_session
+    session =Connection.new.get_drive_session!
 
     ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[1]
     file_name = 'local_authorities.csv'

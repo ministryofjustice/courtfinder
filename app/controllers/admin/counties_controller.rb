@@ -46,7 +46,7 @@ class Admin::CountiesController < Admin::ApplicationController
       if @county.save
         purge_all_pages
         format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully created.' }
-        format.json { render json: @county, status: :created, location: @county }
+        format.json { render json: @county, status: :created, location: admin_county_url(@county) }
       else
         format.html { render action: "new" }
         format.json { render json: @county.errors, status: :unprocessable_entity }
