@@ -5,6 +5,6 @@ class UpdateMoneyClaimsContactTypes < ActiveRecord::Migration
       money_claims.save!
     end
 
-    ContactType.find_or_create_by_name 'Local money claims enquiries'
+    ContactType.where(name: 'Local money claims enquiries').first_or_create!
   end
 end

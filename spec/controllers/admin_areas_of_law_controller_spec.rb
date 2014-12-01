@@ -47,19 +47,19 @@ describe Admin::AreasOfLawController do
 
       it "purges the cache" do
         controller.should_receive(:purge_all_pages)
-        post :update, params
+        patch :update, params
       end
 
       describe "a html request" do
         before{ params[:format] = :html }
 
         it "redirects to the index path" do
-          post :update, params
+          patch :update, params
           response.should redirect_to(admin_areas_of_law_path)
         end
 
         it "flashes a notice" do
-          post :update, params
+          patch :update, params
           expect(flash[:notice]).to_not be_empty
         end
       end
@@ -68,12 +68,12 @@ describe Admin::AreasOfLawController do
         before{ params[:format] = :json }
 
         it "reponds with json" do
-          post :update, params
+          patch :update, params
           expect(response.content_type).to eq('application/json')
         end
 
         it "responds with no content" do
-          post :update, params
+          patch :update, params
           expect(response.status).to eq(204)
         end
       end
@@ -84,19 +84,19 @@ describe Admin::AreasOfLawController do
 
       it "does not purge the cache" do
         controller.should_not_receive(:purge_all_pages)
-        post :update, params
+        patch :update, params
       end
 
       describe "a html request" do
         before{ params[:format] = :html }
 
         it "rerenders the edit template" do
-          post :update, params
+          patch :update, params
           response.should render_template(:edit)
         end
 
         it "flashes an error" do
-          post :update, params
+          patch :update, params
           expect(flash[:error]).to_not be_empty
         end
       end
@@ -105,12 +105,12 @@ describe Admin::AreasOfLawController do
         before{ params[:format] = :json }
 
         it "reponds with json" do
-          post :update, params
+          patch :update, params
           expect(response.content_type).to eq('application/json')
         end
 
         it "responds with status :unprocessable_entity" do
-          post :update, params
+          patch :update, params
           expect(response.status).to eq(422)
         end
       end

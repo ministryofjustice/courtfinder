@@ -56,7 +56,7 @@ describe Admin::UsersController do
   end
   
   describe "#update" do
-  	let(:mock_user){ mock('user', update_attributes: success) }
+  	let(:mock_user){ double('user', update_attributes: success) }
   	before{
   		User.stub(:find).and_return( mock_user )
   	}
@@ -70,12 +70,12 @@ describe Admin::UsersController do
 
 	  	it "updates the User" do
 	  		mock_user.should_receive(:update_attributes).and_return(true)
-	  		post(:update, params)
+	  		patch(:update, params)
 			end
 	
 
 	  	it "redirects to the individual user path" do
-	  		post :update, params
+	  		patch :update, params
 	  		expect(response).to redirect_to(admin_user_path(mock_user))
 	  	end
 		end
@@ -94,7 +94,7 @@ describe Admin::UsersController do
 
 
 	  	it "re-renders the edit template" do
-	  		post :update, params
+	  		patch :update, params
 	  		expect(response).to render_template(:edit)
 	  	end
 		end
@@ -103,7 +103,7 @@ describe Admin::UsersController do
 
 
   describe "#destroy" do
-  	let(:mock_user){ mock('user', destroy: success) }
+  	let(:mock_user){ double('user', destroy: success) }
   	let(:success){ true }
   	let(:params){ {id: 123} }
   	

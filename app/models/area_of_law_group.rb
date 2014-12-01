@@ -11,7 +11,7 @@
 class AreaOfLawGroup < ActiveRecord::Base
   attr_accessible :name
 
-  has_many :areas_of_law, class_name: 'AreaOfLaw', foreign_key: 'group_id', order: 'areas_of_law.name'
+  has_many :areas_of_law, ->{ order('areas_of_law.name') }, class_name: 'AreaOfLaw', foreign_key: 'group_id'
 
   validates :name, presence: true
 

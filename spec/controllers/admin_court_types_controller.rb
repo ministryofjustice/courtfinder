@@ -10,7 +10,7 @@ describe Admin::CourtTypesController do
   it "purges the cache when an object is updated" do
     object = CourtType.create!
     controller.should_receive(:purge_all_pages)
-    post :update, id: object.id, court_type: {}
+    patch :update, id: object.id, court_type: {}
     response.should redirect_to(admin_court_type_path(object))
   end
 
@@ -26,7 +26,7 @@ describe Admin::CourtTypesController do
     object = CourtType.create!
     expect {
       controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
+      delete :destroy, id: object.id
       response.should redirect_to(admin_court_types_path)
     }.to change { CourtType.count }.by(-1)
   end

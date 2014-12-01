@@ -22,12 +22,12 @@ describe Admin::CourtsController do
       }
       it "purges the cache" do
         controller.should_receive(:purge_all_pages)
-        post :update, params
+        patch :update, params
       end
 
       context "a html request" do
         it "redirects to the edit path" do
-          post :update, params
+          patch :update, params
           response.should redirect_to(edit_admin_court_path(@court.reload))
         end
       end
@@ -35,7 +35,7 @@ describe Admin::CourtsController do
         before{ params[:format] = :json }
 
         it "responds with no content" do
-          post :update, params
+          patch :update, params
           expect(response.status).to eq(204)
         end
       end
@@ -47,7 +47,7 @@ describe Admin::CourtsController do
       }
 
       it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
+        controller.should_not_receive(:patche_all_pages)
         post :update, params
       end
 
@@ -56,13 +56,13 @@ describe Admin::CourtsController do
           before{ params[:redirect_url] = 'http://some.com'}
 
           it "redirects to the given redirect_url" do
-            post :update, params
+            patch :update, params
             expect(response).to redirect_to(params[:redirect_url])
           end
         end
         context "without a redirect_url param" do
           it "rerenders the edit template" do
-            post :update, params
+            patch :update, params
             response.should render_template(:edit)
           end
         end
@@ -71,7 +71,7 @@ describe Admin::CourtsController do
         before{ params[:format] = :json }
 
         it "responds with unprocessable_entity" do
-          post :update, params
+          patch :update, params
           expect(response.status).to eq(422)
         end
       end
@@ -242,7 +242,7 @@ describe Admin::CourtsController do
   end
 
   describe "#areas_of_law" do
-    let(:mock_courts_by_name){ mock('courts by name', paginate: 'paginated courts by name') }
+    let(:mock_courts_by_name){ double('courts by name', paginate: 'paginated courts by name') }
     before{ 
       Court.stub(:by_name).and_return(mock_courts_by_name)
       AreaOfLaw.stub(:all).and_return('all areas of law')
@@ -270,7 +270,7 @@ describe Admin::CourtsController do
 
 
   describe "#court_types" do
-    let(:mock_courts_by_name){ mock('courts by name', paginate: 'paginated courts by name') }
+    let(:mock_courts_by_name){ double('courts by name', paginate: 'paginated courts by name') }
     before{ 
       Court.stub(:by_name).and_return(mock_courts_by_name)
       CourtType.stub(:order).and_return('all court types')

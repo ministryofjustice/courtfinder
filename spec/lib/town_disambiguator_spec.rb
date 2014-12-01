@@ -41,20 +41,20 @@ describe TownDisambiguator do
 				before{ town.stub(county_name: 1) }
 
 				it "returns true" do
-					expect( subject.can_disambiguate? ).to be_true
+					expect( subject.can_disambiguate? ).to be_truthy
 				end	
 			end
 
 			context "when town doesn't respond to :county_name" do
 				it "returns false" do
-					expect( subject.can_disambiguate? ).to be_false
+					expect( subject.can_disambiguate? ).to be_falsey
 				end	
 			end
 		end
 
 		context "when town doesn't respond to :duplicates" do
 			it "returns false" do
-				expect( subject.can_disambiguate? ).to be_false
+				expect( subject.can_disambiguate? ).to be_falsey
 			end	
 		end
 	end

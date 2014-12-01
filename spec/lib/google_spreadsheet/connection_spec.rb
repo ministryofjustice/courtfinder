@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Connection do
 
-	let(:mock_client){ mock('oauth2 client') }
-	let(:mock_access_token){ mock('oauth2 access token', token: 'old token', refresh!: mock_refreshed_token) }
-	let(:mock_refreshed_token){ mock('refreshed oauth2 token', token: 'refreshed token', refresh!: 'doubly-refreshed token') }
+	let(:mock_client){ double('oauth2 client') }
+	let(:mock_access_token){ double('oauth2 access token', token: 'old token', refresh!: mock_refreshed_token) }
+	let(:mock_refreshed_token){ double('refreshed oauth2 token', token: 'refreshed token', refresh!: 'doubly-refreshed token') }
 
 	describe "a new connection" do
 		it "has no client" do
@@ -13,7 +13,7 @@ describe Connection do
 	end
 
 	describe "open!" do
-		let(:mock_client){ mock('oauth2 client') }
+		let(:mock_client){ double('oauth2 client') }
 		before{
 			OAuth2::Client.stub(:new).and_return(mock_client)
 		}
@@ -67,7 +67,7 @@ describe Connection do
 				subject.send(:instance_variable_set, "@client", mock_client)
 			}
 			it "is true" do
-				expect(subject.open?).to be_true
+				expect(subject.open?).to be_truthy
 			end
 		end
 		context "when there is no client" do
@@ -75,7 +75,7 @@ describe Connection do
 				subject.send(:instance_variable_set, "@client", nil)
 			}
 			it "is false" do
-				expect(subject.open?).to be_false
+				expect(subject.open?).to be_falsey
 			end
 		end		
 	end

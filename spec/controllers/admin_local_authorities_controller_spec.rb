@@ -92,7 +92,7 @@ describe Admin::LocalAuthoritiesController do
   end
   
   describe "#update" do
-  	let(:mock_authority){ mock('local authority', update_attributes: success) }
+  	let(:mock_authority){ double('local authority', update_attributes: success) }
   	before{
   		LocalAuthority.stub(:find).and_return( mock_authority )
   	}
@@ -106,16 +106,16 @@ describe Admin::LocalAuthoritiesController do
 
 	  	it "updates the LocalAuthority" do
 	  		mock_authority.should_receive(:update_attributes).and_return(true)
-	  		post(:update, params)
+	  		patch(:update, params)
 			end
 	  
 	  	it "purges all pages" do
 	  		controller.should_receive(:purge_all_pages)
-	  		post :update, params
+	  		patch :update, params
 	  	end
 
 	  	it "redirects to the index" do
-	  		post :update, params
+	  		patch :update, params
 	  		expect(response).to redirect_to(admin_local_authorities_path)
 	  	end
 		end
@@ -134,11 +134,11 @@ describe Admin::LocalAuthoritiesController do
 	  
 	  	it "does not purge all pages" do
 	  		controller.should_not_receive(:purge_all_pages)
-	  		post :update, params
+	  		patch :update, params
 	  	end
 
 	  	it "re-renders the edit template" do
-	  		post :update, params
+	  		patch :update, params
 	  		expect(response).to render_template(:edit)
 	  	end
 		end
@@ -170,7 +170,7 @@ describe Admin::LocalAuthoritiesController do
   end
 
   describe "#destroy" do
-  	let(:mock_authority){ mock('local authority', destroy: success) }
+  	let(:mock_authority){ double('local authority', destroy: success) }
   	let(:success){ true }
   	let(:params){ {id: 123} }
   	

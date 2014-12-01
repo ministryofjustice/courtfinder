@@ -73,7 +73,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
             expect(results.fetch(:found_in_area_of_law)).to be > 0
             expect(results.fetch(:courts)).to eq [court9, court7]
             expect(results.fetch(:courts)[0].distance.to_d).to be_within(0.0001).of(3.72484732920979)
-            expect(results.fetch(:courts)[1].respond_to?(:distance)).to be_false
+            expect(results.fetch(:courts)[1].respond_to?(:distance)).to be_falsey
           end
         end
       end

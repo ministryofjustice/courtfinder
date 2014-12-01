@@ -26,17 +26,17 @@ describe Admin::CountriesController do
       end
 
       it "redirects to the edit path" do
-        post :update, params
+        patch :update, params
         response.should redirect_to(edit_admin_country_path(country))
       end
     
       it "responds to html" do
-        post :update, params.merge(format: :html)
+        patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
       end
 
       it "responds to json" do
-        post :update, params.merge(format: :json)
+        patch :update, params.merge(format: :json)
         expect(response.content_type).to eq('application/json')
       end
     end
@@ -48,19 +48,19 @@ describe Admin::CountriesController do
 
       it "does not purge the cache" do
         controller.should_not_receive(:purge_all_pages)
-        post :update, params
+        patch :update, params
       end
 
       context "a html request" do
         before{ params[:format] = :html }
   
         it "rerenders the edit path" do
-          post :update, params
+          patch :update, params
           response.should render_template(:edit)
         end
     
         it "responds with html" do
-          post :update, params.merge(format: :html)
+          patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
         end
       end
@@ -68,7 +68,7 @@ describe Admin::CountriesController do
       context "a json request" do
         before{ params[:format] = :json }
         it "responds to json" do
-          post :update, params.merge(format: :json)
+          patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
         end
       end
@@ -87,7 +87,7 @@ describe Admin::CountriesController do
       end
 
       it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
+        expect(controller).to receive(:purge_all_pages)
         post :create, params
       end
 

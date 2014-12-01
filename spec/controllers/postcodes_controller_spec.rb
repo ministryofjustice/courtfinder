@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe PostcodesController do
+  pending 'is this controller even used anymore?'
+  
   describe "GET 'repossession'" do
     let!(:court) { create(:court, cci_code: 10) }
     let!(:postcode_court) { create(:postcode_court, court: court )}

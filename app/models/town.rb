@@ -15,7 +15,7 @@ class Town < ActiveRecord::Base
 
   belongs_to :county
   
-  default_scope order('LOWER(towns.name)') # ignore case when sorting
+  default_scope  { order('LOWER(towns.name)') } # ignore case when sorting
 
   scope :with_county_name, -> {
   	joins('left outer join counties on counties.id = towns.county_id').select('counties.name as county_name, counties.id as county_id')
