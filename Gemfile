@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 #source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
 
-gem 'rails', '3.2.18'
+gem 'rails', '~> 4.2.0.beta2'
 gem 'pg'
 
 gem 'byebug'
@@ -48,16 +48,15 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   '~> 4.0.5'
+  gem 'coffee-rails', '~> 4.1.0'
   gem 'uglifier', '>= 1.0.3'
-  gem 'turbo-sprockets-rails3'
 end
 
 gem 'jquery-rails', '~> 2.1'# Rails unobtrusive scripting adapter for jQuery
 gem 'friendly_id'           # Custom addresses instead of Ids
 gem 'will_paginate'         # Paging
-gem 'simple_form'           # Build forms with ease
+gem 'simple_form', '~>3.0.0' # Build forms with ease
 gem 'rest-client'           # Accessing HTTP and REST resources (i.e. MoJ postcode lookup)
 gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
 gem 'geocoder'              # Check distances with latitude and longitude
@@ -68,7 +67,7 @@ gem 'fog', '1.20.0'                   # Talks to cloud providers (e.g. S3)
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'           # Handles file uploads
 gem 'gmaps4rails'           # Maps and directions
 gem 'unicorn'
-gem 'haml-rails'            # Leaner markup with Haml.info
+gem 'haml-rails', '~>0.5.3' # Leaner markup with Haml.info
 gem 'rdiscount'             # Enable Markdown in Haml
 gem 'govuk_frontend_toolkit'# Sass helpers
 gem 'global_phone'          # Phone number validation and formatting
