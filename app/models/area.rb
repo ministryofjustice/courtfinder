@@ -15,5 +15,5 @@ class Area < ActiveRecord::Base
   has_many :courts
   attr_accessible :name, :region_id
 
-  default_scope :order => :name
+  default_scope { order(:name) }
 end

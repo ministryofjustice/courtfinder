@@ -49,7 +49,7 @@ feature 'DX number' do
       page.should have_content('Legal professionals')
       within(:css, "div.for-legal-professionals") do
         expect(page).to have_content('DX: 2343')
-        expect(page).not_to have_content('01 1234 56678')
+        expect(page).to_not have_content('01 1234 56678')
       end
     end
   end

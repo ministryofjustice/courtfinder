@@ -28,7 +28,7 @@ feature 'Search for court from home page' do
     fill_in 'search-main', with: 'A name'
     click_button 'Search'
 
-    expect(page).not_to have_content('You must select an area of law')
+    expect(page).to_not have_content('You must select an area of law')
   end
 
   scenario 'Postcode and area of law should be visible in query string' do
@@ -61,7 +61,7 @@ feature 'Search for court from home page' do
 
     select 'Divorce', from: 'Area of law'
 
-    expect(page).not_to have_content('You must select an area of law')
+    expect(page).to_not have_content('You must select an area of law')
   end
 
 end

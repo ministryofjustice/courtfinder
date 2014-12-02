@@ -15,5 +15,5 @@ class County < ActiveRecord::Base
   has_many :towns
   attr_accessible :name, :country_id
 
-  default_scope :order => 'LOWER(name)' # ignore case when sorting
+  default_scope { order('LOWER(name)') }# ignore case when sorting
 end

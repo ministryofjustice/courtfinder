@@ -18,5 +18,5 @@ class OpeningTime < ActiveRecord::Base
 
   has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
 
-  default_scope :order => :sort
+  default_scope { order(:sort) }
 end

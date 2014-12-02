@@ -31,10 +31,10 @@ feature 'Remove irrelevant information in court information page' do
   it 'should not have related links, location of building, leaflets and further information' do
     visit "/courts/liverpool-civil-and-family-court"
 
-    expect(page).not_to have_content("Related links")
-    expect(page).not_to have_content("Location of the building")
-    expect(page).not_to have_content("Information leaflets")
-    expect(page).not_to have_content("Further information")
+    expect(page).to_not have_content("Related links")
+    expect(page).to_not have_content("Location of the building")
+    expect(page).to_not have_content("Information leaflets")
+    expect(page).to_not have_content("Further information")
   end
 
   it 'should have building facilities, disabled access and areas of law' do

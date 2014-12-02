@@ -20,10 +20,10 @@ module Concerns
 
         def set_area_local_authorities_list(local_authority_names_list, area_of_law)
           local_authority_names = local_authority_names_list.split(',')
-          local_authorities = LocalAuthority.find_all_by_name local_authority_names
+          local_authorities = LocalAuthority.where(name: local_authority_names)
 
           self.invalid_local_authorities = local_authority_names - local_authorities.map(&:name)
-          remits.find_or_create_by_area_of_law_id!(area_of_law.id).local_authorities = local_authorities
+          remits.where(area_of_law_id: area_of_law.id).first_or_create!.local_authorities = local_authorities
         end
 
         def single_point_of_entry_for?(area_of_law)
@@ -32,7 +32,7 @@ module Concerns
         end
 
         def set_single_point_of_entry_for(area_of_law, value)
-          remit = remits.find_or_create_by_area_of_law_id!(area_of_law.id)
+          remit = remits.where(area_of_law_id: area_of_law.id).first_or_create!
           remit.single_point_of_entry = value
           remit.save!
         end

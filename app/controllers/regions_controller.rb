@@ -9,7 +9,7 @@ class RegionsController < ApplicationController
   end
 
   def show
-    @region = Region.find(params[:id])
+    @region = Region.friendly.find(params[:id])
 
     if request.path != region_path(@region, :format => params[:format])
       redirect_to region_path(@region, :format => params[:format]), status: :moved_permanently

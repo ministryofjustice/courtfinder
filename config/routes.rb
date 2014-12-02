@@ -3,27 +3,27 @@ Courtfinder::Application.routes.draw do
   # Public court pages
   # TODO: This needs tidying
   scope 'courts', :controller => :courts do
-    match '/' => :index, :as => :courts
-    match '/:id' => :show, :as => :court
-    match '/:id/leaflets' => :information, :as => :information
-    match '/:id/leaflets/defence' => :defence, :as => :defence
-    match '/:id/leaflets/prosecution' => :prosecution, :as => :prosecution
-    match '/:id/leaflets/juror' => :juror, :as => :juror
+    get '/' => :index, :as => :courts
+    get '/:id' => :show, :as => :court
+    get '/:id/leaflets' => :information, :as => :information
+    get '/:id/leaflets/defence' => :defence, :as => :defence
+    get '/:id/leaflets/prosecution' => :prosecution, :as => :prosecution
+    get '/:id/leaflets/juror' => :juror, :as => :juror
   end
   scope 'court-types', :controller => :court_types do
-    match '/' => :index, :as => :court_types
-    match '/:id' => :show, :as => :court_type
+    get '/' => :index, :as => :court_types
+    get '/:id' => :show, :as => :court_type
   end
   scope 'areas-of-law', :controller => :areas_of_law do
-    match '/' => :index, :as => :areas_of_law
-    match '/:id' => :show, :as => :area_of_law
+    get '/' => :index, :as => :areas_of_law
+    get '/:id' => :show, :as => :area_of_law
   end
   scope 'search', :controller => :search do
-    match '/' => :index, :as => :search
+    get '/' => :index, :as => :search
   end
   scope 'regions', :controller => :regions do
-    match '/' => :index, :as => :regions
-    match '/:id' => :show, :as => :region
+    get '/' => :index, :as => :regions
+    get '/:id' => :show, :as => :region
   end
 
   get '/search/:area_of_law', to: 'home#index', as: 'area_of_law_landing'

@@ -41,9 +41,9 @@ describe AreaOfLaw do
     it 'keeps slug history' do
       area = create(:area_of_law, name: 'Area of law slugged')
       area.name = 'Law Slugged'
-      area.save
+      area.save!
       
-      expect(area.to_param).to eq('law-slugged')
+      expect(area.to_param).to eq('area-of-law-slugged')
       expect(AreaOfLaw.find('area-of-law-slugged')).to eq(area)
     end
 

@@ -25,7 +25,7 @@
     <td<%= (this_letter != last_letter ? '' : " id=\"courts-by-#{this_letter}\"").html_safe %>><%= court.name %></td>
     <td><%= court.court_number %></td>
     <td><%= court.cci_code %></td>
-    <td><%= link_to 'Show', court_path(court) %></td>
+    <td><%= link_to 'Show', external_court_path(court) %></td>
     <td><%= link_to 'Edit', edit_admin_court_path(court) %></td>
     <% if current_user.admin %>
       <td class="admin-only"><%= link_to 'Delete', admin_court_path(court), method: :delete, data: { confirm: 'Are you sure?' } %></td>

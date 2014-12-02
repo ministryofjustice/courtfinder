@@ -8,7 +8,7 @@ describe Admin::UsersController do
 
   describe "#index" do
   	it "gets all users" do
-  		User.should_receive(:all).and_return([])
+  		expect(User).to receive(:all).at_least(:once).and_return(User.where('id>0'))
   		get :index
   	end
   	it "assigns @users" do
@@ -32,10 +32,10 @@ describe Admin::UsersController do
   describe "#show" do
   	let(:mock_user){ User.new }
   	before{
-  		User.stub(:find).and_return( mock_user )
+  		allow(User).to receive(:find).and_return( mock_user )
   	}
   	it "gets the user by id" do
-  		User.should_receive(:find).with('123').and_return(mock_user)
+  		expect(User).to receive(:find).with('123').and_return(mock_user)
   		get :show, id: 123
   	end
   	it "assigns @user" do
@@ -56,26 +56,27 @@ describe Admin::UsersController do
   end
   
   describe "#update" do
-  	let(:mock_user){ mock('user', update_attributes: success) }
+  	let(:mock_user){ double('user', update_attributes: success) }
   	before{
-  		User.stub(:find).and_return( mock_user )
+  		allow(User).to receive(:find).and_return( mock_user )
   	}
 		context "with valid params" do
 			let(:success){ true }
 			let(:params){ 
 				{
-					user: { id: 123, name: 'user name' }
+          id: 123,
+					user: { name: 'user name' }
 				}
 			}
 
 	  	it "updates the User" do
-	  		mock_user.should_receive(:update_attributes).and_return(true)
-	  		post(:update, params)
+	  		expect(mock_user).to receive(:update_attributes).and_return(true)
+	  		patch(:update, params)
 			end
 	
 
 	  	it "redirects to the individual user path" do
-	  		post :update, params
+	  		patch :update, params
 	  		expect(response).to redirect_to(admin_user_path(mock_user))
 	  	end
 		end
@@ -84,17 +85,18 @@ describe Admin::UsersController do
 			let(:success){ false }
 			let(:params){ 
 				{
+          id: 123,
 					user: { name: '' }
 				}
 			}
 
 	  	it "does not update a new User" do
-	  		expect{ post(:update, params) }.to_not change(User, :count).by(1)
+	  		expect{ post(:update, params) }.to_not change(User, :count)
 			end
 
 
 	  	it "re-renders the edit template" do
-	  		post :update, params
+	  		patch :update, params
 	  		expect(response).to render_template(:edit)
 	  	end
 		end
@@ -103,15 +105,15 @@ describe Admin::UsersController do
 
 
   describe "#destroy" do
-  	let(:mock_user){ mock('user', destroy: success) }
+  	let(:mock_user){ double('user', destroy: success) }
   	let(:success){ true }
   	let(:params){ {id: 123} }
   	
   	before{
-  		User.stub(:find).and_return( mock_user )
+  		allow(User).to receive(:find).and_return( mock_user )
   	}
   	it "tries to destroy the User" do
-  		mock_user.should_receive(:destroy).and_return(true)
+  		expect(mock_user).to receive(:destroy).and_return(true)
   		delete(:destroy, params)
 		end
 

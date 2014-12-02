@@ -222,7 +222,7 @@ namespace :import do
             puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
           else
             puts "Adding LA with named '#{local_authority_name}'"
-            court.remits.find_or_create_by_area_of_law_id!(@area_of_law.id).local_authorities << local_authority
+            court.remits.where(area_of_law_id: @area_of_law.id).first_or_create!.local_authorities << local_authority
           end
         end
       end
@@ -248,8 +248,8 @@ namespace :import do
 
     counter = 0
 
-    visiting = AddressType.find_or_create_by_name('Visiting')
-    postal = AddressType.find_or_create_by_name('Postal')
+    visiting = AddressType.where(name: 'Visiting').first_or_create
+    postal = AddressType.where(name: 'Postal').first_or_create
 
     # id, postal flag, line1, line2...
     csv.each do |row|

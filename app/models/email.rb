@@ -23,7 +23,7 @@ class Email < ActiveRecord::Base
   validates_presence_of :address
   validates :address, email: true, if: ->(f) { f.address.present? }
 
-  default_scope :order => :sort
+  default_scope { order(:sort) }
 
   def address
     self[:address].strip.downcase if self[:address].present?
