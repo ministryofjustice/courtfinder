@@ -173,7 +173,7 @@ describe Admin::CourtsController do
     let(:court){ Court.create(name: 'My Court') }
 
     it "finds the right court" do 
-      Court.should_receive(:find).with(court.id.to_s).and_return(court)
+      expect(Court).to receive_message_chain(:friendly,:find).with(court.id.to_s).and_return(court)
       get :show, id: court.id
     end
 
@@ -211,7 +211,7 @@ describe Admin::CourtsController do
     let(:court){ Court.create(name: 'My Court') }
 
     it "finds the right court" do 
-      Court.should_receive(:find).with(court.id.to_s).and_return(court)
+      expect(Court).to receive_message_chain(:friendly, :find).with(court.id.to_s).and_return(court)
       get :edit, id: court.id
     end
 
@@ -221,7 +221,7 @@ describe Admin::CourtsController do
     end
 
     it "assigns the courts contacts in :sort order to @court_contacts" do
-      Court.stub(:find).and_return(court)
+      allow(Court).to receive_message_chain(:friendly, :find).and_return(court)
       court.contacts.should_receive(:order).with(:sort).and_return('sorted contacts')
       get :edit, id: court.id
       expect(assigns[:court_contacts]).to eq('sorted contacts')

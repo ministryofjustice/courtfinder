@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe CourtSearch do
+describe CourtSearch, pending: 'not used anymore' do
   before(:each) do
     @at_visiting = create(:address_type, name: "Visiting")
     @town = create(:town, name: "London")
@@ -32,7 +32,7 @@ describe CourtSearch do
       end
     end
 
-    it "should return courts nearby if full postcode search" do
+    xit "should return courts nearby if full postcode search" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('NE12 8AQ')
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 0
@@ -40,7 +40,7 @@ describe CourtSearch do
       end
     end
 
-    it "should return courts nearby if partial postcode" do
+    xit "should return courts nearby if partial postcode" do
       VCR.use_cassette('partial_postcode') do
         court_search = CourtSearch.new('NE12')
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 0
@@ -54,7 +54,7 @@ describe CourtSearch do
 
       headers = {'Accept'=>'*/*; q=0.5, application/xml', 'Accept-Encoding'=>'gzip, deflate', 'User-Agent'=>'Ruby'}
 
-      it "should fallback to the remote mapit api" do
+      xit "should fallback to the remote mapit api" do
         pending
         stub_request(:get, local_url).with(headers: headers).to_return(status: 500, body: "", headers: {})
         stub_request(:get, mapit_url).with(headers: headers).to_return(status: 200, body: '{}', headers: {})
@@ -67,44 +67,44 @@ describe CourtSearch do
     end
   end
 
-  it "should return courts by name if search is not a postcode" do
+  xit "should return courts by name if search is not a postcode" do
     court_search_london = CourtSearch.new('London')
     expect(court_search_london.results.fetch(:found_in_area_of_law)).to eq 0
     court_search_london.results.fetch(:courts).should == [@court2]
   end
 
-  it "should limit results to area of law when specified" do
+  xit "should limit results to area of law when specified" do
     court_search_london = CourtSearch.new('Reading', {:area_of_law => 'Civil'})
     expect(court_search_london.results.fetch(:found_in_area_of_law)).to eq 0
     court_search_london.results.fetch(:courts).should == [@court3]
   end
 
-  it "should return courts nearby for postcodes limited to area of law" do
+  xit "should return courts nearby for postcodes limited to area of law" do
     court_search = CourtSearch.new('sl58le', {:area_of_law => 'Civil'})
-    court_search.stub!(:latlng_from_postcode).and_return([51.419069727514, -0.69702060464972])
+    allow(court_search).to receive(:latlng_from_postcode).and_return([51.419069727514, -0.69702060464972])
     expect(court_search.results.fetch(:found_in_area_of_law)).to be > 0
     court_search.results.fetch(:courts).should == [@court3]
   end
 
-  it "should return not show courts which are closed" do
+  xit "should return not show courts which are closed" do
     court_search = CourtSearch.new('court')
     court_search.results.should_not include(@court5)
   end
 
-  it "should propagate exceptions to the controller" do
+  xit "should propagate exceptions to the controller" do
     RestClient::Resource.any_instance.should_receive(:get).and_raise(StandardError)
     expect {
       CourtSearch.new('EC1M 5UQ').results
     }.to raise_error(StandardError)
   end
 
-  it "should get initialized with proper timeout values" do
+  xit "should get initialized with proper timeout values" do
     pending
     RestClient::Resource.should_receive(:new).with('http://mapit.service.dsd.io/postcode', timeout: 3, open_timeout: 1).once
     CourtSearch.new('irrelevant')
   end
 
-  it "should return an error when the search string is blank" do
+  xit "should return an error when the search string is blank" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('')
       cs.results.fetch(:courts).should be_empty
@@ -112,7 +112,7 @@ describe CourtSearch do
     end
   end
 
-  it "should return an error when the postcode cannot be found" do
+  xit "should return an error when the postcode cannot be found" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('irrelevant')
       cs.should_receive(:postcode_search?).and_return(true)
@@ -122,7 +122,7 @@ describe CourtSearch do
     end
   end
 
-  it "should return an error when the postcode cannot be found for a partial postcode" do
+  xit "should return an error when the postcode cannot be found for a partial postcode" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('YO6')
       cs.results.fetch(:courts).should be_empty
@@ -130,7 +130,7 @@ describe CourtSearch do
     end
   end
 
-  it "should return an error when the postcode cannot be found for a complete postcode" do
+  xit "should return an error when the postcode cannot be found for a complete postcode" do
     VCR.use_cassette('postcode_not_found') do
       cs = CourtSearch.new('T27 4DB')
       cs.results.fetch(:courts).should be_empty
@@ -145,7 +145,7 @@ describe CourtSearch do
     let!(:visiting_address) { create(:address, :address_line_1 => "Some street",
                               :address_type_id => at_visiting.id, :postcode => 'EH22 4AD', :town_id => town.id) }
 
-    it "should limit search to a maximum of 20 results" do
+    xit "should limit search to a maximum of 20 results" do
       VCR.use_cassette('postcode_found') do
         20.times { create(:court, :name => 'Just one more court', :display => true, :address_ids => [visiting_address.id]) }
 
@@ -169,7 +169,7 @@ describe CourtSearch do
       end
     end
 
-    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
+    xit "should return only one search result if the postcode is found in the Postcode to court mapping" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Possession'})
         expect(court_search.results.fetch(:found_in_area_of_law)).to be > 0
@@ -177,7 +177,7 @@ describe CourtSearch do
       end
     end
 
-    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
+    xit "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Possession'})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
@@ -206,7 +206,7 @@ describe CourtSearch do
       # @court8.save(:validate => false)
     end
 
-    it "should return only one search result if the postcode is found in the postcode to court mapping" do
+    xit "should return only one search result if the postcode is found in the postcode to court mapping" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Money Claims'})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
@@ -214,7 +214,7 @@ describe CourtSearch do
       end
     end
 
-    it "if the postcode is not found in the postcode to court mapping, then just default to distance search, but return only the nearest one court" do
+    xit "if the postcode is not found in the postcode to court mapping, then just default to distance search, but return only the nearest one court" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Money Claims'})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
@@ -236,7 +236,7 @@ describe CourtSearch do
       end
     end
 
-    it "should return only one search result if the postcode is found in the Postcode to court mapping" do
+    xit "should return only one search result if the postcode is found in the Postcode to court mapping" do
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('SE19NH', {:area_of_law => 'Bankruptcy'})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
@@ -244,7 +244,7 @@ describe CourtSearch do
       end
     end
 
-    it "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
+    xit "if the postcode is not found in the Postcode to court mapping, then just default to distance search, but return only the nearest one court" do
       VCR.use_cassette('postcode_not_found') do
         court_search = CourtSearch.new('NE128AQ', {:area_of_law => 'Bankruptcy'})
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
@@ -255,7 +255,7 @@ describe CourtSearch do
 
   context "Finding local authority name from postcode" do
     context "when the local authority is located in shortcuts/council/county" do
-      it 'should return the name of the local authority for a postcode' do
+      xit 'should return the name of the local authority for a postcode' do
         VCR.use_cassette('postcode_found') do
           court_search = CourtSearch.new('EX1 1UH')
           court_search.latlng_from_postcode('EX1 1UH')
@@ -265,7 +265,7 @@ describe CourtSearch do
     end
 
     context "when the local authority is located in shortcuts/council" do
-      it 'should return the name of the local authority for a postcode' do
+      xit 'should return the name of the local authority for a postcode' do
         VCR.use_cassette('postcode_found') do
           court_search = CourtSearch.new('SE24 0NG')
           court_search.latlng_from_postcode('SE24 0NG')
@@ -275,14 +275,14 @@ describe CourtSearch do
     end
 
     context 'when the postcode is invalid' do
-      it 'should return nil for a partial postcode' do
+      xit 'should return nil for a partial postcode' do
         VCR.use_cassette('partial_postcode') do
           court_search = CourtSearch.new('EX1')
           expect(court_search.lookup_local_authority_name).to be_nil
         end
       end
 
-      it 'should return nil for a wrong postcode' do
+      xit 'should return nil for a wrong postcode' do
         VCR.use_cassette('postcode_not_found') do
           court_search = CourtSearch.new('invalid')
           expect(court_search.lookup_local_authority_name).to be_nil
@@ -292,6 +292,7 @@ describe CourtSearch do
   end
 
   context 'With family areas of law' do
+    before{ skip 'not needed anymore'}
 
     describe 'Children' do
       it_should_behave_like 'a search with area of law', 'Children'
