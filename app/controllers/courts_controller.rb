@@ -73,7 +73,7 @@ class CourtsController < ApplicationController
 
   private
   def find_court
-    @court = Court.find(params[:id])
+    @court = Court.friendly.find(params[:id])
   end
 
   def courts_csv

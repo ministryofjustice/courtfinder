@@ -20,7 +20,7 @@ describe Admin::FacilitiesController do
       }
 
       it "purges the cache" do
-        controller.should_receive(:purge_all_paatch)
+        controller.should_receive(:purge_all_pages)
         post :update, params
       end
 

@@ -76,7 +76,7 @@ describe Admin::LocalAuthoritiesController do
 			}
 
 	  	it "does not create a new LocalAuthority" do
-	  		expect{ post(:create, params) }.to_not change(LocalAuthority, :count).by(1)
+	  		expect{ post(:create, params) }.to_not change(LocalAuthority, :count)
 			end
 	  
 	  	it "does not purge all pages" do
@@ -94,13 +94,14 @@ describe Admin::LocalAuthoritiesController do
   describe "#update" do
   	let(:mock_authority){ double('local authority', update_attributes: success) }
   	before{
-  		LocalAuthority.stub(:find).and_return( mock_authority )
+  		allow(LocalAuthority).to receive(:find).and_return( mock_authority )
   	}
 		context "with valid params" do
 			let(:success){ true }
 			let(:params){ 
 				{
-					local_authority: { id: 123, name: 'Authority name' }
+          id: 123,
+					local_authority: {  name: 'Authority name' }
 				}
 			}
 
@@ -124,12 +125,13 @@ describe Admin::LocalAuthoritiesController do
 			let(:success){ false }
 			let(:params){ 
 				{
+          id: 123,
 					local_authority: { name: '' }
 				}
 			}
 
 	  	it "does not update a new LocalAuthority" do
-	  		expect{ post(:update, params) }.to_not change(LocalAuthority, :count).by(1)
+	  		expect{ post(:update, params) }.to_not change(LocalAuthority, :count)
 			end
 	  
 	  	it "does not purge all pages" do

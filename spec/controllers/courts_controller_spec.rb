@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CourtsController do
+describe CourtsController, pending: 'controller not used anymore' do
   render_views
 
   before :each do
@@ -15,7 +15,7 @@ describe CourtsController do
       controller.should_receive(:set_vary_header).once
     end
 
-    it "displays a list of courts" do
+    xit "displays a list of courts" do
       get :index
       response.should be_successful
     end
@@ -69,17 +69,17 @@ describe CourtsController do
                                            :display => true)
     end
 
-    it "should set a vary header" do
+    xit "should set a vary header" do
       controller.should_receive(:set_vary_header)
       get :show, id: @tribunal.slug
     end
 
-    it "redirects to a slug of a particular court" do
+    xit "redirects to a slug of a particular court" do
       get :show, id: @county_court.id
       response.should redirect_to(court_path(@county_court))
     end
 
-    it "displays a particular court" do
+    xit "displays a particular court" do
       get :show, id: @county_court.slug
       response.should be_successful
     end
@@ -96,18 +96,18 @@ describe CourtsController do
     end
 
     context "API" do
-      it "returns a list of courts suitable for autocompletion" do
+      xit "returns a list of courts suitable for autocompletion" do
         get :index, format: :json, compact: 1
         response.should be_successful
         response.content_type.should == 'application/json'
       end
 
-      it "returns information if asked for json" do
+      xit "returns information if asked for json" do
         get :show, id: @court.slug, format: :json
         response.should be_successful
       end
 
-      it "json api returns correct information" do
+      xit "json api returns correct information" do
         get :show, id: @court.slug, format: :json
         JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"},
                                               "@id"=>"/courts/a-court-of-law",
@@ -120,7 +120,7 @@ describe CourtsController do
           @court.update_attributes! latitude: 50, longitude: 0
         end
 
-        it "json api returns correct information" do
+        xit "json api returns correct information" do
           get :show, id: @court.slug, format: :json
           JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/","geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"},
                                                 "@id"=>"/courts/a-court-of-law",
@@ -131,7 +131,7 @@ describe CourtsController do
         end
       end
 
-      it "json api returns correct extra information" do
+      xit "json api returns correct extra information" do
         @court.update_attributes(:info => 'some information')
         get :show, id: @court.slug, format: :json
         JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"},
@@ -141,7 +141,7 @@ describe CourtsController do
                                               "description"=>"some information"}
       end
 
-      it "doesn't return an error if a court's town has no county or no image_file_url" do
+      xit "doesn't return an error if a court's town has no county or no image_file_url" do
         @visiting = create(:address_type, :name => "Visiting")
         @town = create(:town, :name => "London")
         @court1 = create(:court, :slug => "blah", :name => 'County Court', :display => true) do |court|
@@ -153,12 +153,12 @@ describe CourtsController do
     end
 
     context "CSV" do
-      it "returns information if asked for CSV" do
+      xit "returns information if asked for CSV" do
         get :index, format: :csv
         response.should be_successful
       end
 
-      it "csv api returns correct information" do
+      xit "csv api returns correct information" do
         get :index, format: :csv
         response.body.should == "url,name,image,latitude,longitude,postcode,town,address,phone contacts,email contacts,opening times\n"\
                                 "/courts/a-court-of-law,A court of LAW,,,,,,,,,\n"\
