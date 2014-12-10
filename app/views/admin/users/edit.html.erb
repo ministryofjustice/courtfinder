@@ -7,6 +7,11 @@
     <%= f.input :name %>
     <%= f.input :email %>
     <%= f.input :admin %>
+
+    <% if current_user.admin? %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+    <% end %>
   </div>
 
   <div class="form-actions form-actions--right">

@@ -13,12 +13,20 @@ class Admin::UsersController < Admin::ApplicationController
     respond_with @user
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
 
 
   def update
     @user = User.find(params[:id])
 
     respond_to do |format|
+      unless params[:user][:password].present?
+        params[:user].delete(:password)
+        params[:user].delete(:password_confirmation)
+      end
+
       if @user.update_attributes(params[:user])
         format.html { redirect_to admin_user_path(@user), notice: 'user was successfully updated.' }
       else
