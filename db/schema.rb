@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141031165214) do
+ActiveRecord::Schema.define(:version => 20141215180524) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(:version => 20141031165214) do
     t.string   "name"
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
     t.integer  "area_id"
     t.integer  "cci_code"
     t.integer  "old_id"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(:version => 20141031165214) do
     t.string   "parking_onsite"
     t.string   "parking_offsite"
     t.string   "parking_blue_badge"
+    t.string   "uuid",                  :default => "5c876a97-c3ed-471f-847b-d435c2e93836"
+    t.string   "last_push_md4",         :default => "0ba5641b2e5a92425f8477c54e3b6d95"
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
