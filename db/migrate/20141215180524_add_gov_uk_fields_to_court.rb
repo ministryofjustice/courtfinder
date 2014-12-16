@@ -1,10 +1,11 @@
 class AddGovUkFieldsToCourt < ActiveRecord::Migration
 
-  @@md5 = Digest::MD5.new.update('Not yet pushed to gov.uk').hexdigest
 
   def change
-    add_column :courts, :uuid, :string, null: false
-    add_column :courts, :last_push_md4, :string, default: @@md5
+    add_column :courts, :uuid, :string
+    add_column :courts, :gov_uk_md5, :string
+    add_column :courts, :details_changed_at, :datetime, default: Time.at(0)
+    add_column :courts, :gov_uk_updated_at, :datetime, default: Time.at(0)
+    add_index :courts, :uuid, unique: true
   end
-  
 end
