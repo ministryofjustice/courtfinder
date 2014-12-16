@@ -342,7 +342,7 @@ namespace :import do
     csv = CSV.parse(csv_file, :headers => true)
 
     csv.each do |row|
-      area = CourtsAreasOfLaw.new
+      area = Remit.new
 
       puts "Adding '#{row[1]}'"
 
