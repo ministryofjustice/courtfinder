@@ -62,12 +62,15 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :emails, allow_destroy: true
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
+  before_validation :add_uuid
   before_validation :convert_visiting_to_location, if: :visiting_postcode_changed?
 
   validates :name, presence: true
 
-  validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
-  validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
+
+  # lattitude and longitude validations temporarily disabled to allow mass update of UUIDs
+  # validates :latitude, numericality: { greater_than:  -90, less_than:  90 }, presence: true, if: :has_visiting_address?
+  # validates :longitude, numericality: { greater_than: -180, less_than: 180 }, presence: true, if: :has_visiting_address?
 
   validate :check_postcode_errors
 
@@ -119,6 +122,11 @@ class Court < ActiveRecord::Base
 
   def locatable?
     longitude && latitude && !addresses.visiting.empty?
+  end
+
+
+  def add_uuid
+    self.uuid = UuidGenerator.new.generate if self.uuid.nil?
   end
 
   def fetch_image_file

@@ -81,6 +81,26 @@ describe Court do
     end
   end
 
+  describe '#add_uuid_before_validation' do
+    it 'should write new records with a uuid' do
+      expect(@court1.uuid).not_to be_nil
+    end
+
+    it 'should write different uuids for each record it writes' do
+      court1 = create(:court, name: 'Court 1')
+      court2 = create(:court, name: 'Court 2')
+      expect(court1.uuid).not_to be_nil
+      expect(court1.uuid).not_to eq court2.uuid
+    end
+
+    it 'should create uuids for existing records where the uuid is blank' do
+      court = build(:court, name: 'My Court')
+      court.uuid = nil
+      court.save
+      expect(court.uuid).not_to be_nil
+    end
+  end
+
   it "should return visitors leaflets only for County courts" do
     @county_court.leaflets.should eq @leaflets_types.take(1)
   end

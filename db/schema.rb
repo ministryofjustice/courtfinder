@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141031165214) do
+ActiveRecord::Schema.define(:version => 20141215180524) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(:version => 20141031165214) do
     t.string   "name"
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
     t.integer  "area_id"
     t.integer  "cci_code"
     t.integer  "old_id"
@@ -183,9 +183,14 @@ ActiveRecord::Schema.define(:version => 20141031165214) do
     t.string   "parking_onsite"
     t.string   "parking_offsite"
     t.string   "parking_blue_badge"
+    t.string   "uuid"
+    t.string   "gov_uk_md5"
+    t.datetime "details_changed_at",    :default => '1970-01-01 00:00:00'
+    t.datetime "gov_uk_updated_at",     :default => '1970-01-01 00:00:00'
   end
 
   add_index "courts", ["slug"], :name => "index_courts_on_slug"
+  add_index "courts", ["uuid"], :name => "index_courts_on_uuid", :unique => true
 
   create_table "emails", :force => true do |t|
     t.string   "address"
