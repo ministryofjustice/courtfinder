@@ -1,0 +1,44 @@
+
+Update court.details_updated_at when anything changes in:
+
+
+** addresses
+** contacts
+** court_facilities
+** court_types_courts
+** courts
+** emails
+** opening_times
+** postcode_courts
+** remits
+
+
+install redis
+
+install sidekiq gem
+
+
+create workers/gov_uk_push_worker.rb
+
+class GovUkPushWorker
+  include Sidekiq::Worker
+
+  def perform(court_id)
+    CourtSerializer ......
+  end
+end
+
+Then in the GovUkPushable concern, GovUkWorker.perform_async(court_id)
+
+
+Serializer.
+
+ - instantiate the court
+ - serialize everything
+ - create md5
+ - compare with last md5
+ - push to gov uk
+ - check response
+ - update court with new md5 if successful
+
+ 

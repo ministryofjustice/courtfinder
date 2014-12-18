@@ -19,6 +19,9 @@
 #
 
 class Address < ActiveRecord::Base
+
+  include Concerns::Court::GovUkPushable
+
   belongs_to :town
   belongs_to :address_type
   belongs_to :court

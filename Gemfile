@@ -9,6 +9,7 @@ gem 'byebug'
 gem 'pry'
 gem 'pry-nav'
 gem 'awesome_print'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'faker'

@@ -69,6 +69,16 @@ describe Court do
     @leaflets_types = ["visitor", "defence", "prosecution", "juror"]
   end
 
+  describe 'gov_uk_pushable' do
+    it 'should create a gov uk push job when updated' do
+      GovUkPushWorker.should_receive(:perform_async).with(action: :update, court_id: @court1.id)
+      @court1.name = "2 High Street"
+      @court1.save
+    end
+  end
+
+  
+
   describe 'associations' do
     it { should have_many :remits }
     it { should have_many(:jurisdictions).through(:remits) }

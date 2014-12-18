@@ -36,6 +36,8 @@
 
 class Court < ActiveRecord::Base
   include Concerns::Court::LocalAuthorities
+  include Concerns::Court::GovUkPushable
+
 
   belongs_to :area
   has_many :addresses
@@ -239,6 +241,11 @@ class Court < ActiveRecord::Base
       ParkingOption.new(I18n.t('blue_badge_none'), "parking_blue_badge_none"),
       ParkingOption.new(I18n.t('blue_badge_no_info'), "")
     ]
+  end
+
+
+  def court_id
+    self.id
   end
 
   private
