@@ -101,6 +101,30 @@ describe Court do
     end
   end
 
+
+  describe 'graph_updated_at' do
+    it 'should return the latest date from all the associated records' do
+      Timecop.freeze(2.hours.ago) do
+        @helpdesk = FactoryGirl.create(:contact_type)
+        @court1.addresses << create(:address, address_line_1: 'xxxx', town: create(:town))
+        @court1.addresses << create(:address, address_line_1: 'xxxx', town: create(:town))
+        @court1.contacts.create(telephone: "0800 800 8080", contact_type_id: @helpdesk.id)
+        @court1.court_facilities.create
+        @court1.court_types.create
+        @court1.emails.create
+        @court1.opening_times.create
+        @court1.remits.create
+      end
+
+      most_recent_date = 2.minutes.from_now
+      Timecop.freeze(most_recent_date) do
+        @court1.addresses.first.update_attribute(:address_line_2, 'cccc')
+      end
+
+      expect(@court1.graph_updated_at).to eq most_recent_date
+    end
+  end
+
   describe '#add_uuid_before_validation' do
     it 'should write new records with a uuid' do
       expect(@court1.uuid).not_to be_nil

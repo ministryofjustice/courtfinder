@@ -132,6 +132,20 @@ class Court < ActiveRecord::Base
     longitude && latitude && !addresses.visiting.empty?
   end
 
+  def graph_updated_at
+    [
+      updated_at, 
+      addresses.map(&:updated_at), 
+      contacts.map(&:updated_at),
+      court_facilities.map(&:updated_at),
+      court_types.map(&:updated_at),
+      emails.map(&:updated_at),
+      opening_times.map(&:updated_at),
+      remits.map(&:updated_at)
+    ].flatten.compact.max
+
+  end
+
 
   def add_uuid
     self.uuid = UuidGenerator.new.generate if self.uuid.nil?

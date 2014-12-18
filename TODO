@@ -35,6 +35,7 @@ Serializer.
 
  - instantiate the court
  - serialize everything
+ - validate against schema
  - create md5
  - compare with last md5
  - push to gov uk
@@ -44,3 +45,10 @@ Serializer.
  
 
 TEst that when an address/contact etc is destroyed, a gov uk court update job is triggered
+
+
+
+ENDPOINTS:
+
+GDS:  https://courts-api.preview.alphagov.co.uk/court/[uuid]
+MF:   https://safe-garden-8494.herokuapp.com/court/[UUID]
