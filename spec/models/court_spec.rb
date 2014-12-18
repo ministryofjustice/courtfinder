@@ -75,6 +75,16 @@ describe Court do
       @court1.name = "2 High Street"
       @court1.save
     end
+
+    it 'should create a gov uk push job on create' do
+      GovUkPushWorker.should_receive(:perform_async).with(action: :create, court_id: instance_of(Fixnum))
+      create(:court)
+    end
+
+    it 'should create a gov uk destroy job on destroy' do
+      GovUkPushWorker.should_receive(:perform_async).with(action: :destroy, court_id: @court1.id)
+      @court1.destroy
+    end
   end
 
   

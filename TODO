@@ -42,3 +42,5 @@ Serializer.
  - update court with new md5 if successful
 
  
+
+TEst that when an address/contact etc is destroyed, a gov uk court update job is triggered
