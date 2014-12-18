@@ -2,11 +2,11 @@
 Update court.details_updated_at when anything changes in:
 
 
-** addresses
+** addresses - done
 ** contacts
 ** court_facilities
 ** court_types_courts
-** courts
+** courts - done
 ** emails
 ** opening_times
 ** postcode_courts
