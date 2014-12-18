@@ -12,6 +12,9 @@
 #
 
 class CourtFacility < ActiveRecord::Base
+
+  include Concerns::Court::GovUkPushable
+  
   belongs_to :court
   belongs_to :facility
   attr_accessible :description, :facility_id, :sort

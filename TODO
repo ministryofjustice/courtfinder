@@ -3,8 +3,8 @@ Update court.details_updated_at when anything changes in:
 
 
 ** addresses - done
-** contacts
-** court_facilities
+** contacts - done
+** court_facilities - done
 ** court_types_courts
 ** courts - done
 ** emails
