@@ -1,3 +1,5 @@
+# Faker::Config.locale = 'en-gb'
+
 FactoryGirl.define do
 
   factory :court do
