@@ -89,10 +89,10 @@ FactoryGirl.define do
   factory :contact_type do
     name {'Helpdesk'}
     factory :contact_type_admin do
-      name 'admin'
+      name 'Admin'
     end
     factory :contact_type_jury do
-      name 'jury'
+      name 'Jury Enquiries'
     end
   end
 
@@ -118,6 +118,7 @@ FactoryGirl.define do
   factory :area_of_law_group do
     sequence(:name) {|n| "Group #{n}"}
   end
+
 
   factory :user do
     email { Faker::Internet.email }
@@ -183,7 +184,7 @@ FactoryGirl.define do
     end
     factory :counter_closed_time do
       name '5.00 pm (4.00 pm Friday)'
-      association :opening_type, factory: :counter_open
+      association :opening_type, factory: :counter_closed
     end
   end
 
