@@ -125,6 +125,28 @@ describe Court do
     end
   end
 
+  describe 'dx_number' do
+    it 'should return the only dx number if only one address' do
+      @court1.addresses << create(:address, address_line_1: 'xxxx', dx: 'DX 124343 Reading', town: create(:town))
+      expect(@court1.dx_number).to eq @court1.addresses.first.dx
+    end
+
+    it 'should return nil if no address records' do
+      expect(@court1.addresses.size).to eq 0
+      expect(@court1.dx_number).to be_nil
+    end
+
+    it 'should return the first non blank DX number' do
+      @court1.addresses << create(:address, address_line_1: 'xxxx', town: create(:town))
+      @court1.addresses << create(:address, address_line_1: 'xxxx', dx: 'DX 124343 Reading', town: create(:town))
+      @court1.addresses << create(:address, address_line_1: 'xxxx', dx: 'DX 9999 London', town: create(:town))
+      expect(@court1.dx_number).to eq 'DX 124343 Reading'
+    end
+
+  end
+
+
+
   describe '#add_uuid_before_validation' do
     it 'should write new records with a uuid' do
       expect(@court1.uuid).not_to be_nil

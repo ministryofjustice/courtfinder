@@ -146,6 +146,10 @@ class Court < ActiveRecord::Base
 
   end
 
+  def dx_number
+    addresses.map(&:dx).detect { |dx| dx.present? }
+  end
+
 
   def add_uuid
     self.uuid = UuidGenerator.new.generate if self.uuid.nil?
