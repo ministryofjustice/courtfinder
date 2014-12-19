@@ -12,21 +12,16 @@ FactoryGirl.define do
     factory :full_court_details do
       name 'My test court'
       alert 'Danger!  This is a test court'
-      # areas_of_law { [create(:area_family_law), create(:area_criminal_law)] }
       latitude 51.499862
       longitude -0.135007
       court_number 1234
+      court_facilities { [ create(:disabled_access_court_facility), create(:guide_dogs_court_facility) ]}
+      parking_onsite nil
+      parking_offsite "An NCP car park is located in Tudor Street, 400 metres from the court building."
+      parking_blue_badge "A limited number of Blue Badge parking bays are situated outside the court."
+      opening_times { [ create(:court_open_time), create(:court_closed_time), create(:counter_open_time), create(:counter_closed_time)]}
     end
   end
-
-  # factory :area_of_law do
-  #   factory :area_family_law do
-  #     name "Family Law"
-  #   end
-  #   factory :area_criminal_law do
-  #     name 'Criminal Law'
-  #   end
-  # end
 
   factory :postcode_court do
     postcode Faker::Address.postcode
@@ -132,14 +127,67 @@ FactoryGirl.define do
 
   factory :court_facility do
     description 'Disabled access and toilet facilities'
+    factory :disabled_access_court_facility do
+      description 'Disabled access and toilet facilities'
+      association :facility, factory:  :disabled_access_facility
+    end
+    factory :guide_dogs_court_facility do
+      description 'Guide dogs are welcome in this court'
+      association :facility, factory:  :guide_dogs_facility
+    end
   end
 
   factory :facility do
     name 'Disabled access'
-    image_description 'Wheelchair'
+    factory :disabled_access_facility do
+      name 'Disabled access'
+      image_description 'Wheelchair'
+    end
+    factory :guide_dogs_facility do
+      name 'Guide Dogs'
+      image_description 'dog'
+    end
   end
 
   factory :external_link do
     always_visible true
   end
+
+  factory :opening_type do
+    factory :building_open do
+      name 'Court Building open'
+    end
+    factory :building_closed do
+      name 'Court Building closed'
+    end
+    factory :counter_open do
+      name 'Court counter open'
+    end
+    factory :counter_closed do
+      name 'Court counter closed' 
+    end
+  end
+
+  factory :opening_time do
+    factory :court_open_time do
+      name '9.00 am'
+      association :opening_type, factory: :building_open
+    end
+    factory :court_closed_time do
+      name '5.00 pm (4.30 pm Friday)'
+      association :opening_type, factory: :building_closed
+    end
+    factory :counter_open_time do
+      name '9.00 am'
+      association :opening_type, factory: :counter_open
+    end
+    factory :counter_closed_time do
+      name '5.00 pm (4.00 pm Friday)'
+      association :opening_type, factory: :counter_open
+    end
+  end
+
+
+
+
 end
