@@ -15,12 +15,13 @@
 class Contact < ActiveRecord::Base
 
   include Concerns::Court::GovUkPushable
-  
+
   belongs_to :court
   belongs_to :contact_type
   attr_accessible :in_leaflet, :name, :sort, :telephone, :contact_type_id
 
   validates :telephone, presence:true, contact: true
+  # validates :telephone, presence: true
 
   has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
 

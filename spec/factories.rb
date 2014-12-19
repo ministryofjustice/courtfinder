@@ -9,7 +9,24 @@ FactoryGirl.define do
     latitude 50
     longitude 0
 
+    factory :full_court_details do
+      name 'My test court'
+      alert 'Danger!  This is a test court'
+      # areas_of_law { [create(:area_family_law), create(:area_criminal_law)] }
+      latitude 51.499862
+      longitude -0.135007
+      court_number 1234
+    end
   end
+
+  # factory :area_of_law do
+  #   factory :area_family_law do
+  #     name "Family Law"
+  #   end
+  #   factory :area_criminal_law do
+  #     name 'Criminal Law'
+  #   end
+  # end
 
   factory :postcode_court do
     postcode Faker::Address.postcode
@@ -20,18 +37,55 @@ FactoryGirl.define do
   factory :court_type do
   end
 
-  factory :address do
+  factory :country do
+    factory :country_england do
+      name 'England'
+    end
   end
 
+
+  factory :county do
+    factory :county_greater_london do
+      name "Greater London"
+      association :country, factory: :country_england
+    end
+  end
+
+
   factory :town do
+    factory :town_london do
+      name 'London'
+      association :county, factory: :county_greater_london
+    end
+  end
+
+  factory :address do
+    factory :visiting_address do
+      association :address_type, factory: :address_type
+      address_line_1 'Old Bailey'
+      address_line_2  'High Holborn'
+      association :town, factory: :town_london
+      postcode 'EC4M 7EH'
+      dx 'DX 123456 London'
+    end
+    factory :postal_address do
+      association :address_type, factory: :postal_address_type
+      address_line_1 'PO BOX 666'
+      association :town, factory: :town_london
+      postcode 'EC4M 6XX'
+      dx 'DX 8888888 London'
+    end
   end
 
   factory :address_type do
     name 'Visiting'
+    factory :postal_address_type do
+      name 'Postal'
+    end
   end
 
   factory :area_of_law do
-    sequence(:name) {|n| 'Law Area' }
+    sequence(:name) {|n| "Law Area #{n}" }
   end
 
   factory :feedback do
@@ -39,9 +93,27 @@ FactoryGirl.define do
 
   factory :contact_type do
     name {'Helpdesk'}
+    factory :contact_type_admin do
+      name 'admin'
+    end
+    factory :contact_type_jury do
+      name 'jury'
+    end
   end
 
   factory :contact do
+    factory :helpdesk_contact do
+      telephone '020 7835 3344'
+      association :contact_type, factory: :contact_type
+    end
+    factory :admin_contact do
+      telephone '020 7835 4455'
+      association :contact_type, factory: :contact_type_admin
+    end
+    factory :jury_contact_type do
+      telephone '020 7835 5566'
+      association :contact_type, factory: :contact_type_jury
+    end
   end
 
   factory :local_authority do
