@@ -50,7 +50,25 @@ class CourtSerializer
       'emails'        => serialize_array(:emails)
     }
     hash
+    result = recursively_sanitize(hash)
   end
+
+  def recursively_sanitize(hash)
+    result_hash = {}
+    hash.each do |key, value|
+      if value.is_a?(Hash)
+        result_hash[key] = recursively_sanitize(value)
+      elsif value.is_a?(String)
+        result_hash[key] = StringSanitizer.new(value).sanitize
+      else
+        result_hash[key] = value
+      end
+    end
+    result_hash
+  end
+
+
+
 
   def serialize_array(collection_name)
     collection = @court.send(collection_name)

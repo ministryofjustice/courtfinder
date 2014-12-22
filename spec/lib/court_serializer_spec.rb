@@ -35,6 +35,38 @@ describe 'CourtSerializer' do
     end
   end
 
+
+  describe 'private method recursively_sanitize' do
+    it 'should traverse the hash and sanitize all strings' do
+      hash = {
+        'key_1' => 'normal value',
+        'key_2' => {
+          'key_1' => "should be\nescaped (&nbsp;&#8482;&nbsp;)",
+          'key_2' => 4545.4545,
+          :key_3  => {
+            :key_1 => 'Euros and cents (&euro; &amp; &cent;)'
+          },
+        'key_3' => 'Another normal value'
+        }
+      }
+
+      expected_result = hash = {
+        'key_1' => 'normal value',
+        'key_2' => {
+          'key_1' => "should be escaped (   )",
+          'key_2' => 4545.4545,
+          :key_3  => {
+            :key_1 => 'Euros and cents (     )',
+          },
+        'key_3' => 'Another normal value -~~'
+        }
+      }
+      court = create(:court)
+      serializer = CourtSerializer.new(court.id)
+      expect(serializer.send(:recursively_sanitize, hash)).to eq expected_result
+    end
+  end
+
 end
 
 

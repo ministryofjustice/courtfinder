@@ -9,3 +9,12 @@ JSON schema validation:
           "$schema": "http://json-schema.org/schema#",
 
   - have had to change the the minimum field length for email name on the schema to 0 to get the validation to pass when no email name
+
+
+
+
+SANITZE
+========
+
+
+Do you just want to error on, unsanitry data, or just replace with spaces.?
