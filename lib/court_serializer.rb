@@ -1,17 +1,28 @@
 class CourtSerializer
 
-  attr_reader :hash, :json, :md5
+  attr_reader :hash, :json, :md5, :valid, :errors
 
   def initialize(court_id)
-    @court = Court.find(court_id)
-    @hash = nil
-    @json = nil
-    @md5  = nil
+    @court  = Court.find(court_id)
+    @hash   = nil
+    @json   = nil
+    @md5    = nil
+    @valid  = false
+    @errors = []
   end
 
 
   def serialize
     @hash = serialize_court
+    @json = @hash.to_json
+    @md5  = Digest::MD5.hexdigest(@json)
+    validate_against_schema
+  end
+
+  def validate_against_schema
+    validator = JsonSchemaValidator.new(@json)
+    @valid = validator.validate
+    @errors = validator.errors unless @valid
   end
 
 
@@ -26,9 +37,9 @@ class CourtSerializer
       'locale'        => 'en',
       'closed'        => false,
       'alert'         => @court.alert,
-      'lat'           => @court.latitude.to_s,
-      'lon'           => @court.longitude.to_s,
-      'court_number'  => @court.court_number,
+      'lat'           => @court.latitude.to_f,
+      'lon'           => @court.longitude.to_f,
+      'court_number'  => @court.court_number.to_s,
       'DX'            => @court.dx_number,
       'areas_of_law'  => serialize_array(:areas_of_law),
       'facilities'    => serialize_array(:court_facilities),
