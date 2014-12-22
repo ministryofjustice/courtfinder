@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141218095002) do
+ActiveRecord::Schema.define(:version => 20141222160827) do
 
   create_table "address_types", :force => true do |t|
     t.string   "name"
@@ -183,7 +183,7 @@ ActiveRecord::Schema.define(:version => 20141218095002) do
     t.string   "parking_onsite"
     t.string   "parking_offsite"
     t.string   "parking_blue_badge"
-    t.string   "uuid"
+    t.string   "uuid",                                                     :null => false
     t.string   "gov_uk_md5"
     t.datetime "gov_uk_updated_at",     :default => '1970-01-01 00:00:00'
   end
