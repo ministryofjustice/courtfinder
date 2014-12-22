@@ -1,5 +1,4 @@
 {
-    "$schema": "http://json-schema.org/schema#",
     "title": "Court description",
     "description": "This schema describes the format of a court as sent across the court-api",
     "type": "object",
@@ -227,7 +226,7 @@
                         "description": "what this email address is for (enquiries, etc)",
                         "type": "string",
                         "maxLength": 200,
-                        "minLength": 1
+                        "minLength": 0
                     },
                     "address": {
                         "description": "email address",

@@ -11,6 +11,7 @@ gem 'pry-nav'
 gem 'awesome_print'
 gem 'sidekiq'
 gem 'sanitize'
+gem 'json-schema'   
 
 group :development, :test do
   gem 'faker'

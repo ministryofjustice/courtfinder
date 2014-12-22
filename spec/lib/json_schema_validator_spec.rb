@@ -1,52 +1,41 @@
 require 'spec_helper'
 
-describe 'CourtSerializer' do
+describe JsonSchemaValidator do
 
-  let(:now) { Time.now }
-
-  describe '.serialize' do
-    let(:court) do
-      court = create(:full_court_details)
-      court.addresses << create(:visiting_address)
-      court.addresses << create(:postal_address)
-      court.contacts.create(telephone: '020 7835 1122', contact_type_id: create(:contact_type).id)
-      court.contacts.create(telephone: '020 7835 2233', contact_type_id: create(:contact_type_admin).id)
-      court.contacts.create(telephone: '020 7835 3344', contact_type_id: create(:contact_type_jury).id)
-
-      court.emails.create(address: 'fees@example.com', contact_type_id: court.contacts.last.contact_type_id)
-      court.emails.create(address: 'admin@example.com')
-
-      court.areas_of_law.create(name: 'Law Area 1')
-      court.areas_of_law.create(name: 'Law Area 2')
-      court
-    end
-
-    
-
-    it 'should serialize!' do
-      Court.any_instance.stub(:graph_updated_at).and_return(now)
-
-      serializer = CourtSerializer.new(court.id)
-      serializer.serialize
-      expect(serializer.hash).to eq expected_hash
-    end
+  it 'should return true for a valid hash' do
+    v = JsonSchemaValidator.new(expected_hash.as_json)
+    expect(v.validate).to be true
   end
 
+  it 'should return errors if there are things wrong' do
+    invalid_hash = expected_hash
+    invalid_hash.delete('slug')
+    invalid_hash['court_number'] = 4554
+    invalid_hash['lat'] = '51.7878787'
+    v = JsonSchemaValidator.new(invalid_hash.as_json)
+    expect(v.validate).to be false
+    expect(v.num_errors).to eq 3
+    expect(v.errors[0]).to eq "The property '#/' did not contain a required property of 'slug' in schema"
+    expect(v.errors[1]).to eq "The property '#/lat' of type String did not match the following type: number in schema"
+    expect(v.errors[2]).to eq "The property '#/court_number' of type Fixnum did not match the following type: string in schema"
+  end
 end
 
 
+
 def expected_hash
+  now = Time.now
   {
-    'name'         => 'My test court',
+    'name'         => 'My Test Court',
     'slug'         => 'my-test-court',
     'updated_at'   => now.strftime('%Y-%m-%dT%H:%M:%S.%4NZ'),
     'update_type'  => 'major',
     'locale'       => 'en',
     'closed'       => false,
     'alert'        => 'Danger!  This is a test court',
-    'lat'          => '51.499862',
-    'lon'          => '-0.135007',
-    'court_number' => 1234,
+    'lat'          => 51.499862,
+    'lon'          => -0.135007,
+    'court_number' => '1234',
     'DX'           => 'DX 8888888 London',
     'areas_of_law' => [ 'Law Area 1', 'Law Area 2' ],
     'facilities'   => [
@@ -129,4 +118,5 @@ def expected_hash
       ]  
   }
 end
+
 

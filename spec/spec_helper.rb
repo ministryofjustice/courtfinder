@@ -95,7 +95,7 @@ VCR.configure do |config|
   config.default_cassette_options = { record: :new_episodes, serialize_with: :psych }
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
-  config.ignore_hosts '127.0.0.1','codeclimate.com'
+  config.ignore_hosts '127.0.0.1','codeclimate.com', 'json-schema.org'
   puts "VRC is logging to #{Rails.root}\/log\/vcr.log"
   config.debug_logger = File.open("#{Rails.root}\/log\/vcr.log", 'w')
   config.allow_http_connections_when_no_cassette = false

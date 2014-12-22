@@ -1,0 +1,11 @@
+ISSUES
+======
+
+
+
+JSON schema validation:
+ 
+  - have had to remove the $schema line in order to get the schema validator to work
+          "$schema": "http://json-schema.org/schema#",
+
+  - have had to change the the minimum field length for email name on the schema to 0 to get the validation to pass when no email name

@@ -61,3 +61,46 @@ OUTSTANDING QUESTIONS
 DX NUMBER
 PARKING
 email description
+
+
+
+
+JSON VALIDATORS
+===============
+
+
+jschema - https://github.com/Soylent/jschema
+validate works OK with their test data, but fails oin our schema with:
+    
+    JSchema::InvalidSchema: Specified schema version is not supported
+
+********
+
+
+ruby-jsonchema - https://github.com/Constellation/ruby-jsonchema
+cannot install using bundler
+
+
+*********
+
+json-schema - https://github.com/ruby-json-schema/json-schema
+
+works OK with test data, but using our schema, we get: 
+
+Failure/Error: result = v.validate
+     Errno::ENOENT:
+       No such file or directory @ rb_sysopen - {
+           "$schema": "http://json-schema.org/schema#",
+
+works ok if I remove the $schema line from the schema.
+
+
+**************
+
+
+
+
+
+
+
+
