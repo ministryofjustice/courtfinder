@@ -61,6 +61,7 @@ class Admin::CourtsController < Admin::ApplicationController
   # PUT /courts/1.json
   def update
     @court = Court.friendly.find(params[:id])
+    byebug
     if @court.update_attributes(params[:court])
       purge_all_pages
       flash[:invalid_local_authorities] = @court.invalid_local_authorities if @court.invalid_local_authorities
