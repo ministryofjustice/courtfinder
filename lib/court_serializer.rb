@@ -63,9 +63,12 @@ class CourtSerializer
 
   def serialize_parking
     array = []
-    array << { 'onsite' => @court.parking_onsite } if @court.parking_onsite.present?
-    array << { 'onsite' => @court.parking_offsite } if @court.parking_offsite.present?
-    array << { 'onsite' => @court.parking_blue_badge } if @court.parking_blue_badge.present?
+    %w{ onsite offsite blue_badge}.each do | parking_type |
+      description = @court.send("parking_#{parking_type}".to_sym)
+      if description.present?
+        array << { 'type' => parking_type, 'description' => description }
+      end
+    end
     array
   end
 

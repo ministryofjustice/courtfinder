@@ -14,6 +14,9 @@ describe 'CourtSerializer' do
 
     court.emails.create(address: 'fees@example.com', contact_type_id: court.contacts.last.contact_type_id)
     court.emails.create(address: 'admin@example.com')
+
+    court.areas_of_law.create(name: 'Law Area 1')
+    court.areas_of_law.create(name: 'Law Area 2')
     court
   end
 
@@ -21,7 +24,7 @@ describe 'CourtSerializer' do
 
   it 'should serialize!' do
     # allow(court).to receive(:graph_updated_at).and_return(now)
-    court.stub(:graph_updated_at).and_return(now)
+    Court.any_instance.stub(:graph_updated_at).and_return(now)
 
     serializer = CourtSerializer.new(court.id)
     serializer.serialize
@@ -62,7 +65,7 @@ def expected_hash
           'description' => 'An NCP car park is located in Tudor Street, 400 metres from the court building.'
         },
         {
-          'type'        => 'blue badge',
+          'type'        => 'blue_badge',
           'description' => 'A limited number of Blue Badge parking bays are situated outside the court.'
         }
       ],
