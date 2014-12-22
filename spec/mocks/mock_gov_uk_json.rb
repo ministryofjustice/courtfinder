@@ -14,7 +14,7 @@ class MockGovUkJson
       'lat'          => 51.499862,
       'lon'          => -0.135007,
       'court_number' => '1234',
-      'DX'           => 'DX 8888888 London',
+      'DX'           => 'DX 123456 London',
       'areas_of_law' => [ 'Law Area 1', 'Law Area 2' ],
       'facilities'   => [
           {

@@ -18,3 +18,10 @@ SANITZE
 
 
 Do you just want to error on, unsanitry data, or just replace with spaces.?
+
+
+
+
+DX number
+
+DX number is attached to an address, not a court.  I take the lowest of them alphanetically after excluding emtpy strings and nulls

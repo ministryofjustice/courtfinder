@@ -147,7 +147,7 @@ class Court < ActiveRecord::Base
   end
 
   def dx_number
-    addresses.map(&:dx).detect { |dx| dx.present? }
+    addresses.sort.map(&:dx).detect { |dx| dx.present? }
   end
 
 
