@@ -10,10 +10,18 @@
 #
 
 class PostcodeCourt < ActiveRecord::Base
-  attr_accessible :postcode
+  attr_accessible :postcode, :court
 
   belongs_to :court
 
   validates :postcode, :court, presence: true
   validates :postcode, format: /[A-Za-z0-9]/, uniqueness: true
+
+  before_save :force_upcase_postcode
+
+
+  def force_upcase_postcode
+    self.postcode = postcode.try(:upcase)
+  end
+
 end
