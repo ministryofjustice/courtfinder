@@ -13,10 +13,6 @@ Update court.details_updated_at when anything changes in:
 ** remits
 
 
-install redis
-
-install sidekiq gem
-
 
 create workers/gov_uk_push_worker.rb
 
@@ -38,9 +34,20 @@ Serializer.
  - validate against schema
  - create md5
  - compare with last md5
+ - instantiate GovUkApiClient client and push
+ - rsesponse, udpdate with url and md5
+
+
+GovUkApiClient
+
+  instantiates with court, and 
+
  - push to gov uk
  - check response
  - update court with new md5 if successful
+
+
+
 
  
 
