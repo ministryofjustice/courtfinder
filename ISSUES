@@ -38,3 +38,11 @@ If we get error back from the push to gov uk, what do we do?
   - retry
 
   end
+
+
+
+Client endpoint, username and password are in config/gov_uk_api.yml.  Should this be in a salt pillar rather than the code repo?
+
+
+
+SSL certs: turned off for now in the client

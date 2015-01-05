@@ -86,7 +86,7 @@ class MockGovUkJson
         ],
       'emails' => [
           {
-            'name'   => '',
+            'name'   => 'General',
             'address' => 'admin@example.com'
           },
           {

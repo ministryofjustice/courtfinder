@@ -1,0 +1,3 @@
+class GovUkApiError < StandardError
+
+end
