@@ -79,12 +79,12 @@ describe GovUkApiClient do
       response_200.stub(:body).and_return('Unexpected body')
       response_200.stub(:headers).and_return(response_headers)
       Excon.should_receive(:put).and_return(response_200)
-      Rails.logger.should_receive(:error).with("GovUkApiError: Invalid Repsonse Body: Unexpected body")
+      Rails.logger.should_receive(:error)
 
       client = GovUkApiClient.new(:update, uuid, json)
       expect {
         client.push
-      }.to raise_error GovUkApiError, "Invalid Response Body: Unexpected body"
+      }.to raise_error GovUkApiError, 'Invalid Response Body: Unexpected body'
     end
 
 

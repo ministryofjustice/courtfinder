@@ -22,12 +22,6 @@ class GovUkApiClient
   end
 
   def push
-    puts "++++++ DEBUG JSON ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-    puts @json
-
-    puts "++++++ DEBUG ENDPOINT #{endpoint} ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-    
-    
     connection = Excon.new(endpoint)
     url = "#{endpoint}#{@uuid}"
     Excon.defaults[:ssl_verify_peer] = false
@@ -42,31 +36,16 @@ class GovUkApiClient
     @response_body = response.body        
     @response_status = response.status
 
-    puts "++++++ DEBUG response.status #{response.status} ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-    puts "++++++ DEBUG response.body  ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-    puts response.body
-    
-
     unless successful_response?(response)
       @result = false
       @error_message = "Response status: #{response.status}: #{response.body}"
-      puts "++++++ DEBUG LOGGER ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-      puts "GovUkApiError: #{@error_message}"
-      puts Rails.logger.class
-      
       Rails.logger.error "GovUkApiError: #{@error_message}"
-      puts "++++++ DEBUG error message logged ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-      
       raise GovUkApiError.new @error_message
     else
-      puts "++++++ DEBUG successful response ++++++ #{__FILE__}::#{__LINE__} ++++\n"
-      puts @response_body
-      
       begin
         @result = true
         @public_url = parse_successful_response_body
       rescue => err
-        puts "++++++ DEBUG rescuing error  #{err.class} #{err.message} ++++++ #{__FILE__}::#{__LINE__} ++++\n"
         @error_message = "Invalid Response Body: #{@response_body}"
         Rails.logger.error "GovUkApiError: #{@error_message}"
         raise GovUkApiError.new @error_message

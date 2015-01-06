@@ -74,8 +74,14 @@ class CourtSerializer
     collection = @court.send(collection_name)
     array = []
     serialization_method = "serialize_#{collection_name}".to_sym
+    collection = sort_addresses(collection) if collection_name = 'addresses'
     collection.each { |c| array << send(serialization_method, c) }
     array
+  end
+
+
+  def sort_addresses(addresses)
+    AddressSequencer.new(addresses).sequence!
   end
 
 
@@ -128,7 +134,7 @@ class CourtSerializer
   end
 
   def serialize_emails(email)
-    contact_type = email.contact_type.nil? ? '' : email.contact_type.name
+    contact_type = email.contact_type.nil? ? 'General' : email.contact_type.name
     {
       'name'    => contact_type,
       'address' => email.address

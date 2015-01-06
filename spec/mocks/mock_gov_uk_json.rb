@@ -56,18 +56,18 @@ class MockGovUkJson
         ],
       'addresses'    => [
           {
-            'type'     => 'Postal',
-            'town'     => 'London',
-            'county'   => 'Greater London',
-            'postcode' => 'EC4M 6XX',
-            'lines'    => [ 'PO BOX 666']
-          },
-          {
             'type'     => 'Visiting',
             'town'     => 'London',
             'county'   => 'Greater London',
             'postcode' => 'EC4M 7EH',
             'lines'    => [ 'Old Bailey', 'High Holborn']
+          },
+          {
+            'type'     => 'Postal',
+            'town'     => 'London',
+            'county'   => 'Greater London',
+            'postcode' => 'EC4M 6XX',
+            'lines'    => [ 'PO BOX 666']
           }
         ],
       'contacts' => [
