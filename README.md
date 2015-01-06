@@ -50,3 +50,14 @@ Some post codes are not recognised by the default map location provider. For the
 To get access to the admin area you will then need to create the first user manually via the rake task:
 
     rake "admin:create[sue@example.com, the_password, Sue Denim]"
+
+
+### RACK_MULTIPART_PART_LIMIT evironment variable
+
+The main courtfinder edit form is a multipart form to allow for the upload of photos.  Some courts have so many 
+email addresses, phone numbers etc, that the total number of fields in the form (each field is submitted as a part) 
+exceeds the default limit of 128.  To avoid this in test or development modes, add the following to your .bashrc file:
+
+    export RACK_MULTIPART_PART_LIMIT=256
+
+    
