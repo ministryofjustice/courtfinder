@@ -74,14 +74,14 @@ class CourtSerializer
     collection = @court.send(collection_name)
     array = []
     serialization_method = "serialize_#{collection_name}".to_sym
-    collection = sort_addresses(collection) if collection_name = 'addresses'
+    collection = sort_addresses(collection) if collection_name == :addresses
     collection.each { |c| array << send(serialization_method, c) }
     array
   end
 
 
   def sort_addresses(addresses)
-    AddressSequencer.new(addresses).sequence!
+    AddressSequencer.new(addresses).sequence
   end
 
 

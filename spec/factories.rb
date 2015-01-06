@@ -69,6 +69,13 @@ FactoryGirl.define do
       postcode 'EC4M 6XX'
       dx 'DX 8888888 London'
     end
+    factory :fake_address do
+      association :address_type, factory: :postal_address_type
+      address_line_1 Faker::Address.street_address
+      association :town, factory: :town_london
+      postcode Faker::Address.postcode
+      dx 'DX 8888888 London'
+    end
   end
 
   factory :address_type do
