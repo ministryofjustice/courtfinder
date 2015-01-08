@@ -33,6 +33,12 @@ class GovUkApiClient
   end
 
 
+  def reload_credentials
+    unload_credentials
+    load_credentials
+  end
+
+
 
   private
 
@@ -93,6 +99,10 @@ class GovUkApiClient
       response.status == 200 ? true : false
     end
 
+  end
+
+  def unload_credentials
+    @@api_credentials = nil
   end
 
   def load_credentials

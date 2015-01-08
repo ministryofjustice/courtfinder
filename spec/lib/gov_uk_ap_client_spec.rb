@@ -25,17 +25,36 @@ describe GovUkApiClient do
   # this is a test which is here just while I'm developing so I have an easy way of testing that we can 
   # actually get to the endpoints
   #
-  describe '#push to a real endpoint' do
-    it 'should put and get a response' do
-      VCR.configure do |c|
-        c.ignore_request do |request|
-          URI(request.uri).host == testing_endpoint
+
+  pending 'tests to live endpoints should not be part of normal test suite' do
+    describe 'push to a real endpoint' do
+      it 'should put and get a response from dummy heroku endpoint' do
+        dummy_endpoint = 'https://safe-garden-8494.herokuapp.com/courts/'
+        VCR.configure do |c|
+          c.ignore_request do |request|
+            URI(request.uri).host == URI(dummy_endpoint).host
+          end
         end
+        client = GovUkApiClient.new(:update, uuid, json)
+        client.should_receive(:endpoint).at_least(1).times.and_return(dummy_endpoint)
+        client.push
+        expect(client.instance_variable_get(:@response_status)).to eq 200
+        expect(client.instance_variable_get(:@response_body)).to eq %Q<{"public_url":"https://#{testing_endpoint}/courts/public/my-test-court"}>
       end
-      client = GovUkApiClient.new(:update, uuid, json)
-      client.push
-      expect(client.instance_variable_get(:@response_status)).to eq 200
-      expect(client.instance_variable_get(:@response_body)).to eq %Q<{"public_url":"https://#{testing_endpoint}/courts/public/my-test-court"}>
+
+      it 'should put and get a response from gov uk endpoint' do
+        dummy_endpoint = 'https://courts-api.preview.alphagov.co.uk/courts/'
+        VCR.configure do |c|
+          c.ignore_request do |request|
+            URI(request.uri).host == URI(dummy_endpoint).host
+          end
+        end
+        client = GovUkApiClient.new(:update, uuid, json)
+        client.should_receive(:endpoint).at_least(1).times.and_return(dummy_endpoint)
+        client.push
+        expect(client.instance_variable_get(:@response_status)).to eq 200
+        expect(client.instance_variable_get(:@response_body)).to eq %Q<{"public_url":"https://#{testing_endpoint}/courts/public/my-test-court"}>
+      end
     end
   end
 
@@ -44,9 +63,11 @@ describe GovUkApiClient do
     it 'should not push if endpoint is configured as inactive' do
       YAML.should_receive(:load_file).with("#{Rails.root}/config/gov_uk_api.yml").and_return(dummy_yaml)
       client = GovUkApiClient.new(:update, uuid, json)
+      client.reload_credentials
       client.should_not_receive(:push_data)
       client.push
       expect(client.success?).to be true
+      client.unload_credentials
     end
   end
 
