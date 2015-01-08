@@ -40,6 +40,17 @@ describe GovUkApiClient do
   end
 
 
+  describe 'inactive endpoint' do
+    it 'should not push if endpoint is configured as inactive' do
+      YAML.should_receive(:load_file).with("#{Rails.root}/config/gov_uk_api.yml").and_return(dummy_yaml)
+      client = GovUkApiClient.new(:update, uuid, json)
+      client.should_not_receive(:push_data)
+      client.push
+      expect(client.success?).to be true
+    end
+  end
+
+
   describe '#push' do
 
     let(:response_headers) do
@@ -99,6 +110,26 @@ def testing_endpoint
   URI(config['endpoint']).host
 end
 
+
+def dummy_yaml
+  {"development"=>
+    {"endpoint"=>"https://test_dev_endppoint/courts/",
+     "token"=>"my_secret_token",
+     "active"=>true},
+   "staging"=>
+    {"endpoint"=>"https://test_staging_endppoint/courts/",
+     "token"=>"my_secret_token",
+     "active"=>true},
+   "test"=>
+    {"endpoint"=>"https://test_test_endppoint/courts/",
+     "token"=>"my_secret_token",
+     "active"=>false},
+   "production"=>
+    {"endpoint"=>"https://test_production_endppoint/courts/",
+     "token"=>"my_secret_token",
+     "active"=>true}
+   }
+end
 
 
 

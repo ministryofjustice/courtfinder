@@ -18,10 +18,30 @@ class GovUkApiClient
     @public_url      = nil
     @error_message   = nil
     load_credentials
-
   end
 
   def push
+    if active?
+      push_data
+    else
+      @result = true
+    end
+  end
+
+  def success?
+    @result
+  end
+
+
+
+  private
+
+
+  def active?
+    @@api_credentials['active']
+  end
+
+  def push_data
     connection = Excon.new(endpoint)
     url = "#{endpoint}#{@uuid}"
     Excon.defaults[:ssl_verify_peer] = false
@@ -52,16 +72,6 @@ class GovUkApiClient
       end
     end
   end
-
-
-  def success?
-    @result
-  end
-
-
-
-  private
-
 
   def parse_successful_response_body
     body = ActiveSupport::JSON.decode @response_body
