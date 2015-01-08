@@ -79,6 +79,9 @@ The GovUkPushWorker sidekiq job instantiates GovUkPusher to do the following:
   and update the court record with the new MD5 hash
 
 
+NOTE: the delete action is not yet implemented
+
+
 #### Configuration
 
 Configuration deatils (endpoint, token, active) are deatils in config/gov_uk_api.yml
