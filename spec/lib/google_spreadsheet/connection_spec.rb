@@ -105,9 +105,7 @@ describe Connection do
 
 		it "refreshes the access token" do
 			subject.should_receive(:refresh_token!)
-
-			# googleapis.com
-
+			allow_vcr_connection_to_google
 			subject.get_drive_session!
 		end
 
@@ -115,5 +113,16 @@ describe Connection do
 			GoogleDrive.should_receive(:login_with_oauth).with('refreshed token')
 			subject.get_drive_session!
 		end
+	end
+end
+
+
+
+
+def allow_vcr_connection_to_google
+	VCR.configure do |c|
+    c.ignore_request do |request|
+       URI(request.uri).host == 'www.googleapis.com'
+    end
 	end
 end

@@ -38,6 +38,9 @@ class GovUkApiClient
     load_credentials
   end
 
+  def unload_credentials
+    @@api_credentials = nil
+  end
 
 
   private
@@ -101,9 +104,7 @@ class GovUkApiClient
 
   end
 
-  def unload_credentials
-    @@api_credentials = nil
-  end
+ 
 
   def load_credentials
     @@api_credentials ||= YAML.load_file("#{Rails.root}/config/gov_uk_api.yml")[Rails.env]
