@@ -151,6 +151,7 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.0.4)
+    excon (0.31.0)
     execjs (2.2.2)
     extlib (0.9.16)
     factory_girl (4.5.0)
@@ -476,6 +477,7 @@ DEPENDENCIES
   database_cleaner
   devise (~> 3.4.1)
   devise_invitable
+  excon
   factory_girl_rails
   faker
   figaro

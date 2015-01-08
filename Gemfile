@@ -12,6 +12,7 @@ gem 'awesome_print'
 gem 'sidekiq'
 gem 'sanitize'
 gem 'json-schema'   
+gem 'excon'
 
 group :development, :test do
   gem 'faker'
