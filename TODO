@@ -1,4 +1,43 @@
 
+INSTALLATION
+============
+
+  Installing NOKOGIRI:
+
+     - ensure .ruby-version is 2.1.5
+     - ensure .ruby-gemset is .courtfinder215
+     - find location of xml2-config and xslt-config
+
+          /usr/bin/xml2-config
+          /usr/bin/xslt-config
+
+    - gem install nokogiri -- --use-system-libraries --with-xml2-config=/usr/bin/xml2-config --with-xslt-config=/usr/bin/xslt-config
+
+
+
+  Installing RMagick
+    - set PKG_CONFIG_PATH environment variable to the directory that holds MagickCore.pc
+
+
+
+OVERVIEW
+========
+
+  All models which which impact the data that needs to be pushed to gov.uk include the Courts::GovUkPushable concern.  
+  This is responsible for creating a GovUkPushWorker sidekiq job with an action (:update, :create or :delete), and the 
+  id of the court record.
+
+  The GovUkPushWorker sidekiq job instantiates GovUkPusher to do the following:
+    - find the court record
+    - serialize it and creates an MD5 hash of the serialized json
+    - if the MD5 hash does not match the MD5 hash on the court record (i.e. if the serialized data is 
+      different from the last upload to gov.uk), then calls GovUKApiClient to push the data to gov.uk
+      and update the court record with the new MD5 hash
+
+
+
+
+
 Update court.details_updated_at when anything changes in:
 
 
