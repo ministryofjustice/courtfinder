@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Area of law landing pages' do
+feature 'Area of law landing pages', skip: 'not needed anymore' do
   let!(:area_of_law) { create(:area_of_law) }
 
   scenario 'Enter the site using a /search/:area_of_law will take me to a preselected search' do

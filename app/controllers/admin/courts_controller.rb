@@ -15,7 +15,7 @@ class Admin::CourtsController < Admin::ApplicationController
   # GET /courts/1
   # GET /courts/1.json
   def show
-    @court = Court.find(params[:id])
+    @court = Court.friendly.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,7 +36,7 @@ class Admin::CourtsController < Admin::ApplicationController
 
   # GET /courts/1/edit
   def edit
-    @court = Court.find(params[:id])
+    @court = Court.friendly.find(params[:id])
     @court_contacts = @court.contacts.order(:sort)
   end
 
@@ -60,7 +60,7 @@ class Admin::CourtsController < Admin::ApplicationController
   # PUT /courts/1
   # PUT /courts/1.json
   def update
-    @court = Court.find(params[:id])
+    @court = Court.friendly.find(params[:id])
     if @court.update_attributes(params[:court])
       purge_all_pages
       flash[:invalid_local_authorities] = @court.invalid_local_authorities if @court.invalid_local_authorities
@@ -88,7 +88,7 @@ class Admin::CourtsController < Admin::ApplicationController
   # DELETE /courts/1
   # DELETE /courts/1.json
   def destroy
-    @court = Court.find(params[:id])
+    @court = Court.friendly.find(params[:id])
     @court.destroy
     purge_all_pages
 

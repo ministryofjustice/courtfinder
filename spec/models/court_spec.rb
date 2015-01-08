@@ -110,7 +110,7 @@ describe Court do
         @court1.addresses << create(:address, address_line_1: 'xxxx', town: create(:town))
         @court1.contacts.create(telephone: "0800 800 8080", contact_type_id: @helpdesk.id)
         @court1.court_facilities.create
-        @court1.court_types.create
+        @court1.court_types << CourtType.create
         @court1.emails.create
         @court1.opening_times.create
         @court1.remits.create
@@ -196,7 +196,7 @@ describe Court do
   end
 
   it "should not be locatable if it doesn't have a visiting address" do
-    @crown_court.locatable?.should be_false
+    @crown_court.locatable?.should be_falsey
   end
 
   it "should be locatable if it has a latitude, longitude and visiting address" do
@@ -324,7 +324,7 @@ describe Court do
         end
 
         it 'returns true' do
-          expect(court.children_single_point_of_entry).to be_true
+          expect(court.children_single_point_of_entry).to be_truthy
         end
       end
 
@@ -337,13 +337,13 @@ describe Court do
         end
 
         it 'returns false' do
-          expect(court.children_single_point_of_entry).to be_false
+          expect(court.children_single_point_of_entry).to be_falsey
         end
       end
 
       context 'when the court has no remit for Children' do
         it 'returns false' do
-          expect(court.children_single_point_of_entry).to be_false
+          expect(court.children_single_point_of_entry).to be_falsey
         end
       end
     end
@@ -359,14 +359,14 @@ describe Court do
 
         it 'updates the remit' do
           court.children_single_point_of_entry = true
-          expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_true
+          expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_truthy
         end
       end
 
       context 'when the court has no remit for Children' do
         it 'creates a remit with the appropriate value' do
           court.children_single_point_of_entry = true
-          expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_true
+          expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_truthy
         end
       end
     end
@@ -396,13 +396,13 @@ describe Court do
         end
 
         it 'returns true' do
-          expect(court.visiting_postcode_changed?).to be_true
+          expect(court.visiting_postcode_changed?).to be_truthy
         end
       end
 
       context 'which hasn\'t changed' do
         it 'returns false' do
-          expect(court.visiting_postcode_changed?).to be_false
+          expect(court.visiting_postcode_changed?).to be_falsey
         end
       end
     end
@@ -416,13 +416,13 @@ describe Court do
         end
 
         it 'returns true' do
-          expect(court.visiting_postcode_changed?).to be_true
+          expect(court.visiting_postcode_changed?).to be_truthy
         end
       end
 
       context 'without a visiting address' do
         it 'returns false' do
-          expect(court.visiting_postcode_changed?).to be_false
+          expect(court.visiting_postcode_changed?).to be_falsey
         end
       end
     end

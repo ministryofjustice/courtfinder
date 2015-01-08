@@ -31,7 +31,7 @@
     %p.sub-list
       View:
       - family_areas_of_law do |area, id|
-        = link_to "#{area} (#{@courts.by_area_of_law(area).count})", family_admin_courts_path(area_of_law_id: id), data: { disabled: (id == @area_of_law.id) }
+        = link_to "#{area} (#{@courts.by_area_of_law(area).count})", family_admin_courts_path(area_of_law_id: id), data: { disabled: (id == @area_of_law.id) } rescue ''
 
     %table#js-local-authority-tbl
       %thead
@@ -44,7 +44,7 @@
             Local authorities
             .hint Use the auto complete boxes to add local authorities, start typing a local authority name to see options.
       %tbody
-        - @courts.by_area_of_law(@area_of_law.name).each do |court|
+        - @courts.by_area_of_law(@area_of_law.try(:name)).each do |court|
           %tr{ class: cycle('even', 'odd') }
             %td
               = court.court_number
@@ -56,5 +56,5 @@
 
 .pagination-row.cf
   .page-entries
-    = page_entries_info @courts.by_area_of_law(@area_of_law.name)
-  = will_paginate @courts.by_area_of_law(@area_of_law.name)
+    = page_entries_info @courts.by_area_of_law(@area_of_law.try(:name))
+  = will_paginate @courts.by_area_of_law(@area_of_law.try(:name))

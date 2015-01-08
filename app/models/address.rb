@@ -33,31 +33,28 @@ class Address < ActiveRecord::Base
   scope :visiting, ->() { where(:address_type_id => AddressType.find_by_name("Visiting").try(:id)) }
   scope :postal, ->() { where(:address_type_id => AddressType.find_by_name("Postal").try(:id)) }
 
-  # Output address_lines fields of an address separated by comma or specified delimiter
-  def address_lines(glue=',')
-    lines = [
+  def lines
+    [
       address_line_1,
       address_line_2,
       address_line_3,
       address_line_4
-    ]
+    ].compact
+  end
 
-    # Remove empty lines and join by parameter
-    lines.select{|i|i.present?}.join glue
+  # Output address_lines fields of an address separated by comma or specified delimiter
+  def address_lines(glue=',')
+    lines.join glue
   end
 
   # Output full address separated by comma or specified delimiter
   def full(glue=',')
-    lines = address_lines(glue).split(glue)
-
-    if town.present?
-      lines.push town.name, town.county.name
-    end
-
-    lines.push postcode
+    full_address = lines
+    full_address += [town.name, town.county.name] if town.present?
+    full_address.push postcode
 
     # Remove empty lines and join by parameter
-    lines.select{|i|i.present?}.join glue
+    full_address.compact.join glue
   end
 
   def self.primary

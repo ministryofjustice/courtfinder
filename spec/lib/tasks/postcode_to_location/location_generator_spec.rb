@@ -12,7 +12,7 @@ describe Location::LocationGenerator do
         court = double("court")
         court.stub(:locatable?).and_return(false)
 
-        expect(location_generator.missing_location?(court)).to be_true
+        expect(location_generator.missing_location?(court)).to be_truthy
       end
     end
 
@@ -21,7 +21,7 @@ describe Location::LocationGenerator do
         court = double("court")
         court.stub(:locatable?).and_return(true)
 
-        expect(location_generator.missing_location?(court)).to be_false
+        expect(location_generator.missing_location?(court)).to be_falsey
       end
     end
   end
@@ -40,7 +40,7 @@ describe Location::LocationGenerator do
       court = double("court").as_null_object
 
       court.should_receive(:addresses).and_return([])
-      expect(location_generator.generate_location_for(court)).to be_false
+      expect(location_generator.generate_location_for(court)).to be_falsey
     end
 
     it "should call find on a locator" do

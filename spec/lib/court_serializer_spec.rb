@@ -19,8 +19,9 @@ describe 'CourtSerializer' do
       court.emails.create(address: 'fees@example.com', contact_type_id: court.contacts.last.contact_type_id)
       court.emails.create(address: 'admin@example.com')
 
-      court.areas_of_law.create(name: 'Law Area 1')
-      court.areas_of_law.create(name: 'Law Area 2')
+
+
+      court.areas_of_law = [ AreaOfLaw.create(name: 'Law Area 1'), AreaOfLaw.create(name: 'Law Area 2') ]
       court
     end
 

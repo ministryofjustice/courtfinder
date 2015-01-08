@@ -90,7 +90,7 @@
           %p
             Please adhere to the GOV.UK content design principles when
             = succeed '.' do
-              %a{:href => "https://www.gov.uk/designprinciples/styleguide#dates-and-times", :rel => "ext help"} entering dates and times
+              %a{:href => "https://www.gov.uk/design-principles/style-guide/style-points#style-dates-and-times", :rel => "ext help"} entering dates and times
           %ul.sortable
             = f.simple_fields_for :opening_times do |builder|
               = render 'opening_time_fields', f: builder
@@ -102,7 +102,7 @@
           %p
             List phone number for enquiries first. No duplicate phone numbers. Please adhere to the GOV.UK content design principles when
             = succeed '.' do
-              %a{:href => "https://www.gov.uk/design-principles/style-guide/style-points"} entering phone numbers
+              %a{:href => "https://www.gov.uk/design-principles/style-guide/style-points#style-phone-numbers"} entering phone numbers
           %ul.sortable
             = f.simple_fields_for :contacts do |builder|
               = render 'contact_fields', f: builder

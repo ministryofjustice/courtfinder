@@ -57,7 +57,7 @@ class AreaOfLaw < ActiveRecord::Base
   default_scope -> { order('areas_of_law.name') }
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :name, use: [:slugged, :history, :finders]
 
   include Rails.application.routes.url_helpers
 

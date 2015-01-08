@@ -12,5 +12,15 @@
 require 'spec_helper'
 
 describe PostcodeCourt do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'being saved' do
+    context 'with a lower-case postcode' do
+      let(:court){ create(:court) }
+      subject{PostcodeCourt.new(court: court, postcode: 'yo165rb')}
+
+      it 'forces the postcode to uppercase' do
+        subject.save!
+        expect(subject.reload.postcode).to eq('YO165RB')
+      end
+    end
+  end
 end

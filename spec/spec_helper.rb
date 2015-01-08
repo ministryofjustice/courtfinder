@@ -9,14 +9,15 @@ CodeClimate::TestReporter.start
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
+#require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'webmock/rspec'
 require 'headless'
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| puts "requiring #{f}"; require f}
 Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
 Faker::Config.locale = 'en-gb'
@@ -40,8 +41,20 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+
+  # to allow render_views to still work on rspec 3 / rails 4
+  config.include RSpec::Rails::ViewRendering
+  config.infer_spec_type_from_file_location!
+
+  config.expect_with :rspec do |c|
+    # ... explicitly enable both
+    c.syntax = [:should, :expect]
+  end
+
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
+  config.include Features::SessionHelpers, type: :controller
+  
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -69,7 +82,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
     DatabaseCleaner.start
   end

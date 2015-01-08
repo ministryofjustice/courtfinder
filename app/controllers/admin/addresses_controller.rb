@@ -46,9 +46,12 @@ class Admin::AddressesController < Admin::ApplicationController
       if @address.save
         purge_all_pages
         format.html { redirect_to admin_address_path(@address), notice: 'Address was successfully created.' }
-        format.json { render json: @address, status: :created, location: @address }
+        format.json { render json: @address, status: :created, location: admin_address_url(@address) }
       else
-        format.html { render action: "new" }
+        format.html { 
+          flash.now[:error] = 'Could not create the Address'
+          render action: "new" 
+        }
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
     end
@@ -65,7 +68,10 @@ class Admin::AddressesController < Admin::ApplicationController
         format.html { redirect_to admin_address_path(@address), notice: 'Address was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { 
+          flash[:error] = 'Address could not be updated'
+          render action: "edit" 
+        }
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
     end

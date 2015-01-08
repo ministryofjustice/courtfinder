@@ -28,7 +28,7 @@ class Admin::AreasOfLawController < Admin::ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @area_of_law }
+      format.json { render json: admin_areas_of_law_path(@area_of_law) }
     end
   end
 
@@ -48,7 +48,10 @@ class Admin::AreasOfLawController < Admin::ApplicationController
         format.html { redirect_to admin_areas_of_law_path, notice: 'Area of law was successfully created.' }
         format.json { render json: @area_of_law, status: :created, location: @area_of_law }
       else
-        format.html { render action: "new" }
+        format.html { 
+          flash[:error] = 'Could not create the Area of Law'
+          render action: "new" 
+        }
         format.json { render json: @area_of_law.errors, status: :unprocessable_entity }
       end
     end
@@ -65,7 +68,10 @@ class Admin::AreasOfLawController < Admin::ApplicationController
         format.html { redirect_to admin_areas_of_law_path, notice: 'Area of law was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { 
+          flash[:error] = 'Could not update the Area of Law'
+          render action: "edit" 
+        }
         format.json { render json: @area_of_law.errors, status: :unprocessable_entity }
       end
     end

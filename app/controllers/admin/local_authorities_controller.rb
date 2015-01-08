@@ -6,11 +6,6 @@ class Admin::LocalAuthoritiesController < Admin::ApplicationController
 		respond_with @local_authorities
 	end
 
-	def show
-		@local_authority = LocalAuthority.find(params[:id])
-		respond_with @local_authority
-	end
-
 	def new
 		@local_authority = LocalAuthority.new
 		respond_with @local_authority
@@ -18,9 +13,14 @@ class Admin::LocalAuthoritiesController < Admin::ApplicationController
 
 	def create
 		@local_authority = LocalAuthority.new(params[:local_authority])
-		flash[:notice] ='Local authority was successfully updated.' if @local_authority.save
-		purge_all_pages
-		respond_with @local_authority, location: admin_local_authorities_path
+		if @local_authority.save
+			flash[:notice] ='Local authority was successfully updated.' 
+			purge_all_pages
+			respond_with @local_authority, location: admin_local_authorities_path
+		else
+			flash[:error] = 'Local authority could not be created.'
+			render :new
+		end
 	end
 
 	def edit
@@ -30,14 +30,23 @@ class Admin::LocalAuthoritiesController < Admin::ApplicationController
 
 	def update
 		@local_authority = LocalAuthority.find(params[:id])
-		flash[:notice] ='Local authority was successfully updated.' if @local_authority.update_attributes(params[:local_authority])
-		purge_all_pages
-		respond_with @local_authority, location: admin_local_authorities_path
+		if @local_authority.update_attributes(params[:local_authority])
+			flash[:notice] ='Local authority was successfully updated.'
+			purge_all_pages
+			respond_with @local_authority, location: admin_local_authorities_path
+		else
+			flash[:error] = 'Local authority could not be updated.'
+			render :edit
+		end
 	end
 
 	def destroy
 		@local_authority = LocalAuthority.find(params[:id])
-		flash[:notice] ='Local authority was deleted.' if @local_authority.destroy
+		if @local_authority.destroy
+			flash[:notice] ='Local authority was deleted.' 
+		else
+			flash[:error] = 'Local authority could not be deleted.'
+		end
 		
 		respond_with @local_authority, location: admin_local_authorities_path
 	end

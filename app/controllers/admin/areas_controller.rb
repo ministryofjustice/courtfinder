@@ -46,9 +46,12 @@ class Admin::AreasController < Admin::ApplicationController
       if @area.save
         purge_all_pages
         format.html { redirect_to edit_admin_area_path(@area), notice: 'Area was successfully created.' }
-        format.json { render json: @area, status: :created, location: @area }
+        format.json { render json: @area, status: :created, location: admin_area_url(@area) }
       else
-        format.html { render action: "new" }
+        format.html { 
+          flash[:error] = 'Area could not be created'
+          render action: "new" 
+        }
         format.json { render json: @area.errors, status: :unprocessable_entity }
       end
     end
@@ -65,7 +68,10 @@ class Admin::AreasController < Admin::ApplicationController
         format.html { redirect_to edit_admin_area_path(@area), notice: 'Area was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { 
+          flash[:error] = 'Area could not be updated'
+          render action: "edit" 
+        }
         format.json { render json: @area.errors, status: :unprocessable_entity }
       end
     end
