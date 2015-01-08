@@ -20,12 +20,23 @@ INSTALLATION
 
 
 
-OVERVIEW
-========
+GOV.UK API OVERVIEW
+===================
+
+
+
+  The following fields have been added to the courts table to enable the gov.uk api:
+
+    - uuid: a unique identifier for each court.  These are added automatically to all new records
+    - gov_uk_md5: an md5 hash of the court details serialized into a json hash that was last successfully uploaded to gov.uk
+    - gov_uk_updated_at: date and time the record was last pushed to gov.uk
+    - public_url: the public url which is returned from a gov.uk update
 
   All models which which impact the data that needs to be pushed to gov.uk include the Courts::GovUkPushable concern.  
-  This is responsible for creating a GovUkPushWorker sidekiq job with an action (:update, :create or :delete), and the 
-  id of the court record.
+  This adds after_create, after_update and after_destroy hooks to the model to create a GovUkPushWorker sidekiq job with an 
+  action (:update, :create or :delete), and the id of the court record.  In the normal course of events, several jobs pertaining
+  to the same court record could be created, but the MD5 check (see below) prevents the same update being sent to gov.uk multiple
+  times.
 
   The GovUkPushWorker sidekiq job instantiates GovUkPusher to do the following:
     - find the court record

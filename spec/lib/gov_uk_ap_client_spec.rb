@@ -10,8 +10,6 @@ describe GovUkApiClient do
     it 'should load the test deve credentials' do
       client = GovUkApiClient.new(:update, uuid, json)
       expect(client.send(:endpoint)).to eq "https://#{testing_endpoint}/courts/"
-      expect(client.send(:username)).to eq 'test'
-      expect(client.send(:password)).to eq 'password'
     end
 
     it 'should raise error if unexpected action given' do

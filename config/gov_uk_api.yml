@@ -1,15 +1,11 @@
 development:
   endpoint: https://safe-garden-8494.herokuapp.com/courts/
-  username: dev
-  password: password
   token: 8fcfec891dcbb78ef1925b28dc2663decbf8ae067aa985e23101a8f393de7b40
   active: true
 
 
 staging:
   endpoint: https://safe-garden-8494.herokuapp.com/courts/
-  username: stage
-  password: password
   token: 8fcfec891dcbb78ef1925b28dc2663decbf8ae067aa985e23101a8f393de7b40
   active: true
 
@@ -17,15 +13,11 @@ staging:
 test:
   # endpoint: https://courts-api.preview.alphagov.co.uk/courts/
   endpoint: https://safe-garden-8494.herokuapp.com/courts/
-  username: test
-  password: password
   token: 8fcfec891dcbb78ef1925b28dc2663decbf8ae067aa985e23101a8f393de7b40
   active: true
 
 
 production:
   endpoint: https://safe-garden-8494.herokuapp.com/courts/
-  username: prod
-  password: password
   token: 8fcfec891dcbb78ef1925b28dc2663decbf8ae067aa985e23101a8f393de7b40
   active: true
