@@ -1,0 +1,57 @@
+ISSUES
+======
+JSON schema validation:
+ 
+  - have had to remove the $schema line in order to get the schema validator to work
+          "$schema": "http://json-schema.org/schema#",
+
+
+SANITZE
+========
+
+
+
+
+DX number
+=========
+
+DX number is attached to an address, not a court.  I take the lowest of them alphanetically after excluding emtpy strings and nulls
+
+
+
+Client
+======
+
+
+Credentials
+============
+Client endpoint and token are in config/gov_uk_api.yml.  Should this be in a salt pillar rather than the code repo?
+
+
+
+SSL certs checking:
+==================
+ - turned off for now in the client  (gov_uk_api_client.rb:56)
+
+
+INSTALLATION
+============
+
+  Installing NOKOGIRI:
+
+     - ensure .ruby-version is 2.1.5
+     - ensure .ruby-gemset is .courtfinder215
+     - find location of xml2-config and xslt-config
+
+          /usr/bin/xml2-config
+          /usr/bin/xslt-config
+
+    - gem install nokogiri -- --use-system-libraries --with-xml2-config=/usr/bin/xml2-config --with-xslt-config=/usr/bin/xslt-config
+
+
+
+  Installing RMagick
+    - set PKG_CONFIG_PATH environment variable to the directory that holds MagickCore.pc
+
+
+
