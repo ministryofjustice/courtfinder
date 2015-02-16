@@ -5,9 +5,6 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 gem 'rails', '~> 4.2.0.beta2'
 gem 'pg'
 
-gem 'byebug'
-gem 'pry'
-gem 'pry-nav'
 gem 'awesome_print'
 
 group :development, :test do
@@ -28,7 +25,9 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'selenium-webdriver'
   gem 'rspec-core', '~>3.1.0'
-  gem "capybara-webkit"
+  gem 'byebug'
+  gem 'pry'
+  gem 'pry-nav'
 end
 
 group :test do
@@ -45,6 +44,7 @@ group :test do
   gem 'minitest' # stop warnings when running rspec, see https://github.com/rspec/rspec-rails/issues/758
   # Rails4 / rspec 3 compatibility
   gem 'rspec-collection_matchers'
+  gem 'capybara-webkit'
 end
 
 
