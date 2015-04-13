@@ -17,24 +17,24 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   enable_extension "plpgsql"
 
   create_table "address_types", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.string   "address_line_1",  limit: 255
-    t.string   "address_line_2",  limit: 255
-    t.string   "address_line_3",  limit: 255
-    t.string   "address_line_4",  limit: 255
-    t.string   "postcode",        limit: 255
-    t.string   "dx",              limit: 255
+    t.string   "name"
+    t.string   "address_line_1"
+    t.string   "address_line_2"
+    t.string   "address_line_3"
+    t.string   "address_line_4"
+    t.string   "postcode"
+    t.string   "dx"
     t.integer  "town_id"
     t.integer  "address_type_id"
     t.integer  "court_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "is_primary"
   end
 
@@ -43,36 +43,36 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   add_index "addresses", ["town_id"], name: "index_addresses_on_town_id", using: :btree
 
   create_table "area_of_law_groups", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "areas", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.integer  "region_id"
     t.integer  "old_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
 
   create_table "areas_of_law", force: :cascade do |t|
-    t.string   "name",              limit: 255
+    t.string   "name"
     t.integer  "old_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.string   "old_ids_split",     limit: 255
-    t.string   "action",            limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "old_ids_split"
+    t.string   "action"
     t.integer  "sort"
-    t.string   "slug",              limit: 255
-    t.boolean  "type_possession",               default: false
-    t.boolean  "type_bankruptcy",               default: false
-    t.boolean  "type_money_claims",             default: false
-    t.boolean  "type_children",                 default: false
-    t.boolean  "type_divorce",                  default: false
-    t.boolean  "type_adoption",                 default: false
+    t.string   "slug"
+    t.boolean  "type_possession",   default: false
+    t.boolean  "type_bankruptcy",   default: false
+    t.boolean  "type_money_claims", default: false
+    t.boolean  "type_children",     default: false
+    t.boolean  "type_divorce",      default: false
+    t.boolean  "type_adoption",     default: false
     t.integer  "group_id"
   end
 
@@ -82,39 +82,39 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   end
 
   create_table "contact_types", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.integer  "old_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.string   "telephone",       limit: 255
+    t.string   "telephone"
     t.integer  "court_id"
     t.integer  "contact_type_id"
     t.boolean  "in_leaflet"
     t.integer  "sort"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "contacts", ["contact_type_id"], name: "index_contacts_on_contact_type_id", using: :btree
   add_index "contacts", ["court_id"], name: "index_contacts_on_court_id", using: :btree
 
   create_table "counties", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.integer  "country_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "old_id"
   end
 
   add_index "counties", ["country_id"], name: "index_counties_on_country_id", using: :btree
 
   create_table "countries", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "old_id"
   end
 
@@ -122,29 +122,29 @@ ActiveRecord::Schema.define(version: 20150413100020) do
     t.text     "description"
     t.integer  "court_id"
     t.integer  "facility_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "sort"
   end
 
-  add_index "court_facilities", ["court_id"], name: "index_facilities_on_court_id", using: :btree
-  add_index "court_facilities", ["facility_id"], name: "index_facilities_on_facility_type_id", using: :btree
+  add_index "court_facilities", ["court_id"], name: "index_court_facilities_on_court_id", using: :btree
+  add_index "court_facilities", ["facility_id"], name: "index_court_facilities_on_facility_id", using: :btree
 
   create_table "court_types", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.string   "old_description", limit: 255
+    t.string   "name"
+    t.string   "old_description"
     t.integer  "old_id"
-    t.string   "old_ids_split",   limit: 255
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "slug",            limit: 255
+    t.string   "old_ids_split"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "slug"
   end
 
   create_table "court_types_courts", force: :cascade do |t|
     t.integer  "court_id"
     t.integer  "court_type_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "court_types_courts", ["court_id"], name: "index_court_types_courts_on_court_id", using: :btree
@@ -156,49 +156,49 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   end
 
   create_table "courts", force: :cascade do |t|
-    t.string   "name",                  limit: 255
+    t.string   "name"
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",                                                        null: false
-    t.datetime "updated_at",                                                        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "area_id"
     t.integer  "cci_identifier"
     t.integer  "cci_code"
     t.integer  "old_id"
     t.integer  "old_court_type_id"
-    t.string   "slug",                  limit: 255
+    t.string   "slug"
     t.integer  "old_postal_address_id"
     t.integer  "old_court_address_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
     t.integer  "old_image_id"
-    t.string   "image",                 limit: 255
-    t.string   "image_description",     limit: 255
-    t.string   "image_file",            limit: 255
+    t.string   "image"
+    t.string   "image_description"
+    t.string   "image_file"
     t.boolean  "display"
     t.boolean  "gmaps"
-    t.string   "alert",                 limit: 255
+    t.string   "alert"
     t.text     "info_leaflet"
     t.text     "defence_leaflet"
     t.text     "prosecution_leaflet"
     t.text     "juror_leaflet"
     t.text     "directions"
-    t.string   "parking_onsite",        limit: 255
-    t.string   "parking_offsite",       limit: 255
-    t.string   "parking_blue_badge",    limit: 255
+    t.string   "parking_onsite"
+    t.string   "parking_offsite"
+    t.string   "parking_blue_badge"
     t.string   "uuid"
     t.string   "gov_uk_md5"
-    t.datetime "gov_uk_updated_at",                 default: '1970-01-01 00:00:00'
+    t.datetime "gov_uk_updated_at",     default: '1970-01-01 00:00:00'
   end
 
   add_index "courts", ["slug"], name: "index_courts_on_slug", using: :btree
   add_index "courts", ["uuid"], name: "index_courts_on_uuid", unique: true, using: :btree
 
   create_table "emails", force: :cascade do |t|
-    t.string   "address",         limit: 255
+    t.string   "address"
     t.integer  "court_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "sort"
     t.integer  "contact_type_id"
   end
@@ -206,25 +206,25 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   add_index "emails", ["court_id"], name: "index_emails_on_court_id", using: :btree
 
   create_table "external_links", force: :cascade do |t|
-    t.string   "text",           limit: 255
-    t.string   "url",            limit: 255
-    t.boolean  "always_visible",             default: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.string   "text"
+    t.string   "url"
+    t.boolean  "always_visible", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "facilities", force: :cascade do |t|
-    t.string   "name",              limit: 255
-    t.string   "image",             limit: 255
+    t.string   "name"
+    t.string   "image"
     t.integer  "old_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.string   "image_description", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image_description"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
-    t.string   "slug",           limit: 255, null: false
-    t.integer  "sluggable_id",               null: false
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
     t.string   "sluggable_type", limit: 40
     t.datetime "created_at"
   end
@@ -236,17 +236,17 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   create_table "jurisdictions", force: :cascade do |t|
     t.integer  "remit_id",           null: false
     t.integer  "local_authority_id", null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "jurisdictions", ["local_authority_id"], name: "index_jurisdictions_on_local_authority_id", using: :btree
   add_index "jurisdictions", ["remit_id"], name: "index_jurisdictions_on_remit_id", using: :btree
 
   create_table "local_authorities", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "gss_code"
   end
 
@@ -254,11 +254,11 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   add_index "local_authorities", ["name"], name: "index_local_authorities_on_name", using: :btree
 
   create_table "opening_times", force: :cascade do |t|
-    t.string   "name",            limit: 255
+    t.string   "name"
     t.integer  "court_id"
     t.integer  "opening_type_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "sort"
   end
 
@@ -266,34 +266,34 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   add_index "opening_times", ["opening_type_id"], name: "index_opening_times_on_opening_type_id", using: :btree
 
   create_table "opening_types", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "old_id"
   end
 
   create_table "postcode_courts", force: :cascade do |t|
-    t.string  "postcode",     limit: 255
+    t.string  "postcode"
     t.integer "court_number"
-    t.string  "court_name",   limit: 255
+    t.string  "court_name"
     t.integer "court_id"
   end
 
   add_index "postcode_courts", ["court_number"], name: "index_postcode_courts_on_court_number", using: :btree
 
   create_table "regions", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.integer  "old_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "slug",       limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "slug"
   end
 
   create_table "remits", force: :cascade do |t|
     t.integer  "court_id"
     t.integer  "area_of_law_id"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "single_point_of_entry", default: false, null: false
   end
 
@@ -301,36 +301,36 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   add_index "remits", ["court_id"], name: "index_remits_on_court_id", using: :btree
 
   create_table "towns", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name"
     t.integer  "county_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "old_id"
   end
 
   add_index "towns", ["county_id"], name: "index_towns_on_county_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: "", null: false
-    t.string   "encrypted_password",     limit: 255, default: ""
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                              default: "", null: false
+    t.string   "encrypted_password",                 default: ""
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "invitation_token",       limit: 120
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
-    t.string   "invited_by_type",        limit: 255
+    t.string   "invited_by_type"
     t.boolean  "admin"
-    t.string   "name",                   limit: 255
+    t.string   "name"
     t.datetime "invitation_created_at"
   end
 
@@ -340,15 +340,15 @@ ActiveRecord::Schema.define(version: 20150413100020) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",      limit: 255, null: false
-    t.integer  "item_id",                    null: false
-    t.string   "event",          limit: 255, null: false
-    t.string   "whodunnit",      limit: 255
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
+    t.string   "whodunnit"
     t.text     "object"
     t.datetime "created_at"
     t.text     "object_changes"
-    t.string   "ip",             limit: 255
-    t.string   "network",        limit: 255
+    t.string   "ip"
+    t.string   "network"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
