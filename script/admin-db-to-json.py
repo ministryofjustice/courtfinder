@@ -197,7 +197,7 @@ class Data:
                         AND aol.name = '%s'
                       ORDER BY la.name""" % (slug, aol_name)
             cur.execute(sql)
-            local_authorities = [ (la[0], la[1]) for la in cur.fetchall()]
+            local_authorities = [ {'name': la[0], 'gss_code':la[1]} for la in cur.fetchall()]
 
             entry = {
                 "name": aol_name,
