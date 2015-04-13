@@ -7,6 +7,7 @@
   %thead
     %tr
       %th Name
+      %th{title: 'Ordnance Survey GSS code'} GSS code
       %th
       - if current_user.admin
         %th.admin-only
@@ -16,6 +17,8 @@
       - this_letter = local_authority.name.first.downcase
       %tr
         %td{ id: (this_letter != last_letter) ? "local_authorities-by-#{this_letter}".html_safe : "" }= local_authority.name
+        %td
+          = local_authority.gss_code
         %td= link_to 'Edit', edit_admin_local_authority_path(local_authority)
         - if current_user.admin
           %td.admin-only= link_to 'Delete', admin_local_authority_path(local_authority), method: :delete, confirm: 'Are you sure?'
