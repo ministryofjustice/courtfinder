@@ -8,7 +8,7 @@ class PopulateGssCodesFromImport < ActiveRecord::Migration
       la = LocalAuthority.find_or_create_by(name: parsed[:name])
       puts "=> la = #{la.inspect}"
       if la.gss_code != parsed[:gss_code]
-        la.gss_code = parsed[:gss_code]
+        la.update_column(:gss_code, parsed[:gss_code])
         la.save!
         puts "=> updated"
       else
