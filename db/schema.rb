@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222172559) do
+ActiveRecord::Schema.define(version: 20150413100020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,8 +247,10 @@ ActiveRecord::Schema.define(version: 20141222172559) do
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "gss_code"
   end
 
+  add_index "local_authorities", ["gss_code"], name: "ix_la_gss_code", using: :btree
   add_index "local_authorities", ["name"], name: "index_local_authorities_on_name", using: :btree
 
   create_table "opening_times", force: :cascade do |t|

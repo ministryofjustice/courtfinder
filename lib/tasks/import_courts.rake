@@ -207,25 +207,34 @@ namespace :import do
 
     # "court_name", "local_authority_names"
     @area_of_law = AreaOfLaw.find_by_name(args[:area_of_law])
-    puts "Found: #{@area_of_law.name} with id: #{@area_of_law.try(:id)}"
+    if @area_of_law.present?
+      puts "Found: #{@area_of_law.name} with id: #{@area_of_law.try(:id)}" 
 
-    csv.each do |row|
-      court = Court.find_by_name(row[0])
+      csv.each do |row|
+        court = Court.find_by_name(row[0])
 
-      if court.nil?
-        puts "Could not find court with name: '#{row[0]}'"
-      else
-        puts "Adding local authorities(LA) for '#{court.name}'"
-        row[1].split(',').each do |local_authority_name|
-          local_authority = LocalAuthority.find_by_name(local_authority_name)
-          if local_authority.nil?
-            puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
-          else
-            puts "Adding LA with named '#{local_authority_name}'"
-            court.remits.where(area_of_law_id: @area_of_law.id).first_or_create!.local_authorities << local_authority
+        if court.nil?
+          puts "Could not find court with name: '#{row[0]}'"
+        else
+          puts "Adding local authorities(LA) for '#{court.name}'"
+          row[1].split(',').each do |local_authority_gss_code|
+            local_authority = LocalAuthority.find_by_gss_code(local_authority_gss_code)
+            if local_authority.nil?
+              puts "Could not find local authority with gss code '#{local_authority_gss_code}' for court '#{court.name}'"
+            else
+              remit = court.remits.where(area_of_law_id: @area_of_law.id).first_or_create!
+              if remit.local_authority_ids.include?(local_authority.id)
+                puts "LA with code #{local_authority_gss_code} already exists on remit #{remit.id} => nothing to do"
+              else
+                puts "Adding LA with gss_code '#{local_authority_gss_code}'"
+                remit.local_authorities << local_authority
+              end
+            end
           end
         end
       end
+    else
+      puts "Couldn't find area of law with name #{args[:area_of_law]}"
     end
   end
 
@@ -661,7 +670,7 @@ namespace :import do
 
   end
 
-  desc "Import concil names"
+  desc "Import local authorities"
   task :local_authorities => :environment do
     puts "Importing local authorities"
 
@@ -673,13 +682,17 @@ namespace :import do
     counter = 0
 
     csv.each do |row|
-      puts "Adding local authority: #{row[1]}"
+      la = {name: row[1], gss_code: row[2]}
+      puts "Adding local authority: #{la}"
 
-      local_authority = LocalAuthority.new
+      local_authority = LocalAuthority.new(la)
 
-      local_authority.name = row[1]
-
-      counter += 1 if local_authority.save!
+      if local_authority.save
+        counter += 1 
+        puts "added"
+      else
+        puts "could not save local authority #{la.inspect} - #{local_authority.errors.full_messages}"
+      end
     end
 
     puts ">>> #{counter} of #{csv.length} local authorities added"
