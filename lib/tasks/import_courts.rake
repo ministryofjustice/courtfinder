@@ -343,7 +343,12 @@ namespace :import do
       area.old_ids_split = row[2]
       area.action = row[3]
 
-      area.save!
+      if AreaOfLaw.where(name: area.name).exists?
+        puts "area of law #{area.name} already exists"
+      else
+        puts "saving #{area.name}"
+        area.save!
+      end
     end
 
     csv_file = File.read('db/data/court_work.csv')
