@@ -1,5 +1,7 @@
 Courtfinder::Application.routes.draw do
 
+  get 'ping', to: 'home#ping', format: :json
+
   # Public court pages
   # TODO: This needs tidying
   scope 'courts', :controller => :courts do

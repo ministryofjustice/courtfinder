@@ -31,4 +31,34 @@ describe HomeController do
       response.status.should == 302
     end
   end
+
+  context 'ping.json endpoint' do
+    context 'when ping.json file not present' do
+      before { get :ping }
+
+      it 'returns an empty result' do
+        expect(JSON.parse(response.body)).to eq({})
+      end
+    end
+
+    context 'when ping.json file present' do
+      let(:expected_json) do
+        {
+          'version_number'  => '123',
+          'build_date'      => '20150721',
+          'commit_id'       => 'afb12cb3',
+          'build_tag'       => 'test'
+        }
+      end
+
+      before do
+        allow(File).to receive(:read).and_return(expected_json.to_json)
+        get :ping
+      end
+
+      it 'returns JSON with app information' do
+        expect(JSON.parse(response.body)).to eq(expected_json)
+      end
+    end
+  end
 end

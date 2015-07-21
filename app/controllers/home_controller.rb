@@ -25,6 +25,11 @@ class HomeController < ApplicationController
 
   end
 
+  def ping
+    @json = File.read("#{Rails.root}/public/ping.json") rescue '{}'
+    render json: @json
+  end
+
   protected
     def check_area_of_law
       @area = AreaOfLaw.find(params[:area_of_law]) rescue nil
