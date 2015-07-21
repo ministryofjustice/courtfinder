@@ -1,6 +1,6 @@
 Courtfinder::Application.routes.draw do
 
-  get 'ping', to: 'home#ping', format: :json
+  get 'admin/ping', to: 'home#ping', format: :json
 
   # Public court pages
   # TODO: This needs tidying
