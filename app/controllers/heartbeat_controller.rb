@@ -1,4 +1,9 @@
 class HeartbeatController < ApplicationController
+  def ping
+    @json = File.read("#{Rails.root}/public/ping.json") rescue '{}'
+    render json: @json
+  end
+
   def healthcheck
     checks = {
       database: database_alive?
