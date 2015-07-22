@@ -1,6 +1,7 @@
 Courtfinder::Application.routes.draw do
 
   get 'admin/ping' => 'ping#index'
+  get 'admin/healthcheck', to: 'heartbeat#healthcheck', as: 'healthcheck', format: :json
 
   # Public court pages
   # TODO: This needs tidying
