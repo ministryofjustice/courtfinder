@@ -1,7 +1,5 @@
 Courtfinder::Application.routes.draw do
 
-  get 'admin/healthcheck', to: 'heartbeat#healthcheck', as: 'healthcheck', format: :json
-
   # Public court pages
   # TODO: This needs tidying
   scope 'courts', :controller => :courts do
