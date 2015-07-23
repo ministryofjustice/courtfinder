@@ -67,7 +67,8 @@ gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise', '~>3.4.1'     # Authentication
 gem 'devise_invitable'      # Authentication invites
 gem 'rmagick', require: false # Resize uploaded images
-#gem 'fog', '1.20.0'                   # Talks to cloud providers (e.g. S3)
+gem 'fog', '1.20.0'                   # Talks to cloud providers (e.g. S3)
+gem 'unf'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'           # Handles file uploads
 gem 'carrierwave-aws'
 gem 'gmaps4rails', '~>1.5.6'# Maps and directions
