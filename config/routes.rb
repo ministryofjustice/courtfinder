@@ -64,7 +64,7 @@ Courtfinder::Application.routes.draw do
 
     resources :court_types
 
-    resources :areas_of_law, path: '/areas-of-law'
+    resources :areas_of_law, path: '/areas-of-law', only: [:index, :show]
 
     resources :area_of_law_groups, path: '/area-of-law-groups'
 
