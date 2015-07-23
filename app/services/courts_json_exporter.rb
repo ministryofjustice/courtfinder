@@ -2,18 +2,6 @@ require 'json'
 require 'fog'
 
 class CourtsJsonExporter
-  PARKING_TYPES = {
-    'parking_onsite_free'           => 'Free on site parking is available at this venue.',
-    'parking_onsite_paid'           => 'Paid on site parking is available at this venue.',
-    'parking_onsite_none'           => 'On site parking is not available at this venue.',
-    'parking_offsite_free'          => 'Free off site parking is available within 500m of this venue.',
-    'parking_offsite_paid'          => 'Paid off site parking is available within 500m of this venue.',
-    'parking_offsite_none'          => 'Off site parking is not available within 500m of this venue.',
-    'parking_blue_badge_available'  => 'Blue badge parking is available on site.',
-    'parking_blue_badge_limited'    => 'Limited blue badge parking is available on site (please contact the venue for details).',
-    'parking_blue_badge_none'       => 'Blue badge parking is not available at this venue.'
-  }
-
   def export!
     json = build_courts_json
 
@@ -68,9 +56,9 @@ class CourtsJsonExporter
 
   def build_parking(court)
     parking = {}
-    parking['onsite'] =  PARKING_TYPES[court.parking_onsite] if court.parking_onsite.present?
-    parking['offsite'] =  PARKING_TYPES[court.parking_offsite] if court.parking_offsite.present?
-    parking['blue_badge'] =  PARKING_TYPES[court.parking_blue_badge] if court.parking_blue_badge.present?
+    parking['onsite'] =  I18n.t(court.parking_onsite) if court.parking_onsite.present?
+    parking['offsite'] =  I18n.t(court.parking_offsite) if court.parking_offsite.present?
+    parking['blue_badge'] =  I18n.t(court.parking_blue_badge) if court.parking_blue_badge.present?
     parking
   end
 
