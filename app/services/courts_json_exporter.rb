@@ -81,15 +81,13 @@ class CourtsJsonExporter
 
   def build_addresses(court)
     court.addresses.inject([]) do |collection, address|
-      address_hash = {
+      collection << {
         'town'      => address.town.name,
         'county'    => address.town.county.name,
         'type'      => address.address_type.name,
         'postcode'  => address.postcode,
         'address'   => address.lines.join("\n")
       }
-
-      collection << address_hash
     end
   end
 
@@ -101,39 +99,33 @@ class CourtsJsonExporter
 
   def build_contacts(court)
     court.contacts.unscope(:order).inject([]) do |collection, contact|
-      contact_hash = {
+      collection << {
         'sort'    => contact.sort,
         'name'    => contact.contact_type.name,
         'number'  => contact.telephone
       }
-
-      collection << contact_hash
     end
   end
 
   def build_emails(court)
     court.emails.unscope(:order).inject([]) do |collection, email|
       if email.contact_type
-        email_hash = {
+        collection << {
           'description' => email.contact_type.name,
           'address'     => email.address
         }
-
-        collection << email_hash
       end
     end
   end
 
   def build_facilities(court)
     court.court_facilities.unscope(:order).inject([]) do |collection, court_facility|
-      court_facility_hash = {
+      collection << {
         'image_description'   => court_facility.facility.image_description,
         'image'               => court_facility.facility.image,
         'description'         => court_facility.description,
         'name'                => court_facility.facility.name
       }
-
-      collection << court_facility_hash
     end
   end
 
