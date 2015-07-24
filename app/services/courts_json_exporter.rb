@@ -23,30 +23,29 @@ class CourtsJsonExporter
 
   def build_courts
     courts.inject([]) do |collection, court|
-      court_hash = {}
-
-      court_hash['addresses'] = build_addresses(court)
-      court_hash['updated_at'] = court.updated_at_before_type_cast if court.updated_at.present?
-      court_hash['admin_id'] = court.id
-      court_hash['facilities'] = build_facilities(court)
-      court_hash['lat'] = court.latitude.to_s if court.latitude.present?
-      court_hash['cci_code'] = court.cci_code if court.cci_code.present?
-      court_hash['slug'] = court.slug
-      court_hash['opening_times'] = build_opening_times(court) if build_opening_times(court)
-      court_hash['court_types'] = build_court_types(court)
-      court_hash['name'] = court.name
-      court_hash['contacts'] = build_contacts(court)
-      court_hash['created_at'] = court.created_at_before_type_cast if court.created_at.present?
-      court_hash['court_number'] = court.court_number
-      court_hash['lon'] = court.longitude.to_s if court.longitude.present?
-      court_hash['postcodes'] = build_postcodes(court)
-      court_hash['emails'] = build_emails(court) || []
-      court_hash['areas_of_law'] = build_areas_of_law(court)
-      court_hash['display'] = court.display
-      court_hash['image_file'] = court.image_file if court.image_file.present?
-      court_hash['alert'] = court.alert if court.alert.present?
-      court_hash['parking'] = build_parking(court) if build_parking(court).any?
-      court_hash['directions'] = court.directions if court.directions.present?
+      court_hash                    = {}
+      court_hash['addresses']       = build_addresses(court)
+      court_hash['updated_at']      = court.updated_at_before_type_cast if court.updated_at.present?
+      court_hash['admin_id']        = court.id
+      court_hash['facilities']      = build_facilities(court)
+      court_hash['lat']             = court.latitude.to_s if court.latitude.present?
+      court_hash['cci_code']        = court.cci_code if court.cci_code.present?
+      court_hash['slug']            = court.slug
+      court_hash['opening_times']   = build_opening_times(court) if build_opening_times(court)
+      court_hash['court_types']     = build_court_types(court)
+      court_hash['name']            = court.name
+      court_hash['contacts']        = build_contacts(court)
+      court_hash['created_at']      = court.created_at_before_type_cast if court.created_at.present?
+      court_hash['court_number']    = court.court_number
+      court_hash['lon']             = court.longitude.to_s if court.longitude.present?
+      court_hash['postcodes']       = build_postcodes(court)
+      court_hash['emails']          = build_emails(court) || []
+      court_hash['areas_of_law']    = build_areas_of_law(court)
+      court_hash['display']         = court.display
+      court_hash['image_file']      = court.image_file if court.image_file.present?
+      court_hash['alert']           = court.alert if court.alert.present?
+      court_hash['parking']         = build_parking(court) if build_parking(court).any?
+      court_hash['directions']      = court.directions if court.directions.present?
 
       collection << court_hash
     end
