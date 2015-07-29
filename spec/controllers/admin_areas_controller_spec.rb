@@ -24,7 +24,7 @@ describe Admin::AreasController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :index, format: :json
@@ -41,7 +41,7 @@ describe Admin::AreasController do
   describe "#update" do
     let(:area){ area = Area.create!(name: 'the north') }
     let(:params){ {id: area.id, area: {}} }
-      
+
     context "when it works" do
       before{ area.stub(update_attributes: true) }
 
@@ -157,7 +157,7 @@ describe Admin::AreasController do
           expect(response.status).to eq(201)
         end
       end
-      
+
     end
 
     context "that doesn't work" do
@@ -206,7 +206,7 @@ describe Admin::AreasController do
   describe "#edit" do
     let(:area){ Area.create(name: '22 Acacia Avenue') }
 
-    it "finds the right area" do 
+    it "finds the right area" do
       Area.should_receive(:find).with(area.id.to_s).and_return(area)
       get :edit, id: area.id
     end
@@ -234,7 +234,7 @@ describe Admin::AreasController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :new, format: :json
@@ -251,7 +251,7 @@ describe Admin::AreasController do
   describe "#show" do
     let(:area){ Area.create(name: 'Somewhere') }
 
-    it "finds the right area" do 
+    it "finds the right area" do
       Area.should_receive(:find).with(area.id.to_s).and_return(area)
       get :show, id: area.id
     end
@@ -272,7 +272,7 @@ describe Admin::AreasController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :show, id: area.id, format: :json

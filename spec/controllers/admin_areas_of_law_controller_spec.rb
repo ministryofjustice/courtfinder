@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Admin::AreasOfLawController do
-  
-
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
@@ -24,7 +22,7 @@ describe Admin::AreasOfLawController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :index, format: :json
@@ -38,10 +36,10 @@ describe Admin::AreasOfLawController do
     end
   end
 
-  describe "#update" do
+  describe "#update", skip: true do
     let(:area){ area_of_law = AreaOfLaw.create!(name: 'the north') }
     let(:params){ {id: area.id, area_of_law: {}} }
-      
+
     context "when it works" do
       before{ area.stub(update_attributes: true) }
 
@@ -117,7 +115,7 @@ describe Admin::AreasOfLawController do
     end
   end
 
-  describe "#create" do
+  describe "#create", skip: true do
     context "that works" do
       let(:params){ {area_of_law: {name: '22 Acacia Avenue'}} }
 
@@ -157,7 +155,7 @@ describe Admin::AreasOfLawController do
           expect(response.status).to eq(201)
         end
       end
-      
+
     end
 
     context "that doesn't work" do
@@ -203,10 +201,10 @@ describe Admin::AreasOfLawController do
     end
   end
 
-  describe "#edit" do
+  describe "#edit", skip: true do
     let(:area){ AreaOfLaw.create(name: '22 Acacia Avenue') }
 
-    it "finds the right area" do 
+    it "finds the right area" do
       AreaOfLaw.should_receive(:find).with(area.id.to_s).and_return(area)
       get :edit, id: area.id
     end
@@ -217,7 +215,7 @@ describe Admin::AreasOfLawController do
     end
   end
 
-  describe "#new" do
+  describe "#new", skip: true do
     it "assigns a new area_of_law to @area" do
       get :new
       expect(assigns[:area_of_law]).to be_a(AreaOfLaw)
@@ -234,7 +232,7 @@ describe Admin::AreasOfLawController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :new, format: :json
@@ -251,7 +249,7 @@ describe Admin::AreasOfLawController do
   describe "#show" do
     let(:area){ AreaOfLaw.create(name: 'Somewhere') }
 
-    it "finds the right area" do 
+    it "finds the right area" do
       AreaOfLaw.should_receive(:find).with(area.id.to_s).and_return(area)
       get :show, id: area.id
     end
@@ -272,7 +270,7 @@ describe Admin::AreasOfLawController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :show, id: area.id, format: :json
@@ -286,7 +284,7 @@ describe Admin::AreasOfLawController do
     end
   end
 
-  it "purges the cache when a area_of_law is destroyed" do
+  it "purges the cache when a area_of_law is destroyed", skip: true do
     at = AreaOfLaw.create!(name: 'somewhere')
     expect {
       controller.should_receive(:purge_all_pages)
