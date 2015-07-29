@@ -15,30 +15,17 @@ describe CourtsJsonExporter do
   describe '#build_courts' do
     let(:courts_hash) { subject.build_courts }
     let(:expected_keys) do
-      [
-        'addresses',
-        'updated_at',
-        'admin_id',
-        'facilities',
-        'lat',
-        'slug',
-        'opening_times',
-        'court_types',
-        'name',
-        'contacts',
-        'created_at',
-        'court_number',
-        'lon',
-        'postcodes',
-        'emails',
-        'areas_of_law',
-        'display'
-      ]
+      %w{
+          addresses admin_id areas_of_law
+          contacts court_number court_types created_at
+          display emails facilities lat lon name
+          opening_times postcodes slug updated_at
+      }
     end
 
     it 'has the expected keys' do
       courts_hash.each do |hash|
-        expect(hash.keys & expected_keys).to eq(expected_keys)
+        expect(hash.keys).to match_array(expected_keys)
       end
     end
 
@@ -50,4 +37,22 @@ describe CourtsJsonExporter do
       end
     end
   end
+
+  describe '#build_areas_of_law' do
+    describe 'calls court.area_local_authorities_list' do
+      let(:court) { create(:court, areas_of_law: create_list(:area_of_law, 1)) }
+
+      context 'and that returns a string instead of an array' do
+          before do
+            expect(court).to receive(:area_local_authorities_list).and_return('A string')
+          end
+
+        it 'but #build_areas_of_law does not break' do
+          expect{ subject.send(:build_areas_of_law, court) }.not_to raise_error
+        end
+      end  # context 'and it returns a string instead of an array'
+    end
+  end
+
+
 end
