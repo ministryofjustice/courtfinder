@@ -43,16 +43,24 @@ describe CourtsJsonExporter do
       let(:court) { create(:court, areas_of_law: create_list(:area_of_law, 1)) }
 
       context 'and that returns a string instead of an array' do
-          before do
-            expect(court).to receive(:area_local_authorities_list).and_return('A string')
-          end
+        before do
+          expect(court).to receive(:area_local_authorities_list).and_return('A string')
+        end
 
         it 'but #build_areas_of_law does not break' do
           expect{ subject.send(:build_areas_of_law, court) }.not_to raise_error
         end
       end  # context 'and it returns a string instead of an array'
+
+      context 'and that returns a string with a comma separated list of multiple local authorities' do
+        before do
+          expect(court).to receive(:area_local_authorities_list).and_return('area 1, area 2')
+        end
+
+        it 'then #build_areas_of_law breaks them out into a list' do
+          expect(subject.send(:build_areas_of_law, court)[0]['local_authorities']).to match_array(['area 1','area 2'])
+        end
+      end
     end
   end
-
-
 end
