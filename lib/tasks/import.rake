@@ -1,4 +1,3 @@
-require 'google_spreadsheet/connection.rb'
 require 'awesome_print'
 
 namespace :import do
@@ -738,55 +737,4 @@ namespace :import do
     puts missing.uniq
     puts "Finished adding postcode to court mappings."
   end
-
-  desc "Generate csv File with Local Authorities for Courts from Google Spreadsheet"
-  task :generate_csv_with_local_authorities => :environment do
-    session =Connection.new.get_drive_session!
-
-    ws = session.spreadsheet_by_title(ENV['SPREADSHEET_TIMESHEET_TITLE']).worksheets[1]
-    file_name = 'local_authorities.csv'
-    error_file_name = 'local_authorities.error'
-    error_file = File.open(error_file_name,'w')
-    error_file.puts "Errors for: "
-    error_file.puts "\"court_name\",\"local_authority_names\""
-
-
-    errors_found = 0
-    File.open(file_name,'w') do |f|
-      f.puts "\"court_name\",\"local_authority_names\""
-
-      ws.list.each do |row|
-        court_name = row['Court Name'].strip
-        court = Court.find_by_name(court_name)
-        if court.nil?
-          error_file.puts "\"#{court_name}\" [Court not found]" unless court_name.blank?
-          puts "** ERROR ** Could not find court with name: '#{court_name}'" unless court_name.blank?
-        else
-          puts "Adding local authorities(LA) for '#{court.name}'"
-
-          authorities = row.values.drop(2).inject([]) { |array, c| array << (c.strip unless c.blank?) }.reject { |c| c.nil? }
-
-          authorities.each do |local_authority_name|
-            local_authority = LocalAuthority.find_by_name(local_authority_name)
-            if local_authority.nil?
-              puts "** ERROR ** Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
-              errors_found += 1
-              error_file.puts "#{errors_found}. \"#{court_name}\",\"#{local_authority_name}\" [Local authority not found]"
-            else
-              puts "Adding LA named '#{local_authority_name}'"
-            end
-          end
-
-          if errors_found == 0
-            f.puts "\"#{court.name}\",\"#{authorities.join(',')}\"" unless authorities.empty?
-          end
-        end
-      end
-
-      puts "Wrote file: #{File.expand_path(file_name)} #{errors_found>0 ? "with #{errors_found} errors" : ' '}"
-      puts "A list of errors is at: #{File.expand_path(error_file_name)}" if errors_found>0
-    end
-
-  end
-
 end
