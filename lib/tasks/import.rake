@@ -50,7 +50,6 @@ namespace :import do
       puts "!!! Removing all court data from your database"
       Region.destroy_all
       Area.destroy_all
-      # CourtType.destroy_all
       Court.destroy_all
       AddressType.destroy_all
       Country.destroy_all
@@ -69,7 +68,6 @@ namespace :import do
 
     Rake::Task["import:regions"].invoke
     Rake::Task["import:areas"].invoke
-    # Rake::Task["import:court_types"].invoke
     Rake::Task["import:courts"].invoke
     Rake::Task["import:address_types"].invoke
     Rake::Task["import:countries"].invoke
@@ -85,47 +83,6 @@ namespace :import do
     Rake::Task["import:court_facilities"].invoke
 
     puts ">>> All done, yay!"
-  end
-
-  desc "Import all address data"
-  task :address_data, [:replace] => :environment do | t, args |
-    puts "Importing countries, counties, towns"
-    puts "Note: This will ADD address data. To replace address data, use:\n  rake 'import:address_data[replace]'"
-
-    if args.replace == 'replace'
-      puts "!!! Removing old address data from your database"
-      AddressType.destroy_all
-      Country.destroy_all
-      County.destroy_all
-      Town.destroy_all
-      Address.destroy_all
-    end
-
-    Rake::Task["import:address_types"].invoke
-    Rake::Task["import:countries"].invoke
-    Rake::Task["import:counties"].invoke
-    Rake::Task["import:towns"].invoke
-    Rake::Task["import:addresses"].invoke
-
-    puts ">>> All done, yay!"
-  end
-
-  desc "Import address types"
-  task :address_types => :environment do
-    puts "Importing address types"
-
-    types = ['Postal', 'Visiting']
-
-    types.each do |i|
-      type = AddressType.new
-
-      puts "Adding '#{i}'"
-
-      type.name = i
-
-      type.save!
-    end
-
   end
 
   desc "Import countries"
