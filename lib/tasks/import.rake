@@ -88,22 +88,11 @@ namespace :import do
   desc "Import countries"
   task :countries => :environment do
     puts "Importing countries"
-
-    csv_file = File.read('db/data/court_country.csv')
-
-    csv = CSV.parse(csv_file)
-
-    csv.each do |row|
-      country = Country.new
-
-      puts "Adding '#{row[1]}'"
-
-      country.old_id = row[0]
-      country.name = row[1]
-
-      country.save!
+    CSV.foreach('db/data/court_country.csv', headers: true) do |row|
+      next if row[1].blank?
+      puts "Finding or creating country '#{row[1]}'"
+      Country.find_or_create_by!(old_id: row[0], name: row[1]) rescue "Could not create country #{row[1]}"
     end
-
   end
 
   desc "Import counties"
@@ -119,6 +108,8 @@ namespace :import do
 
       puts "Adding '#{row[1]}'"
 
+      country_id = Country.find_by_old_id(row[2]).id
+      County.find_or_create_by!(old_id: row[0], name: row[1], country_id: country_id) #rescue "Could not create county #{row[1]}"
       county.old_id = row[0]
       county.name = row[1]
       county.country_id = Country.find_by_old_id(row[2]).id
