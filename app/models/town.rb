@@ -11,10 +11,10 @@
 #
 
 class Town < ActiveRecord::Base
-  attr_accessible :name, :county_id
+  attr_accessible :name, :county_id, :old_id
 
   belongs_to :county
-  
+
   default_scope  { order('LOWER(towns.name)') } # ignore case when sorting
 
   scope :with_county_name, -> {
