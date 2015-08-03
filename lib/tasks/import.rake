@@ -149,6 +149,17 @@ namespace :import do
     end
   end
 
+  desc "Import regions"
+  task :regions => :environment do
+    puts "Importing regions"
+    CSV.foreach('db/data/court_region.csv', headers: true) do |row|
+      next if row[1].blank?
+      puts "Finding or creating region '#{row[1]}'"
+      Region.find_or_create_by!(old_id: row[0], name: row[1]) rescue "Could not create region #{row[1]}"
+    end
+  end
+
+
   desc "Import local_authorities for a single area of law"
   task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
     puts "Importing local authorities for each court"
@@ -527,32 +538,6 @@ namespace :import do
     end
 
     puts ">>> #{counter} of #{csv.length} court facilities added"
-
-  end
-
-  desc "Import regions"
-  task :regions => :environment do
-    puts "Importing regions"
-
-    # "court_region_id","court_region_name"
-    csv_file = File.read('db/data/court_region.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      puts "Adding region: #{row[1]}"
-
-      region = Region.new
-
-      region.old_id = row[0]
-      region.name = row[1]
-
-      counter += 1 if region.save!
-    end
-
-    puts ">>> #{counter} of #{csv.length} regions added"
 
   end
 
