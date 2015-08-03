@@ -117,6 +117,38 @@ namespace :import do
     end
   end
 
+  desc "Import addresses"
+  task :addresses => :environment do
+    puts "Importing court address"
+    visiting = AddressType.where(name: 'Visiting').first_or_create
+    postal = AddressType.where(name: 'Postal').first_or_create
+
+    CSV.foreach('db/data/court_address.csv', headers: true) do |row|
+      court_detail = {}
+      row.map{ |k, v| court_detail[k.gsub('court_','')] = v.empty? ? nil : v }
+
+      court = (court_detail['addr_postal_flag'] == 'true') ?
+        Court.find_by_old_postal_address_id(row[0]) : Court.find_by_old_court_address_id(row[0])
+
+      if court and court_detail['addr1'].present?
+        puts "Finding or creating '#{court.name}' - '#{court_detail['addr1']}'"
+
+        Address.find_or_create_by!(
+          court_id: court.id,
+          address_line_1: court_detail['addr1'],
+          address_line_2: court_detail['addr2'],
+          address_line_3: court_detail['addr3'],
+          address_line_4: court_detail['addr4'],
+          postcode: court_detail['addr_pcode'],
+          dx: court_detail['addr_dx'],
+          town_id: Town.find_by_old_id(row[8]).try(:id),
+          address_type: (court_detail['addr_postal_flag'] == 'true') ? postal : visiting,
+          is_primary: (court_detail['addr_postal_flag'] == 'true')
+        )
+      end
+    end
+  end
+
   desc "Import local_authorities for a single area of law"
   task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
     puts "Importing local authorities for each court"
@@ -161,66 +193,6 @@ namespace :import do
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
   end
 
-  desc "Import postal court_address"
-  task :addresses => :environment do
-    puts "Importing court address"
-
-    csv_file = File.read('db/data/court_address.csv')
-
-    csv = CSV.parse(csv_file)
-
-    counter = 0
-
-    visiting = AddressType.where(name: 'Visiting').first_or_create
-    postal = AddressType.where(name: 'Postal').first_or_create
-
-    # id, postal flag, line1, line2...
-    csv.each do |row|
-
-      if row[1].to_s == "true"
-        court = Court.find_by_old_postal_address_id(row[0])
-      else
-        court = Court.find_by_old_court_address_id(row[0])
-      end
-
-
-      # Only add the address if a court is found
-      if court and !row[2].empty?
-        puts "Adding '#{row[2]}'"
-
-        addr = Address.new
-
-        if row[1].to_s == "true"
-          addr.address_type = postal
-        else
-          addr.address_type = visiting
-          addr.is_primary = true
-        end
-
-        addr.court_id = court.id
-        addr.address_line_1 = row[2] unless row[2] == 'NULL'
-        addr.address_line_2 = row[3] unless row[3] == 'NULL'
-        addr.address_line_3 = row[4] unless row[4] == 'NULL'
-        addr.address_line_4 = row[5] unless row[5] == 'NULL'
-        addr.postcode = row[6] unless row[6] == 'NULL'
-        addr.dx = row[7] unless row[7] == 'NULL'
-        addr.town_id = Town.find_by_old_id(row[8]).id
-
-        addr.save!
-
-        unless row[10].empty? || row[11].empty?
-          court.latitude = row[10]
-          court.longitude = row[11]
-          court.save!(validate: false)
-        end
-
-        counter += 1
-      end
-    end
-
-    puts ">>> #{counter} of #{csv.length} addresses added"
-
-  end
 
   desc "Import court types"
   task :court_types => :environment do
