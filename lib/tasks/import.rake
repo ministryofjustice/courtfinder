@@ -98,25 +98,12 @@ namespace :import do
   desc "Import counties"
   task :counties => :environment do
     puts "Importing counties"
-
-    csv_file = File.read('db/data/court_county.csv')
-
-    csv = CSV.parse(csv_file)
-
-    csv.each do |row|
-      county = County.new
-
-      puts "Adding '#{row[1]}'"
-
-      country_id = Country.find_by_old_id(row[2]).id
-      County.find_or_create_by!(old_id: row[0], name: row[1], country_id: country_id) #rescue "Could not create county #{row[1]}"
-      county.old_id = row[0]
-      county.name = row[1]
-      county.country_id = Country.find_by_old_id(row[2]).id
-
-      county.save!
+    CSV.foreach('db/data/court_county.csv', headers: true) do |row|
+      next if row[1].blank?
+      puts "Finding or creating county '#{row[1]}'"
+      country_id = Country.find_by_old_id(row[2]).try(:id)
+      County.find_or_create_by!(old_id: row[0], name: row[1], country_id: country_id) rescue "Could not create county #{row[1]}"
     end
-
   end
 
   desc "Import towns"
