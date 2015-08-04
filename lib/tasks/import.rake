@@ -1,44 +1,7 @@
 require 'awesome_print'
+require 'csv'
 
 namespace :import do
-
-  require 'csv'
-
-  desc "Import courts"
-  task :courts => :environment do
-    puts "Importing courts and their types"
-
-    csv_file = File.read('db/data/court.csv')
-
-    # "court_id","court_name","court_code","court_note","court_area_id","court_cci_identifier","court_cci_code","court_addr_id","court_postal_addr_id","court_type_id","borough_search_id","court_code2"
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.new
-
-      puts "#{row[1]} #{row[2]}"
-
-      court.old_id = row[0]
-      court.name = row[1]
-      court.court_number = row[2]                     # court_code
-      court.info = row[3].gsub(/"'/, '"')             # clean-up HTML links which use single quotes, assuming they appear in the data as ""'
-      court.cci_code = row[6]
-      court.area_id = Area.find_by_old_id(row[4]).id  # some have more than one
-      court.old_postal_address_id = row[8]
-      court.old_court_address_id = row[7]
-      court.old_court_type_id = row[9]
-      court.display = true
-
-      court.save!
-
-      counter += 1
-    end
-
-    puts ">>> #{counter} of #{csv.length} courts added"
-
-  end
 
   desc "Import all data"
   task :all, [:replace] => :environment do | t, args |
@@ -83,6 +46,28 @@ namespace :import do
     Rake::Task["import:court_facilities"].invoke
 
     puts ">>> All done, yay!"
+  end
+
+  desc "Import courts"
+  task :courts => :environment do
+    puts "Importing courts and their types"
+
+    CSV.foreach('db/data/court.csv', headers: true) do |row|
+      puts "Finding or creating court #{row['court_name']}"
+      c = Court.find_or_create_by!(name: row['court_name'])
+      puts "Updating attributes for #{row['court_name']}"
+      c.update_attributes(
+        old_id:                 row['court_id'],
+        court_number:           row['court_number'],                                # court_code
+        info:                   row['court_note'].gsub(/"'/, '"'),                  # clean-up HTML links which use single quotes, assuming they appear in the data as ""'
+        cci_code:               row['court_cci_identifier'],
+        area_id:                Area.find_by_old_id(row['court_area_id']).try(:id), # some have more than one
+        old_postal_address_id:  row['court_postal_addr_id'],
+        old_court_address_id:   row['court_addr_id'],
+        old_court_type_id:      row['court_type_id'],
+        display:                true
+      )
+    end
   end
 
   desc "Import countries"
