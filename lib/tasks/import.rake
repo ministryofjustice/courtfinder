@@ -245,6 +245,41 @@ namespace :import do
     end
   end
 
+  desc "Import images"
+  task :images => :environment do
+    puts "Importing images"
+
+    # First add the old image IDs to the courts
+    CSV.foreach('db/data/court_images.csv', headers: true) do |row|
+      court = Court.find_by_old_id(row['court_id'])
+      next unless court
+      puts "Adding image id #{row['image_id']} to #{court.name}"
+      court.update_column(:old_image_id, row['image_id'].to_i)
+    end
+
+    # "image_id","image_desc","image_url","image_icon_flag"
+    CSV.foreach('db/data/images.csv', headers: true) do |row|
+      if row['image_icon_flag'] == 'true'
+      puts "Finding or creating Facility for image #{row['image_url']}"
+        Facility.find_or_create_by!(
+          old_id: row['image_id'],
+          name: row['image_desc'].split(' icon')[0], # strip "icon." off the end
+          image_description: row['image_desc'],
+          image: row['image_url'].split('.')[0] # strip ".gif" off the end
+        )
+      else
+        # Multiple courts have no image available (id = 21)
+        Court.where(:old_image_id => row['image_id']).each do |court|
+          puts "Updating court #{court.name} with image #{row['image_url']}"
+          court.update_attributes(
+            image_description: row['image_desc'],
+            image: row['image_url']
+          )
+        end
+      end
+    end
+  end
+
   desc "Import regions"
   task :regions => :environment do
     puts "Importing regions"
@@ -308,76 +343,6 @@ namespace :import do
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
     Rake::Task["import:local_authorities_for_area_of_law"].reenable
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
-  end
-
-  desc "Import images"
-  task :images => :environment do
-    puts "Importing images"
-
-    # First add the old image IDs to the courts
-
-    csv_file = File.read('db/data/court_images.csv')
-
-    # "court_images_id","image_id","court_id"
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[2])
-
-      if court
-        puts "Adding image id #{row[1]} to #{court.name}"
-
-        court.old_image_id = row[1]
-
-        counter += 1 if court.save!(validate: false)
-      end
-
-    end
-
-    puts ">>> #{counter} of #{csv.length} image ids added"
-
-    # Now add the images
-    # For this we are dropping the old 'images' table and adding 'icons' to
-    # the 'facilities' table and the rest to the 'courts' table.
-
-    # "image_id","image_desc","image_url","image_icon_flag"
-    csv_file = File.read('db/data/images.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    facility_counter = 0
-    court_counter = 0
-
-    csv.each do |row|
-
-      if row[3] == 'true'
-        facility = Facility.new
-
-        facility.old_id = row[0]
-        facility.name = row[1].split(' icon')[0] # strip "icon." off the end
-        facility.image_description = row[1]
-        facility.image = row[2].split('.')[0] # strip ".gif" off the end
-
-        facility_counter += 1 if facility.save!
-      else
-        # Multiple courts have no image available (id = 21)
-        courts = Court.where(:old_image_id => row[0])
-
-        courts.each do |court|
-          court.image_description = row[1]
-          court.image = row[2]
-
-          court_counter += 1 if court.save!(validate: false)
-        end
-      end
-
-    end
-
-    puts ">>> #{facility_counter} of #{csv.length} were added as facility images"
-    puts ">>> #{court_counter} of #{csv.length} were added as court images"
-
   end
 
   desc "Import court facilities"

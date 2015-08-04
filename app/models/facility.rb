@@ -13,7 +13,8 @@
 
 class Facility < ActiveRecord::Base
   has_many :court_facilities
-  attr_accessible :image, :name, :image_description
+  attr_accessible :image, :name, :image_description,
+    :old_id
 
   default_scope { order('LOWER(name)') } # ignore case when sorting
 end
