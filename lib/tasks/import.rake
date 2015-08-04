@@ -32,7 +32,6 @@ namespace :import do
     Rake::Task["import:regions"].invoke
     Rake::Task["import:areas"].invoke
     Rake::Task["import:courts"].invoke
-    Rake::Task["import:address_types"].invoke
     Rake::Task["import:countries"].invoke
     Rake::Task["import:counties"].invoke
     Rake::Task["import:towns"].invoke
