@@ -158,6 +158,37 @@ namespace :import do
     end
   end
 
+  desc "Import opening types and opening times"
+  task :opening_times => :environment do
+    puts "Importing opening types and opening times"
+    CSV.foreach('db/data/court_opening_type.csv', headers: true) do |row|
+      puts "Finding or creating OpeningType'#{row[1]}'"
+      OpeningType.find_or_create_by!(
+        old_id:         row[0],
+        name:           row[1]
+      )
+    end
+
+    CSV.foreach('db/data/court_opening.csv', headers: true) do |row|
+      sort_order = 0
+      court = Court.find_by_old_id(row[1])
+      type  = OpeningType.find_by_old_id(row[3])
+      next unless court && type
+      puts "Finding or created Opening Time '#{row[2]}' for #{court.name}"
+      # "court_opening_id","court_id","court_opening_desc","court_opening_type_id"
+
+      OpeningTime.find_or_create_by!(
+        court_id: court.id,
+        name:     row[2],
+        sort:     sort_order, # default to the order which they are imported
+        opening_type_id: type.id
+      )
+
+      sort_order += 1
+    end
+  end
+
+
   desc "Import regions"
   task :regions => :environment do
     puts "Importing regions"
@@ -166,410 +197,355 @@ namespace :import do
       puts "Finding or creating region '#{row[1]}'"
       Region.find_or_create_by!(old_id: row[0], name: row[1]) rescue "Could not create region #{row[1]}"
     end
-  end
-
-  desc "Import areas"
-  task :areas => :environment do
-    puts "Importing areas"
-    CSV.foreach('db/data/court_area.csv', headers: true) do |row|
-      next if row[1].blank?
-      puts "Finding or creating area '#{row[1]}'"
-      region_id = Region.find_by_old_id(row[2]).try(:id)
-      Area.find_or_create_by!(old_id: row[0], name: row[1], region_id: region_id) rescue "Could not create area #{row[1]}"
     end
-  end
 
-  desc "Import local_authorities for a single area of law"
-  task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
-    puts "Importing local authorities for each court"
-    puts "File: #{args[:file]}, Area of Law: #{args[:area_of_law]}"
+    desc "Import areas"
+    task :areas => :environment do
+      puts "Importing areas"
+      CSV.foreach('db/data/court_area.csv', headers: true) do |row|
+        next if row[1].blank?
+        puts "Finding or creating area '#{row[1]}'"
+        region_id = Region.find_by_old_id(row[2]).try(:id)
+        Area.find_or_create_by!(old_id: row[0], name: row[1], region_id: region_id) rescue "Could not create area #{row[1]}"
+      end
+    end
 
-    csv_file = File.read(args[:file])
+    desc "Import local_authorities for a single area of law"
+    task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
+      puts "Importing local authorities for each court"
+      puts "File: #{args[:file]}, Area of Law: #{args[:area_of_law]}"
 
-    csv = CSV.parse(csv_file, :headers => true)
+      csv_file = File.read(args[:file])
 
-    counter = 0
+      csv = CSV.parse(csv_file, :headers => true)
 
-    # "court_name", "local_authority_names"
-    @area_of_law = AreaOfLaw.find_by_name(args[:area_of_law])
-    puts "Found: #{@area_of_law.name} with id: #{@area_of_law.try(:id)}"
+      counter = 0
 
-    csv.each do |row|
-      court = Court.find_by_name(row[0])
+      # "court_name", "local_authority_names"
+      @area_of_law = AreaOfLaw.find_by_name(args[:area_of_law])
+      puts "Found: #{@area_of_law.name} with id: #{@area_of_law.try(:id)}"
 
-      if court.nil?
-        puts "Could not find court with name: '#{row[0]}'"
-      else
-        puts "Adding local authorities(LA) for '#{court.name}'"
-        row[1].split(',').each do |local_authority_name|
-          local_authority = LocalAuthority.find_by_name(local_authority_name)
-          if local_authority.nil?
-            puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
-          else
-            puts "Adding LA with named '#{local_authority_name}'"
-            court.remits.where(area_of_law_id: @area_of_law.id).first_or_create!.local_authorities << local_authority
+      csv.each do |row|
+        court = Court.find_by_name(row[0])
+
+        if court.nil?
+          puts "Could not find court with name: '#{row[0]}'"
+        else
+          puts "Adding local authorities(LA) for '#{court.name}'"
+          row[1].split(',').each do |local_authority_name|
+            local_authority = LocalAuthority.find_by_name(local_authority_name)
+            if local_authority.nil?
+              puts "Could not find local authority '#{local_authority_name}' for court '#{court.name}'"
+            else
+              puts "Adding LA with named '#{local_authority_name}'"
+              court.remits.where(area_of_law_id: @area_of_law.id).first_or_create!.local_authorities << local_authority
+            end
           end
         end
       end
     end
-  end
 
-  desc "Import local_authorities for a all areas of law"
-  task :local_authorities => :environment do
-    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_children.csv', 'Children')
-    Rake::Task["import:local_authorities_for_area_of_law"].reenable
-    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
-    Rake::Task["import:local_authorities_for_area_of_law"].reenable
-    Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
-  end
-
-
-  desc "Import court types"
-  task :court_types => :environment do
-    puts "Deleting existing Court types records"
-    CourtType.destroy_all
-
-    puts "Creating court types"
-
-    puts "Adding 'County Court'"
-    CourtType.create!(:name => "County Court")
-    puts "Adding 'Magistrates Court'"
-    CourtType.create!(:name => "Magistrates Court")
-    puts "Adding 'Crown Court'"
-    CourtType.create!(:name => "Crown Court")
-    puts "Adding 'Tribunal'"
-    CourtType.create!(:name => "Tribunal")
-  end
-
-  desc "Import opening types and opening times"
-  task :opening_times => :environment do
-    puts "Importing opening types and opening times"
-
-    csv_file = File.read('db/data/court_opening_type.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      type = OpeningType.new
-
-      puts "Adding '#{row[1]}'"
-      # "court_opening_type_id","court_opening_type_desc"
-
-      type.old_id = row[0]
-      type.name = row[1]
-
-      counter += 1 if type.save!
+    desc "Import local_authorities for a all areas of law"
+    task :local_authorities => :environment do
+      Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_children.csv', 'Children')
+      Rake::Task["import:local_authorities_for_area_of_law"].reenable
+      Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
+      Rake::Task["import:local_authorities_for_area_of_law"].reenable
+      Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
     end
 
-    puts ">>> #{counter} of #{csv.length} opening types added"
 
-    csv_file = File.read('db/data/court_opening.csv')
+    desc "Import court types"
+    task :court_types => :environment do
+      puts "Deleting existing Court types records"
+      CourtType.destroy_all
 
-    csv = CSV.parse(csv_file, :headers => true)
+      puts "Creating court types"
 
-    counter = 0
-
-    csv.each do |row|
-      time = OpeningTime.new
-
-      court = Court.find_by_old_id(row[1])
-
-      puts "Adding '#{row[2]}' to #{court.name}"
-      # "court_opening_id","court_id","court_opening_desc","court_opening_type_id"
-
-      if court
-        time.court_id = court.id
-        time.name = row[2]
-        time.sort = counter # default to the order which they are imported
-
-        type = OpeningType.find_by_old_id(row[3])
-        time.opening_type_id = type.id if type
-
-        counter += 1 if time.save!
-      end
-
+      puts "Adding 'County Court'"
+      CourtType.create!(:name => "County Court")
+      puts "Adding 'Magistrates Court'"
+      CourtType.create!(:name => "Magistrates Court")
+      puts "Adding 'Crown Court'"
+      CourtType.create!(:name => "Crown Court")
+      puts "Adding 'Tribunal'"
+      CourtType.create!(:name => "Tribunal")
     end
 
-    puts ">>> #{counter} of #{csv.length} opening types added"
+    desc "Import contact types"
+    task :contact_types => :environment do
+      puts "Importing contact types"
 
-  end
+      csv_file = File.read('db/data/court_contact_type.csv')
 
-  desc "Import contact types"
-  task :contact_types => :environment do
-    puts "Importing contact types"
+      csv = CSV.parse(csv_file, :headers => true)
 
-    csv_file = File.read('db/data/court_contact_type.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    csv.each do |row|
-      type = ContactType.new
-
-      puts "Adding '#{row[1]}'"
-      # "court_contact_type_id","court_contact_type_desc"
-
-      type.old_id = row[0]
-      type.name = row[1]
-
-      type.save!
-    end
-
-  end
-
-  desc "Import contacts"
-  task :contacts => :environment do
-    puts "Importing contacts"
-
-    # First add General Contacts
-
-    csv_file = File.read('db/data/court_contacts_general.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[2])
-
-      if court
-        contact = Contact.new
+      csv.each do |row|
+        type = ContactType.new
 
         puts "Adding '#{row[1]}'"
-        # "court_contacts_general_id","court_contacts_general_no","court_id","court_contact_type_id","court_contact_general_order"
+        # "court_contact_type_id","court_contact_type_desc"
 
-        contact.telephone = row[1]
-        if number = GlobalPhone.parse(contact.telephone, :gb)
-          contact.telephone = number.national_format
-        end
-        contact.court_id = court.id
-        contact.in_leaflet = true
+        type.old_id = row[0]
+        type.name = row[1]
 
-        type = ContactType.find_by_old_id(row[3])
-        contact.contact_type_id = type.id if type
-
-        contact.sort = row[4].to_i
-
-        counter += 1 if contact.save!(validate: false)
-      end
-    end
-
-    puts ">>> #{counter} of #{csv.length} general contacts added"
-
-    # Now add Contacts to same table
-
-    csv_file = File.read('db/data/court_contacts.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[3])
-
-      if court
-        contact = Contact.new
-
-        puts "Adding '#{row[1]}'"
-
-        contact.telephone = row[2] if row[1] != 'NULL'
-        contact.court_id = court.id
-        contact.in_leaflet = false
-
-        type = ContactType.find_by_old_id(row[4])
-        contact.contact_type_id = type.id if type
-
-        contact.sort = row[5].to_i + 1000 # added 1000 to make sure contacts appear after general contacts
-
-        counter += 1 if contact.save!(validate: false)
-      end
-    end
-
-    puts ">>> #{counter} of #{csv.length} contacts added"
-
-  end
-
-  desc "Import emails"
-  task :emails => :environment do
-    puts "Importing emails"
-
-    csv_file = File.read('db/data/court_email.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[3])
-
-      if court
-        email = Email.new
-
-        # "court_email_id","court_email_desc","court_email_addr","court_id"
-        addr = row[2].strip
-        puts "Adding '#{addr}'"
-
-        email.address = addr if row[2].present?
-        email.court_id = court.id
-
-        counter += 1 if email.save!(validate: false)
-      end
-    end
-
-    puts ">>> #{counter} of #{csv.length} emails addresses added"
-
-  end
-
-  desc "Import images"
-  task :images => :environment do
-    puts "Importing images"
-
-    # First add the old image IDs to the courts
-
-    csv_file = File.read('db/data/court_images.csv')
-
-    # "court_images_id","image_id","court_id"
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[2])
-
-      if court
-        puts "Adding image id #{row[1]} to #{court.name}"
-
-        court.old_image_id = row[1]
-
-        counter += 1 if court.save!(validate: false)
+        type.save!
       end
 
     end
 
-    puts ">>> #{counter} of #{csv.length} image ids added"
+    desc "Import contacts"
+    task :contacts => :environment do
+      puts "Importing contacts"
 
-    # Now add the images
-    # For this we are dropping the old 'images' table and adding 'icons' to
-    # the 'facilities' table and the rest to the 'courts' table.
+      # First add General Contacts
 
-    # "image_id","image_desc","image_url","image_icon_flag"
-    csv_file = File.read('db/data/images.csv')
+      csv_file = File.read('db/data/court_contacts_general.csv')
 
-    csv = CSV.parse(csv_file, :headers => true)
+      csv = CSV.parse(csv_file, :headers => true)
 
-    facility_counter = 0
-    court_counter = 0
+      counter = 0
 
-    csv.each do |row|
+      csv.each do |row|
+        court = Court.find_by_old_id(row[2])
 
-      if row[3] == 'true'
-        facility = Facility.new
+        if court
+          contact = Contact.new
 
-        facility.old_id = row[0]
-        facility.name = row[1].split(' icon')[0] # strip "icon." off the end
-        facility.image_description = row[1]
-        facility.image = row[2].split('.')[0] # strip ".gif" off the end
+          puts "Adding '#{row[1]}'"
+          # "court_contacts_general_id","court_contacts_general_no","court_id","court_contact_type_id","court_contact_general_order"
 
-        facility_counter += 1 if facility.save!
-      else
-        # Multiple courts have no image available (id = 21)
-        courts = Court.where(:old_image_id => row[0])
+          contact.telephone = row[1]
+          if number = GlobalPhone.parse(contact.telephone, :gb)
+            contact.telephone = number.national_format
+          end
+          contact.court_id = court.id
+          contact.in_leaflet = true
 
-        courts.each do |court|
-          court.image_description = row[1]
-          court.image = row[2]
+          type = ContactType.find_by_old_id(row[3])
+          contact.contact_type_id = type.id if type
 
-          court_counter += 1 if court.save!(validate: false)
+          contact.sort = row[4].to_i
+
+          counter += 1 if contact.save!(validate: false)
         end
       end
 
-    end
+      puts ">>> #{counter} of #{csv.length} general contacts added"
 
-    puts ">>> #{facility_counter} of #{csv.length} were added as facility images"
-    puts ">>> #{court_counter} of #{csv.length} were added as court images"
+      # Now add Contacts to same table
 
-  end
+      csv_file = File.read('db/data/court_contacts.csv')
 
-  desc "Import court facilities"
-  task :court_facilities => :environment do
-    puts "Importing court facilities"
+      csv = CSV.parse(csv_file, :headers => true)
 
-    # "court_access_id","image_id","court_access_desc","court_id"
-    csv_file = File.read('db/data/court_access.csv')
+      counter = 0
 
-    csv = CSV.parse(csv_file, :headers => true)
+      csv.each do |row|
+        court = Court.find_by_old_id(row[3])
 
-    counter = 0
+        if court
+          contact = Contact.new
 
-    csv.each do |row|
-      court = Court.find_by_old_id(row[3])
+          puts "Adding '#{row[1]}'"
 
-      if court
-        puts "Adding #{row[1]} to #{court.name}"
+          contact.telephone = row[2] if row[1] != 'NULL'
+          contact.court_id = court.id
+          contact.in_leaflet = false
 
-        court_facility = CourtFacility.new
+          type = ContactType.find_by_old_id(row[4])
+          contact.contact_type_id = type.id if type
 
-        court_facility.court_id = court.id
-        court_facility.facility_id = (Facility.find_by_old_id(row[1]) || next).id
-        court_facility.description = Nokogiri::HTML(row[2].strip).inner_text if row[2].present?
+          contact.sort = row[5].to_i + 1000 # added 1000 to make sure contacts appear after general contacts
 
-        counter += 1 if court_facility.save!
+          counter += 1 if contact.save!(validate: false)
+        end
       end
+
+      puts ">>> #{counter} of #{csv.length} contacts added"
+
     end
 
-    puts ">>> #{counter} of #{csv.length} court facilities added"
+    desc "Import emails"
+    task :emails => :environment do
+      puts "Importing emails"
 
-  end
+      csv_file = File.read('db/data/court_email.csv')
 
-  desc "Import concil names"
-  task :local_authorities => :environment do
-    puts "Importing local authorities"
+      csv = CSV.parse(csv_file, :headers => true)
 
-    # "authority_id","authority_name"
-    csv_file = File.read('db/data/local_authorities.csv')
+      counter = 0
 
-    csv = CSV.parse(csv_file, :headers => true)
+      csv.each do |row|
+        court = Court.find_by_old_id(row[3])
 
-    counter = 0
+        if court
+          email = Email.new
 
-    csv.each do |row|
-      puts "Adding local authority: #{row[1]}"
+          # "court_email_id","court_email_desc","court_email_addr","court_id"
+          addr = row[2].strip
+          puts "Adding '#{addr}'"
 
-      local_authority = LocalAuthority.new
+          email.address = addr if row[2].present?
+          email.court_id = court.id
 
-      local_authority.name = row[1]
+          counter += 1 if email.save!(validate: false)
+        end
+      end
 
-      counter += 1 if local_authority.save!
+      puts ">>> #{counter} of #{csv.length} emails addresses added"
+
     end
 
-    puts ">>> #{counter} of #{csv.length} local authorities added"
+    desc "Import images"
+    task :images => :environment do
+      puts "Importing images"
 
-  end
+      # First add the old image IDs to the courts
 
-  desc "Import PCOL postcode to court mappings"
-  task :postcode_courts => :environment do
-    puts "Deleting PostcodeCourt records"
-    PostcodeCourt.destroy_all
-    puts "Importing PCOL_postcode_to_court_mapping.csv"
-    csv_file = File.read('db/data/PCOL_postcode_to_court_mapping.csv')
-    csv = CSV.parse(csv_file, :headers => true)
-    missing = []
-    csv.each do |row|
-      puts "Adding postcode to court mapping: #{row[0]}"
-      if row[0].present? && row[1].present?
-        if court = Court.find_by_cci_code(row[1])
-          court.postcode_courts.create!(:postcode => row[0])
-        elsif court = Court.find_by_court_number(row[1])
-          court.postcode_courts.create!(:postcode => row[0])
+      csv_file = File.read('db/data/court_images.csv')
+
+      # "court_images_id","image_id","court_id"
+      csv = CSV.parse(csv_file, :headers => true)
+
+      counter = 0
+
+      csv.each do |row|
+        court = Court.find_by_old_id(row[2])
+
+        if court
+          puts "Adding image id #{row[1]} to #{court.name}"
+
+          court.old_image_id = row[1]
+
+          counter += 1 if court.save!(validate: false)
+        end
+
+      end
+
+      puts ">>> #{counter} of #{csv.length} image ids added"
+
+      # Now add the images
+      # For this we are dropping the old 'images' table and adding 'icons' to
+      # the 'facilities' table and the rest to the 'courts' table.
+
+      # "image_id","image_desc","image_url","image_icon_flag"
+      csv_file = File.read('db/data/images.csv')
+
+      csv = CSV.parse(csv_file, :headers => true)
+
+      facility_counter = 0
+      court_counter = 0
+
+      csv.each do |row|
+
+        if row[3] == 'true'
+          facility = Facility.new
+
+          facility.old_id = row[0]
+          facility.name = row[1].split(' icon')[0] # strip "icon." off the end
+          facility.image_description = row[1]
+          facility.image = row[2].split('.')[0] # strip ".gif" off the end
+
+          facility_counter += 1 if facility.save!
         else
-          puts "Could not add #{row[0]} #{row[1]} #{row[2]}"
-          missing << "#{row[1]} #{row[2]}"
+          # Multiple courts have no image available (id = 21)
+          courts = Court.where(:old_image_id => row[0])
+
+          courts.each do |court|
+            court.image_description = row[1]
+            court.image = row[2]
+
+            court_counter += 1 if court.save!(validate: false)
+          end
+        end
+
+      end
+
+      puts ">>> #{facility_counter} of #{csv.length} were added as facility images"
+      puts ">>> #{court_counter} of #{csv.length} were added as court images"
+
+    end
+
+    desc "Import court facilities"
+    task :court_facilities => :environment do
+      puts "Importing court facilities"
+
+      # "court_access_id","image_id","court_access_desc","court_id"
+      csv_file = File.read('db/data/court_access.csv')
+
+      csv = CSV.parse(csv_file, :headers => true)
+
+      counter = 0
+
+      csv.each do |row|
+        court = Court.find_by_old_id(row[3])
+
+        if court
+          puts "Adding #{row[1]} to #{court.name}"
+
+          court_facility = CourtFacility.new
+
+          court_facility.court_id = court.id
+          court_facility.facility_id = (Facility.find_by_old_id(row[1]) || next).id
+          court_facility.description = Nokogiri::HTML(row[2].strip).inner_text if row[2].present?
+
+          counter += 1 if court_facility.save!
         end
       end
+
+      puts ">>> #{counter} of #{csv.length} court facilities added"
+
     end
-    puts "Summary of missing records: "
-    puts missing.uniq
-    puts "Finished adding postcode to court mappings."
+
+    desc "Import concil names"
+    task :local_authorities => :environment do
+      puts "Importing local authorities"
+
+      # "authority_id","authority_name"
+      csv_file = File.read('db/data/local_authorities.csv')
+
+      csv = CSV.parse(csv_file, :headers => true)
+
+      counter = 0
+
+      csv.each do |row|
+        puts "Adding local authority: #{row[1]}"
+
+        local_authority = LocalAuthority.new
+
+        local_authority.name = row[1]
+
+        counter += 1 if local_authority.save!
+      end
+
+      puts ">>> #{counter} of #{csv.length} local authorities added"
+
+    end
+
+    desc "Import PCOL postcode to court mappings"
+    task :postcode_courts => :environment do
+      puts "Deleting PostcodeCourt records"
+      PostcodeCourt.destroy_all
+      puts "Importing PCOL_postcode_to_court_mapping.csv"
+      csv_file = File.read('db/data/PCOL_postcode_to_court_mapping.csv')
+      csv = CSV.parse(csv_file, :headers => true)
+      missing = []
+      csv.each do |row|
+        puts "Adding postcode to court mapping: #{row[0]}"
+        if row[0].present? && row[1].present?
+          if court = Court.find_by_cci_code(row[1])
+            court.postcode_courts.create!(:postcode => row[0])
+          elsif court = Court.find_by_court_number(row[1])
+            court.postcode_courts.create!(:postcode => row[0])
+          else
+            puts "Could not add #{row[0]} #{row[1]} #{row[2]}"
+            missing << "#{row[1]} #{row[2]}"
+          end
+        end
+      end
+      puts "Summary of missing records: "
+      puts missing.uniq
+      puts "Finished adding postcode to court mappings."
+    end
   end
-end

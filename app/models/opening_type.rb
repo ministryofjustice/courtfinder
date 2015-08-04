@@ -11,5 +11,5 @@
 
 class OpeningType < ActiveRecord::Base
   has_many :opening_times
-  attr_accessible :name
+  attr_accessible :name, :old_id
 end
