@@ -280,6 +280,27 @@ namespace :import do
     end
   end
 
+  desc "Import court facilities"
+  task :court_facilities => :environment do
+    puts "Importing court facilities"
+
+    # "court_access_id","image_id","court_access_desc","court_id"
+    CSV.foreach('db/data/court_access.csv', headers: true) do |row|
+      court    = Court.find_by_old_id(row['court_id'])
+      facility = Facility.find_by_old_id(row['old_id'])
+
+      next unless court
+      puts "Find or create CourtFacility #{row['image_id']} for #{court.name}"
+      desc = Nokogiri::HTML(row['court_access_desc'].strip).inner_text if row['court_access_desc'].present?
+
+      CourtFacility.find_or_create_by!(
+        court_id:     court.id,
+        facility:     facility,
+        description:  desc
+      )
+    end
+  end
+
   desc "Import regions"
   task :regions => :environment do
     puts "Importing regions"
@@ -343,37 +364,6 @@ namespace :import do
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
     Rake::Task["import:local_authorities_for_area_of_law"].reenable
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
-  end
-
-  desc "Import court facilities"
-  task :court_facilities => :environment do
-    puts "Importing court facilities"
-
-    # "court_access_id","image_id","court_access_desc","court_id"
-    csv_file = File.read('db/data/court_access.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[3])
-
-      if court
-        puts "Adding #{row[1]} to #{court.name}"
-
-        court_facility = CourtFacility.new
-
-        court_facility.court_id = court.id
-        court_facility.facility_id = (Facility.find_by_old_id(row[1]) || next).id
-        court_facility.description = Nokogiri::HTML(row[2].strip).inner_text if row[2].present?
-
-        counter += 1 if court_facility.save!
-      end
-    end
-
-    puts ">>> #{counter} of #{csv.length} court facilities added"
-
   end
 
   desc "Import concil names"
