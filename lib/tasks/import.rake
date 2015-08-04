@@ -295,25 +295,6 @@ namespace :import do
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
   end
 
-
-  desc "Import court types"
-  task :court_types => :environment do
-    puts "Deleting existing Court types records"
-    CourtType.destroy_all
-
-    puts "Creating court types"
-
-    puts "Adding 'County Court'"
-    CourtType.create!(:name => "County Court")
-    puts "Adding 'Magistrates Court'"
-    CourtType.create!(:name => "Magistrates Court")
-    puts "Adding 'Crown Court'"
-    CourtType.create!(:name => "Crown Court")
-    puts "Adding 'Tribunal'"
-    CourtType.create!(:name => "Tribunal")
-  end
-
-
   desc "Import emails"
   task :emails => :environment do
     puts "Importing emails"
