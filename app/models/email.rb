@@ -16,7 +16,7 @@ require 'email_validator'
 class Email < ActiveRecord::Base
   belongs_to :court
   belongs_to :contact_type
-  attr_accessible :address, :sort, :contact_type_id
+  attr_accessible :address, :sort, :contact_type_id, :court_id
   before_save :strip_whitespace
 
   has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}

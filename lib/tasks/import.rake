@@ -230,6 +230,21 @@ namespace :import do
     end
   end
 
+  desc "Import emails"
+  task :emails => :environment do
+    puts "Importing emails"
+    CSV.foreach('db/data/court_email.csv', headers: true) do |row|
+      puts "Finding or creating email '#{row['court_email_addr']}'"
+      court = Court.find_by_old_id(row['court_id'])
+      addr  = row['court_email_addr'].strip
+      next unless court && addr
+      Email.find_or_create_by(
+        court_id:    court.id,
+        address:     addr,
+      )
+    end
+  end
+
   desc "Import regions"
   task :regions => :environment do
     puts "Importing regions"
@@ -293,37 +308,6 @@ namespace :import do
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_divorce.csv',  'Divorce')
     Rake::Task["import:local_authorities_for_area_of_law"].reenable
     Rake::Task["import:local_authorities_for_area_of_law"].invoke('db/data/local_authorities_for_adoption.csv', 'Adoption')
-  end
-
-  desc "Import emails"
-  task :emails => :environment do
-    puts "Importing emails"
-
-    csv_file = File.read('db/data/court_email.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    counter = 0
-
-    csv.each do |row|
-      court = Court.find_by_old_id(row[3])
-
-      if court
-        email = Email.new
-
-        # "court_email_id","court_email_desc","court_email_addr","court_id"
-        addr = row[2].strip
-        puts "Adding '#{addr}'"
-
-        email.address = addr if row[2].present?
-        email.court_id = court.id
-
-        counter += 1 if email.save!(validate: false)
-      end
-    end
-
-    puts ">>> #{counter} of #{csv.length} emails addresses added"
-
   end
 
   desc "Import images"
