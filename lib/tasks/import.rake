@@ -133,6 +133,31 @@ namespace :import do
     end
   end
 
+  desc "Import areas of law"
+  task :areas_of_law => :environment do
+    CSV.foreach('db/data/court_work_type.csv', headers: true) do |row|
+      puts "Finding or creating AreaOfLaw '#{row[1]}'"
+      AreaOfLaw.find_or_create_by!(
+        old_id:         row[0],
+        name:           row[1],
+        old_ids_split:  row[2],
+        action:         row[3]
+      )
+    end
+
+    CSV.foreach('db/data/court_work.csv', headers: true) do |row|
+      puts "Finding or creating Remit '#{row[1]}'"
+      area_of_law = AreaOfLaw.find_by_old_id(row[1])
+      court       = Court.find_by_old_id(row[2])
+      next if area_of_law.blank? || court.blank?
+
+      Remit.find_or_create_by!(
+        area_of_law_id: area_of_law.id,
+        court_id:       court.id
+      )
+    end
+  end
+
   desc "Import regions"
   task :regions => :environment do
     puts "Importing regions"
@@ -214,44 +239,6 @@ namespace :import do
     CourtType.create!(:name => "Crown Court")
     puts "Adding 'Tribunal'"
     CourtType.create!(:name => "Tribunal")
-  end
-
-  desc "Import areas of law"
-  task :areas_of_law => :environment do
-    puts "Importing areas of law"
-
-    csv_file = File.read('db/data/court_work_type.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    csv.each do |row|
-      area = AreaOfLaw.new
-
-      puts "Adding '#{row[1]}'"
-
-      area.old_id = row[0]
-      area.name = row[1]
-      area.old_ids_split = row[2]
-      area.action = row[3]
-
-      area.save!
-    end
-
-    csv_file = File.read('db/data/court_work.csv')
-
-    csv = CSV.parse(csv_file, :headers => true)
-
-    csv.each do |row|
-      area = Remit.new
-
-      puts "Adding '#{row[1]}'"
-
-      area.area_of_law_id = AreaOfLaw.find_by_old_id(row[1]).id
-      area.court_id = Court.find_by_old_id(row[2]).id
-
-      area.save!
-    end
-
   end
 
   desc "Import opening types and opening times"
