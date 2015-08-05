@@ -27,6 +27,7 @@ namespace :import do
       Email.destroy_all
       Facility.destroy_all
       CourtFacility.destroy_all
+      PostcodeCourt.destroy_all
     end
 
     Rake::Task["import:regions"].invoke
@@ -42,6 +43,7 @@ namespace :import do
     Rake::Task["import:emails"].invoke
     Rake::Task["import:images"].invoke
     Rake::Task["import:court_facilities"].invoke
+    Rake::Task["import:postcode_courts"].invoke
 
     puts ">>> All done, yay!"
   end
@@ -322,6 +324,19 @@ namespace :import do
     end
   end
 
+  desc "Import postcode to court mappings"
+  task :postcode_courts => :environment do
+    JSON.load(File.read(Rails.root.join('db','data','postcodes_courts.json'))).each do |court_postcodes|
+      court = Court.find_by_name(court_postcodes['name'])
+      next unless court
+
+      court_postcodes['postcodes'].each do |postcode|
+        puts "Find or create postcode '#{postcode}' for court '#{court.name}'"
+        PostcodeCourt.find_or_create_by(court_id: court.id, postcode: postcode)
+      end
+    end
+  end
+
   desc "Import local_authorities for a single area of law"
   task :local_authorities_for_area_of_law, [:file, :area_of_law] => :environment do |t, args|
     puts "Importing local authorities for each court"
@@ -391,29 +406,4 @@ namespace :import do
 
   end
 
-  desc "Import PCOL postcode to court mappings"
-  task :postcode_courts => :environment do
-    puts "Deleting PostcodeCourt records"
-    PostcodeCourt.destroy_all
-    puts "Importing PCOL_postcode_to_court_mapping.csv"
-    csv_file = File.read('db/data/PCOL_postcode_to_court_mapping.csv')
-    csv = CSV.parse(csv_file, :headers => true)
-    missing = []
-    csv.each do |row|
-      puts "Adding postcode to court mapping: #{row[0]}"
-      if row[0].present? && row[1].present?
-        if court = Court.find_by_cci_code(row[1])
-          court.postcode_courts.create!(:postcode => row[0])
-        elsif court = Court.find_by_court_number(row[1])
-          court.postcode_courts.create!(:postcode => row[0])
-        else
-          puts "Could not add #{row[0]} #{row[1]} #{row[2]}"
-          missing << "#{row[1]} #{row[2]}"
-        end
-      end
-    end
-    puts "Summary of missing records: "
-    puts missing.uniq
-    puts "Finished adding postcode to court mappings."
-  end
 end
