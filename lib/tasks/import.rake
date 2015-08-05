@@ -6,28 +6,16 @@ namespace :import do
   desc "Import all data"
   task :all, [:replace] => :environment do | t, args |
     puts "Importing eveything!"
-    puts "Note: This will ADD all data. To replace all data, use:\n  rake 'import:all_data[replace]'"
     puts "If you're on a Windows computer, now is a good time to make a cup of tea"
 
     if args.replace == 'replace'
-      puts "!!! Removing all court data from your database"
-      Region.destroy_all
-      Area.destroy_all
-      Court.destroy_all
-      AddressType.destroy_all
-      Country.destroy_all
-      County.destroy_all
-      Town.destroy_all
-      Address.destroy_all
-      AreaOfLaw.destroy_all
-      OpeningType.destroy_all
-      OpeningTime.destroy_all
-      ContactType.destroy_all
-      Contact.destroy_all
-      Email.destroy_all
-      Facility.destroy_all
-      CourtFacility.destroy_all
-      PostcodeCourt.destroy_all
+      puts <<-EOF
+*******************************************************
+REPLACE IS DEPRECATED.
+If you want to clear the data, use standard rake tasks,
+instead: `rake db:reset` or `rake db:drop db:drop db:migrate import:all`
+*******************************************************
+      EOF
     end
 
     Rake::Task["import:regions"].invoke
