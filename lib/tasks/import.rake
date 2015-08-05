@@ -13,7 +13,12 @@ namespace :import do
 *******************************************************
 REPLACE IS DEPRECATED.
 If you want to clear the data, use standard rake tasks,
-instead: `rake db:reset` or `rake db:drop db:drop db:migrate import:all`
+instead: `rake db:reset` or `rake db:drop db:drop db:migrate`
+followed by `rake import:all`.  You can try to chain `import:all`
+on to the other rake tasks.  YMMV, however--on my machine, chaing
+causes an odd race condition whereby the before_validation hook that
+adds the UUID to a Court errors stating that it cannot find the
+attribute.
 *******************************************************
       EOF
     end
