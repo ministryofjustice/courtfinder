@@ -106,7 +106,7 @@ instead: `rake db:reset` or `rake db:drop db:drop db:migrate import:all`
       if court and court_detail['addr1'].present?
         puts "Finding or creating '#{court.name}' - '#{court_detail['addr1']}'"
 
-        Address.find_or_create_by!(
+        Address.find_or_create_by(
           court_id: court.id,
           address_line_1: court_detail['addr1'],
           address_line_2: court_detail['addr2'],
