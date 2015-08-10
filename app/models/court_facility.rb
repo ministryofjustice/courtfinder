@@ -14,7 +14,9 @@
 class CourtFacility < ActiveRecord::Base
   belongs_to :court
   belongs_to :facility
-  attr_accessible :description, :facility_id, :sort
+  attr_accessible :description, :facility_id, :sort, :court_id,
+    :facility
+
   has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
 
   default_scope { order(:sort) }
