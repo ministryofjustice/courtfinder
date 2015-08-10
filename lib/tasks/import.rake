@@ -284,7 +284,7 @@ attribute.
       court    = Court.find_by_old_id(row['court_id'])
       facility = Facility.find_by_old_id(row['old_id'])
 
-      next unless court
+      next unless court && facility
       puts "Find or create CourtFacility #{row['image_id']} for #{court.name}"
       desc = Nokogiri::HTML(row['court_access_desc'].strip).inner_text if row['court_access_desc'].present?
 
