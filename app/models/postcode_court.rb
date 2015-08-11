@@ -10,7 +10,7 @@
 #
 
 class PostcodeCourt < ActiveRecord::Base
-  attr_accessible :postcode, :court
+  attr_accessible :postcode, :court, :court_id
 
   belongs_to :court
 

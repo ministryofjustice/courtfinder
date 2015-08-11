@@ -29,7 +29,6 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
   specs:
     actionmailer (4.2.0)
       actionpack (= 4.2.0)
@@ -520,3 +519,6 @@ DEPENDENCIES
   verbs
   webmock (= 1.15.2)
   will_paginate
+
+BUNDLED WITH
+   1.10.6

@@ -15,7 +15,8 @@
 class Contact < ActiveRecord::Base
   belongs_to :court
   belongs_to :contact_type
-  attr_accessible :in_leaflet, :name, :sort, :telephone, :contact_type_id
+  attr_accessible :in_leaflet, :name, :sort, :telephone, :contact_type_id,
+    :court_id, :contact_type
 
   validates :telephone, presence:true, contact: true
 

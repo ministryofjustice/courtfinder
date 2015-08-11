@@ -11,5 +11,5 @@
 
 class Country < ActiveRecord::Base
   has_many :counties
-  attr_accessible :name
+  attr_accessible :name, :old_id
 end

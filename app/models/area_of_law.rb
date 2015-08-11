@@ -46,7 +46,9 @@ class AreaOfLaw < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children, :type_adoption, :type_divorce, :group_id
+  attr_accessible :name, :old_id, :slug, :type_possession,
+    :type_bankruptcy, :type_money_claims, :type_children, :type_adoption,
+    :type_divorce, :group_id, :old_ids_split, :action
   has_many :remits
   has_many :courts, through: :remits
   belongs_to :group, class_name: 'AreaOfLawGroup'
