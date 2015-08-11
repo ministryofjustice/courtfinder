@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 #source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
 
 gem 'rails', '~> 4.2.0.beta2'
