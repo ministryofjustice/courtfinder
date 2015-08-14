@@ -72,7 +72,7 @@ class CourtsJsonExporter
 
       local_authorities = court.area_local_authorities_list(area_of_law)
       local_authorities = [] if local_authorities.blank?
-      area_of_law_hash['local_authorities'] = [local_authorities].flatten.sort
+      area_of_law_hash['local_authorities'] = [local_authorities.split(/\s*,\s*/)].flatten.sort
 
       collection << area_of_law_hash
     end
