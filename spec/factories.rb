@@ -6,7 +6,6 @@ FactoryGirl.define do
     areas_of_law { create_list(:area_of_law, 2) }
     latitude 50
     longitude 0
-
   end
 
   factory :postcode_court do
@@ -44,6 +43,7 @@ FactoryGirl.define do
 
   factory :local_authority do
     sequence(:name) {|i| "Local Authority #{i}"}
+    sequence(:gss_code) { |n| "W060000#{n}" }
   end
 
   factory :area_of_law_group do

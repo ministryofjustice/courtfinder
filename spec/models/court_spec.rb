@@ -155,7 +155,7 @@ describe Court do
 
     before(:each) do
       @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
-      @local_authority = LocalAuthority.create(:name => 'Lambeth Borough Council')
+      @local_authority = LocalAuthority.create(name: 'Lambeth Borough Council', gss_code: 'W06000012')
       @area_of_law = create(:area_of_law, name: "Children", type_children: true)
       add_local_authorities_to_court local_authorities: [@local_authority], court: @court7, area_of_law: @area_of_law
     end
