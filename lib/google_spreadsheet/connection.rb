@@ -28,7 +28,6 @@ class Connection
   end
 
   def get_drive_session!
-    puts "Using timesheet titled: #{ENV['SPREADSHEET_TIMESHEET_TITLE']}"
     open! unless open?
     refresh_token!
     GoogleDrive.login_with_oauth(@auth_token.token)
@@ -36,6 +35,6 @@ class Connection
 
   protected
 
-  
+
 
 end
