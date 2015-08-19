@@ -125,10 +125,6 @@ describe Court do
     @county_court.addresses.visiting.first.should == @visiting_address1
   end
 
-  pending "should return a postal address" do
-    @county_court.addresses.postal.first.should == @postal_address
-  end
-
   it "should not be locatable if it doesn't have a visiting address" do
     @crown_court.locatable?.should be_falsey
   end
