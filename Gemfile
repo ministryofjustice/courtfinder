@@ -47,6 +47,7 @@ group :test do
   gem 'minitest' # stop warnings when running rspec, see https://github.com/rspec/rspec-rails/issues/758
   # Rails4 / rspec 3 compatibility
   gem 'rspec-collection_matchers'
+  gem 'fuubar'
 end
 
 
