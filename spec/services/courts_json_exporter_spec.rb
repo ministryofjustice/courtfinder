@@ -39,28 +39,41 @@ describe CourtsJsonExporter do
   end
 
   describe '#build_areas_of_law' do
-    describe 'calls court.area_local_authorities_list' do
-      let(:court) { create(:court, areas_of_law: create_list(:area_of_law, 1)) }
+    subject { described_class.new.send(:build_areas_of_law, court) }
 
-      context 'and that returns a string instead of an array' do
-        before do
-          expect(court).to receive(:area_local_authorities_list).and_return('A string')
-        end
+    let(:criminal)        { build(:area_of_law, name: 'criminal') }
+    let(:family)          { build(:area_of_law, name: 'family') }
 
-        it 'but #build_areas_of_law does not break' do
-          expect{ subject.send(:build_areas_of_law, court) }.not_to raise_error
-        end
-      end  # context 'and it returns a string instead of an array'
+    let!(:court)          { create(:court, areas_of_law: []) }
+    let!(:southwark)      { create(:local_authority, name: 'Southwark', gss_code: '1234') }
+    let!(:lambeth)        { create(:local_authority, name: 'Lambeth', gss_code: '5678') }
+    let!(:criminal_remit) { create(:remit, court: court, area_of_law: criminal) }
+    let!(:family_remit)   { create(:remit, court: court, area_of_law: family) }
 
-      context 'and that returns a string with a comma separated list of multiple local authorities' do
-        before do
-          expect(court).to receive(:area_local_authorities_list).and_return('area 1, area 2')
-        end
+    before do
+      southwark.remits << [criminal_remit, family_remit]
+      lambeth.remits   << [criminal_remit]
+      court.remits     << [criminal_remit, family_remit]
+    end
 
-        it 'then #build_areas_of_law breaks them out into a list' do
-          expect(subject.send(:build_areas_of_law, court)[0]['local_authorities']).to match_array(['area 1','area 2'])
-        end
+    it { expect(subject.map{ |a| a['name'] }).to match_array(%w(criminal family)) }
+    it { expect(subject.map{ |a| a['slug'] }).to match_array(%w(criminal family)) }
+
+    context 'criminal law' do
+      let(:jurisdiction) { subject.select{ |al| al['name'] == 'criminal' }.first['local_authorities'] }
+
+      it 'is handled for both Southwark and Lambeth' do
+        expect(jurisdiction).to match_array([{name: "Lambeth", gss_code: "5678"}, {name: "Southwark", gss_code: "1234"}])
       end
     end
+
+    context 'family law' do
+      let(:jurisdiction) { subject.select{ |al| al['name'] == 'family' }.first['local_authorities'] }
+
+      it 'is only handled for Southwark' do
+        expect(jurisdiction).to match_array([{name: "Southwark", gss_code: "1234"}])
+      end
+    end
+
   end
 end

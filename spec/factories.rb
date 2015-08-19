@@ -31,6 +31,9 @@ FactoryGirl.define do
     sequence(:name) {|n| 'Law Area' }
   end
 
+  factory :remit do
+  end
+
   factory :feedback do
   end
 
