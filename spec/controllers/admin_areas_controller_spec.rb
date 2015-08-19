@@ -39,14 +39,14 @@ describe Admin::AreasController do
   end
 
   describe "#update" do
-    let(:area){ area = Area.create!(name: 'the north') }
+    let(:area){ Area.create!(name: 'the north') }
     let(:params){ {id: area.id, area: {}} }
 
     context "when it works" do
-      before{ area.stub(update_attributes: true) }
+      before{ allow(area).to receive(:update_attributes).with(true) }
 
       it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
+        expect(controller).to receive(:purge_all_pages)
         patch :update, params
       end
 
@@ -55,7 +55,7 @@ describe Admin::AreasController do
 
         it "redirects to the edit path" do
           patch :update, params
-          response.should redirect_to(edit_admin_area_path(area))
+          expect(response).to redirect_to(edit_admin_area_path(area))
         end
 
         it "flashes a notice" do
@@ -80,10 +80,10 @@ describe Admin::AreasController do
     end
 
     context "when it doesn't work" do
-      before{ Area.any_instance.stub(update_attributes: false) }
+      before{ allow_any_instance_of(Area).to receive(:update_attributes) }
 
       it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
+        expect(controller).not_to receive(:purge_all_pages)
         patch :update, params
       end
 
@@ -126,7 +126,7 @@ describe Admin::AreasController do
       end
 
       it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
+        expect(controller).to receive(:purge_all_pages)
         post :create, params
       end
 
@@ -162,14 +162,14 @@ describe Admin::AreasController do
 
     context "that doesn't work" do
       let(:params){ {area: {name: 'something'}}  }
-      before{ Area.any_instance.stub(save: false)}
+      before{ allow_any_instance_of(Area).to receive(:save) }
 
       it "does not create an Area" do
         expect{ post :create, params }.to_not change(Area, :count)
       end
 
       it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
+        expect(controller).not_to receive(:purge_all_pages)
         post :create, params
       end
 
@@ -207,7 +207,7 @@ describe Admin::AreasController do
     let(:area){ Area.create(name: '22 Acacia Avenue') }
 
     it "finds the right area" do
-      Area.should_receive(:find).with(area.id.to_s).and_return(area)
+      expect(Area).to receive(:find).with(area.id.to_s).and_return(area)
       get :edit, id: area.id
     end
 
@@ -252,7 +252,7 @@ describe Admin::AreasController do
     let(:area){ Area.create(name: 'Somewhere') }
 
     it "finds the right area" do
-      Area.should_receive(:find).with(area.id.to_s).and_return(area)
+      expect(Area).to receive(:find).with(area.id.to_s).and_return(area)
       get :show, id: area.id
     end
 
@@ -288,10 +288,9 @@ describe Admin::AreasController do
 
   it "purges the cache when a area is destroyed" do
     at = Area.create!(name: 'somewhere')
+    expect(controller).to receive(:purge_all_pages)
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
-      response.should redirect_to(admin_areas_path)
     }.to change { Area.count }.by(-1)
   end
 
