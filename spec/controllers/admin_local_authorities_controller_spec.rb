@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Admin::LocalAuthoritiesController do
-	
+
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
@@ -47,16 +47,16 @@ describe Admin::LocalAuthoritiesController do
 
 	describe "#create" do
 		context "with valid params" do
-			let(:params){ 
+			let(:params){
 				{
-					local_authority: { name: 'Authority name' }
+          local_authority: { name: 'Authority name', gss_code: 'W06000012' }
 				}
 			}
 
 	  	it "creates a new LocalAuthority" do
 	  		expect{ post(:create, params) }.to change(LocalAuthority, :count).by(1)
 			end
-	  
+
 	  	it "purges all pages" do
 	  		controller.should_receive(:purge_all_pages)
 	  		post :create, params
@@ -69,7 +69,7 @@ describe Admin::LocalAuthoritiesController do
 		end
 
 		context "with invalid params" do
-			let(:params){ 
+			let(:params){
 				{
 					local_authority: { name: '' }
 				}
@@ -78,7 +78,7 @@ describe Admin::LocalAuthoritiesController do
 	  	it "does not create a new LocalAuthority" do
 	  		expect{ post(:create, params) }.to_not change(LocalAuthority, :count)
 			end
-	  
+
 	  	it "does not purge all pages" do
 	  		controller.should_not_receive(:purge_all_pages)
 	  		post :create, params
@@ -90,7 +90,7 @@ describe Admin::LocalAuthoritiesController do
 	  	end
 		end
   end
-  
+
   describe "#update" do
   	let(:mock_authority){ double('local authority', update_attributes: success) }
   	before{
@@ -98,7 +98,7 @@ describe Admin::LocalAuthoritiesController do
   	}
 		context "with valid params" do
 			let(:success){ true }
-			let(:params){ 
+			let(:params){
 				{
           id: 123,
 					local_authority: {  name: 'Authority name' }
@@ -109,7 +109,7 @@ describe Admin::LocalAuthoritiesController do
 	  		mock_authority.should_receive(:update_attributes).and_return(true)
 	  		patch(:update, params)
 			end
-	  
+
 	  	it "purges all pages" do
 	  		controller.should_receive(:purge_all_pages)
 	  		patch :update, params
@@ -123,7 +123,7 @@ describe Admin::LocalAuthoritiesController do
 
 		context "with invalid params" do
 			let(:success){ false }
-			let(:params){ 
+			let(:params){
 				{
           id: 123,
 					local_authority: { name: '' }
@@ -133,7 +133,7 @@ describe Admin::LocalAuthoritiesController do
 	  	it "does not update a new LocalAuthority" do
 	  		expect{ post(:update, params) }.to_not change(LocalAuthority, :count)
 			end
-	  
+
 	  	it "does not purge all pages" do
 	  		controller.should_not_receive(:purge_all_pages)
 	  		patch :update, params
@@ -175,7 +175,7 @@ describe Admin::LocalAuthoritiesController do
   	let(:mock_authority){ double('local authority', destroy: success) }
   	let(:success){ true }
   	let(:params){ {id: 123} }
-  	
+
   	before{
   		LocalAuthority.stub(:find).and_return( mock_authority )
   	}
@@ -210,6 +210,6 @@ describe Admin::LocalAuthoritiesController do
 				expect(response).to redirect_to(admin_local_authorities_path)
 	  	end
 		end
-  
+
   end
 end
