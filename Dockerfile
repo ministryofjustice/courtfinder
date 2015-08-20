@@ -1,22 +1,12 @@
-FROM ministryofjustice/ruby:2
+FROM ministryofjustice/ruby:2-webapp-onbuild
 
-RUN apt-get update && apt-get install -y qt4-dev-tools libqt4-dev libqt4-core libqt4-gui
-
-RUN mkdir -p /usr/src/app
-RUN bundle config --global
-
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
-
-WORKDIR /usr/src/app
-RUN bundle install
-
-COPY . /usr/src/app
+RUN apt-get update && apt-get install -y qt4-dev-tools libqt4-dev libqt4-core libqt4-gui nodejs
 
 RUN touch /etc/inittab
 
-RUN mkdir -p /etc/service/courtfinder
-COPY ./docker/runit/runit-service /etc/service/courtfinder/run
-RUN chmod +x /etc/service/courtfinder/run
+ENV UNICORN_PORT 3000
+EXPOSE $UNICORN_PORT
 
-CMD ["/usr/bin/runsvdir", "-P", "/etc/service"]
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+CMD /run.sh
