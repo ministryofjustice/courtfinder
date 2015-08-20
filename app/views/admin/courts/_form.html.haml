@@ -53,7 +53,7 @@
         = f.input :slug, :wrapper_html => { :class => 'admin-only'}, :hint => '(Admin only) A unique identifier which forms part of the URL. Leave blank for it to auto-generate.' if current_user.admin
         = f.input :court_number
         = f.input :cci_code
-        = f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>'
+        = f.association :area, :hint => raw('Used on <a href="/regions" rel="help">Browse regions</a>')
       #court-types
         %h2 Court types
         = f.association :court_types, :collection => CourtType.all, :as => :check_boxes, :label => false

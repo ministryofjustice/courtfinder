@@ -9,8 +9,9 @@
 #
 
 class LocalAuthority < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :gss_code
   validates :name, presence: true, uniqueness: true
+  validates :gss_code, presence: true, uniqueness: true
 
   has_many :jurisdictions
   has_many :remits, through: :jurisdictions

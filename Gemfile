@@ -9,6 +9,7 @@ gem 'pry'
 gem 'pry-nav'
 gem 'awesome_print'
 
+
 group :development, :test do
   gem 'faker'
   gem 'rspec-rails', '~>3.1.0'
