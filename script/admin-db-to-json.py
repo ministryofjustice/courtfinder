@@ -183,7 +183,7 @@ class Data:
         aols = []
         for aol_name, spoe in aol_list:
             cur = self.conn.cursor()
-            sql = """SELECT la.name
+            sql = """SELECT la.name, la.gss_code
                        FROM remits as r,
                             jurisdictions as j,
                             areas_of_law as aol,
@@ -197,7 +197,7 @@ class Data:
                         AND aol.name = '%s'
                       ORDER BY la.name""" % (slug, aol_name)
             cur.execute(sql)
-            local_authorities = [la[0] for la in cur.fetchall()]
+            local_authorities = [ {'name': la[0], 'gss_code':la[1]} for la in cur.fetchall()]
 
             entry = {
                 "name": aol_name,

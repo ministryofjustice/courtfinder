@@ -28,20 +28,6 @@ feature 'update court with unrecognised postcode' do
     expect(page).to have_content('Court was successfully updated.')
   end
 
-  pending scenario 'be prevented from changing an old postcode to a new one that MapIt can\'t geocode' do
-    # MapIt doesn't recognise the new postcode
-    stub_request(:get, 'http://mapit.mysociety.org/postcode/SW1A+2AB').
-      to_return status: 404, body: '{"code": 404, "error": "No Postcode matches the given query."}'
-
-    click_on 'Addresses'
-    fill_in 'Postcode', with: 'SW1A 2AB'
-    click_on 'Update'
-
-    expect(page).to have_content('errors prohibited this court from being saved')
-    expect(page).to have_content('Latitude can\'t be blank')
-    expect(page).to have_content('Longitude can\'t be blank')
-  end
-
   scenario 'change an old postcode to a new one that MapIt can geocode' do
     # MapIt recognises the new postcode
     stub_request(:get, 'http://mapit.mysociety.org/postcode/SW1A+2AB').

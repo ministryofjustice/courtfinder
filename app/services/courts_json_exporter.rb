@@ -70,9 +70,8 @@ class CourtsJsonExporter
       remit = Remit.find_by(court_id: court.id, area_of_law_id: area_of_law.id)
       area_of_law_hash['single_point_of_entry'] = remit.single_point_of_entry if remit && remit.single_point_of_entry.present?
 
-      local_authorities = court.area_local_authorities_list(area_of_law)
-      local_authorities = [] if local_authorities.blank?
-      area_of_law_hash['local_authorities'] = [local_authorities].flatten.sort
+      area_of_law_hash['local_authorities'] =
+        [court.area_local_authorities(area_of_law).map{ |la| { name: la.name, gss_code: la.gss_code } }].flatten
 
       collection << area_of_law_hash
     end
