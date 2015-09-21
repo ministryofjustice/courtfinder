@@ -23,7 +23,8 @@ test:
 
 production:
   adapter: postgresql
+  username: courtfinder
   database: courtfinder_production
-  host: localhost
+  host: <%= ENV['DB_HOST'] || 'database' %>
   pool: 5
   timeout: 5000
