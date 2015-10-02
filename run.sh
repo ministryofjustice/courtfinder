@@ -23,4 +23,5 @@ create)
     bundle exec rake db:seed
     ;;
 esac
+bundle exec rake import:all
 bundle exec rails s
