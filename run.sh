@@ -24,4 +24,4 @@ create)
     ;;
 esac
 bundle exec rake import:all
-bundle exec rails s
+bundle exec rails s -b 0.0.0.0
