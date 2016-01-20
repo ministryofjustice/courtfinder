@@ -12,4 +12,13 @@ EXPOSE $UNICORN_PORT
 
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
+
+## Django setup
+ENV DJANGO_SETTINGS_MODULE courtfinder.settings.production
+## Rails setup
+ENV RAILS_ENV production
+# Precompile assets in here to setup digest
+RUN RAILS_ENV=production bundle exec rake assets:clean assets:precompile
+
 CMD /run.sh
+
