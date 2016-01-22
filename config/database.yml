@@ -26,8 +26,8 @@ test:
 
 production:
   adapter: postgresql
-  username: courtfinder
-  database: courtfinder_search
+  username: <%= ENV['DB_USERNAME'] || 'courtfinder' %>
+  database: <%= ENV['DB_NAME'] || 'courtfinder_admin' %>
   host: <%= ENV['DB_HOST'] || 'database' %>
   pool: 5
   timeout: 5000
