@@ -1,6 +1,5 @@
 import psycopg2
 import json
-from django.core.serializers.json import DjangoJSONEncoder
 from optparse import OptionParser
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -253,7 +252,7 @@ class Data:
         return addresses
 
     def write_to_json(self, filename, data):
-        js = json.dumps(data, indent=4, separators=(',', ': '), cls=DjangoJSONEncoder)
+        js = json.dumps(data, indent=4, separators=(',', ': ')) #, cls=DjangoJSONEncoder)
         if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
             with open('%s/%s.json' % (self.output_dir, filename), 'w') as f:
                 f.write(js)
