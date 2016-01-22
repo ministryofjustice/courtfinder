@@ -4,6 +4,7 @@ FROM ministryofjustice/ruby:2-webapp-onbuild
 # yes, we need python dependencies on the rails app, because
 # the db export script is written in python. 
 RUN apt-get update && apt-get install -y python-setuptools python-pip python-dev 
+RUN pip install -r /usr/src/app/script/requirements.txt
 
 RUN touch /etc/inittab
 
