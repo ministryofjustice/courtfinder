@@ -1,8 +1,15 @@
 import psycopg2
 import json
 from optparse import OptionParser
-from boto.s3.connection import S3Connection
-from boto.s3.key import Key
+import boto3
+from django.core.serializers.json import DjangoJSONEncoder
+import logging
+
+# Set up the logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(message)s')
+logger = logging.getLogger("admin-db-to-js")
+logging.getLogger("requests").setLevel(logging.WARNING)
 
 
 class Data:
@@ -19,17 +26,27 @@ class Data:
                      "parking_blue_badge_none": "Blue badge parking is not available at this venue."}
 
 
-    def __init__(self, host, user, password, database, output_dir, access, secret, bucket):
+    def __init__(self, host, user, password, database, output_dir, bucket):
         self.conn = psycopg2.connect("dbname='%s' user='%s' host='%s' password='%s'" % (
             database,
             user,
             host,
             password)
         )
-        if output_dir is None and access is not None and secret is not None:
-            conn = S3Connection(access, secret)
-            self.bucket = conn.get_bucket(bucket)
-        else:
+        if bucket is not None:
+            logger.info("Data::__init__: "
+                        "Found S3 bucket for output %s"
+                        % (bucket))
+            # Raises boto.exception.S3ResponseError if
+            # bucket not found  
+            logger.info("Data::__init__: "
+                        "Found S3 bucket %s..."
+                        % (bucket))
+            self.s3_bucket = bucket
+        elif output_dir is not None:
+            logger.info("Data::__init__: "
+                        "Using local directory %s for storage"
+                        % (output_dir))
             self.output_dir = output_dir
 
     def courts(self):
@@ -244,7 +261,7 @@ class Data:
         cur.execute(sql)
         addresses = [{
             "type": row[2],
-            "address" : "\n".join([row[3], row[4], row[5], row[6]]),
+            "address" : "\n".join([x for x in [row[3], row[4], row[5], row[6]] if x is not None]),
             "postcode": row[7],
             "town": row[0],
             "county": row[1],
@@ -252,18 +269,25 @@ class Data:
         return addresses
 
     def write_to_json(self, filename, data):
-        js = json.dumps(data, indent=4, separators=(',', ': ')) #, cls=DjangoJSONEncoder)
+        js = json.dumps(data, indent=4, separators=(',', ': '), cls=DjangoJSONEncoder)
         if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
             with open('%s/%s.json' % (self.output_dir, filename), 'w') as f:
+                logger.info("Data::write_to_json: "
+                    "Writing data to output file...")
                 f.write(js)
         else:
+            logger.info("Data::write_to_json: "
+                        "Writing data to S3 bucket...")
             self.s3_upload('%s.json' % filename, js)
 
     def s3_upload(self, filename, data):
-        k = Key(self.bucket)
-        k.key = "%s" % filename
-        k.set_contents_from_string(data)
-        print "Upload to S3:", k.key
+        client = boto3.client('s3')
+        response = client.put_object(
+            Body=data,
+            Bucket=self.s3_bucket,
+            Key=filename
+        )
+
 
 def main():
     parser = OptionParser()
@@ -277,15 +301,11 @@ def main():
                       help='Set Postgres database name')
     parser.add_option('-o', '--output', dest='output', default=None,
                       help='Output directory path')
-    parser.add_option('-a', '--access', dest='access', default=None,
-                      help='AWS Access key')
-    parser.add_option('-s', '--secret', dest='secret', default=None,
-                      help='AWS Secret key')
     parser.add_option('-b', '--bucket', dest='bucket', default=None,
                       help='AWS Bucket name')
     (options, args) = parser.parse_args()
     obj = Data(options.host, options.user, options.password, options.database, options.output,
-               options.access, options.secret, options.bucket)
+               options.bucket)
     obj.courts()
 
 if __name__ == '__main__':
