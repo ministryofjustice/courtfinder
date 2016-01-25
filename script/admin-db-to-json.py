@@ -42,7 +42,7 @@ class Data:
             logger.info("Data::__init__: "
                         "Found S3 bucket %s..."
                         % (bucket))
-            self.s3_bucket = bucket
+            self.s3_bucket = bucket.split('.')[0]
         elif output_dir is not None:
             logger.info("Data::__init__: "
                         "Using local directory %s for storage"
