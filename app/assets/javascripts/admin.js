@@ -10,6 +10,15 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+// This 'moj' comes from moj_frontend_toolkit_gem, which is deprecated
+// but lots of the app-specific code is dependent on it
+// 
+//= require moj
+//= require modules/moj.cookie-message
+//= require modules/moj.tabs
+//= require search
+//= require main
+
 //= require ckeditor-jquery
 //= require admin/courts
 //= require jquery.tagsinput.min.js
