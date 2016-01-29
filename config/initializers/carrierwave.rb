@@ -14,7 +14,7 @@ require 'carrierwave/orm/activerecord'
 
 CarrierWave.configure do |config|
   config.storage    = :aws
-  config.aws_bucket = ENV['APP_S3_BUCKET']
+  config.aws_bucket = ENV['S3_BUCKET']
   config.aws_acl    = :public_read
 # Can't see where this is defined for fog - does fog work it out from the bucket name?
 #  config.asset_host = 'http://example.com'
