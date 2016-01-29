@@ -526,6 +526,3 @@ DEPENDENCIES
   verbs
   webmock (= 1.15.2)
   will_paginate
-
-BUNDLED WITH
-   1.10.3
