@@ -3,27 +3,34 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
-development:
+default: &DEFAULT
   adapter: postgresql
-  database: courtfinder_development
-  host: localhost
+  database: <%= ENV['DB_NAME'] || 'courtfinder_development' %>
+  host: <%= ENV['DB_HOST'] || 'localhost' %>
+  port: <%= ENV['DB_PORT'] || '5432' %>
+  username: <%= ENV['DB_USERNAME']  || 'courtfinder' %>
+  password: <%= ENV['DB_PASSWORD'] %>
+
+development:
+  <<: *DEFAULT
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
+  <<: *DEFAULT
   adapter: postgresql
-  database: courtfinder_test
-  host: localhost
-  pool: 50
+  database: <%= ENV['DB_NAME'] || 'courtfinder_test' %>
+  pool: 5
   <% if ENV['SHIPPABLE'] %>
   username: courtfinder_test
   password: 123456
   <% end %>
 
 production:
+  <<: *DEFAULT
   adapter: postgresql
-  database: courtfinder_production
-  host: localhost
+  database: <%= ENV['DB_NAME'] || 'courtfinder_admin' %>
+  host: <%= ENV['DB_HOST'] || 'database' %>
   pool: 5
   timeout: 5000
