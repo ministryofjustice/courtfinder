@@ -27,8 +27,11 @@ class Data:
             host,
             password)
         )
-        if output_dir is None and access is not None and secret is not None:
-            conn = S3Connection(access, secret)
+        if output_dir is None:
+            if access is None and secret is None:
+                conn = S3Connection()
+            else:
+                conn = S3Connection(access, secret)
             self.bucket = conn.get_bucket(bucket)
         else:
             self.output_dir = output_dir
