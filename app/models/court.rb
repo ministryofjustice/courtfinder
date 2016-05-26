@@ -132,7 +132,7 @@ class Court < ActiveRecord::Base
 
   def fetch_image_file
     if image.present?
-      self.image_file.download!("https://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{self.image.to_s}")
+      self.image_file.download!("https://courtfinder-servicegovuk-production.s3.amazonaws.com/images/#{self.slug.underscore}.jpg")
       self.image_file.store!
     end
   end
