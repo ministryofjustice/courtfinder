@@ -1,5 +1,7 @@
 Courtfinder::Application.routes.draw do
 
+  get 'admin/ping' => 'ping#index'
+
   # Public court pages
   # TODO: This needs tidying
   scope 'courts', :controller => :courts do
