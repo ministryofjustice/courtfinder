@@ -8,6 +8,9 @@
 Until further notice we are treating the *old_prod_working* branch as the default
 branch. Ensure all changes are made on this branch.
 
+For further information and deployment instruction please refer to the [ops 
+manual](https://opsmanual.dsd.io/run_books/courtfinder.html#non-master-branch-approach-use-this-until-further-notice)
+
 ## Set-up
 
 ### ImageMagick
