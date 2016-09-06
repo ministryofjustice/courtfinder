@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 #source 'http://gems.dsd.io/' unless ENV['TRAVIS'] || ENV['HEROKU']
 
-gem 'rails', '~> 4.2.0.beta2'
+gem 'rails', '4.2.7.1'
 gem 'pg'
 
 gem 'byebug'
