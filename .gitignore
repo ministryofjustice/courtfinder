@@ -33,6 +33,7 @@ public/assets
 .AppleDouble
 .LSOverride
 Icon
+.idea
 
 public/uploads
 # Ignore application configuration
