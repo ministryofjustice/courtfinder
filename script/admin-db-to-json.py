@@ -4,9 +4,15 @@ from django.core.serializers.json import DjangoJSONEncoder
 from optparse import OptionParser
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from boto.exception import S3ResponseError
+import logging
+import sys
 
 
 class Data:
+
+    # The logger for this object
+    logger = None
 
     # these descriptions are found in the admin app's locale files, not in the database
     parking_types = {"parking_onsite_free": "Free on site parking is available at this venue.",
@@ -21,22 +27,39 @@ class Data:
 
 
     def __init__(self, host, user, password, database, output_dir, access, secret, bucket):
-        self.conn = psycopg2.connect("dbname='%s' user='%s' host='%s' password='%s'" % (
-            database,
-            user,
-            host,
-            password)
-        )
+        self.setup_logging()
+        self.logger.info("__init__: Setting up database and AWS connections...")
+        # Try to connect to database
+        try:
+            self.conn = psycopg2.connect("dbname='%s' user='%s' host='%s' password='%s'" % (
+                database,
+                user,
+                host,
+                password)
+            )
+        except psycopg2.OperationalError as e:
+            self.logger.critical("__init__: There was a problem connecting "
+                                 "to the database {}, '{}'"
+                                 .format(database, e.message))
+            raise e
+
         if output_dir is None:
             if access is None and secret is None:
                 conn = S3Connection()
             else:
                 conn = S3Connection(access, secret)
-            self.bucket = conn.get_bucket(bucket)
+            try:
+                self.bucket = conn.get_bucket(bucket)
+            except S3ResponseError as e:
+                self.logger.critical("__init__: Could not open bucket {}, '{}'"
+                                     .format(bucket, e.message))
+                raise e
+                
         else:
             self.output_dir = output_dir
 
     def courts(self):
+        self.logger.info("courts: Creating list of courts...")
         all_courts = []
         cur = self.conn.cursor()
         cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at FROM courts")
@@ -44,7 +67,10 @@ class Data:
         for row in rows:
             admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at = row
             if name == None or slug == None:
-                print "- %s\n\tslug: %s, lat: %s, lon: %s" % (name, slug, lat, lon)
+                message = ("- %s\n\tslug: %s, lat: %s, lon: %s" 
+                           % (name, slug, lat, lon))
+                self.logger.warning("courts: name or slug is empty, '{}'"
+                                     .format(message)) 
                 continue
             aols = self.areas_of_law_for_court(slug)
             addresses = self.addresses_for_court(slug)
@@ -96,7 +122,9 @@ class Data:
             if updated_at not in (None, ""):
                 court_object['updated_at'] = updated_at
             all_courts.append(court_object)
-            print "+ %s" % name
+            message = ("+ %s" % name)
+            self.logger.debug("courts: Added court, '{}'"
+                             .format(message))
         self.write_to_json( 'courts', all_courts )
 
     def contacts_for_court(self, slug):
@@ -260,14 +288,44 @@ class Data:
         if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
             with open('%s/%s.json' % (self.output_dir, filename), 'w') as f:
                 f.write(js)
+                self.logger.info("write_to_json: writing courts to file, '{}'"
+                                 .format(filename))
         else:
             self.s3_upload('%s.json' % filename, js)
+            self.logger.info("write_to_json: Uploading courts file '{}' to s3..."
+                             .format(filename))
 
     def s3_upload(self, filename, data):
         k = Key(self.bucket)
         k.key = "%s" % filename
         k.set_contents_from_string(data)
-        print "Upload to S3:", k.key
+        self.logger.debug("s3_upload: Uploading data to s3 file '{}', key '{}', ..."
+                             .format(filename, k.key))
+
+    
+    def setup_logging(self,
+                      log_level='INFO',
+                      log_format='json',
+                      log_file=None):
+        """
+        Setup the logging
+        """
+        if log_format == 'json':
+            logging_format_str = '{"timestamp": "%(asctime)s","name": "%(name)s", "level": "%(levelname)s", "level_no": %(levelno)i, "message": "%(message)s"}'
+        else:
+            logging_format_str = '%(asctime)s %(name)s: %(levelname)s: %(message)s'
+
+        logging.basicConfig(
+            format=logging_format_str,
+            filename=log_file,
+            level=log_level)
+        # Set up the logging
+        logging.basicConfig(format=logging_format_str,
+                            level=logging.getLevelName(log_level))
+        self.logger = logging.getLogger("courtfinder::admin-db-to-json:")
+        logging.getLogger("requests").setLevel(logging.WARNING)
+        logging.getLogger('boto').setLevel(logging.CRITICAL)
+
 
 def main():
     parser = OptionParser()
@@ -287,7 +345,17 @@ def main():
                       help='AWS Secret key')
     parser.add_option('-b', '--bucket', dest='bucket', default=None,
                       help='AWS Bucket name')
-    (options, args) = parser.parse_args()
+    try:
+        (options, args) = parser.parse_args()
+    except SystemExit:
+        logging_format_str = '{"timestamp": "%(asctime)s","name": "%(name)s", "level": "%(levelname)s", "level_no": %(levelno)i, "message": "%(message)s"}'
+        log_level = 'INFO'
+        logging.basicConfig(format=logging_format_str,
+                            level=logging.getLevelName(log_level))
+        logger = logging.getLogger("courtfinder::admin-db-to-json:")
+        logger.critical("There was an argparse error running the command, exiting...")
+        sys.exit(1)
+    
     obj = Data(options.host, options.user, options.password, options.database, options.output,
                options.access, options.secret, options.bucket)
     obj.courts()
