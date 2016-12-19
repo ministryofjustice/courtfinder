@@ -7,4 +7,4 @@
 
   = f.text_field :postcode_list, class: 'postcode js-tags'
   = f.submit 'Save', class: 'button right'
-
+  = link_to 'Move', edit_admin_postcode_path(court.id), :class => 'button'

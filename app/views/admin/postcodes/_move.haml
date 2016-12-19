@@ -1,0 +1,26 @@
+= content_for :title, 'Manage all courts and tribunals'
+
+%p Move Postcodes from #{@court.name}
+
+= render 'admin/courts/court_nav'
+
+%div{:id => 'move_postcodes'}
+  = form_for @court, {url: admin_postcode_path, :method => 'put'} do |f|
+    = f.hidden_field :court_id, value: @court.id
+    %div{:id => 'postcode_selection'}
+      = label_tag 'list', 'Select Postcodes to Move'
+      %div
+        %button.button#selectAll Select all
+        %button.button#deSelectAll De-select all
+      %ul#postcodes{:name => 'list',  :aria_labelledby => 'list'}
+        = f.collection_check_boxes :postcode_courts, @court.postcode_courts, :id, :postcode do |b|
+          %li
+            = b.label
+            = b.check_box
+
+      / = f.submit 'Move'
+
+    %div{:id => 'court_selection'}
+      = label_tag 'move_to_court', 'Destination court'
+      = collection_select :move_to, :court , @courts, :id, :name
+      = f.submit 'Move', {:class => 'button', :id => 'move'}
