@@ -10,6 +10,11 @@
 			width:100%;
 		}
 	}
+	ul.tabs-nav.clearfix > li > a.active
+    {
+        color: green;
+        background-color:#8fbc8f;
+    }
 }
 
 #postcodes{
