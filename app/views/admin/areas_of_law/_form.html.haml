@@ -5,6 +5,8 @@
     = f.input :slug
     = f.input :old_id
     = f.association :group
+    = f.input :external_link, label: 'GOV.UK link'
+    = f.input :external_link_desc, label: 'Tooltip' 
 
   .form-actions
     = f.button :submit

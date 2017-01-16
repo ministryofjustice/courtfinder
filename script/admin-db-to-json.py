@@ -204,15 +204,15 @@ class Data:
     def areas_of_law_for_court(self, slug):
         # areas of law for court
         cur = self.conn.cursor()
-        sql = """SELECT a.name, r.single_point_of_entry
+        sql = """SELECT a.name, r.single_point_of_entry, a.external_link, a.external_link_desc
                    FROM courts as c, areas_of_law as a, remits as r
                   WHERE r.court_id = c.id
                     AND r.area_of_law_id = a.id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
-        aol_list = [(a[0], a[1]) for a in cur.fetchall()]
+        aol_list = [(a[0], a[1], a[2], a[3]) for a in cur.fetchall()]
         aols = []
-        for aol_name, spoe in aol_list:
+        for aol_name, spoe, aol_external_link, aol_external_link_desc in aol_list:
             cur = self.conn.cursor()
             sql = """SELECT la.name
                        FROM remits as r,
@@ -232,7 +232,10 @@ class Data:
 
             entry = {
                 "name": aol_name,
-                "local_authorities": local_authorities
+                "local_authorities": local_authorities,
+                "external_link": aol_external_link,
+                "external_link_desc": aol_external_link_desc
+
             }
 
             if spoe:
