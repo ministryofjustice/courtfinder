@@ -9,7 +9,7 @@ default: &DEFAULT
   host: <%= ENV['DB_HOST'] || 'localhost' %>
   port: <%= ENV['DB_PORT'] || '5432' %>
   username: <%= ENV['DB_USERNAME']  || 'courtfinder' %>
-  password: <%= 'courtfinder' %>
+  password: <%= ENV['DB_PASSWORD'] %>
 
 development:
   <<: *DEFAULT
