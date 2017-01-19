@@ -99,7 +99,7 @@ class Admin::CourtsController < Admin::ApplicationController
   end
 
   def areas_of_law
-    @courts = Court.by_name.paginate(page: params[:page], per_page: 30)
+    @courts = Court.includes(:remits).by_name
     @areas_of_law = AreaOfLaw.all
   end
 

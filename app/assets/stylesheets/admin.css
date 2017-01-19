@@ -12,4 +12,5 @@
  *= require admin/forms
  *= require admin/pagination
  *= require admin/layout
+ *= require admin/datatables.min
  */

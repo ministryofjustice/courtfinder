@@ -242,19 +242,17 @@ describe Admin::CourtsController do
   end
 
   describe "#areas_of_law" do
-    let(:mock_courts_by_name){ double('courts by name', paginate: 'paginated courts by name') }
     before{ 
-      Court.stub(:by_name).and_return(mock_courts_by_name)
+      Court.stub(:by_name).and_return('courts by name')
       AreaOfLaw.stub(:all).and_return('all areas of law')
     }
     it "gets one page of courts by name" do
-      mock_courts_by_name.should_receive(:paginate).with(page: '1', per_page: 30).and_return 'paginated courts by name'
-      get :areas_of_law, page: 1
+      get :areas_of_law
     end
 
     it "assigns the paginated courts by name to @courts" do
       get :areas_of_law
-      expect(assigns[:courts]).to eq('paginated courts by name')
+      expect(assigns[:courts]).to eq('courts by name')
     end
 
     it "gets all areas of law" do

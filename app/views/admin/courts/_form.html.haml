@@ -1,4 +1,4 @@
-= simple_form_for([:admin, @court], :html => {:multipart => true}) do |f|
+= simple_form_for([:admin, @court], :html => {:multipart => true}, defaults: {placeholder: false, hint: false}) do |f|
   - if @court.errors.any?
     #error_explanation
       %h2

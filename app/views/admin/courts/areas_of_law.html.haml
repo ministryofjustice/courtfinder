@@ -6,16 +6,19 @@
 
 = render 'court_nav'
 
+%ul.tabs-nav.clearfix
+  =a_to_z initial_list(@courts)
 %div
-  %div
+  %div.fixed
     %h2 By area of law
-    %table.allcourts
-      %tr
-        %th No.
-        %th Name
-        - @areas_of_law.each do |area_of_law|
-          %th= area_of_law.name
-        %th &nbsp;
+    %table.areaOfLaw
+      %thead
+        %tr
+          %th No.
+          %th Name
+          - @areas_of_law.each do |area_of_law|
+            %th= area_of_law.name
+          %th &nbsp;
       - @courts.each do |court|
         %tr
           = form_for([:admin, court], remote: true) do
@@ -23,12 +26,7 @@
             %td= court.name
             - @areas_of_law.each do |area_of_law|
               %td.c
-                = check_box_tag 'court[area_of_law_ids][]', area_of_law.id, (court.areas_of_law.include? area_of_law), id: ['court_area_of_law_ids_', area_of_law.id].join
+                = check_box_tag 'court[area_of_law_ids][]', area_of_law.id, (court.remits.select {|remit| remit.area_of_law_id ==area_of_law.id}.size > 0 ? true : false), id: ['court_area_of_law_ids_', area_of_law.id].join
             %td
               = hidden_field_tag 'court[area_of_law_ids][]', ''
               %input.button{:type => "Submit", :value => "Save"}
-
-.pagination-row.cf
-  .page-entries
-    = page_entries_info @courts
-  = will_paginate @courts

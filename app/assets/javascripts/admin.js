@@ -12,6 +12,9 @@
 //
 //= require ckeditor-jquery
 //= require admin/courts
-//= require jquery.tagsinput.min.js
+//= require jquery.tagsinput.js
 //= require admin/moj.postcodes
 //= require admin/moj.local_authorities
+//= require admin/datatables.min
+//= require admin/fixedheader
+//= require admin/move_postcodes

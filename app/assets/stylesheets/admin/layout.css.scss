@@ -10,8 +10,74 @@
 			width:100%;
 		}
 	}
+	ul.tabs-nav.clearfix > li > a.active
+    {
+        color: green;
+        background-color:#8fbc8f;
+    }
 }
 
-header.page-header {
-  padding-bottom:0;
+.tagsinput span.tag {
+    text-transform: uppercase;
+}
+
+#postcodes{
+	width: 30%;
+}
+
+#postcodes>div{
+	margin-bottom: .5em;
+}
+
+#postcodes>table th{
+	width: 10%;
+	text-align: center;
+	:first-child{
+		float: left;
+	}
+	:nth-child(2){
+		float: right;
+	}
+}
+
+ul:before{
+	content:attr(aria-label);
+	font-size:120%;
+	font-weight:bold;
+	margin-left:-15px;
+}
+
+div #move_postcodes>form {
+	width: 100%;
+	#postcode_selection {
+		display: inline-block;
+		width: 40%;
+		ul{
+			height: 20em;
+			width: 40%;
+			overflow: scroll;
+			overflow-x: hidden;
+			li{
+				list-style: none;
+			}
+		}
+	}
+	#court_selection{
+		width: 60%;
+		float: right;
+		select{
+			width: 90%;
+			display: inline-block;
+		}
+		label{
+			display: block;
+		}
+	}
+	#move{
+		display: inline-block;
+	}
+}
+
+select::-ms-expand {
+    display: none;
 }

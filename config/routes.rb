@@ -45,6 +45,7 @@ Courtfinder::Application.routes.draw do
     resources :counties
     resources :countries
     resources :address_types, path: '/address-types'
+    resources :postcodes, only: [:edit, :update] 
 
     resources :courts do
       collection do
@@ -55,6 +56,8 @@ Courtfinder::Application.routes.draw do
         get :audit
       end
     end
+
+    #resources :postcodes, only: [:edit, :update] 
 
     resources :local_authorities do
       collection do
