@@ -24,7 +24,6 @@ class Admin::PostcodesController < Admin::ApplicationController
     flash.now[:move_info] = '%s postcode(s) moved successfully.' % postcodes.count.to_s
     flash.now[:move_info] = 'No postcodes selected.' unless not postcodes.empty?
     render_edit
-    return
   end
 
 private
