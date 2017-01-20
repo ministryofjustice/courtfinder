@@ -12,7 +12,6 @@ $(document).ready(function(){
         });
     $('ul.tabs-nav.clearfix > li > a').click( function() {
         var letter = $(this).text();
-        console.log(letter);
         if ( _alphabetSearch === letter)
         {
             _alphabetSearch = '';
