@@ -31,4 +31,20 @@ feature 'manage courts postcodes' do
     expect(court2.reload.postcode_courts).to include(postcode_court1, postcode_court2)
     expect(court1.reload.postcode_courts).to eq([])
   end
+
+  scenario 'Adding postcodes to court', js: true  do
+    click_link "Civil courts"
+
+    field = find(:xpath,".//form[@id='edit_court_#{court1.id}']//input[@data-default='Add Postcode']")
+    field.trigger('click')
+    field.set('N103QS')
+    page.find(:xpath, ".//div[@id='court_postcode_list_tagsinput']").click
+
+    within(:xpath,".//form[@id='edit_court_#{court1.id}']") do
+      click_button("Save")
+    end
+    expect(page).to have_text('Court was successfully updated.')
+    expect(court1.reload.postcode_courts.count).to eql(2)
+    expect(court1.postcode_courts.last.postcode).to eql('N103QS')
+  end
 end
