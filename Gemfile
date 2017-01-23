@@ -84,6 +84,7 @@ gem 'paper_trail', '~> 3.0'
 gem 'figaro'
 gem 'google_drive'
 gem 'verbs'
+gem 'sentry-raven'
 
 #Anotate tables
 gem 'annotate'

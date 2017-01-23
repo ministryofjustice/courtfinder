@@ -373,6 +373,8 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    sentry-raven (2.3.0)
+      faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
     signet (0.6.0)
@@ -493,6 +495,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 4.0.5)
   selenium-webdriver
+  sentry-raven
   shoulda-matchers (~> 2.7.0)
   simple_form (~> 3.1.0)
   simplecov
