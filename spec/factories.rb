@@ -68,4 +68,8 @@ FactoryGirl.define do
   factory :external_link do
     always_visible true
   end
+
+  trait :civil do
+    areas_of_law {[create(:area_of_law, name: AreaOfLaw::Name::MONEY_CLAIMS)]}
+  end
 end
