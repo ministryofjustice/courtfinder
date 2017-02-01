@@ -1,3 +1,4 @@
+require 'cgi'
 # == Schema Information
 #
 # Table name: areas_of_law
@@ -18,6 +19,8 @@
 #  type_divorce      :boolean          default(FALSE)
 #  type_adoption     :boolean          default(FALSE)
 #  group_id          :integer
+#  external_link     :string           limit: 2048
+#  external_link_desc :string           limit: 255
 #
 
 class AreaOfLaw < ActiveRecord::Base
@@ -46,7 +49,8 @@ class AreaOfLaw < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children, :type_adoption, :type_divorce, :group_id
+  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children, 
+    :type_adoption, :type_divorce, :group_id, :external_link, :external_link_desc
   has_many :remits
   has_many :courts, through: :remits
   belongs_to :group, class_name: 'AreaOfLawGroup'
@@ -74,6 +78,16 @@ class AreaOfLaw < ActiveRecord::Base
 
   def empty?
     courts.count.zero?
+  end
+
+  def external_link
+    link = super()
+    CGI.unescape(link) if !link.nil?
+  end
+
+  def external_link=(link)
+    link = CGI.escape(link) if !link.nil?
+    super(link)
   end
 
 end

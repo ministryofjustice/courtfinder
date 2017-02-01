@@ -62,10 +62,10 @@ class Data:
         self.logger.info("courts: Creating list of courts...")
         all_courts = []
         cur = self.conn.cursor()
-        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at FROM courts")
+        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info FROM courts")
         rows = cur.fetchall()
         for row in rows:
-            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at = row
+            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info = row
             if name == None or slug == None:
                 message = ("- %s\n\tslug: %s, lat: %s, lon: %s" 
                            % (name, slug, lat, lon))
@@ -100,6 +100,7 @@ class Data:
                 "emails": emails,
                 "facilities": facilities,
                 "postcodes": postcodes,
+                "info": info,
             }
             if lat is not None:
                 court_object['lat'] = str(lat)
@@ -204,15 +205,15 @@ class Data:
     def areas_of_law_for_court(self, slug):
         # areas of law for court
         cur = self.conn.cursor()
-        sql = """SELECT a.name, r.single_point_of_entry
+        sql = """SELECT a.name, r.single_point_of_entry, a.external_link, a.external_link_desc
                    FROM courts as c, areas_of_law as a, remits as r
                   WHERE r.court_id = c.id
                     AND r.area_of_law_id = a.id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
-        aol_list = [(a[0], a[1]) for a in cur.fetchall()]
+        aol_list = [(a[0], a[1], a[2], a[3]) for a in cur.fetchall()]
         aols = []
-        for aol_name, spoe in aol_list:
+        for aol_name, spoe, aol_external_link, aol_external_link_desc in aol_list:
             cur = self.conn.cursor()
             sql = """SELECT la.name
                        FROM remits as r,
@@ -232,7 +233,10 @@ class Data:
 
             entry = {
                 "name": aol_name,
-                "local_authorities": local_authorities
+                "local_authorities": local_authorities,
+                "external_link": aol_external_link,
+                "external_link_desc": aol_external_link_desc
+
             }
 
             if spoe:

@@ -22,16 +22,10 @@ Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 
 Faker::Config.locale = 'en-gb'
 
-# Capybara.register_driver :poltergeist do |app|
-#   Capybara::Poltergeist::Driver.new(app, { debug: true, window_size: [1300, 1000], inspector: true # this can affect dynamic layout
-#   })
-# end
-
-
-#Capybara.javascript_driver = :poltergeist
 Capybara.javascript_driver = :webkit
 # Capybara.javascript_driver = :selenium
-Capybara.current_driver = :rack_test
+# This is here so missing images from plugins are not failing tests.
+Capybara.raise_server_errors = false
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -54,7 +48,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::SessionHelpers, type: :feature
   config.include Features::SessionHelpers, type: :controller
-  
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

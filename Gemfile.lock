@@ -392,6 +392,10 @@ GEM
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
     slop (3.6.0)
+    spring (2.0.0)
+      activesupport (>= 4.2)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -499,6 +503,7 @@ DEPENDENCIES
   shoulda-matchers (~> 2.7.0)
   simple_form (~> 3.1.0)
   simplecov
+  spring-commands-rspec
   timecop
   uglifier (>= 1.0.3)
   unicorn
@@ -506,3 +511,6 @@ DEPENDENCIES
   verbs
   webmock (= 1.15.2)
   will_paginate
+
+BUNDLED WITH
+   1.13.7

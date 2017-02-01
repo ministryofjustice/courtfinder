@@ -7,6 +7,8 @@
     %th Old
     %th Action
     %th Group
+    %th GOV.UK link
+    %th Tooltip
     %th
     %th
   - @areas_of_law.each do |area_of_law|
@@ -15,6 +17,8 @@
       %td= area_of_law.old_id
       %td= area_of_law.action
       %td= area_of_law.group
+      %td= area_of_law.external_link
+      %td= area_of_law.external_link_desc
       %td
         = link_to 'Edit', edit_admin_area_of_law_path(area_of_law)
       %td
