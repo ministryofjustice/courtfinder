@@ -146,7 +146,11 @@
 		};
 		
 	$.fn.removeTag = function(value) { 
-			value = unescape(value);
+
+		value = unescape(value);
+		court_name = $(this).siblings('#court_name').val();
+		
+        if(window.confirm("Are you sure you want to delete postcode " + value + " from " + court_name + "?")){
 			this.each(function() { 
 				var id = $(this).attr('id');
 	
@@ -167,9 +171,9 @@
 					f.call(this, value);
 				}
 			});
-					
-			return false;
 		};
+		return false
+	};
 	
 	$.fn.tagExist = function(val) {
 		var id = $(this).attr('id');
