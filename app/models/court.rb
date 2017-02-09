@@ -32,6 +32,7 @@
 #  directions            :text
 #  parking_onsite        :string(255)
 #  parking_offsite       :string(255)
+#  hide_aols             :boolean not null default:false
 #
 
 class Court < ActiveRecord::Base
@@ -54,7 +55,7 @@ class Court < ActiveRecord::Base
                   :address_ids, :area_of_law_ids, :opening_times_attributes, :contacts_attributes, :emails_attributes,
                   :court_facilities_attributes, :image, :image_file, :remove_image_file, :display, :alert,
                   :info_leaflet, :defence_leaflet, :prosecution_leaflet, :juror_leaflet,
-                  :postcode_list, :directions, :parking_onsite, :parking_offsite, :parking_blue_badge
+                  :postcode_list, :directions, :parking_onsite, :parking_offsite, :parking_blue_badge, :hide_aols
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true

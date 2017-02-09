@@ -32,6 +32,7 @@
 #  directions            :text
 #  parking_onsite        :string(255)
 #  parking_offsite       :string(255)
+#  hide_aols             :boolean default false
 #
 
 require "spec_helper"
@@ -192,8 +193,14 @@ describe Court do
     let!(:children) { create(:area_of_law, name: 'Children') }
     let!(:divorce)  { create(:area_of_law, name: 'Divorce') }
     let!(:adoption) { create(:area_of_law, name: 'Adoption') }
-    let!(:court) { create(:court) }
+    let!(:court) { create(:court, hide_aols: false) }
     let!(:local_authority) { create(:local_authority) }
+
+    describe '#courts supports hide_aols' do
+      it 'checks model supprts hide_aols' do
+        court.hide_aols.should eq(false)
+      end
+    end
 
     describe '#children_local_authorities_list' do
       it 'returns a comma seperated list of local authority names' do
