@@ -4,7 +4,7 @@
       %ul
         - court.errors.full_messages.each do |msg|
           %li= msg
-
+  = f.hidden_field :name
   = f.text_field :postcode_list, class: 'postcode js-tags'
   = f.submit 'Save', class: 'button right'
   = link_to 'Move', edit_admin_postcode_path(court.id), :class => 'button'
