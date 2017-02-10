@@ -116,8 +116,11 @@
               = render 'email_fields', f: builder
           = link_to_add_fields "Add email", f, :emails, 'initNewFieldBlock'
       #areas-of-law
-        %h2 Areas of law covered
+        %h2 Cases heard at this venue
         = f.association :areas_of_law, :collection => AreaOfLaw.all, :as => :check_boxes, :label => false
+        %div.hide_aols
+          = f.check_box :hide_aols, :checked => @court.hide_aols
+          = f.label :hide_aols, "Hide 'Cases heard at this venue'".html_safe, {class: "checkbox inline"}
       #facilities
         .group-courts-facilities
           %a.field-group{:href => "#", "data-alt" => "edit facilities"} reorder facilities
