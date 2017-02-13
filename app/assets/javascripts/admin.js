@@ -18,3 +18,4 @@
 //= require admin/datatables.min
 //= require admin/fixedheader
 //= require admin/move_postcodes
+//= require admin/court_contacts_sort
