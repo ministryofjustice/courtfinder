@@ -31,5 +31,17 @@ describe Court do
       2. times { @court1.contacts.create(telephone: "50800 800 8080", contact_type_id: @helpdesk.id) }
       @court1.contacts.count.should == 1
     end
+
+    it "should allow a valid explanation to be added" do
+      dummy_explanation = (0...40).map { ('a'..'z').to_a[rand(26)] }.join #Random String of 40 Characters
+      @court1.contacts.create(telephone: "0206 082 1890", contact_type_id: @helpdesk.id, explanation: "Test explanation")
+      @court1.contacts.count.should == 1
+    end
+
+    it "should not allow an invalid explanation over 85 characters to be added" do
+      dummy_explanation = (0...86).map { ('a'..'z').to_a[rand(26)] }.join #Random String of 86 Characters
+      @court1.contacts.create(telephone: "0206 082 1890", contact_type_id: @helpdesk.id, explanation: dummy_explanation)
+      @court1.contacts.count.should == 0
+    end
   end
 end
