@@ -30,9 +30,12 @@ feature 'Court Contact Explanation' do
       click_button 'Update'
       expect(page).to have_content('Court was successfully updated')
 
-      visit '/courts/the-court'
-      page.should have_content('01443 408181')
-      page.should have_content('Enquiries Explanation')
+      visit '/admin/courts/the-court/edit'
+      expect(page).to have_content('Editing court')
+
+      click_link 'Contact Numbers'
+      expect(page.body).to have_content('01443 408181')
+      expect(page.body).to have_content('Enquiries Explanation')
     end
   end
 end
