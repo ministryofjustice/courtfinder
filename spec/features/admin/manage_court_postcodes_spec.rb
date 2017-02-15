@@ -23,7 +23,7 @@ feature 'manage courts postcodes' do
     click_button("Move")
     expect(page).to have_text("No postcodes selected.")
     checkbox = page.find(:xpath,".//div[@id='postcode_selection']//input[@type='checkbox']")
-    expect(checkbox.value.to_i).to eql(court1.id)
+    expect(checkbox.value.to_i).to eql(court1.postcode_courts.last.id)
     checkbox.click
 
     click_button("Move")
