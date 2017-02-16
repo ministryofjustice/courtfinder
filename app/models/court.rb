@@ -100,7 +100,7 @@ class Court < ActiveRecord::Base
   scope :search,          -> (q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
   scope :for_local_authority, -> (local_authority) { joins(:local_authorities).where("local_authorities.name" => local_authority) }
   scope :for_local_authority_and_area_of_law, -> (local_authority, area_of_law) {
-    joins(:local_authorities).where("local_authorities.name" => local_authority, "remits.area_of_law_id" => "#{area_of_law.id}")
+    joins(:local_authorities).where("local_authorities.name" => local_authority, "remits.area_of_law_id" => "#{area_of_law.id}").order(:name)
   }
   scope :by_postcode_court_mapping, -> (postcode, area_of_law = nil) {
     if postcode.present?

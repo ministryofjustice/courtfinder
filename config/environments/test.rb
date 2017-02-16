@@ -49,4 +49,6 @@ Courtfinder::Application.configure do
 
   # rails 4 deprecations / warning suppressions, etc
   config.active_record.raise_in_transactional_callbacks = true
+
+  config.middleware.delete Rack::ETag
 end
