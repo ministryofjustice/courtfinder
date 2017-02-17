@@ -150,7 +150,7 @@
 		value = unescape(value);
 		court_name = $(this).siblings('#court_name').val();
 		
-        if(window.confirm("Are you sure you want to delete postcode " + value + " from " + court_name + "?")){
+        if(window.confirm("Are you sure you want to delete postcode " + value + " from " + court_name + "? \n\nPlease remember to press 'save' to commit any changes")){
 			this.each(function() { 
 				var id = $(this).attr('id');
 	
