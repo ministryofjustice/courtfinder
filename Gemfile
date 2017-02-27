@@ -68,7 +68,7 @@ gem 'devise', '~>3.4.1'     # Authentication
 gem 'devise_invitable'      # Authentication invites
 gem 'rmagick', require: false # Resize uploaded images
 gem 'carrierwave', '~> 1.0'
-gem 'fog-aws'
+gem 'fog'
 gem 'gmaps4rails', '~>1.5.6'# Maps and directions
 gem 'unicorn'
 gem 'haml-rails', '~>0.5.3' # Leaner markup with Haml.info
