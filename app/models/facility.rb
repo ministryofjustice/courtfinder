@@ -26,8 +26,8 @@ class Facility < ActiveRecord::Base
 
   def image_dimensions
     return if self.image_file.blank?
-    if self.image_file.width != 50 || self.image_file.height != 50
-      errors.add(:image_file, "Image dimensions has to be 50x50px.")
+    if self.image_file.width != 50 && self.image_file.height != 50
+      errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_dimension'))
     end
   end
 end

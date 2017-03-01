@@ -2,9 +2,7 @@ class FacilityImageUploader < CarrierWave::Uploader::Base
 
   include CarrierWave::RMagick
 
-  # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  storage (ENV['UPLOADER_STORAGE_TYPE']) ? ENV['UPLOADER_STORAGE_TYPE'].to_sym : :file
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
@@ -31,5 +29,9 @@ class FacilityImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+  def self.storage_value
+    ENV['UPLOADER_STORAGE_TYPE'].to_sym
+  end
 
 end

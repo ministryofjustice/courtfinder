@@ -4,11 +4,7 @@ class CourtImagesUploader < CarrierWave::Uploader::Base
 
   include CarrierWave::RMagick
 
-  if Rails.env.development? || Rails.env.test?
-    storage :file
-  else
-    storage :fog
-  end
+  storage (ENV['UPLOADER_STORAGE_TYPE']) ? ENV['UPLOADER_STORAGE_TYPE'].to_sym : :file
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

@@ -13,6 +13,7 @@ feature 'As an admin I should be able to manage facility' do
 
     expect(page).to have_content('New facility_type')
     expect(page).not_to have_xpath('.//input[@id="facility_image"]')
+    expect(page).to have_content('Only png with dimensions of 50x50px is allowed')
 
     fill_in('Name', with: 'Baby')
     fill_in('Image description', with: 'Baby change')

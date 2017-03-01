@@ -7,7 +7,7 @@
     <%- if @facility.image.present? %>
       <%= f.input :image %>
     <% end %>
-    <%= f.input :image_file, as: :file, hint: 'Only png with dimensions of 50x50px is allowed.' %>
+    <%= f.input :image_file, as: :file, hint: I18n.t('simple_form.hints.facility.image_file') %>
     <%- if @facility.image.present? %>
       <%= image_tag @facility.image_file.url, title: @facility.image_description %>
     <% end %>
