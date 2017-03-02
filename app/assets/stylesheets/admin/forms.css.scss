@@ -95,7 +95,7 @@ div.input.integer {
     margin: 0 10px;
     max-width: 390px;
   }
-  input[type="email"], input[type="password"] {
+  input[type="email"], input[type="password"], input[type=tel]{
     font-family: "nta", Arial, sans-serif;
     font-size: 16px;
     line-height: 1.25;
@@ -248,4 +248,9 @@ textarea.leaflet {
       display: block;
     }
   }
+}
+
+button#sortContactNumbers{
+  display: none;
+  float: right;
 }

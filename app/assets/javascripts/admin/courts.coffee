@@ -24,6 +24,7 @@ $('.field-group').click (e) ->
   e.preventDefault()
   $(this).siblings('ul.sortable').find('li fieldset, li .sortable-summary').toggle()
   $(this).siblings('.add_fields').toggle()
+  $(this).siblings('#sortContactNumbers').toggle()
 
   # Change text in re-order toggle link
   alt = $(this).data('alt')
@@ -52,6 +53,7 @@ $('.sortable').sortable
 $('.sortable').on 'change', '.court_contacts_contact_type select', ->
   val = $(this).find(':selected').text()
   $(this).closest('li').find('.sortable-summary .type').text val
+  $(this).closest('li').attr('data-contact-type', val)
 $('.sortable').on 'change', '.court_contacts_name input', ->
   val = $(this).val()
   $(this).closest('li').find('.sortable-summary .name span').text(val).parent()[if val.length then 'show' else 'hide']()

@@ -136,7 +136,7 @@ class Data:
     def contacts_for_court(self, slug):
         # contacts for court
         cur = self.conn.cursor()
-        sql = """SELECT c.slug, ct.name as contact_type, co.telephone, co.sort
+        sql = """SELECT c.slug, ct.name as contact_type, co.telephone, co.sort, co.explanation
                    FROM courts as c,
                         contact_types ct,
                         contacts co
@@ -147,7 +147,8 @@ class Data:
         contacts = [{
             "name": r[1],
             "number": r[2],
-            "sort": r[3]
+            "sort": r[3],
+            "explanation": r[4]
         } for r in cur.fetchall()]
         return contacts
 
