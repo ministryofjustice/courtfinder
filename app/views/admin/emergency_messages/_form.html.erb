@@ -1,0 +1,14 @@
+<%= simple_form_for([:admin, @em]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <div id='emergency-message'>
+      <%= f.input :show, :label => "Show on home page" %>
+      <%= f.input :message, :input_html => { :class => :ckeditor } %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -254,3 +254,20 @@ button#sortContactNumbers{
   display: none;
   float: right;
 }
+
+#emergency-message{
+  >div:first-of-type{
+    width: 30%;
+    >label {
+      margin: 0;
+      input {
+        float: right;
+      }
+    }
+  }
+  div:nth-child(2){
+    label{
+      float: none;
+    }
+  }
+}

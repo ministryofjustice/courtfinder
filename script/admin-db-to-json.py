@@ -14,6 +14,8 @@ class Data:
     # The logger for this object
     logger = None
 
+    json_exports = {'courts': [], 'emergency_message': {}}
+
     # these descriptions are found in the admin app's locale files, not in the database
     parking_types = {"parking_onsite_free": "Free on site parking is available at this venue.",
                      "parking_onsite_paid": "Paid on site parking is available at this venue.",
@@ -127,7 +129,7 @@ class Data:
             message = ("+ %s" % name)
             self.logger.debug("courts: Added court, '{}'"
                              .format(message))
-        self.write_to_json( 'courts', all_courts )
+        self.json_exports['courts'] = all_courts
 
     def contacts_for_court(self, slug):
         # contacts for court
@@ -289,6 +291,26 @@ class Data:
         } for row in cur.fetchall()]
         return addresses
 
+    def emergency_message(self):
+        self.logger.info("emergency_message: Exporting emergency_message...")
+        emergency_message = {}
+        cur = self.conn.cursor()
+        cur.execute("SELECT id, show, message FROM emergency_messages")
+        rows = cur.fetchall()
+        if len(rows) == 1:
+            pk, show, message = rows[0]
+            emergency_message = {
+                "show": show,
+                "message": message
+            }
+            message = ("+ %s" % message)
+            self.logger.debug("emergency_message: Added emergency_message, '{}'".format(message))
+        else:
+            self.logger.debug('Error exporting emergency message!!!')
+            raise SystemExit
+
+        self.json_exports['emergency_message'] = emergency_message
+
     def write_to_json(self, filename, data):
         js = json.dumps(data, indent=4, separators=(',', ': '), cls=DjangoJSONEncoder)
         if hasattr(self, 'output_dir') and not hasattr(self, 'bucket'):
@@ -300,6 +322,10 @@ class Data:
             self.s3_upload('%s.json' % filename, js)
             self.logger.info("write_to_json: Uploading courts file '{}' to s3..."
                              .format(filename))
+
+    def write_json_exports(self):
+        self.write_to_json( 'courts', self.json_exports )
+
 
     def s3_upload(self, filename, data):
         k = Key(self.bucket)
@@ -365,6 +391,8 @@ def main():
     obj = Data(options.host, options.user, options.password, options.database, options.output,
                options.access, options.secret, options.bucket)
     obj.courts()
+    obj.emergency_message()
+    obj.write_json_exports()
 
 if __name__ == '__main__':
     main()

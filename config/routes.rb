@@ -46,6 +46,7 @@ Courtfinder::Application.routes.draw do
     resources :countries
     resources :address_types, path: '/address-types'
     resources :postcodes, only: [:edit, :update]
+    resources :emergency_messages, only: [:edit, :update]
 
     resources :courts do
       collection do

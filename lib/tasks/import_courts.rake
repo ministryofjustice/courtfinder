@@ -66,6 +66,7 @@ namespace :import do
       Email.destroy_all
       Facility.destroy_all
       CourtFacility.destroy_all
+      EmergencyMessage.destroy_all
     end
 
     Rake::Task["import:regions"].invoke
@@ -84,7 +85,7 @@ namespace :import do
     Rake::Task["import:emails"].invoke
     Rake::Task["import:images"].invoke
     Rake::Task["import:court_facilities"].invoke
-
+    Rake::Task["import:emergency_message"].invoke
     puts ">>> All done, yay!"
   end
 
@@ -168,6 +169,31 @@ namespace :import do
       county.country_id = Country.find_by_old_id(row[2]).id
 
       county.save!
+    end
+
+  end
+
+  desc "Import emergency_message"
+  task :emergency_message => :environment do
+    puts "!!! Removing old emergency message data from your database"
+    EmergencyMessage.destroy_all
+
+    puts "Importing emergency_message"
+
+    csv_file = File.read('db/data/emergency_message.csv')
+
+    csv = CSV.parse(csv_file)
+
+    csv.each do |row|
+      em = EmergencyMessage.new
+
+      puts "Adding '#{row[1]}'"
+
+      em.id = row[0]
+      em.show = row[1]
+      em.message = row[2]
+
+      em.save!
     end
 
   end
