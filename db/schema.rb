@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222172559) do
+ActiveRecord::Schema.define(version: 20170227165349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,21 +59,23 @@ ActiveRecord::Schema.define(version: 20141222172559) do
   add_index "areas", ["region_id"], name: "index_areas_on_region_id", using: :btree
 
   create_table "areas_of_law", force: :cascade do |t|
-    t.string   "name",              limit: 255
+    t.string   "name",               limit: 255
     t.integer  "old_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.string   "old_ids_split",     limit: 255
-    t.string   "action",            limit: 255
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "old_ids_split",      limit: 255
+    t.string   "action",             limit: 255
     t.integer  "sort"
-    t.string   "slug",              limit: 255
-    t.boolean  "type_possession",               default: false
-    t.boolean  "type_bankruptcy",               default: false
-    t.boolean  "type_money_claims",             default: false
-    t.boolean  "type_children",                 default: false
-    t.boolean  "type_divorce",                  default: false
-    t.boolean  "type_adoption",                 default: false
+    t.string   "slug",               limit: 255
+    t.boolean  "type_possession",                 default: false
+    t.boolean  "type_bankruptcy",                 default: false
+    t.boolean  "type_money_claims",               default: false
+    t.boolean  "type_children",                   default: false
+    t.boolean  "type_divorce",                    default: false
+    t.boolean  "type_adoption",                   default: false
     t.integer  "group_id"
+    t.string   "external_link",      limit: 2048
+    t.string   "external_link_desc", limit: 255
   end
 
   create_table "areas_of_law_external_links", id: false, force: :cascade do |t|
@@ -96,6 +98,7 @@ ActiveRecord::Schema.define(version: 20141222172559) do
     t.integer  "sort"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.string   "explanation",     limit: 85
   end
 
   add_index "contacts", ["contact_type_id"], name: "index_contacts_on_contact_type_id", using: :btree
@@ -189,6 +192,7 @@ ActiveRecord::Schema.define(version: 20141222172559) do
     t.string   "uuid"
     t.string   "gov_uk_md5"
     t.datetime "gov_uk_updated_at",                 default: '1970-01-01 00:00:00'
+    t.boolean  "hide_aols",                         default: false
   end
 
   add_index "courts", ["slug"], name: "index_courts_on_slug", using: :btree
@@ -220,6 +224,7 @@ ActiveRecord::Schema.define(version: 20141222172559) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "image_description", limit: 255
+    t.string   "image_file"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
