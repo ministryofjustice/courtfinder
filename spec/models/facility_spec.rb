@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Facility do
-  it { should validate_presence_of(:image_file) }
+  it { should validate_presence_of(:image_file).with_message('You must select an icon image.') }
 
   describe 'dimension validation' do
     let(:facility) { build(:facility, name: 'baby', image_file: image_file) }
