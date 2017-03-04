@@ -1,10 +1,16 @@
-<%= simple_form_for([:admin, @facility]) do |f| %>
+<%= simple_form_for([:admin, @facility], html: { multipart: true }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :image_description %>
-    <%= f.input :image %>
+    <%- if @facility.image.present? %>
+      <%= f.input :image %>
+    <% end %>
+    <%= f.input :image_file, as: :file, hint: I18n.t('simple_form.hints.facility.image_file') %>
+    <%- if @facility.image.present? %>
+      <%= image_tag @facility.image_file.url, title: @facility.image_description %>
+    <% end %>
   </div>
 
   <div class="form-actions">

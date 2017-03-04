@@ -7,15 +7,15 @@ describe Admin::FacilitiesController do
 
   describe "#update" do
     let(:facility){ Facility.new(id: 123) }
-    before{ 
-      Facility.stub(:find).and_return(facility) 
+    before{
+      Facility.stub(:find).and_return(facility)
       facility.stub(id: 123)
     }
 
     let(:params){ { id: 123, facility: {name: 'new contact type'} } }
 
     context "that works" do
-      before{ 
+      before{
         Facility.any_instance.stub(update_attributes: true)
       }
 
@@ -28,7 +28,7 @@ describe Admin::FacilitiesController do
         patch :update, params
         response.should redirect_to(admin_facility_path(facility))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -41,7 +41,7 @@ describe Admin::FacilitiesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         Facility.any_instance.stub(update_attributes: false)
       }
 
@@ -52,12 +52,12 @@ describe Admin::FacilitiesController do
 
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -76,11 +76,11 @@ describe Admin::FacilitiesController do
   end
 
   describe "#create" do
-    let(:params){ { facility: {name: 'new contact type'} } }
+    let(:params){ { facility: { name: 'new contact type', image_file: fixture_file_upload("assets/firstaid.png",'image/png') } } }
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { Facility.count }.by(1)
       end
@@ -107,9 +107,9 @@ describe Admin::FacilitiesController do
     end
     context "that doesn't save ok" do
       before{ Facility.any_instance.stub(save: false) }
-      
+
       it "does not create an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { Facility.count }
       end
@@ -145,7 +145,7 @@ describe Admin::FacilitiesController do
 
 
   it "purges the cache when a facility is destroyed" do
-    at = Facility.create!
+    at = create(:facility)
     expect {
       controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
@@ -172,7 +172,7 @@ describe Admin::FacilitiesController do
 
   describe "#show" do
     let(:mock_facility){ Facility.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       Facility.stub(:find).and_return(mock_facility)
     }
 
@@ -218,7 +218,7 @@ describe Admin::FacilitiesController do
 
   describe "#edit" do
     let(:mock_facility){ Facility.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       Facility.stub(:find).and_return(mock_facility)
     }
 
@@ -229,7 +229,7 @@ describe Admin::FacilitiesController do
   end
 
   it "purges the cache when a contact type is destroyed" do
-    at = Facility.create!
+    at = create(:facility)
     expect {
       controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
@@ -238,7 +238,7 @@ describe Admin::FacilitiesController do
   end
 
   it "purges the cache when an object is destroyed" do
-    object = Facility.create!
+    object = create(:facility)
     expect {
       controller.should_receive(:purge_all_pages)
       post :destroy, id: object.id

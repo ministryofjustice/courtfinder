@@ -63,6 +63,7 @@ FactoryGirl.define do
   factory :facility do
     name 'Disabled access'
     image_description 'Wheelchair'
+    image_file File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png")
   end
 
   factory :external_link do

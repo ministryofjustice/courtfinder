@@ -47,14 +47,15 @@ en:
         name: Time
       user:
         admin: Super admin
+    errors:
+      models:
+        facility:
+          attributes:
+            image_file_dimension: Image dimensions have to be 50x50px aa
 
   simple_form:
     hints:
       court:
         image_file: This photo will be forced to fit 350x275 pixels
-
-
-
-
-
-
+      facility:
+        image_file: Only png with dimensions of 50x50px is allowed

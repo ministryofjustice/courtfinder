@@ -6,8 +6,17 @@
 </p>
 
 <p>
+  <b>Image description:</b>
+  <%= @facility.image_description %>
+</p>
+
+<p>
   <b>Image:</b>
-  <%= @facility.image %>
+  <%- if @facility.image_file %>
+    <%= image_tag @facility.image_file.url, title: @facility.image_description %>
+  <% else %>
+    <%= @facility.image %>
+  <% end %>
 </p>
 
 
