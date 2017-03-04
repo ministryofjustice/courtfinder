@@ -180,22 +180,7 @@ namespace :import do
 
     puts "Importing emergency_message"
 
-    csv_file = File.read('db/data/emergency_message.csv')
-
-    csv = CSV.parse(csv_file)
-
-    csv.each do |row|
-      em = EmergencyMessage.new
-
-      puts "Adding '#{row[1]}'"
-
-      em.id = row[0]
-      em.show = row[1]
-      em.message = row[2]
-
-      em.save!
-    end
-
+    EmergencyMessage.create(false,"")
   end
 
   desc "Import towns"

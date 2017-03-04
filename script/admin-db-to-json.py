@@ -306,7 +306,7 @@ class Data:
             message = ("+ %s" % message)
             self.logger.debug("emergency_message: Added emergency_message, '{}'".format(message))
         else:
-            self.logger.debug('Error exporting emergency message!!!')
+            self.logger.debug('Error exporting emergency message!!! Zero or multiple emergency message records found. Should be only one.')
             raise SystemExit
 
         self.json_exports['emergency_message'] = emergency_message

@@ -15,10 +15,10 @@ describe EmergencyMessage do
     @message = create(:emergency_message, :message => "Test message", :show => false)
   end
 
-
   describe "fetching" do
     it "should return 1 result" do
-      EmergencyMessage.first().should == @message
+      @message2 = create(:emergency_message, :message => "Another Test message", :show => false)
+      expect(@message.id).to be == 1
     end
   end
 
