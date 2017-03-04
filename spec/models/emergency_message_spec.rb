@@ -17,8 +17,8 @@ describe EmergencyMessage do
 
   describe "fetching" do
     it "should return 1 result" do
-      @message2 = create(:emergency_message, :message => "Another Test message", :show => false)
-      expect(@message.id).to be == 1
+      @message2 = build(:emergency_message, :message => "Another Test message", :show => false)
+      expect(@message2.save).to be_falsey
     end
   end
 
