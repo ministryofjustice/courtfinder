@@ -62,10 +62,10 @@ class Data:
         self.logger.info("courts: Creating list of courts...")
         all_courts = []
         cur = self.conn.cursor()
-        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols FROM courts")
+        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet FROM courts")
         rows = cur.fetchall()
         for row in rows:
-            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols = row
+            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet = row
             if name == None or slug == None:
                 message = ("- %s\n\tslug: %s, lat: %s, lon: %s" 
                            % (name, slug, lat, lon))
@@ -102,6 +102,10 @@ class Data:
                 "postcodes": postcodes,
                 "info": info,
                 "hide_aols": hide_aols,
+                "info_leaflet": info_leaflet,
+                "prosecution_leaflet": prosecution_leaflet, 
+                "defence_leaflet": defence_leaflet, 
+                "juror_leaflet": juror_leaflet,
             }
             if lat is not None:
                 court_object['lat'] = str(lat)
