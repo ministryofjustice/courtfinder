@@ -15,8 +15,7 @@
 class Facility < ActiveRecord::Base
   has_many :court_facilities
   attr_accessible :image, :name, :image_description, :image_file
-  validates :image_file, presence: true
-  validate :image_dimensions
+  validate :image_file_validations
 
   default_scope { order('LOWER(name)') } # ignore case when sorting
 
@@ -24,9 +23,12 @@ class Facility < ActiveRecord::Base
 
   private
 
-  def image_dimensions
-    return if self.image_file.blank?
-    if self.image_file.width != 50 && self.image_file.height != 50
+  def image_file_validations
+    if self.image_file.blank?
+      errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_blank'))
+    elsif self.image_file.file.extension.downcase != 'png'
+      errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_extension'))
+    elsif self.image_file.width != 50 && self.image_file.height != 50
       errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_dimension'))
     end
   end
