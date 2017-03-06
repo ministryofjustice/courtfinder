@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Admin::EmergencyMessagesController do
   before :each do
-    @user = create!(:user, name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
+    @user = create(:user, name: 'hello', admin: true, email: 'lol@biz.info', 
+      password: 'irrelevant', password_confirmation: 'irrelevant')
     sign_in @user
     EmergencyMessage.destroy_all()
     @message = create(:emergency_message, :message => "Test message", :show => false)
@@ -18,11 +19,7 @@ describe Admin::EmergencyMessagesController do
     let(:params){ {id: @message.id, message: { name: 'Emergency message', show: true }} }
 
     context "that works" do
-      before{
-        EmergencyMessage.any_instance.stub(update_attributes: true)
-      }
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
+      it "does the update" do
         patch :update, params
       end
     end
