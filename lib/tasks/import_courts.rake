@@ -66,6 +66,7 @@ namespace :import do
       Email.destroy_all
       Facility.destroy_all
       CourtFacility.destroy_all
+      EmergencyMessage.destroy_all
     end
 
     Rake::Task["import:regions"].invoke
@@ -84,7 +85,7 @@ namespace :import do
     Rake::Task["import:emails"].invoke
     Rake::Task["import:images"].invoke
     Rake::Task["import:court_facilities"].invoke
-
+    Rake::Task["import:emergency_message"].invoke
     puts ">>> All done, yay!"
   end
 
@@ -170,6 +171,16 @@ namespace :import do
       county.save!
     end
 
+  end
+
+  desc "Import emergency_message"
+  task :emergency_message => :environment do
+    puts "!!! Removing old emergency message data from your database"
+    EmergencyMessage.destroy_all
+
+    puts "Importing emergency_message"
+
+    EmergencyMessage.create(false,"")
   end
 
   desc "Import towns"
