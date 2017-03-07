@@ -112,7 +112,8 @@ div.court_areas_of_law, div.court_court_types {
   input { margin-right:3px; }
 }
 
-div.input.court_info {
+div.input.court_info, div.input.court_info_leaflet, div.input.court_prosecution_leaflet,
+  div.input.court_defence_leaflet, div.input.court_juror_leaflet   {
   label {
     float: none;
   }
