@@ -10,7 +10,7 @@
 #  sort            :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#
+#  explanation     :string(85)
 
 class Contact < ActiveRecord::Base
   belongs_to :court
