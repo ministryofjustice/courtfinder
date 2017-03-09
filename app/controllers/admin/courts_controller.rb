@@ -101,6 +101,7 @@ class Admin::CourtsController < Admin::ApplicationController
   def areas_of_law
     @courts = Court.includes(:remits).by_name
     @areas_of_law = AreaOfLaw.all
+    @courtLookup = @courts.map{ |c| [c.id, c.remits.collect(&:area_of_law_id).to_set] }.to_h
   end
 
   def court_types

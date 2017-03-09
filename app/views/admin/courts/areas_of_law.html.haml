@@ -22,11 +22,15 @@
       - @courts.each do |court|
         %tr
           = form_for([:admin, court], remote: true) do
+            - @remits = @courtLookup[court.id]
             %td= court.court_number
             %td= court.name
             - @areas_of_law.each do |area_of_law|
               %td.c
-                = check_box_tag 'court[area_of_law_ids][]', area_of_law.id, (court.remits.select {|remit| remit.area_of_law_id ==area_of_law.id}.size > 0 ? true : false), id: ['court_area_of_law_ids_', area_of_law.id].join
+                = check_box_tag 'court[area_of_law_ids][]',
+                area_of_law.id,
+                (@remits.include?(area_of_law.id)),
+                id: 'court_area_of_law_ids_' << area_of_law.id.to_s
             %td
               = hidden_field_tag 'court[area_of_law_ids][]', ''
               %input.button{:type => "Submit", :value => "Save"}
