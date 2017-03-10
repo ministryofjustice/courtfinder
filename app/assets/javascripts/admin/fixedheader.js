@@ -8,7 +8,10 @@ $(document).ready(function(){
             scrollY:        300,
             scrollX:        true,
             paging:         true,
-            sorting:        false
+            sorting:        false,
+            orderClasses:   false,
+            deferRender:    true,
+            autoWidth:      false
         });
     $('ul.tabs-nav.clearfix > li > a').click( function() {
         var letter = $(this).text();
@@ -23,13 +26,9 @@ $(document).ready(function(){
             $('ul.tabs-nav.clearfix').find( 'a.active' ).removeClass( 'active' );
             $(this).addClass( 'active' );
         }
-        table.draw();
-       
     } );
-  
+   table.columns.adjust().draw();
 });
-
-
 
 var _alphabetSearch = '';
  

@@ -241,10 +241,13 @@ describe Admin::CourtsController do
   
   end
 
-  describe "#areas_of_law" do
-    before{ 
-      Court.stub(:by_name).and_return('courts by name')
-      AreaOfLaw.stub(:all).and_return('all areas of law')
+describe "#areas_of_law" do
+    let(:court) { instance_double('Court', id: 2, remits: [remit]) }
+    let(:remit) { instance_double('Remit', area_of_law_id: 3) }
+
+    before{
+      allow(Court).to receive(:by_name).and_return([court])
+      allow(AreaOfLaw).to receive(:all).and_return('all areas of law')
     }
     it "gets one page of courts by name" do
       get :areas_of_law
@@ -252,11 +255,11 @@ describe Admin::CourtsController do
 
     it "assigns the paginated courts by name to @courts" do
       get :areas_of_law
-      expect(assigns[:courts]).to eq('courts by name')
+      expect(assigns[:courts]).to eq([court])
     end
 
     it "gets all areas of law" do
-      AreaOfLaw.should_receive(:all).and_return('all areas of law')
+      expect(AreaOfLaw).to receive(:all).and_return('all areas of law')
       get :areas_of_law
     end
 
