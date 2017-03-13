@@ -64,7 +64,7 @@ class Court < ActiveRecord::Base
   accepts_nested_attributes_for :court_facilities, allow_destroy: true
 
   before_validation :add_uuid
-  before_validation :convert_visiting_to_location, if: :visiting_postcode_changed?
+  before_validation :convert_visiting_to_location
 
   validates :name, presence: true
 
@@ -176,7 +176,7 @@ class Court < ActiveRecord::Base
   end
 
   def visiting_addresses
-    addresses.to_a.select { |a| AddressType.find(a.address_type_id).try(:name) == "Visiting" }
+    addresses.to_a.select { |a| AddressType.find(a.address_type_id).try(:name) != "Postal" }
   end
 
   def has_visiting_address?
@@ -188,28 +188,17 @@ class Court < ActiveRecord::Base
     visiting_addresses.first.try(:postcode)
   end
 
-  def visiting_postcode_changed?
-    if persisted?
-      self.class.find(id).visiting_postcode != visiting_postcode
-    else
-      visiting_postcode.present?
-    end
-  end
-
   def convert_visiting_to_location
-    if visiting_postcode.present?
-      begin
-        @cs = CourtSearch.new(visiting_postcode)
-        if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
-          self.latitude = lat_lon[0]
-          self.longitude = lat_lon[1]
-        end
-      rescue Exception => ex
-        Rails.logger.error("Could not get latlng from: visiting_postcode")
+    self.latitude = nil
+    self.longitude = nil
+    begin
+      @cs = CourtSearch.new(visiting_postcode)
+      if lat_lon = @cs.latlng_from_postcode(visiting_postcode)
+        self.latitude = lat_lon[0]
+        self.longitude = lat_lon[1]
       end
-    else
-      self.latitude = nil
-      self.longitude = nil
+    rescue Exception => ex
+      Rails.logger.error("Could not get latlng from: visiting_postcode")
     end
   end
 

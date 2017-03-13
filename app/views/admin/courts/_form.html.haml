@@ -67,7 +67,7 @@
         = f.input :directions, label: false, :input_html => { :class => 'directions', maxlength: 250 }
         %h2 Location
         %p
-          Latitude and longitude are automatically calculated based on the visiting address postcode.
+          Latitude and longitude are automatically calculated based on the visiting or postal and visiting addresses postcodes.
         - if @court.latitude && @court.longitude
           = "Latitude: #{@court.latitude}, Longitude: #{@court.longitude}"
         #group-addresses

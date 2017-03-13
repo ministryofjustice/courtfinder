@@ -116,7 +116,7 @@ namespace :import do
   task :address_types => :environment do
     puts "Importing address types"
 
-    types = ['Postal', 'Visiting']
+    types = ['Postal', 'Visiting', 'Postal and visiting']
 
     types.each do |i|
       type = AddressType.new
