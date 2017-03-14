@@ -26,6 +26,7 @@ $(document).ready(function(){
             $('ul.tabs-nav.clearfix').find( 'a.active' ).removeClass( 'active' );
             $(this).addClass( 'active' );
         }
+        table.draw();
     } );
    table.columns.adjust().draw();
 });
