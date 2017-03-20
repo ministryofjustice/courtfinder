@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227165349) do
+ActiveRecord::Schema.define(version: 20170320114259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,11 @@ ActiveRecord::Schema.define(version: 20170227165349) do
 
   add_index "emails", ["court_id"], name: "index_emails_on_court_id", using: :btree
 
+  create_table "emergency_messages", force: :cascade do |t|
+    t.boolean "show",    default: false, null: false
+    t.text    "message"
+  end
+
   create_table "external_links", force: :cascade do |t|
     t.string   "text",           limit: 255
     t.string   "url",            limit: 255
@@ -225,6 +230,7 @@ ActiveRecord::Schema.define(version: 20170227165349) do
     t.datetime "updated_at",                    null: false
     t.string   "image_description", limit: 255
     t.string   "image_file"
+    t.string   "image_file_path"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
