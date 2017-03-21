@@ -16,7 +16,13 @@
   <tr>
     <td><%= facility.name %></td>
     <td><%= facility.image_description %></td>
-    <td><%= facility.image %></td>
+    <td>
+      <%- if facility.image_file.present? %>
+        <%= image_tag facility.reload.image_file.url, title: facility.image_description %>
+      <% else %>
+        <%= facility.image %>
+      <% end %>
+    </td>
     <!-- <td><%= link_to 'Show', admin_facility_path(facility) %></td> -->
     <td><%= link_to 'Edit', edit_admin_facility_path(facility) %></td>
     <td><%= link_to 'Delete', admin_facility_path(facility), method: :delete, data: { confirm: 'Are you sure?' } %></td>
