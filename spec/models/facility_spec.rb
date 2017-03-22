@@ -9,6 +9,11 @@ describe Facility do
       let(:image_file) { File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png") }
 
       it { expect(facility).to be_valid }
+      it 'save image_path to image_file_path' do
+        facility.save
+        image_path = "/uploads/facility/image_file/#{facility.id}/firstaid.png"
+        expect(facility.reload.image_file_path).to include(image_path)
+      end
     end
 
     context 'invalid' do

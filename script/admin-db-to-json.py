@@ -105,8 +105,8 @@ class Data:
                 "info": info,
                 "hide_aols": hide_aols,
                 "info_leaflet": info_leaflet,
-                "prosecution_leaflet": prosecution_leaflet, 
-                "defence_leaflet": defence_leaflet, 
+                "prosecution_leaflet": prosecution_leaflet,
+                "defence_leaflet": defence_leaflet,
                 "juror_leaflet": juror_leaflet,
             }
             if lat is not None:
@@ -170,7 +170,7 @@ class Data:
 
     def facilities_for_court(self, slug):
         cur = self.conn.cursor()
-        sql = """SELECT c.slug, cf.description, f.name, f.image, f.image_description
+        sql = """SELECT c.slug, cf.description, f.name, f.image, f.image_description, f.image_file_path
                    FROM courts as c,
                         facilities f,
                         court_facilities cf
@@ -182,7 +182,8 @@ class Data:
             "description": r[1],
             "name": r[2],
             "image": r[3],
-            "image_description": r[4]
+            "image_description": r[4],
+            "image_file_path": r[5]
         } for r in cur.fetchall()]
         return facilities
 

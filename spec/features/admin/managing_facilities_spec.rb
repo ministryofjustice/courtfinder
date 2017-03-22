@@ -2,6 +2,8 @@ require 'spec_helper'
 
 feature 'As an admin I should be able to manage facility' do
   let!(:user) { create(:user) }
+  let(:file) { File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png") }
+  let(:facility) { create(:facility, name: 'baby', image_file: file) }
 
   before do
     visit '/admin'
@@ -18,7 +20,7 @@ feature 'As an admin I should be able to manage facility' do
     fill_in('Name', with: 'Baby')
     fill_in('Image description', with: 'Baby change')
     upload_icon('firstaid.png')
-    click_button "Create Facility"
+    click_button 'Create Facility'
 
     expect(page).to have_content('Facility type was successfully created.')
 
@@ -29,8 +31,6 @@ feature 'As an admin I should be able to manage facility' do
 
   context 'existing facility' do
     before do
-      file = File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png")
-      facility = create(:facility, name: 'baby', image_file: file)
       visit edit_admin_facility_path(facility)
     end
 
@@ -41,7 +41,7 @@ feature 'As an admin I should be able to manage facility' do
       fill_in('Name', with: 'Hotspot')
       fill_in('Image description', with: 'Wifi is available')
       upload_icon('hotspot.png')
-      click_button "Update Facility"
+      click_button 'Update Facility'
 
       expect(page).to have_content('Facility type was successfully updated.')
 
@@ -49,6 +49,16 @@ feature 'As an admin I should be able to manage facility' do
       expect(page).to have_content('Image description: Wifi is available')
       expect(page).to have_xpath('.//img[@title="Wifi is available"]')
       expect(page.find(:xpath, './/img[@title="Wifi is available"]')['src']).to include('hotspot.png')
+    end
+
+    it 'List of facilities with image file' do
+      visit admin_facilities_path
+      expect(page).to have_content 'Listing Facilities'
+      within(:xpath, './/article') do
+        expect(page.find(:xpath, './/table//tr[2]/td[1]').text).to eql('baby')
+        img_src = page.find(:xpath, './/table//tr[2]/td[3]/img')['src']
+        expect(img_src).to eql(facility.image_file.url)
+      end
     end
   end
 
