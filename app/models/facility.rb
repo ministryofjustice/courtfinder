@@ -29,7 +29,7 @@ class Facility < ActiveRecord::Base
       errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_blank'))
     elsif self.image_file.file.extension.downcase != 'png'
       errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_extension'))
-    elsif self.image_file.width != 50 && self.image_file.height != 50
+    elsif self.image_file.path.include?('/tmp/') && self.image_file.width != 50 && self.image_file.height != 50
       errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_dimension'))
     end
   end
