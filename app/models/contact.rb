@@ -18,6 +18,7 @@ class Contact < ActiveRecord::Base
   attr_accessible :in_leaflet, :name, :sort, :telephone, :contact_type_id, :explanation
 
   validates :telephone, presence:true, contact: true
+  validates_length_of :explanation, maximum: 85
 
   has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
 
