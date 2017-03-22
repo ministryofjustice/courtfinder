@@ -1,0 +1,21 @@
+language: ruby
+rvm:
+  - 2.1.1
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq phantomjs
+
+before_script:
+  - psql -c 'create role courtfinder login createdb;' -U postgres
+  - psql -c 'create database courtfinder_test;' -U postgres
+addons:
+  apt:
+    packages:
+    - libqt4-dev
+    - xvfb
+services: postgres
+script:
+  - bundle exec rake db:migrate
+  - DISPLAY=localhost:1.0 xvfb-run bundle exec rake spec
+env:
+  - TRAVIS=true CODECLIMATE_REPO_TOKEN=f23ddd42ccfea1b54a5ad17574fe038957bf90c0057bceaa4b652b48fa183845
