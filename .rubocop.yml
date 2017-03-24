@@ -124,6 +124,10 @@ Style/SignalException:
 Style/TrivialAccessors:
   AllowPredicates: true
 
+# Let us have has_visiting_address?
+Style/PredicateName:
+  Enabled: false
+
 # Prefer sensible naming to comments everywhere.
 Documentation:
   Description: Document classes and non-namespace modules.
@@ -163,6 +167,9 @@ Metrics/BlockLength:
     - 'config/**/*'
     - 'lib/tasks/**/*'
 
+# class length - default is 100
+Metrics/ClassLength:
+  Max: 200
 # ---------------
 # HttpPositionalArguments is rails 5 only
 # https://github.com/bbatsov/rubocop/issues/3629
