@@ -41,6 +41,7 @@ en:
       contact:
         contact_type: Service type
         telephone: Number
+        number_explanation: Explanation
       email:
         contact_type: Service type
       opening_time:
@@ -54,6 +55,10 @@ en:
             image_file_dimension: Image dimensions have to be 50x50px.
             image_file_blank: You must select an icon image.
             image_file_extension: The image must be in the PNG file type.
+        contact:
+          attributes:
+            explanation:
+              too_long: is too long (contains %{size} characters and maximum is 85 characters)
 
   simple_form:
     hints:

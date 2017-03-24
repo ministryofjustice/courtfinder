@@ -15,10 +15,11 @@
 class Contact < ActiveRecord::Base
   belongs_to :court
   belongs_to :contact_type
-  attr_accessible :in_leaflet, :name, :sort, :telephone, :contact_type_id, :explanation
+  alias_attribute :number_explanation, :explanation
+  attr_accessible :in_leaflet, :name, :sort, :telephone, :contact_type_id, :explanation, :number_explanation
 
   validates :telephone, presence:true, contact: true
-  validates_length_of :explanation, maximum: 85
+  validate :explanation_length
 
   has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
 
@@ -28,5 +29,12 @@ class Contact < ActiveRecord::Base
 
   def contact_type_name
     self.contact_type.name.blank? ? "another service" : self.contact_type.name
+  end
+
+  private
+  def explanation_length
+    if explanation && explanation.size > 85
+      errors.add(:number_explanation, I18n.t('activerecord.errors.models.contact.attributes.explanation.too_long', size: explanation.size))
+    end
   end
 end
