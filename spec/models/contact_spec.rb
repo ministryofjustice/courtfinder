@@ -9,6 +9,6 @@ describe Contact, type: :model do
     86.times { text += "s" }
     contact.explanation = text
     expect(contact.save).to be_falsey
-    expect(contact.errors.messages).to eql(explanation: ['is too long (maximum is 85 characters)'])
+    expect(contact.errors.messages).to eql(number_explanation: ['is too long (contains 86 characters and maximum is 85 characters)'])
   end
 end
