@@ -155,7 +155,7 @@ describe Admin::CourtsController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :new, format: :json
@@ -172,7 +172,7 @@ describe Admin::CourtsController do
   describe "#show" do
     let(:court){ Court.create(name: 'My Court') }
 
-    it "finds the right court" do 
+    it "finds the right court" do
       expect(Court).to receive_message_chain(:friendly,:find).with(court.id.to_s).and_return(court)
       get :show, id: court.id
     end
@@ -193,7 +193,7 @@ describe Admin::CourtsController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :show, id: court.id, format: :json
@@ -210,7 +210,7 @@ describe Admin::CourtsController do
   describe "#edit" do
     let(:court){ Court.create(name: 'My Court') }
 
-    it "finds the right court" do 
+    it "finds the right court" do
       expect(Court).to receive_message_chain(:friendly, :find).with(court.id.to_s).and_return(court)
       get :edit, id: court.id
     end
@@ -238,7 +238,7 @@ describe Admin::CourtsController do
         expect( response.status ).to eq(200)
       end
     end
-  
+
   end
 
 describe "#areas_of_law" do
@@ -272,7 +272,7 @@ describe "#areas_of_law" do
 
   describe "#court_types" do
     let(:mock_courts_by_name){ double('courts by name', paginate: 'paginated courts by name') }
-    before{ 
+    before{
       Court.stub(:by_name).and_return(mock_courts_by_name)
       CourtType.stub(:order).and_return('all court types')
     }
@@ -314,7 +314,7 @@ describe "#areas_of_law" do
       family_area = AreaOfLaw.where(name: 'Children').first_or_initialize
       family_area.save
       get :family, { page: 1 }
-      expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption']).by_name.paginate(page: 1, per_page: 30))
+      expect(assigns(:courts)).to eq(Court.by_area_of_law(['Children','Divorce','Adoption', 'Civil partnership']).by_name.paginate(page: 1, per_page: 30))
     end
 
     it 'assigns @area_of_law' do

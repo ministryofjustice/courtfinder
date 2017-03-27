@@ -42,7 +42,7 @@ describe AreaOfLaw do
       area = create(:area_of_law, name: 'Area of law slugged')
       area.name = 'Law Slugged'
       area.save!
-      
+
       expect(area.to_param).to eq('area-of-law-slugged')
       expect(AreaOfLaw.find('area-of-law-slugged')).to eq(area)
     end
@@ -64,8 +64,8 @@ describe AreaOfLaw do
 
   describe 'class methods for named records' do
     it 'finds the record with the right name' do
-      names = ['Adoption', 'Bankruptcy', 'Children', 'Divorce', 'Housing possession', 'Money claims']
-      adoption, bankruptcy, children, divorce, housing_possession, money_claims =
+      names = ['Adoption', 'Bankruptcy', 'Children', 'Divorce', 'Housing possession', 'Money claims', 'Civil partnership']
+      adoption, bankruptcy, children, divorce, housing_possession, money_claims, civil_partnership =
         names.map { |name| create :area_of_law, name: name }
 
       expect(AreaOfLaw.adoption).to eq adoption
@@ -74,6 +74,7 @@ describe AreaOfLaw do
       expect(AreaOfLaw.divorce).to eq divorce
       expect(AreaOfLaw.housing_possession).to eq housing_possession
       expect(AreaOfLaw.money_claims).to eq money_claims
+      expect(AreaOfLaw.civil_partnership).to eq civil_partnership
     end
   end
 end

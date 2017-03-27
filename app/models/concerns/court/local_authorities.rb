@@ -37,7 +37,7 @@ module Concerns
           remit.save!
         end
 
-        %i(children divorce adoption).each do |method_name|
+        %i(children divorce adoption civil_partnership).each do |method_name|
           define_method :"#{method_name}_local_authorities" do
             area_local_authorities AreaOfLaw.send(method_name)
           end

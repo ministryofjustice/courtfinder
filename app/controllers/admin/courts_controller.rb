@@ -110,7 +110,7 @@ class Admin::CourtsController < Admin::ApplicationController
   end
 
   def family
-    @courts = Court.by_area_of_law([AreaOfLaw::Name::CHILDREN, AreaOfLaw::Name::DIVORCE, AreaOfLaw::Name::ADOPTION]).by_name.paginate(page: params[:page], per_page: 30)
+    @courts = Court.by_area_of_law([AreaOfLaw::Name::CHILDREN, AreaOfLaw::Name::DIVORCE, AreaOfLaw::Name::ADOPTION, AreaOfLaw::Name::CIVIL_PARTNERSHIP]).by_name.paginate(page: params[:page], per_page: 30)
     @area_of_law = AreaOfLaw.where(id: params[:area_of_law_id]).first || AreaOfLaw.where(name: AreaOfLaw::Name::CHILDREN).first
   end
 
