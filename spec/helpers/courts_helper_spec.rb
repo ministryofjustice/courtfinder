@@ -77,7 +77,7 @@ describe CourtsHelper do
       Town.should_receive(:select).with('towns.id, towns.name').and_return(towns)
       helper.towns_with_county_where_duplicates_exist
     end
-    
+
     describe "each returned town" do
 
       it "is mapped to a new TownDisambiguator" do
@@ -85,6 +85,15 @@ describe CourtsHelper do
         TownDisambiguator.should_receive( :new ).exactly(:once).ordered.with(town2).and_return('disambiguated town 2')
         expect( helper.towns_with_county_where_duplicates_exist ).to eq( ['disambiguated town 1', 'disambiguated town 2'] )
       end
+    end
+  end
+
+  describe 'family_areas_of_law' do
+    it "call selected areas of law" do
+      expect(AreaOfLaw).to receive(:where).
+        with(name: ['Children','Divorce','Adoption', 'Civil partnership']).
+        and_return []
+      family_areas_of_law { |area, id| }
     end
   end
 end

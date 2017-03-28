@@ -32,6 +32,7 @@ class AreaOfLaw < ActiveRecord::Base
     DIVORCE            = 'Divorce'
     HOUSING_POSSESSION = 'Housing possession'
     MONEY_CLAIMS       = 'Money claims'
+    CIVIL_PARTNERSHIP  = 'Civil partnership'
   end
 
   class << self
@@ -41,7 +42,8 @@ class AreaOfLaw < ActiveRecord::Base
       children:           Name::CHILDREN,
       divorce:            Name::DIVORCE,
       housing_possession: Name::HOUSING_POSSESSION,
-      money_claims:       Name::MONEY_CLAIMS
+      money_claims:       Name::MONEY_CLAIMS,
+      civil_partnership:  Name::CIVIL_PARTNERSHIP
     }.each do |method_name, area_of_law_name|
       define_method method_name do
         find_by_name! area_of_law_name
@@ -49,7 +51,7 @@ class AreaOfLaw < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children, 
+  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children,
     :type_adoption, :type_divorce, :group_id, :external_link, :external_link_desc
   has_many :remits
   has_many :courts, through: :remits
