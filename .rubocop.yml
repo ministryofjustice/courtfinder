@@ -29,6 +29,7 @@ Metrics/LineLength:
     - 'Gemfile'
 
 Metrics/AbcSize:
+  Enabled: false
   Exclude:
     - 'spec/**/*'
 

@@ -51,8 +51,9 @@ class AreaOfLaw < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children,
-    :type_adoption, :type_divorce, :group_id, :external_link, :external_link_desc
+  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy,
+    :type_money_claims, :type_children, :type_adoption, :type_divorce,
+    :group_id, :external_link, :external_link_desc
 
   attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy,
     :type_money_claims, :type_children, :type_adoption, :type_divorce,

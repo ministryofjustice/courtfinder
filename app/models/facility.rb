@@ -25,17 +25,25 @@ class Facility < ActiveRecord::Base
   private
 
   def image_file_validations
-    if self.image_file.blank?
-      errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_blank'))
-    elsif self.image_file.file.extension.downcase != 'png'
-      errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_extension'))
-    elsif self.image_file.path.include?('/tmp/') && self.image_file.width != 50 && self.image_file.height != 50
-      errors.add(:image_file, I18n.t('activerecord.errors.models.facility.attributes.image_file_dimension'))
+    if image_file.blank?
+      errors.add(:image_file, image_validation_messages[:blank])
+    elsif image_file.file.extension.downcase != 'png'
+      errors.add(:image_file, image_validation_messages[:extension])
+    elsif image_file.path.include?('/tmp/') && image_file.width != 50 && image_file.height != 50
+      errors.add(:image_file, image_validation_messages[:dimension])
     end
   end
 
+  def image_validation_messages
+    {
+      blank: I18n.t('activerecord.errors.models.facility.attributes.image_file_blank'),
+      extension: I18n.t('activerecord.errors.models.facility.attributes.image_file_extension'),
+      dimension: I18n.t('activerecord.errors.models.facility.attributes.image_file_dimension')
+    }
+  end
+
   def store_image_file_path
-    return if self.image_file.blank? || self.image_file_path == self.image_file.path
-    self.update(image_file_path: self.image_file.path)
+    return if image_file.blank? || image_file_path == image_file.path
+    update(image_file_path: image_file.path)
   end
 end
