@@ -37,6 +37,7 @@
 
 class Court < ActiveRecord::Base
   include Concerns::Court::LocalAuthorities
+  include Concerns::Court::PostcodeCourts
 
   belongs_to :area
   has_many :addresses
@@ -109,20 +110,9 @@ class Court < ActiveRecord::Base
             "remits.area_of_law_id" => "#{area_of_law.id}").
       order(:name)
   }
-  scope :by_postcode_court_mapping, -> (postcode, area_of_law = nil) {
+  scope :by_postcode_court_mapping, lambda { |postcode, area_of_law = nil|
     if postcode.present?
-      if postcode_court = PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
-            postcode.gsub(/\s+/, "").downcase).
-            order('-length(postcode)').first
-        # Using a reverse id lookup instead of just postcode_court.court as a workaround for the distance calculator
-        if area_of_law
-          by_area_of_law(area_of_law).where(id: postcode_court.court_id).limit(1)
-        else
-          where(id: postcode_court.court_id).limit(1)
-        end
-      else
-        []
-      end
+      postcode_court_lookup(postcode, area_of_law)
     else
       self
     end
@@ -138,7 +128,8 @@ class Court < ActiveRecord::Base
 
   def fetch_image_file
     if image.present?
-      image_file.download!("https://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{image}")
+      image_url = "https://hmctscourtfinder.justice.gov.uk/courtfinder/images/courts/#{image}"
+      image_file.download!(image_url)
       image_file.store!
     end
   end
@@ -156,21 +147,10 @@ class Court < ActiveRecord::Base
   end
 
   def postcode_list=(postcodes)
-    new_postcode_courts = []
+    @new_postcode_courts = []
     @postcode_errors = []
-    postcodes.split(",").map do |postcode|
-      postcode = postcode.gsub(/[^0-9a-z ]/i, "").downcase
-      if pc = existing_postcode_court(postcode)
-        if pc.court && pc.court == self
-          new_postcode_courts << pc
-        elsif pc.court && pc.court != self
-          @postcode_errors << "Post code \"#{postcode}\" is already assigned to #{pc.court.name}. Please remove it from this court before assigning it to #{name}."
-        end
-      else
-        new_postcode_courts << PostcodeCourt.new(postcode: postcode)
-      end
-    end
-    self.postcode_courts = new_postcode_courts
+    ingest_new_postcode_courts(postcodes)
+    self.postcode_courts = @new_postcode_courts
   end
 
   def existing_postcode_court(postcode)
@@ -186,7 +166,8 @@ class Court < ActiveRecord::Base
   end
 
   def has_visiting_address?
-    # Converting to array so that we get the addresses in memory, not the db record, otherwise validations don't work correctly.
+    # Converting to array so that we get the addresses in memory,
+    # not the db record, otherwise validations don't work correctly.
     visiting_addresses.count > 0
   end
 
@@ -195,18 +176,15 @@ class Court < ActiveRecord::Base
   end
 
   def convert_visiting_to_location
-    self.latitude = nil
-    self.longitude = nil
-    begin
-      @cs = CourtSearch.new(visiting_postcode)
-      lat_lon = @cs.latlng_from_postcode(visiting_postcode)
-      if lat_lon
-        self.latitude = lat_lon[0]
-        self.longitude = lat_lon[1]
-      end
-    rescue Exception
-      Rails.logger.error("Could not get latlng from: visiting_postcode")
+    self.latitude, self.longitude = nil
+    @cs = CourtSearch.new(visiting_postcode)
+    lat_lon = @cs.latlng_from_postcode(visiting_postcode)
+    if lat_lon
+      self.latitude = lat_lon[0]
+      self.longitude = lat_lon[1]
     end
+  rescue NoMethodError
+    Rails.logger.error("Could not get latlng from: visiting_postcode")
   end
 
   ParkingOption = Struct.new(:label, :value)
@@ -241,17 +219,31 @@ class Court < ActiveRecord::Base
   private
 
   def resolve_leaflets
-    leaflets = %w(visitor defence prosecution juror)
-    court_type = court_types.pluck('LOWER(name)')
     case
-    when court_type.size >= 1 && court_type.include?("crown court")
-      leaflets
-    when court_type.size >= 1 && court_type.include?("magistrates court")
-      leaflets.take(3)
-    when court_type.any? { |ct| ct == "county court" || ct == "family court" || ct == "tribunal" }
-      leaflets.take(1)
+    when good_court_type_size? && court_type.include?("crown court")
+      leaflets_list
+    when good_court_type_size? && court_type.include?("magistrates court")
+      leaflets_list.take(3)
+    when any_cft_courts?
+      leaflets_list.take(1)
     else
-      leaflets
+      leaflets_list
     end
+  end
+
+  def leaflets_list
+    %w[visitor defence prosecution juror]
+  end
+
+  def good_court_type_size?
+    court_type.size >= 1
+  end
+
+  def court_type
+    @court_type ||= court_types.pluck('LOWER(name)')
+  end
+
+  def any_cft_courts?
+    court_type.any? { |ct| ct == "county court" || ct == "family court" || ct == "tribunal" }
   end
 end

@@ -326,4 +326,23 @@ describe Court do
       end
     end
   end
+
+  describe 'by_postcode_court_mapping' do
+    let(:postcode_court) { create(:postcode_court, court: @court1) }
+
+    it "return court" do
+      list = Court.by_postcode_court_mapping(postcode_court.postcode)
+      expect(list.first).to eql(@court1)
+    end
+
+    it "return empty array" do
+      list = Court.by_postcode_court_mapping(postcode_court.postcode, AreaOfLaw.last)
+      expect(list).to be_empty
+    end
+
+    it "return empty array" do
+      list = Court.by_postcode_court_mapping(postcode_court.postcode, @court2.areas_of_law.last)
+      expect(list).to be_empty
+    end
+  end
 end
