@@ -51,8 +51,10 @@ class AreaOfLaw < ActiveRecord::Base
     end
   end
 
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy, :type_money_claims, :type_children,
-    :type_adoption, :type_divorce, :group_id, :external_link, :external_link_desc
+  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy,
+    :type_money_claims, :type_children, :type_adoption, :type_divorce,
+    :group_id, :external_link, :external_link_desc
+
   has_many :remits
   has_many :courts, through: :remits
   belongs_to :group, class_name: 'AreaOfLawGroup'
@@ -67,14 +69,17 @@ class AreaOfLaw < ActiveRecord::Base
 
   include Rails.application.routes.url_helpers
 
-  scope :search, -> (search){ where('LOWER(name) like ?', "%#{search.downcase}%").order('name ASC') }
+  scope :search, (lambda do |search|
+    where('LOWER(name) like ?', "%#{search.downcase}%").
+      order('name ASC')
+  end)
   scope :has_courts, -> { includes(:courts).where('courts.id IS NOT NULL') }
 
   def path
     area_of_law_path(self)
   end
 
-  def as_json(options={})
+  def as_json(options = {})
     super({ only: ['name'], methods: ['path'] }.merge(options))
   end
 
@@ -84,11 +89,11 @@ class AreaOfLaw < ActiveRecord::Base
 
   def external_link
     link = super()
-    CGI.unescape(link) if !link.nil?
+    CGI.unescape(link) unless link.nil?
   end
 
   def external_link=(link)
-    link = CGI.escape(link) if !link.nil?
+    link = CGI.escape(link) unless link.nil?
     super(link)
   end
 

@@ -15,10 +15,10 @@
 class CourtType < ActiveRecord::Base
   attr_accessible :name, :old_id, :slug
   has_many :court_types_courts
-  has_many :courts, :through => :court_types_courts
+  has_many :courts, through: :court_types_courts
   has_and_belongs_to_many :external_links
 
-  has_paper_trail meta: {ip: :ip}
+  has_paper_trail meta: { ip: :ip }
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history, :finders]
@@ -30,25 +30,39 @@ class CourtType < ActiveRecord::Base
     where('LOWER(name) like ?', "%#{search.downcase}%").order('name ASC')
   end
 
-  def as_json(options={})
+  def as_json(options = {})
     if options[:min]
-      {
-        :name => name,
-        :path => court_type_path(self)
-      }
+      min_json
     else
+      full_json
+    end
+  end
+
+  private
+
+  def min_json
+    {
+      name: name,
+      path: court_type_path(self)
+    }
+  end
+
+  def full_json
+    {
+      created_at: created_at,
+      id: id,
+      name: name,
+      updated_at: updated_at,
+      path: court_type_path(self),
+      courts: visible_courts_json
+    }
+  end
+
+  def visible_courts_json
+    courts.visible.map do |court|
       {
-        :created_at => created_at,
-        :id => id,
-        :name => name,
-        :updated_at => updated_at,
-        :path => court_type_path(self),
-        :courts => courts.visible.map { |court|
-          {
-            :name => court.name,
-            :path => court_path(court)
-          }
-        }
+        name: court.name,
+        path: court_path(court)
       }
     end
   end

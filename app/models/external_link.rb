@@ -15,5 +15,5 @@ class ExternalLink < ActiveRecord::Base
   has_and_belongs_to_many :court_types
   has_and_belongs_to_many :areas_of_law
 
-  scope :visible, ->{ where(always_visible: true) }
+  scope :visible, -> { where(always_visible: true) }
 end

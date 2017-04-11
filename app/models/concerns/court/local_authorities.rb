@@ -23,7 +23,8 @@ module Concerns
           local_authorities = LocalAuthority.where(name: local_authority_names)
 
           self.invalid_local_authorities = local_authority_names - local_authorities.map(&:name)
-          remits.where(area_of_law_id: area_of_law.id).first_or_create!.local_authorities = local_authorities
+          remits.where(area_of_law_id: area_of_law.id).
+            first_or_create!.local_authorities = local_authorities
         end
 
         def single_point_of_entry_for?(area_of_law)
@@ -37,7 +38,7 @@ module Concerns
           remit.save!
         end
 
-        %i(children divorce adoption civil_partnership).each do |method_name|
+        %i[children divorce adoption civil_partnership].each do |method_name|
           define_method :"#{method_name}_local_authorities" do
             area_local_authorities AreaOfLaw.send(method_name)
           end

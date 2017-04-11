@@ -19,7 +19,6 @@ class PostcodeCourt < ActiveRecord::Base
 
   before_save :force_upcase_postcode
 
-
   def force_upcase_postcode
     self.postcode = postcode.try(:upcase)
   end

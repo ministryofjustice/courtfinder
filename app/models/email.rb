@@ -19,7 +19,7 @@ class Email < ActiveRecord::Base
   attr_accessible :address, :sort, :contact_type_id
   before_save :strip_whitespace
 
-  has_paper_trail ignore: [:created_at, :updated_at], meta: {ip: :ip}
+  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
   validates_presence_of :address
   validates :address, email: true, if: ->(f) { f.address.present? }
 
@@ -34,6 +34,6 @@ class Email < ActiveRecord::Base
   end
 
   def contact_type_name
-    self.try(:contact_type).try(:name).blank? ? "another service" : self.contact_type.name
+    try(:contact_type).try(:name).blank? ? "another service" : contact_type.name
   end
 end
