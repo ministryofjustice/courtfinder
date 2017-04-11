@@ -8,7 +8,7 @@
 Until further notice we are treating the *old_prod_working* branch as the default
 branch. Ensure all changes are made on this branch.
 
-For further information and deployment instructions please refer to the [ops 
+For further information and deployment instructions please refer to the [ops
 manual](https://opsmanual.dsd.io/run_books/courtfinder.html#non-master-branch-approach-use-this-until-further-notice).
 
 ## Set-up
@@ -59,4 +59,5 @@ To get access to the admin area you will then need to create the first user manu
 
     rake "admin:create[sue@example.com, the_password, Sue Denim]"
 
+Testing Jira integration
 
