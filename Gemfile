@@ -22,7 +22,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard'
   gem 'guard-livereload'
-  gem 'hirb'
   gem 'letter_opener'
   gem 'rubocop', require: false
   gem 'selenium-webdriver'
@@ -82,7 +81,6 @@ gem 'httparty'
 gem 'appsignal'
 gem 'paper_trail', '~> 3.0'
 gem 'figaro'
-gem 'google_drive'
 gem 'verbs'
 gem 'sentry-raven'
 
