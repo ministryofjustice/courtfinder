@@ -17,14 +17,14 @@ class Town < ActiveRecord::Base
 
   default_scope { order('LOWER(towns.name)') } # ignore case when sorting
 
-  scope :with_county_name, lambda {
+  scope :with_county_name, (lambda do
     joins('left outer join counties on counties.id = towns.county_id').
       select('counties.name as county_name, counties.id as county_id')
-  }
+  end)
 
-  scope :with_duplicate_count, lambda {
+  scope :with_duplicate_count, (lambda do
     select('(select count(*) from towns t2 where t2.name=towns.name and
       t2.id != towns.id) as duplicates')
-  }
+  end)
 
 end

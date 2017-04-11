@@ -55,10 +55,6 @@ class AreaOfLaw < ActiveRecord::Base
     :type_money_claims, :type_children, :type_adoption, :type_divorce,
     :group_id, :external_link, :external_link_desc
 
-  attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy,
-    :type_money_claims, :type_children, :type_adoption, :type_divorce,
-    :group_id, :external_link, :external_link_desc
-
   has_many :remits
   has_many :courts, through: :remits
   belongs_to :group, class_name: 'AreaOfLawGroup'
@@ -73,10 +69,10 @@ class AreaOfLaw < ActiveRecord::Base
 
   include Rails.application.routes.url_helpers
 
-  scope :search, lambda { |search|
+  scope :search, (lambda do |search|
     where('LOWER(name) like ?', "%#{search.downcase}%").
       order('name ASC')
-  }
+  end)
   scope :has_courts, -> { includes(:courts).where('courts.id IS NOT NULL') }
 
   def path
