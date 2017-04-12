@@ -1,4 +1,3 @@
-require 'google_spreadsheet/connection.rb'
 require 'awesome_print'
 
 namespace :import do
