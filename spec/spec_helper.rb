@@ -23,6 +23,12 @@ Capybara.javascript_driver = :webkit
 # This is here so missing images from plugins are not failing tests.
 Capybara.raise_server_errors = false
 
+Capybara::Webkit.configure do |config|
+  config.block_unknown_urls
+  config.allow_url("http://ajax.googleapis.com/ajax")
+  config.allow_url("https://assets.digital.cabinet-office.gov.uk/static")
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
