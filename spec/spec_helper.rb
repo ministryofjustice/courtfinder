@@ -1,11 +1,7 @@
-# must do this before any application code
-require 'simplecov'
-SimpleCov.start
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+require 'simplecov'
+SimpleCov.start
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
@@ -26,6 +22,12 @@ Capybara.javascript_driver = :webkit
 # Capybara.javascript_driver = :selenium
 # This is here so missing images from plugins are not failing tests.
 Capybara.raise_server_errors = false
+
+Capybara::Webkit.configure do |config|
+  config.block_unknown_urls
+  config.allow_url("http://ajax.googleapis.com/ajax")
+  config.allow_url("https://assets.digital.cabinet-office.gov.uk/static")
+end
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -106,4 +108,11 @@ VCR.configure do |config|
   puts "VRC is logging to #{Rails.root}\/log\/vcr.log"
   config.debug_logger = File.open("#{Rails.root}\/log\/vcr.log", 'w')
   config.allow_http_connections_when_no_cassette = false
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end
