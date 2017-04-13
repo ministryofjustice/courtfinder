@@ -30,7 +30,6 @@ module Admin
     end
 
     def create
-
       @town = Town.new(params[:town])
       respond_to do |format|
         if @town.save
