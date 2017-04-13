@@ -25,7 +25,6 @@ class Admin::TownsController < Admin::ApplicationController
   # GET /towns/new.json
   def new
     @town = Town.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @town }
