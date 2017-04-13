@@ -63,4 +63,39 @@ describe Admin::TownsController do
       end
     end
   end
+
+  describe 'PUT' do
+    context 'update' do
+      it "change name of the town" do
+        put :update, id: town.id, town: { name: 'Brno1' }
+
+        expect(response).to redirect_to admin_town_path(town)
+      end
+    end
+
+    context 'updatea json' do
+      it "change name of the town" do
+        put :update, id: town.id, town: { name: 'Brno1' }, format: :json
+        expect(town.reload.name).to eql('Brno1')
+      end
+    end
+  end
+
+  describe 'DELETE' do
+    context 'destroy' do
+      it "change name of the town" do
+        delete :destroy, id: town.id
+
+        expect(response).to redirect_to admin_towns_url
+      end
+    end
+
+    context 'updatea json' do
+      it "change name of the town" do
+        delete :destroy, id: town.id, format: :json
+
+        expect(Town.count).to eql(0)
+      end
+    end
+  end
 end
