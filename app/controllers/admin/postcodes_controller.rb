@@ -1,41 +1,52 @@
-class Admin::PostcodesController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class PostcodesController < Admin::ApplicationController
+    before_action :authorised?
 
-  # GET /courts/postcodes/1/edit
-  def edit
-    render_edit
-    return
-  end
-
-  # PUT /courts/postcode/1
-  # PUT /courts/postcode/1.json
-  def update
-    postcodes = params[:court][:postcode_courts].map {|i| i.to_i} unless params[:court][:postcode_courts].nil?
-    postcodes = [] unless not postcodes.nil?
-
-    if not postcodes.empty?
-      PostcodeCourt.transaction do
-        PostcodeCourt.where('court_id = ? and id in (?)', 
-          params[:court][:court_id].to_i, 
-          postcodes).
-          update_all(:court_id => params[:move_to][:court].to_i) 
-        end
+    def edit
+      render_edit
     end
-    flash.now[:move_info] = '%s postcode(s) moved successfully.' % postcodes.count.to_s
-    flash.now[:move_info] = 'No postcodes selected.' unless not postcodes.empty?
-    render_edit
+
+    def update
+      if postcodes.present?
+        PostcodeCourt.transaction do
+          PostcodeCourt.where('court_id = ? and id in (?)',
+            params[:court][:court_id].to_i,
+            postcodes).
+            update_all(court_id: params[:move_to][:court].to_i)
+        end
+      end
+      flash_message
+      render_edit
+    end
+
+    private
+
+    def render_edit
+      @court = Court.includes(:postcode_courts).find(params[:id])
+      @courts = Court.by_area_of_law([
+        AreaOfLaw::Name::MONEY_CLAIMS,
+        AreaOfLaw::Name::HOUSING_POSSESSION,
+        AreaOfLaw::Name::BANKRUPTCY]).
+                where.not(id: params[:id]).order(:name)
+
+      if flash[:move_info].nil? && @court.postcode_courts.empty?
+        flash.now[:info] = 'No postcodes to move.'
+      end
+
+      render template: 'admin/postcodes/_move'
+    end
+
+    def postcodes
+      return [] if params[:court][:postcode_courts].blank?
+      params[:court][:postcode_courts].map(&:to_i)
+    end
+
+    def flash_message
+      if postcodes.blank?
+        flash.now[:move_info] = 'No postcodes selected.'
+      else
+        flash.now[:move_info] = '%s postcode(s) moved successfully.' % postcodes.count.to_s
+      end
+    end
   end
-
-private
-  def render_edit
-    @court = Court.includes(:postcode_courts).find(params[:id])
-    @courts = Court.by_area_of_law([AreaOfLaw::Name::MONEY_CLAIMS, 
-        AreaOfLaw::Name::HOUSING_POSSESSION, 
-        AreaOfLaw::Name::BANKRUPTCY]).where.not(id: params[:id]).order(:name)
-
-    flash.now[:info] = 'No postcodes to move.' if flash[:move_info].nil? and @court.postcode_courts.empty?
-
-    render :template => 'admin/postcodes/_move'
-  end
-
 end

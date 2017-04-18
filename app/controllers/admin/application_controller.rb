@@ -22,4 +22,12 @@ class Admin::ApplicationController < ::ApplicationController
     def paper_trail_enabled_for_controller
       request.user_agent != 'Disable User-Agent'
     end
+
+    def render_error_response(format, options)
+      format.html { render action: options[:template] }
+      format.json do
+        render json: options[:model].errors, status: :unprocessable_entity
+      end
+    end
+
 end

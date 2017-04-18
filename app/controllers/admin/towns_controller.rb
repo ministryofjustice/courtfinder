@@ -31,12 +31,15 @@ module Admin
 
     def create
       @town = Town.new(params[:town])
-      respond_to do |format|
-        render_error_response(format, :new) unless @town.save
 
-        message = 'Town was successfully created.'
-        format.html { redirect_to admin_town_path(@town), notice: message }
-        format.json { render json: @town, status: :created, location: admin_town_url(@town) }
+      respond_to do |format|
+        if @region.save
+          message = 'Town was successfully created.'
+          format.html { redirect_to admin_town_path(@town), notice: message }
+          format.json { render json: @town, status: :created, location: admin_town_url(@town) }
+        else
+          render_error_response(format, template: :new, model: @town) unless @town.save
+        end
       end
     end
 
@@ -47,7 +50,7 @@ module Admin
           format.html { redirect_to admin_town_path(@town), notice: message }
           format.json { head :no_content }
         else
-          render_error_response(format, :edit)
+          render_error_response(format, template: :new, model: @town)
         end
       end
     end
@@ -65,11 +68,6 @@ module Admin
 
     def find_town
       @town ||= Town.find(params[:id])
-    end
-
-    def render_error_response(format, template)
-      format.html { render action: template }
-      format.json { render json: @town.errors, status: :unprocessable_entity }
     end
   end
 end

@@ -2,7 +2,6 @@ module Admin
   class UsersController < Admin::ApplicationController
     before_action :authorised?
     before_filter :find_user, execept: :index
-
     respond_to :html, :json
 
     def index
