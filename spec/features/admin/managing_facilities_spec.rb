@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'As an admin I should be able to manage facility' do
-  let!(:user) { create(:user) }
+  let!(:user) { create(:admin) }
   let(:file) { File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png") }
   let(:facility) { create(:facility, name: 'baby', image_file: file) }
 
