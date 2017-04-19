@@ -1,4 +1,6 @@
 class Admin::FacilitiesController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /admin/facilities
   # GET /admin/facilities.json
   def index

@@ -1,4 +1,6 @@
 class Admin::ContactTypesController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /admin/contact_types
   # GET /admin/contact_types.json
   def index

@@ -1,4 +1,6 @@
 class Admin::AddressesController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /addresses
   # GET /addresses.json
   def index

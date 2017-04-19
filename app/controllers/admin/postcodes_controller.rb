@@ -1,5 +1,5 @@
 class Admin::PostcodesController < Admin::ApplicationController
-  before_filter :authorised?, :only => [:audit, :audit_csv, :get_association_changeset]
+  before_action :authorised?
 
   # GET /courts/postcodes/1/edit
   def edit

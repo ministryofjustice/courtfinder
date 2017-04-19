@@ -54,6 +54,14 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password 'password123'
     password_confirmation 'password123'
+
+    factory :admin do
+      admin true
+    end
+
+    factory :non_admin do
+      admin false
+    end
   end
 
   factory :court_facility do

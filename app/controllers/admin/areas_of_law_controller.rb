@@ -1,4 +1,6 @@
 class Admin::AreasOfLawController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /admin/areas_of_law
   # GET /admin/areas_of_law.json
   def index

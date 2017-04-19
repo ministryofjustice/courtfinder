@@ -1,4 +1,6 @@
 class Admin::OpeningTypesController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /admin/opening_types
   # GET /admin/opening_types.json
   def index

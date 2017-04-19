@@ -1,4 +1,6 @@
 class Admin::AreasController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /admin/areas
   # GET /admin/areas.json
   def index

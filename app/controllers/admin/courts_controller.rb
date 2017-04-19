@@ -1,5 +1,5 @@
 class Admin::CourtsController < Admin::ApplicationController
-  before_filter :authorised?, :only => [:audit, :audit_csv, :get_association_changeset]
+  before_action :authorised?, :only => [:audit, :audit_csv, :destroy]
 
   # GET /courts
   # GET /courts.json

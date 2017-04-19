@@ -1,4 +1,6 @@
 class Admin::RegionsController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /admin/regions
   # GET /admin/regions.json
   def index
