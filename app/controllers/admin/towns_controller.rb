@@ -33,12 +33,12 @@ module Admin
       @town = Town.new(params[:town])
 
       respond_to do |format|
-        if @region.save
+        if @town.save
           message = 'Town was successfully created.'
           format.html { redirect_to admin_town_path(@town), notice: message }
           format.json { render json: @town, status: :created, location: admin_town_url(@town) }
         else
-          render_error_response(format, template: :new, model: @town) unless @town.save
+          render_error_response(format, template: :new, model: @town)
         end
       end
     end

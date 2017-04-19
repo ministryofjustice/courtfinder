@@ -8,28 +8,23 @@ describe Admin::OpeningTypesController do
 
   describe "#update" do
     let(:opening_type){ OpeningType.new(id: 123) }
-    before{ 
-      OpeningType.stub(:find).and_return(opening_type) 
+    before{
+      OpeningType.stub(:find).and_return(opening_type)
       opening_type.stub(id: 123)
     }
 
     let(:params){ { id: 123, opening_type: {name: 'new opening type'} } }
 
     context "that works" do
-      before{ 
+      before{
         OpeningType.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :update, params
-      end
 
       it "redirects to the show path" do
         patch :update, params
         response.should redirect_to(admin_opening_type_path(opening_type))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -42,23 +37,18 @@ describe Admin::OpeningTypesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         OpeningType.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -81,14 +71,9 @@ describe Admin::OpeningTypesController do
 
     context "that saves ok" do
       it "creates an opening type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { OpeningType.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the show path" do
@@ -108,16 +93,11 @@ describe Admin::OpeningTypesController do
     end
     context "that doesn't save ok" do
       before{ OpeningType.any_instance.stub(save: false) }
-      
+
       it "does not create an opening type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { OpeningType.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -144,16 +124,6 @@ describe Admin::OpeningTypesController do
     end
   end
 
-
-  it "purges the cache when a opening_type is destroyed" do
-    at = OpeningType.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_opening_types_path)
-    }.to change { OpeningType.count }.by(-1)
-  end
-
   describe "#index" do
     it "assigns all opening_types to @opening_types" do
       get :index
@@ -173,7 +143,7 @@ describe Admin::OpeningTypesController do
 
   describe "#show" do
     let(:mock_opening_type){ OpeningType.new(id: 123, name: 'mock opening type') }
-    before{ 
+    before{
       OpeningType.stub(:find).and_return(mock_opening_type)
     }
 
@@ -219,7 +189,7 @@ describe Admin::OpeningTypesController do
 
   describe "#edit" do
     let(:mock_opening_type){ OpeningType.new(id: 123, name: 'mock opening type') }
-    before{ 
+    before{
       OpeningType.stub(:find).and_return(mock_opening_type)
     }
 

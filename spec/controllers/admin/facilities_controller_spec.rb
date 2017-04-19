@@ -19,11 +19,6 @@ describe Admin::FacilitiesController do
         Facility.any_instance.stub(update_attributes: true)
       }
 
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :update, params
-      end
-
       it "redirects to the show path" do
         patch :update, params
         response.should redirect_to(admin_facility_path(facility))
@@ -44,11 +39,6 @@ describe Admin::FacilitiesController do
       before{
         Facility.any_instance.stub(update_attributes: false)
       }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       context "a html request" do
         before{ params[:format] = :html }
@@ -85,11 +75,6 @@ describe Admin::FacilitiesController do
         }.to change { Facility.count }.by(1)
       end
 
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
-      end
-
       it "redirects to the show path" do
         post :create, params
         response.should redirect_to(admin_facility_path(assigns(:facility)))
@@ -114,11 +99,6 @@ describe Admin::FacilitiesController do
         }.to_not change { Facility.count }
       end
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
-      end
-
       it "rerenders the new template" do
         post :create, params
         response.should render_template(:new)
@@ -141,16 +121,6 @@ describe Admin::FacilitiesController do
         end
       end
     end
-  end
-
-
-  it "purges the cache when a facility is destroyed" do
-    at = create(:facility)
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_facilities_path)
-    }.to change { Facility.count }.by(-1)
   end
 
   describe "#index" do
@@ -226,24 +196,6 @@ describe Admin::FacilitiesController do
       Facility.should_receive(:find).with('123').and_return(mock_facility)
       get :edit, id: 123
     end
-  end
-
-  it "purges the cache when a contact type is destroyed" do
-    at = create(:facility)
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_facilities_path)
-    }.to change { Facility.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = create(:facility)
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_facilities_path)
-    }.to change { Facility.count }.by(-1)
   end
 
 end
