@@ -1,4 +1,5 @@
 class Admin::EmergencyMessagesController < Admin::ApplicationController
+  before_action :authorised?
 
   # GET /courts/1/edit
   def edit

@@ -1,4 +1,6 @@
 class Admin::LocalAuthoritiesController < Admin::ApplicationController
+  before_action :authorised?
+
   respond_to :html, :json
 
 	def index

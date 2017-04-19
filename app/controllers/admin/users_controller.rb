@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::ApplicationController
-  before_filter :authorised?
+  before_action :authorised?
 
   respond_to :html, :json
 

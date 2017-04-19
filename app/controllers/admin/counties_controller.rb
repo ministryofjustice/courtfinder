@@ -1,4 +1,6 @@
 class Admin::CountiesController < Admin::ApplicationController
+  before_action :authorised?
+
   # GET /counties
   # GET /counties.json
   def index

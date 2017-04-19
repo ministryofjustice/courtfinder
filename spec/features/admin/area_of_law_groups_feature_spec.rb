@@ -3,7 +3,7 @@ require 'spec_helper'
 feature 'Manage area of law groups' do
 
   context 'admin' do
-    let!(:user) { create(:user) }
+    let!(:user) { create(:admin) }
     before do
       visit '/admin'
       sign_in user

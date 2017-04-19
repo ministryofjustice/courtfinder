@@ -3,7 +3,7 @@ require 'spec_helper'
 feature 'manage courts postcodes' do
   before(:each) do
     visit '/admin'
-    sign_in create(:user)
+    sign_in create(:admin)
     click_link 'Manage All Courts and Tribunals'
   end
 
