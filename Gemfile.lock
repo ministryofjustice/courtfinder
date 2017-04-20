@@ -89,7 +89,7 @@ GEM
       mime-types (>= 1.16)
     childprocess (0.6.3)
       ffi (~> 1.0, >= 1.0.11)
-    ckeditor_rails (4.6.2)
+    ckeditor_rails (4.4.5)
       railties (>= 3.0)
     cliver (0.3.2)
     codeclimate-test-reporter (1.0.8)
@@ -555,7 +555,7 @@ DEPENDENCIES
   capybara-email
   capybara-webkit
   carrierwave (~> 1.0)
-  ckeditor_rails
+  ckeditor_rails (= 4.4.5)
   codeclimate-test-reporter
   coffee-rails (~> 4.1.0)
   database_cleaner
