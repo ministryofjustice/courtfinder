@@ -1,7 +1,7 @@
 module Admin
   class RegionsController < Admin::ApplicationController
     before_action :authorised?
-    before_filter :find_region, except: [:index, :new, :create]
+    before_filter :region, except: [:index, :new, :create]
     respond_to :html, :json
 
     def index
@@ -62,7 +62,7 @@ module Admin
 
     private
 
-    def find_region
+    def region
       @region ||= Region.find(params[:id])
     end
   end

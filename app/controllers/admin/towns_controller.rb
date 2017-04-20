@@ -1,7 +1,7 @@
 module Admin
   class TownsController < Admin::ApplicationController
     before_action :authorised?
-    before_filter :find_town, except: [:index, :new, :create]
+    before_filter :town, except: [:index, :new, :create]
     respond_to :html, :json
 
     def index
@@ -50,7 +50,7 @@ module Admin
           format.html { redirect_to admin_town_path(@town), notice: message }
           format.json { head :no_content }
         else
-          render_error_response(format, template: :new, model: @town)
+          render_error_response(format, template: :edit, model: @town)
         end
       end
     end
@@ -66,7 +66,7 @@ module Admin
 
     private
 
-    def find_town
+    def town
       @town ||= Town.find(params[:id])
     end
   end

@@ -9,28 +9,23 @@ describe Admin::RegionsController do
 
   describe "#update" do
     let(:region){ Region.new(id: 123) }
-    before{ 
-      Region.stub(:find).and_return(region) 
+    before{
+      Region.stub(:find).and_return(region)
       region.stub(id: 123)
     }
 
     let(:params){ { id: 123, region: {name: 'new region'} } }
 
     context "that works" do
-      before{ 
+      before{
         Region.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :update, params
-      end
 
       it "redirects to the show path" do
         patch :update, params
         response.should redirect_to(admin_region_path(region))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -43,23 +38,18 @@ describe Admin::RegionsController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         Region.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -82,14 +72,9 @@ describe Admin::RegionsController do
 
     context "that saves ok" do
       it "creates an region" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { Region.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the show path" do
@@ -109,16 +94,11 @@ describe Admin::RegionsController do
     end
     context "that doesn't save ok" do
       before{ Region.any_instance.stub(save: false) }
-      
+
       it "does not create an region" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { Region.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -145,11 +125,9 @@ describe Admin::RegionsController do
     end
   end
 
-
-  it "purges the cache when a region is destroyed" do
+  it "remove region on destroy" do
     at = Region.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_regions_path)
     }.to change { Region.count }.by(-1)
@@ -174,7 +152,7 @@ describe Admin::RegionsController do
 
   describe "#show" do
     let(:mock_region){ Region.new(id: 123, name: 'mock region') }
-    before{ 
+    before{
       Region.stub(:find).and_return(mock_region)
     }
 
@@ -220,7 +198,7 @@ describe Admin::RegionsController do
 
   describe "#edit" do
     let(:mock_region){ Region.new(id: 123, name: 'mock region') }
-    before{ 
+    before{
       Region.stub(:find).and_return(mock_region)
     }
 
@@ -228,24 +206,6 @@ describe Admin::RegionsController do
       Region.should_receive(:find).with('123').and_return(mock_region)
       get :edit, id: 123
     end
-  end
-
-  it "purges the cache when a region is destroyed" do
-    at = Region.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_regions_path)
-    }.to change { Region.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = Region.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_regions_path)
-    }.to change { Region.count }.by(-1)
   end
 
 end
