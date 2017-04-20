@@ -1,7 +1,7 @@
 module Admin
   class UsersController < Admin::ApplicationController
     before_action :authorised?
-    before_filter :find_user, except: :index
+    before_action :find_user, except: :index
     respond_to :html, :json
 
     def index
@@ -19,7 +19,7 @@ module Admin
 
     def update
       respond_to do |format|
-        remove_password unless params[:user][:password].present?
+        remove_password if params[:user][:password].blank?
 
         if @user.update_attributes(params[:user])
           message = 'user was successfully updated.'

@@ -1,7 +1,7 @@
 module Admin
   class OpeningTypesController < Admin::ApplicationController
     before_action :authorised?
-    before_filter :opening_type, except: [:index, :new, :create]
+    before_action :opening_type, except: %i[index new create]
     respond_to :html, :json
 
     def index

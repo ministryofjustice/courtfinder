@@ -1,8 +1,8 @@
 module Admin
   class CourtsController < Admin::ApplicationController
-    before_action :authorised?, only: [:audit, :audit_csv, :destroy]
-    before_filter :court, only: [:show, :edit, :update, :destroy]
-    before_filter :set_flash_message, only: [:update]
+    before_action :authorised?, only: %i[audit audit_csv destroy]
+    before_action :court, only: %i[show edit update destroy]
+    before_action :set_flash_message, only: :update
 
     def index
       @courts = Court.by_name
@@ -79,20 +79,14 @@ module Admin
     end
 
     def family
-      @courts = Court.by_area_of_law([
-        AreaOfLaw::Name::CHILDREN,
-        AreaOfLaw::Name::DIVORCE,
-        AreaOfLaw::Name::ADOPTION,
-        AreaOfLaw::Name::CIVIL_PARTNERSHIP
-      ]).by_name.paginate(page: params[:page], per_page: 30)
+      @courts = Court.by_area_of_law(AreaOfLaw.family_group).
+                by_name.paginate(page: params[:page], per_page: 30)
       @area_of_law = area_of_law_by_id_or_name
     end
 
     def civil
-      @courts = Court.by_area_of_law([
-        AreaOfLaw::Name::MONEY_CLAIMS,
-        AreaOfLaw::Name::HOUSING_POSSESSION,
-        AreaOfLaw::Name::BANKRUPTCY]).by_name.paginate(page: params[:page], per_page: 30)
+      @courts = Court.by_area_of_law(AreaOfLaw.civil_group).
+                by_name.paginate(page: params[:page], per_page: 30)
     end
 
     def audit

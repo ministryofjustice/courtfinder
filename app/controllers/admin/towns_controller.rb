@@ -1,7 +1,7 @@
 module Admin
   class TownsController < Admin::ApplicationController
     before_action :authorised?
-    before_filter :town, except: [:index, :new, :create]
+    before_action :town, except: %i[index new create]
     respond_to :html, :json
 
     def index
