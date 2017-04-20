@@ -1,90 +1,70 @@
-class Admin::AddressTypesController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class AddressTypesController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :address_type, only: %i[show edit update destroy]
+    respond_to :html, :json
 
-  # GET /address_types
-  # GET /address_types.json
-  def index
-    @address_types = AddressType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @address_types }
+    def index
+      @address_types = AddressType.all
+      respond_with @address_types
     end
-  end
 
-  # GET /address_types/1
-  # GET /address_types/1.json
-  def show
-    @address_type = AddressType.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { 
-        render json: @address_type 
-      }
+    def show
+      respond_with @address_type
     end
-  end
 
-  # GET /address_types/new
-  # GET /address_types/new.json
-  def new
-    @address_type = AddressType.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @address_type }
+    def new
+      @address_type = AddressType.new
+      respond_with @address_type
     end
-  end
 
-  # GET /address_types/1/edit
-  def edit
-    @address_type = AddressType.find(params[:id])
-  end
+    def edit
+      respond_with @address_type
+    end
 
-  # POST /address_types
-  # POST /address_types.json
-  def create
-    @address_type = AddressType.new(params[:address_type])
+    def create
+      @address_type = AddressType.new(params[:address_type])
 
-    respond_to do |format|
-      if @address_type.save
-        purge_all_pages
-        format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully created.' }
-        format.json { render json: @address_type, status: :created, location: admin_address_types_url(@address_type) }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @address_type.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @address_type.save
+          message = 'Address type was successfully created.'
+          format.html { redirect_to edit_admin_address_type_path(@address_type), notice: message }
+          format.json { render json: @address_type, status: :created, location: location }
+        else
+          render_error_response(format, template: :new, model: @address_type)
+        end
       end
     end
-  end
 
-  # PUT /address_types/1
-  # PUT /address_types/1.json
-  def update
-    @address_type = AddressType.find(params[:id])
+    def update
+      respond_to do |format|
+        if @address_type.update_attributes(params[:address_type])
+          message = 'Address type was successfully updated.'
+          format.html { redirect_to edit_admin_address_type_path(@address_type), notice: message }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @address_type)
+        end
+      end
+    end
 
-    respond_to do |format|
-      if @address_type.update_attributes(params[:address_type])
-        purge_all_pages
-        format.html { redirect_to edit_admin_address_type_path(@address_type), notice: 'Address type was successfully updated.' }
+    def destroy
+      @address_type.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_address_types_url }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @address_type.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /address_types/1
-  # DELETE /address_types/1.json
-  def destroy
-    @address_type = AddressType.find(params[:id])
-    @address_type.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_address_types_url }
-      format.json { head :no_content }
+    def address_type
+      @address_type ||= AddressType.find(params[:id])
+    end
+
+    def location
+      admin_address_types_url(@address_type)
     end
   end
 end

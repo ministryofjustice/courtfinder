@@ -9,28 +9,23 @@ describe Admin::AddressTypesController do
 
   describe "#update" do
     let(:address_type){ AddressType.new(id: 123) }
-    before{ 
-      AddressType.stub(:find).and_return(address_type) 
+    before{
+      AddressType.stub(:find).and_return(address_type)
       address_type.stub(id: 123)
     }
 
     let(:params){ { id: 123, address_type: {name: 'new address type'} } }
 
     context "that works" do
-      before{ 
+      before{
         AddressType.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       it "redirects to the edit path" do
         patch :update, params
         response.should redirect_to(edit_admin_address_type_path(address_type))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -43,23 +38,18 @@ describe Admin::AddressTypesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         AddressType.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -82,14 +72,9 @@ describe Admin::AddressTypesController do
 
     context "that saves ok" do
       it "creates an address type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { AddressType.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the edit path" do
@@ -109,16 +94,11 @@ describe Admin::AddressTypesController do
     end
     context "that doesn't save ok" do
       before{ AddressType.any_instance.stub(save: false) }
-      
+
       it "does not create an address type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { AddressType.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -145,11 +125,9 @@ describe Admin::AddressTypesController do
     end
   end
 
-
-  it "purges the cache when a address type is destroyed" do
+  it "removes address type on destroy" do
     at = AddressType.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_address_types_path)
     }.to change { AddressType.count }.by(-1)
@@ -174,7 +152,7 @@ describe Admin::AddressTypesController do
 
   describe "#show" do
     let(:mock_address_type){ AddressType.new(id: 123, name: 'mock address type') }
-    before{ 
+    before{
       AddressType.stub(:find).and_return(mock_address_type)
     }
 
@@ -220,7 +198,7 @@ describe Admin::AddressTypesController do
 
   describe "#edit" do
     let(:mock_address_type){ AddressType.new(id: 123, name: 'mock address type') }
-    before{ 
+    before{
       AddressType.stub(:find).and_return(mock_address_type)
     }
 
@@ -229,6 +207,5 @@ describe Admin::AddressTypesController do
       get :edit, id: 123
     end
   end
-
 
 end

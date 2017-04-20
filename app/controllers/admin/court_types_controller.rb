@@ -1,87 +1,77 @@
-class Admin::CourtTypesController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class CourtTypesController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :court_type, only: %i[show edit update destroy]
+    respond_to :html, :json
 
-  # GET /admin/court_types
-  # GET /admin/court_types.json
-  def index
-    @court_types = CourtType.order(:name)
+    def index
+      @court_types = CourtType.order(:name)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @court_types }
-    end
-  end
-
-  # GET /admin/court_types/1
-  # GET /admin/court_types/1.json
-  def show
-    @court_type = CourtType.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @court_type }
-    end
-  end
-
-  # GET /admin/court_types/new
-  # GET /admin/court_types/new.json
-  def new
-    @court_type = CourtType.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
-  end
-
-  # GET /admin/court_types/1/edit
-  def edit
-    @court_type = CourtType.find(params[:id])
-  end
-
-  # POST /admin/court_types
-  # POST /admin/court_types.json
-  def create
-    @court_type = CourtType.new(params[:court_type])
-
-    respond_to do |format|
-      if @court_type.save
-        purge_all_pages
-        format.html { redirect_to edit_admin_court_type_path(@court_type), notice: 'Court type was successfully created.' }
-        format.json { render json: @court_type, status: :created, location: admin_court_type_url(@court_type) }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @court_type.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @court_types }
       end
     end
-  end
 
-  # PUT /admin/court_types/1
-  # PUT /admin/court_types/1.json
-  def update
-    @court_type = CourtType.find(params[:id])
+    def show
+      respond_with @court_type
+    end
 
-    respond_to do |format|
-      if @court_type.update_attributes(params[:court_type])
-        purge_all_pages
-        format.html { redirect_to edit_admin_court_type_path(@court_type), notice: 'Court type was successfully updated.' }
+    def new
+      @court_type = CourtType.new
+
+      respond_to do |format|
+        format.html # new.html.erb
+      end
+    end
+
+    def edit
+      respond_with @court_type
+    end
+
+    def create
+      @court_type = CourtType.new(params[:court_type])
+
+      respond_to do |format|
+        if @court_type.save
+          message = 'Court type was successfully created.'
+          format.html { redirect_to edit_admin_court_type_path(@court_type), notice: message }
+          format.json { render json: @court_type, status: :created, location: location }
+        else
+          render_error_response(format, template: :new, model: @court_type)
+        end
+      end
+    end
+
+    def update
+      respond_to do |format|
+        if @court_type.update_attributes(params[:court_type])
+          message = 'Court type was successfully updated.'
+          format.html { redirect_to edit_admin_court_type_path(@court_type), notice: message }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @court_type)
+        end
+      end
+    end
+
+    def destroy
+      @court_type.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_court_types_url }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @court_type.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /admin/court_types/1
-  # DELETE /admin/court_types/1.json
-  def destroy
-    @court_type = CourtType.find(params[:id])
-    @court_type.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_court_types_url }
-      format.json { head :no_content }
+    def location
+      admin_court_type_url(@court_type)
+    end
+
+    def court_type
+      @court_type ||= CourtType.find(params[:id])
     end
   end
 end

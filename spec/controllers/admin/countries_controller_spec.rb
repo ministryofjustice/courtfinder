@@ -8,28 +8,23 @@ describe Admin::CountriesController do
 
   describe "#update" do
     let(:country){ Country.new(id: 123) }
-    before{ 
-      Country.stub(:find).and_return(country) 
+    before{
+      Country.stub(:find).and_return(country)
       country.stub(id: 123)
     }
 
     let(:params){ { id: 123, country: {name: 'new contact type'} } }
 
     context "that works" do
-      before{ 
+      before{
         Country.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :update, params
-      end
 
       it "redirects to the edit path" do
         patch :update, params
         response.should redirect_to(edit_admin_country_path(country))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -42,23 +37,18 @@ describe Admin::CountriesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         Country.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -81,14 +71,9 @@ describe Admin::CountriesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { Country.count }.by(1)
-      end
-
-      it "purges the cache" do
-        expect(controller).to receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the edit path" do
@@ -108,16 +93,11 @@ describe Admin::CountriesController do
     end
     context "that doesn't save ok" do
       before{ Country.any_instance.stub(save: false) }
-      
+
       it "does not create an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { Country.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -147,7 +127,6 @@ describe Admin::CountriesController do
   it "purges the cache when a contact type is destroyed" do
     at = Country.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_countries_path)
     }.to change { Country.count }.by(-1)
@@ -172,7 +151,7 @@ describe Admin::CountriesController do
 
   describe "#show" do
     let(:mock_country){ Country.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       Country.stub(:find).and_return(mock_country)
     }
 
@@ -218,7 +197,7 @@ describe Admin::CountriesController do
 
   describe "#edit" do
     let(:mock_country){ Country.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       Country.stub(:find).and_return(mock_country)
     }
 
@@ -226,23 +205,5 @@ describe Admin::CountriesController do
       Country.should_receive(:find).with('123').and_return(mock_country)
       get :edit, id: 123
     end
-  end
-
-  it "purges the cache when a contact type is destroyed" do
-    at = Country.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_countries_path)
-    }.to change { Country.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = Country.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_countries_path)
-    }.to change { Country.count }.by(-1)
   end
 end
