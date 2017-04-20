@@ -61,7 +61,7 @@ gem 'friendly_id', '~> 5.2' # Custom addresses instead of Ids
 gem 'will_paginate'         # Paging
 gem 'simple_form', '~> 3.1' # Build forms with ease
 gem 'rest-client'           # Accessing HTTP and REST resources (i.e. MoJ postcode lookup)
-gem 'ckeditor_rails'        # Adds a rich WYSIWYG text area
+gem 'ckeditor_rails', '4.4.5' # Adds a rich WYSIWYG text area
 gem 'geocoder'              # Check distances with latitude and longitude
 gem 'devise', '~> 3.5.10'   # Authentication
 gem 'devise_invitable'      # Authentication invites
