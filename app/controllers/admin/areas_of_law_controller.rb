@@ -1,94 +1,74 @@
-class Admin::AreasOfLawController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class AreasOfLawController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :area_of_law, only: %i[show edit update destroy]
+    respond_to :html, :json
 
-  # GET /admin/areas_of_law
-  # GET /admin/areas_of_law.json
-  def index
-    @areas_of_law = AreaOfLaw.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @areas_of_law }
+    def index
+      @areas_of_law = AreaOfLaw.all
+      respond_with @areas_of_law
     end
-  end
 
-  # GET /admin/areas_of_law/1
-  # GET /admin/areas_of_law/1.json
-  def show
-    @area_of_law = AreaOfLaw.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @area_of_law }
+    def show
+      respond_with @areas_of_law
     end
-  end
 
-  # GET /admin/areas_of_law/new
-  # GET /admin/areas_of_law/new.json
-  def new
-    @area_of_law = AreaOfLaw.new
+    def new
+      @area_of_law = AreaOfLaw.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: admin_areas_of_law_path(@area_of_law) }
-    end
-  end
-
-  # GET /admin/areas_of_law/1/edit
-  def edit
-    @area_of_law = AreaOfLaw.find(params[:id])
-  end
-
-  # POST /admin/areas_of_law
-  # POST /admin/areas_of_law.json
-  def create
-    @area_of_law = AreaOfLaw.new(params[:area_of_law])
-
-    respond_to do |format|
-      if @area_of_law.save
-        purge_all_pages
-        format.html { redirect_to admin_areas_of_law_path, notice: 'Area of law was successfully created.' }
-        format.json { render json: @area_of_law, status: :created, location: @area_of_law }
-      else
-        format.html { 
-          flash[:error] = 'Could not create the Area of Law'
-          render action: "new" 
-        }
-        format.json { render json: @area_of_law.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: admin_areas_of_law_path(@area_of_law) }
       end
     end
-  end
 
-  # PUT /admin/areas_of_law/1
-  # PUT /admin/areas_of_law/1.json
-  def update
-    @area_of_law = AreaOfLaw.find(params[:id])
+    def edit
+      respond_with @areas_of_law
+    end
 
-    respond_to do |format|
-      if @area_of_law.update_attributes(params[:area_of_law])
-        purge_all_pages
-        format.html { redirect_to admin_areas_of_law_path, notice: 'Area of law was successfully updated.' }
+    def create
+      @area_of_law = AreaOfLaw.new(params[:area_of_law])
+
+      respond_to do |format|
+        if @area_of_law.save
+          format.html { redirect_to admin_areas_of_law_path, notice: success_message('created') }
+          format.json { render json: @area_of_law, status: :created, location: @area_of_law }
+        else
+          render_error_response(format, template: :new, model: @area_of_law,
+                                        message: 'Could not create the Area of Law')
+        end
+      end
+    end
+
+    def update
+      respond_to do |format|
+        if @area_of_law.update_attributes(params[:area_of_law])
+          format.html { redirect_to admin_areas_of_law_path, notice: success_message('updated') }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @area_of_law,
+                                        message: 'Could not update the Area of Law')
+        end
+      end
+    end
+
+    def destroy
+      @area_of_law.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_areas_of_law_url }
         format.json { head :no_content }
-      else
-        format.html { 
-          flash[:error] = 'Could not update the Area of Law'
-          render action: "edit" 
-        }
-        format.json { render json: @area_of_law.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /admin/areas_of_law/1
-  # DELETE /admin/areas_of_law/1.json
-  def destroy
-    @area_of_law = AreaOfLaw.find(params[:id])
-    @area_of_law.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_areas_of_law_url }
-      format.json { head :no_content }
+    def area_of_law
+      @area_of_law ||= AreaOfLaw.find(params[:id])
+    end
+
+    def success_message(event)
+      "Area of law was successfully #{event}."
     end
   end
 end

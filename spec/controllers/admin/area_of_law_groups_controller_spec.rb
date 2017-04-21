@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Admin::AreaOfLawGroupsController do
-  
+
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
@@ -23,7 +23,7 @@ describe Admin::AreaOfLawGroupsController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :index, format: :json
@@ -40,14 +40,9 @@ describe Admin::AreaOfLawGroupsController do
   describe "#update" do
     let(:group){ AreaOfLawGroup.create!(name: 'the north') }
     let(:params){ {id: group.id, area_of_law_group: {}} }
-      
+
     context "when it works" do
       before{ group.stub(update_attributes: true) }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        put :update, params
-      end
 
       describe "a html request" do
         before{ params[:format] = :html }
@@ -81,11 +76,6 @@ describe Admin::AreaOfLawGroupsController do
     context "when it doesn't work" do
       before{ AreaOfLawGroup.any_instance.stub(update_attributes: false) }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        put :update, params
-      end
-
       describe "a html request" do
         before{ params[:format] = :html }
 
@@ -108,11 +98,6 @@ describe Admin::AreaOfLawGroupsController do
 
       it "creates a new Area" do
         expect{ post :create, params }.to change(AreaOfLawGroup, :count).by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       describe "a html request" do
@@ -142,7 +127,7 @@ describe Admin::AreaOfLawGroupsController do
           expect(response.status).to eq(201)
         end
       end
-      
+
     end
 
     context "that doesn't work" do
@@ -151,11 +136,6 @@ describe Admin::AreaOfLawGroupsController do
 
       it "does not create an Area" do
         expect{ post :create, params }.to_not change(AreaOfLawGroup, :count)
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       describe "a html request" do
@@ -191,7 +171,7 @@ describe Admin::AreaOfLawGroupsController do
   describe "#edit" do
     let(:group){ AreaOfLawGroup.create(name: '22 Acacia Avenue') }
 
-    it "finds the right area" do 
+    it "finds the right area" do
       AreaOfLawGroup.should_receive(:find).with(group.id.to_s).and_return(group)
       get :edit, id: group.id
     end
@@ -221,11 +201,9 @@ describe Admin::AreaOfLawGroupsController do
     end
   end
 
-
-  it "purges the cache when a area_of_law_group is destroyed" do
+  it "delete area_of_law_group on destroyed" do
     at = AreaOfLawGroup.create!(name: 'somewhere')
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_area_of_law_groups_path)
     }.to change { AreaOfLawGroup.count }.by(-1)

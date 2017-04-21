@@ -9,28 +9,23 @@ describe Admin::ContactTypesController do
 
   describe "#update" do
     let(:contact_type){ ContactType.new(id: 123) }
-    before{ 
-      ContactType.stub(:find).and_return(contact_type) 
+    before{
+      ContactType.stub(:find).and_return(contact_type)
       contact_type.stub(id: 123)
     }
 
     let(:params){ { id: 123, contact_type: {name: 'new contact type'} } }
 
     context "that works" do
-      before{ 
+      before{
         ContactType.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       it "redirects to the show path" do
         patch :update, params
         response.should redirect_to(admin_contact_type_path(contact_type))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -43,23 +38,18 @@ describe Admin::ContactTypesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         ContactType.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -82,14 +72,9 @@ describe Admin::ContactTypesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { ContactType.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the show path" do
@@ -109,16 +94,11 @@ describe Admin::ContactTypesController do
     end
     context "that doesn't save ok" do
       before{ ContactType.any_instance.stub(save: false) }
-      
+
       it "does not create an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { ContactType.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -145,11 +125,9 @@ describe Admin::ContactTypesController do
     end
   end
 
-
-  it "purges the cache when a contact type is destroyed" do
+  it "remove contact type on destroy" do
     at = ContactType.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_contact_types_path)
     }.to change { ContactType.count }.by(-1)
@@ -174,7 +152,7 @@ describe Admin::ContactTypesController do
 
   describe "#show" do
     let(:mock_contact_type){ ContactType.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       ContactType.stub(:find).and_return(mock_contact_type)
     }
 
@@ -220,7 +198,7 @@ describe Admin::ContactTypesController do
 
   describe "#edit" do
     let(:mock_contact_type){ ContactType.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       ContactType.stub(:find).and_return(mock_contact_type)
     }
 
@@ -228,14 +206,5 @@ describe Admin::ContactTypesController do
       ContactType.should_receive(:find).with('123').and_return(mock_contact_type)
       get :edit, id: 123
     end
-  end
-
-  it "purges the cache when a contact type is destroyed" do
-    at = ContactType.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_contact_types_path)
-    }.to change { ContactType.count }.by(-1)
   end
 end
