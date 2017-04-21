@@ -33,7 +33,7 @@ module Admin
         if @country.save
           message = 'Country was successfully created.'
           format.html { redirect_to edit_admin_country_path(@country), notice: message }
-          format.json { render json: @country, status: :created, location: location }
+          format.json { render json: @country, status: :created, location: countries_link }
         else
           render_error_response(format, template: :new, model: @country)
         end
@@ -67,7 +67,7 @@ module Admin
       @country ||= Country.find(params[:id])
     end
 
-    def location
+    def countries_link
       admin_country_url(@country)
     end
   end

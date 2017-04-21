@@ -36,7 +36,7 @@ module Admin
         if @court_type.save
           message = 'Court type was successfully created.'
           format.html { redirect_to edit_admin_court_type_path(@court_type), notice: message }
-          format.json { render json: @court_type, status: :created, location: location }
+          format.json { render json: @court_type, status: :created, location: court_type_link }
         else
           render_error_response(format, template: :new, model: @court_type)
         end
@@ -66,7 +66,7 @@ module Admin
 
     private
 
-    def location
+    def court_type_link
       admin_court_type_url(@court_type)
     end
 

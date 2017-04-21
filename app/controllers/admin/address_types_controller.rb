@@ -29,7 +29,7 @@ module Admin
         if @address_type.save
           message = 'Address type was successfully created.'
           format.html { redirect_to edit_admin_address_type_path(@address_type), notice: message }
-          format.json { render json: @address_type, status: :created, location: location }
+          format.json { render json: @address_type, status: :created, location: address_type_link }
         else
           render_error_response(format, template: :new, model: @address_type)
         end
@@ -63,7 +63,7 @@ module Admin
       @address_type ||= AddressType.find(params[:id])
     end
 
-    def location
+    def address_type_link
       admin_address_types_url(@address_type)
     end
   end

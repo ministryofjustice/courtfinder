@@ -29,7 +29,7 @@ module Admin
         if @county.save
           message = 'County was successfully created.'
           format.html { redirect_to edit_admin_county_path(@county), notice: message }
-          format.json { render json: @county, status: :created, location: location }
+          format.json { render json: @county, status: :created, location: count_link }
         else
           render_error_response(format, template: :new, model: @county)
         end
@@ -63,7 +63,7 @@ module Admin
       @county ||= County.find(params[:id])
     end
 
-    def location
+    def count_link
       admin_county_url(@county)
     end
   end

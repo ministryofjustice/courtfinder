@@ -40,7 +40,7 @@ module Admin
         if @opening_type.save
           message = 'Opening type was successfully created.'
           format.html { redirect_to admin_opening_type_path(@opening_type), notice: message }
-          format.json { render json: @opening_type, status: :created, location: location }
+          format.json { render json: @opening_type, status: :created, location: opening_type_link }
         else
           render_error_response(format, template: :new, model: @opening_type)
         end
@@ -75,7 +75,7 @@ module Admin
       @opening_type ||= OpeningType.find(params[:id])
     end
 
-    def location
+    def opening_type_link
       admin_opening_type_url(@opening_type)
     end
   end

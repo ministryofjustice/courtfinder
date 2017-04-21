@@ -29,7 +29,7 @@ module Admin
         if @contact_type.save
           message = 'Contact type was successfully created.'
           format.html { redirect_to admin_contact_type_path(@contact_type), notice: message }
-          format.json { render json: @contact_type, status: :created, location: location }
+          format.json { render json: @contact_type, status: :created, location: contact_type_link }
         else
           render_error_response(format, template: :new, model: @contact_type)
         end
@@ -63,7 +63,7 @@ module Admin
       @contact_type ||= ContactType.find(params[:id])
     end
 
-    def location
+    def contact_type_link
       admin_contact_type_url(@contact_type)
     end
   end

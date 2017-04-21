@@ -40,7 +40,7 @@ module Admin
         if @facility.save
           message = 'Facility type was successfully created.'
           format.html { redirect_to location, notice: message }
-          format.json { render json: @facility, status: :created, location: location }
+          format.json { render json: @facility, status: :created, location: facility_link }
         else
           render_error_response(format, template: :new, model: @facility)
         end
@@ -74,7 +74,7 @@ module Admin
       @facility ||= Facility.find(params[:id])
     end
 
-    def location
+    def facility_link
       admin_facility_path(@facility)
     end
   end
