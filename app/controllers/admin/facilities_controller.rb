@@ -39,7 +39,7 @@ module Admin
       respond_to do |format|
         if @facility.save
           message = 'Facility type was successfully created.'
-          format.html { redirect_to location, notice: message }
+          format.html { redirect_to facility_link, notice: message }
           format.json { render json: @facility, status: :created, location: facility_link }
         else
           render_error_response(format, template: :new, model: @facility)
@@ -51,7 +51,7 @@ module Admin
       respond_to do |format|
         if @facility.update_attributes(params[:facility])
           message = 'Facility type was successfully updated.'
-          format.html { redirect_to location, notice: message }
+          format.html { redirect_to facility_link, notice: message }
           format.json { head :no_content }
         else
           render_error_response(format, template: :edit, model: @facility)
