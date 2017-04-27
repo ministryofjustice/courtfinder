@@ -218,6 +218,10 @@ class Court < ActiveRecord::Base
 
   private
 
+  def should_generate_new_friendly_id?
+    slug.blank? || changed.include?('name')
+  end
+
   def resolve_leaflets
     case
     when good_court_type_size? && court_type.include?("crown court")
