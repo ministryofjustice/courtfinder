@@ -4,10 +4,6 @@ module Admin
 
     before_action :authenticate_user!
 
-    def purge_all_pages
-      # Placeholder for feature functionality
-    end
-
     private
 
     def authorised?
