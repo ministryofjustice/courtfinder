@@ -1,36 +1,30 @@
 require 'spec_helper'
 
-describe Admin::ContactTypesController do
+describe Admin::OpeningTypesController do
 
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
-
   describe "#update" do
-    let(:contact_type){ ContactType.new(id: 123) }
-    before{ 
-      ContactType.stub(:find).and_return(contact_type) 
-      contact_type.stub(id: 123)
+    let(:opening_type){ OpeningType.new(id: 123) }
+    before{
+      OpeningType.stub(:find).and_return(opening_type)
+      opening_type.stub(id: 123)
     }
 
-    let(:params){ { id: 123, contact_type: {name: 'new contact type'} } }
+    let(:params){ { id: 123, opening_type: {name: 'new opening type'} } }
 
     context "that works" do
-      before{ 
-        ContactType.any_instance.stub(update_attributes: true)
+      before{
+        OpeningType.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       it "redirects to the show path" do
         patch :update, params
-        response.should redirect_to(admin_contact_type_path(contact_type))
+        response.should redirect_to(admin_opening_type_path(opening_type))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -43,23 +37,18 @@ describe Admin::ContactTypesController do
     end
 
     context "that doesn't work" do
-      before{ 
-        ContactType.any_instance.stub(update_attributes: false)
+      before{
+        OpeningType.any_instance.stub(update_attributes: false)
       }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -78,23 +67,18 @@ describe Admin::ContactTypesController do
   end
 
   describe "#create" do
-    let(:params){ { contact_type: {name: 'new contact type'} } }
+    let(:params){ { opening_type: {name: 'new opening type'} } }
 
     context "that saves ok" do
-      it "creates an contact type" do
-        expect{ 
+      it "creates an opening type" do
+        expect{
           post :create, params
-        }.to change { ContactType.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
+        }.to change { OpeningType.count }.by(1)
       end
 
       it "redirects to the show path" do
         post :create, params
-        response.should redirect_to(admin_contact_type_path(assigns(:contact_type)))
+        response.should redirect_to(admin_opening_type_path(assigns(:opening_type)))
       end
 
       it "responds to html" do
@@ -108,17 +92,12 @@ describe Admin::ContactTypesController do
       end
     end
     context "that doesn't save ok" do
-      before{ ContactType.any_instance.stub(save: false) }
-      
-      it "does not create an contact type" do
-        expect{ 
-          post :create, params
-        }.to_not change { ContactType.count }
-      end
+      before{ OpeningType.any_instance.stub(save: false) }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
+      it "does not create an opening type" do
+        expect{
+          post :create, params
+        }.to_not change { OpeningType.count }
       end
 
       it "rerenders the new template" do
@@ -145,20 +124,10 @@ describe Admin::ContactTypesController do
     end
   end
 
-
-  it "purges the cache when a contact type is destroyed" do
-    at = ContactType.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_contact_types_path)
-    }.to change { ContactType.count }.by(-1)
-  end
-
   describe "#index" do
-    it "assigns all contact_types to @contact_types" do
+    it "assigns all opening_types to @opening_types" do
       get :index
-      expect(assigns[:contact_types]).to eq(ContactType.all)
+      expect(assigns[:opening_types]).to eq(OpeningType.all)
     end
 
     it "responds to html" do
@@ -173,19 +142,19 @@ describe Admin::ContactTypesController do
   end
 
   describe "#show" do
-    let(:mock_contact_type){ ContactType.new(id: 123, name: 'mock contact type') }
-    before{ 
-      ContactType.stub(:find).and_return(mock_contact_type)
+    let(:mock_opening_type){ OpeningType.new(id: 123, name: 'mock opening type') }
+    before{
+      OpeningType.stub(:find).and_return(mock_opening_type)
     }
 
-    it "gets the right contact_type" do
-      ContactType.should_receive(:find).with('123').and_return(mock_contact_type)
+    it "gets the right opening_type" do
+      OpeningType.should_receive(:find).with('123').and_return(mock_opening_type)
       get :show, id: 123
     end
 
-    it "assigns the contact_type" do
+    it "assigns the opening_type" do
       get :show, id: 123
-      expect(assigns[:contact_type]).to eq(mock_contact_type)
+      expect(assigns[:opening_type]).to eq(mock_opening_type)
     end
 
     it "responds to html" do
@@ -201,9 +170,9 @@ describe Admin::ContactTypesController do
 
   describe "#new" do
 
-    it "assigns a new contact_type" do
+    it "assigns a new opening_type" do
       get :new
-      expect(assigns[:contact_type]).to be_a(ContactType)
+      expect(assigns[:opening_type]).to be_a(OpeningType)
     end
 
 
@@ -219,23 +188,16 @@ describe Admin::ContactTypesController do
   end
 
   describe "#edit" do
-    let(:mock_contact_type){ ContactType.new(id: 123, name: 'mock contact type') }
-    before{ 
-      ContactType.stub(:find).and_return(mock_contact_type)
+    let(:mock_opening_type){ OpeningType.new(id: 123, name: 'mock opening type') }
+    before{
+      OpeningType.stub(:find).and_return(mock_opening_type)
     }
 
-    it "gets the right contact_type" do
-      ContactType.should_receive(:find).with('123').and_return(mock_contact_type)
+    it "gets the right opening_type" do
+      OpeningType.should_receive(:find).with('123').and_return(mock_opening_type)
       get :edit, id: 123
     end
   end
 
-  it "purges the cache when a contact type is destroyed" do
-    at = ContactType.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_contact_types_path)
-    }.to change { ContactType.count }.by(-1)
-  end
+
 end

@@ -8,28 +8,23 @@ describe Admin::CountiesController do
 
   describe "#update" do
     let(:county){ County.new(id: 123) }
-    before{ 
-      County.stub(:find).and_return(county) 
+    before{
+      County.stub(:find).and_return(county)
       county.stub(id: 123)
     }
 
     let(:params){ { id: 123, county: {name: 'new contact type'} } }
 
     context "that works" do
-      before{ 
+      before{
         County.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       it "redirects to the edit path" do
         patch :update, params
         response.should redirect_to(edit_admin_county_path(county))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -42,23 +37,18 @@ describe Admin::CountiesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         County.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -81,14 +71,9 @@ describe Admin::CountiesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { County.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the edit path" do
@@ -108,16 +93,11 @@ describe Admin::CountiesController do
     end
     context "that doesn't save ok" do
       before{ County.any_instance.stub(save: false) }
-      
+
       it "does not create an contact type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { County.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -144,11 +124,9 @@ describe Admin::CountiesController do
     end
   end
 
-
-  it "purges the cache when a contact type is destroyed" do
+  it "remove county on destroy" do
     at = County.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_counties_path)
     }.to change { County.count }.by(-1)
@@ -173,7 +151,7 @@ describe Admin::CountiesController do
 
   describe "#show" do
     let(:mock_county){ County.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       County.stub(:find).and_return(mock_county)
     }
 
@@ -205,7 +183,6 @@ describe Admin::CountiesController do
       expect(assigns[:county]).to be_a(County)
     end
 
-
     it "responds to html" do
       get :new, format: :html
       expect(response.content_type).to eq('text/html')
@@ -219,7 +196,7 @@ describe Admin::CountiesController do
 
   describe "#edit" do
     let(:mock_county){ County.new(id: 123, name: 'mock contact type') }
-    before{ 
+    before{
       County.stub(:find).and_return(mock_county)
     }
 
@@ -229,21 +206,4 @@ describe Admin::CountiesController do
     end
   end
 
-  it "purges the cache when a contact type is destroyed" do
-    at = County.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_counties_path)
-    }.to change { County.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = County.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_counties_path)
-    }.to change { County.count }.by(-1)
-  end
 end

@@ -1,88 +1,70 @@
-class Admin::CountiesController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class CountiesController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :county, only: %i[show edit update destroy]
+    respond_to :html, :json
 
-  # GET /counties
-  # GET /counties.json
-  def index
-    @counties = County.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @counties }
+    def index
+      @counties = County.all
+      respond_with @counties
     end
-  end
 
-  # GET /counties/1
-  # GET /counties/1.json
-  def show
-    @county = County.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @county }
+    def show
+      respond_with @county
     end
-  end
 
-  # GET /counties/new
-  # GET /counties/new.json
-  def new
-    @county = County.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @county }
+    def new
+      @county = County.new
+      respond_with @county
     end
-  end
 
-  # GET /counties/1/edit
-  def edit
-    @county = County.find(params[:id])
-  end
+    def edit
+      respond_with @county
+    end
 
-  # POST /counties
-  # POST /counties.json
-  def create
-    @county = County.new(params[:county])
+    def create
+      @county = County.new(params[:county])
 
-    respond_to do |format|
-      if @county.save
-        purge_all_pages
-        format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully created.' }
-        format.json { render json: @county, status: :created, location: admin_county_url(@county) }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @county.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @county.save
+          message = 'County was successfully created.'
+          format.html { redirect_to edit_admin_county_path(@county), notice: message }
+          format.json { render json: @county, status: :created, location: count_link }
+        else
+          render_error_response(format, template: :new, model: @county)
+        end
       end
     end
-  end
 
-  # PUT /counties/1
-  # PUT /counties/1.json
-  def update
-    @county = County.find(params[:id])
+    def update
+      respond_to do |format|
+        if @county.update_attributes(params[:county])
+          message = 'County was successfully updated.'
+          format.html { redirect_to edit_admin_county_path(@county), notice: message }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @county)
+        end
+      end
+    end
 
-    respond_to do |format|
-      if @county.update_attributes(params[:county])
-        purge_all_pages
-        format.html { redirect_to edit_admin_county_path(@county), notice: 'County was successfully updated.' }
+    def destroy
+      @county.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_counties_url }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @county.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /counties/1
-  # DELETE /counties/1.json
-  def destroy
-    @county = County.find(params[:id])
-    @county.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_counties_url }
-      format.json { head :no_content }
+    def county
+      @county ||= County.find(params[:id])
+    end
+
+    def count_link
+      admin_county_url(@county)
     end
   end
 end

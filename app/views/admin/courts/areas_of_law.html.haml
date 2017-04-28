@@ -22,7 +22,7 @@
       - @courts.each do |court|
         %tr
           = form_for([:admin, court], remote: true) do
-            - @remits = @courtLookup[court.id]
+            - @remits = @court_lookup[court.id]
             %td= court.court_number
             %td= court.name
             - @areas_of_law.each do |area_of_law|

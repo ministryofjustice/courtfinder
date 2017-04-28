@@ -20,10 +20,6 @@ describe Admin::CourtsController do
       before{
         Court.any_instance.stub(update_attributes: true)
       }
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       context "a html request" do
         it "redirects to the edit path" do
@@ -45,11 +41,6 @@ describe Admin::CourtsController do
       before{
         Court.any_instance.stub(update_attributes: false)
       }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:patche_all_pages)
-        post :update, params
-      end
 
       context "a html request" do
         context "with a redirect_url param" do
@@ -82,11 +73,6 @@ describe Admin::CourtsController do
     let(:params){ {court: { name: 'A court of LAW', latitude:50, longitude:0 }} }
 
     context "that works" do
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        put :create, params
-      end
-
       context "a html request" do
         it "redirects to the edit path" do
           put :create, params
@@ -108,11 +94,6 @@ describe Admin::CourtsController do
         Court.any_instance.stub(save: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        put :create, params
-      end
-
       context "a html request" do
         it "rerenders the new template" do
           put :create, params
@@ -130,9 +111,8 @@ describe Admin::CourtsController do
     end
   end
 
-  it "purges the cache when a court is destroyed" do
+  it "remove record when destroyed" do
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: @court.id
       response.should redirect_to(admin_courts_path)
     }.to change { Court.count }.by(-1)

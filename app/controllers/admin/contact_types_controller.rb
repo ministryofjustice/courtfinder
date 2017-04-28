@@ -1,88 +1,70 @@
-class Admin::ContactTypesController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class ContactTypesController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :contact_type, only: %i[show edit update destroy]
+    respond_to :html, :json
 
-  # GET /admin/contact_types
-  # GET /admin/contact_types.json
-  def index
-    @contact_types = ContactType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @contact_types }
+    def index
+      @contact_types = ContactType.all
+      respond_with @contact_types
     end
-  end
 
-  # GET /admin/contact_types/1
-  # GET /admin/contact_types/1.json
-  def show
-    @contact_type = ContactType.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @contact_type }
+    def show
+      respond_with @contact_type
     end
-  end
 
-  # GET /admin/contact_types/new
-  # GET /admin/contact_types/new.json
-  def new
-    @contact_type = ContactType.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @contact_type }
+    def new
+      @contact_type = ContactType.new
+      respond_with @contact_type
     end
-  end
 
-  # GET /admin/contact_types/1/edit
-  def edit
-    @contact_type = ContactType.find(params[:id])
-  end
+    def edit
+      respond_with @contact_type
+    end
 
-  # POST /admin/contact_types
-  # POST /admin/contact_types.json
-  def create
-    @contact_type = ContactType.new(params[:contact_type])
+    def create
+      @contact_type = ContactType.new(params[:contact_type])
 
-    respond_to do |format|
-      if @contact_type.save
-        purge_all_pages
-        format.html { redirect_to admin_contact_type_path(@contact_type), notice: 'Contact type was successfully created.' }
-        format.json { render json: @contact_type, status: :created, location: admin_contact_type_url(@contact_type) }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @contact_type.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @contact_type.save
+          message = 'Contact type was successfully created.'
+          format.html { redirect_to admin_contact_type_path(@contact_type), notice: message }
+          format.json { render json: @contact_type, status: :created, location: contact_type_link }
+        else
+          render_error_response(format, template: :new, model: @contact_type)
+        end
       end
     end
-  end
 
-  # PUT /admin/contact_types/1
-  # PUT /admin/contact_types/1.json
-  def update
-    @contact_type = ContactType.find(params[:id])
+    def update
+      respond_to do |format|
+        if @contact_type.update_attributes(params[:contact_type])
+          message = 'Contact type was successfully updated.'
+          format.html { redirect_to admin_contact_type_path(@contact_type), notice: message }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @contact_type)
+        end
+      end
+    end
 
-    respond_to do |format|
-      if @contact_type.update_attributes(params[:contact_type])
-        purge_all_pages
-        format.html { redirect_to admin_contact_type_path(@contact_type), notice: 'Contact type was successfully updated.' }
+    def destroy
+      @contact_type.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_contact_types_url }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @contact_type.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /admin/contact_types/1
-  # DELETE /admin/contact_types/1.json
-  def destroy
-    @contact_type = ContactType.find(params[:id])
-    @contact_type.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_contact_types_url }
-      format.json { head :no_content }
+    def contact_type
+      @contact_type ||= ContactType.find(params[:id])
+    end
+
+    def contact_type_link
+      admin_contact_type_url(@contact_type)
     end
   end
 end

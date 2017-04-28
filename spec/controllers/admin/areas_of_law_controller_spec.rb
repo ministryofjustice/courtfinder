@@ -1,16 +1,16 @@
 require 'spec_helper'
 
-describe Admin::AreasController do
-  render_views
+describe Admin::AreasOfLawController do
+  let(:user) { create :user, name: 'hello', admin: true, email: 'lol@biz.info' }
 
   before :each do
-    sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
+    sign_in user
   end
 
   describe "#index" do
     it "assigns all areas" do
       get :index
-      expect(assigns[:areas]).to eq(Area.all)
+      expect(assigns[:areas_of_law]).to eq(AreaOfLaw.all)
     end
 
     describe "a html request" do
@@ -24,7 +24,7 @@ describe Admin::AreasController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :index, format: :json
@@ -39,23 +39,18 @@ describe Admin::AreasController do
   end
 
   describe "#update" do
-    let(:area){ area = Area.create!(name: 'the north') }
-    let(:params){ {id: area.id, area: {}} }
-      
+    let(:area){ area_of_law = AreaOfLaw.create!(name: 'the north') }
+    let(:params){ {id: area.id, area_of_law: {}} }
+
     context "when it works" do
       before{ area.stub(update_attributes: true) }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       describe "a html request" do
         before{ params[:format] = :html }
 
-        it "redirects to the edit path" do
+        it "redirects to the index path" do
           patch :update, params
-          response.should redirect_to(edit_admin_area_path(area))
+          response.should redirect_to(admin_areas_of_law_path)
         end
 
         it "flashes a notice" do
@@ -80,12 +75,7 @@ describe Admin::AreasController do
     end
 
     context "when it doesn't work" do
-      before{ Area.any_instance.stub(update_attributes: false) }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
+      before{ AreaOfLaw.any_instance.stub(update_attributes: false) }
 
       describe "a html request" do
         before{ params[:format] = :html }
@@ -97,7 +87,7 @@ describe Admin::AreasController do
 
         it "flashes an error" do
           patch :update, params
-          expect(flash[:error]).to_not be_empty
+          expect(flash[:error]).to eql('Could not update the Area of Law')
         end
       end
 
@@ -119,23 +109,18 @@ describe Admin::AreasController do
 
   describe "#create" do
     context "that works" do
-      let(:params){ {area: {name: '22 Acacia Avenue'}} }
+      let(:params){ {area_of_law: {name: '22 Acacia Avenue'}} }
 
       it "creates a new Area" do
-        expect{ post :create, params }.to change(Area, :count).by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
+        expect{ post :create, params }.to change(AreaOfLaw, :count).by(1)
       end
 
       describe "a html request" do
         before{ params[:format] = :html }
 
-        it "redirects to show the new Area" do
+        it "redirects to the index" do
           post :create, params
-          expect(response).to redirect_to(edit_admin_area_path(Area.last))
+          expect(response).to redirect_to(admin_areas_of_law_path)
         end
 
         it "flashes a notice" do
@@ -157,20 +142,15 @@ describe Admin::AreasController do
           expect(response.status).to eq(201)
         end
       end
-      
+
     end
 
     context "that doesn't work" do
-      let(:params){ {area: {name: 'something'}}  }
-      before{ Area.any_instance.stub(save: false)}
+      let(:params){ {area_of_law: {name: 'something'}}  }
+      before{ AreaOfLaw.any_instance.stub(save: false)}
 
       it "does not create an Area" do
-        expect{ post :create, params }.to_not change(Area, :count)
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
+        expect{ post :create, params }.to_not change(AreaOfLaw, :count)
       end
 
       describe "a html request" do
@@ -183,7 +163,7 @@ describe Admin::AreasController do
 
         it "flashes an error" do
           post :create, params
-          expect(flash[:error]).to_not be_empty
+          expect(flash[:error]).to eql('Could not create the Area of Law')
         end
       end
 
@@ -204,23 +184,23 @@ describe Admin::AreasController do
   end
 
   describe "#edit" do
-    let(:area){ Area.create(name: '22 Acacia Avenue') }
+    let(:area){ AreaOfLaw.create(name: '22 Acacia Avenue') }
 
-    it "finds the right area" do 
-      Area.should_receive(:find).with(area.id.to_s).and_return(area)
+    it "finds the right area" do
+      AreaOfLaw.should_receive(:find).with(area.id.to_s).and_return(area)
       get :edit, id: area.id
     end
 
     it "assigns the area" do
       get :edit, id: area.id
-      expect(assigns[:area]).to eq(area)
+      expect(assigns[:area_of_law]).to eq(area)
     end
   end
 
   describe "#new" do
-    it "assigns a new area to @area" do
+    it "assigns a new area_of_law to @area" do
       get :new
-      expect(assigns[:area]).to be_a(Area)
+      expect(assigns[:area_of_law]).to be_a(AreaOfLaw)
     end
 
     describe "a html request" do
@@ -234,7 +214,7 @@ describe Admin::AreasController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :new, format: :json
@@ -249,16 +229,16 @@ describe Admin::AreasController do
   end
 
   describe "#show" do
-    let(:area){ Area.create(name: 'Somewhere') }
+    let(:area){ AreaOfLaw.create(name: 'Somewhere') }
 
-    it "finds the right area" do 
-      Area.should_receive(:find).with(area.id.to_s).and_return(area)
+    it "finds the right area" do
+      AreaOfLaw.should_receive(:find).with(area.id.to_s).and_return(area)
       get :show, id: area.id
     end
 
     it "assigns the area" do
       get :show, id: area.id
-      expect(assigns[:area]).to eq(area)
+      expect(assigns[:area_of_law]).to eq(area)
     end
 
     describe "a html request" do
@@ -272,7 +252,7 @@ describe Admin::AreasController do
         expect( response.status ).to eq(200)
       end
     end
-    
+
     describe "a json request" do
       it "responds with json" do
         get :show, id: area.id, format: :json
@@ -286,13 +266,12 @@ describe Admin::AreasController do
     end
   end
 
-  it "purges the cache when a area is destroyed" do
-    at = Area.create!(name: 'somewhere')
+  it "remove area_of_law on destroy" do
+    at = AreaOfLaw.create!(name: 'somewhere')
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
-      response.should redirect_to(admin_areas_path)
-    }.to change { Area.count }.by(-1)
+      response.should redirect_to(admin_areas_of_law_path)
+    }.to change { AreaOfLaw.count }.by(-1)
   end
 
 end

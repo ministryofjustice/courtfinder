@@ -1,35 +1,31 @@
 require 'spec_helper'
 
-describe Admin::OpeningTypesController do
+describe Admin::AddressTypesController do
+  #render_views
 
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
   describe "#update" do
-    let(:opening_type){ OpeningType.new(id: 123) }
-    before{ 
-      OpeningType.stub(:find).and_return(opening_type) 
-      opening_type.stub(id: 123)
+    let(:address_type){ AddressType.new(id: 123) }
+    before{
+      AddressType.stub(:find).and_return(address_type)
+      address_type.stub(id: 123)
     }
 
-    let(:params){ { id: 123, opening_type: {name: 'new opening type'} } }
+    let(:params){ { id: 123, address_type: {name: 'new address type'} } }
 
     context "that works" do
-      before{ 
-        OpeningType.any_instance.stub(update_attributes: true)
+      before{
+        AddressType.any_instance.stub(update_attributes: true)
       }
 
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :update, params
+      it "redirects to the edit path" do
+        patch :update, params
+        response.should redirect_to(edit_admin_address_type_path(address_type))
       end
 
-      it "redirects to the show path" do
-        patch :update, params
-        response.should redirect_to(admin_opening_type_path(opening_type))
-      end
-    
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -42,23 +38,18 @@ describe Admin::OpeningTypesController do
     end
 
     context "that doesn't work" do
-      before{ 
-        OpeningType.any_instance.stub(update_attributes: false)
+      before{
+        AddressType.any_instance.stub(update_attributes: false)
       }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -77,23 +68,18 @@ describe Admin::OpeningTypesController do
   end
 
   describe "#create" do
-    let(:params){ { opening_type: {name: 'new opening type'} } }
+    let(:params){ { address_type: {name: 'new address type'} } }
 
     context "that saves ok" do
-      it "creates an opening type" do
-        expect{ 
+      it "creates an address type" do
+        expect{
           post :create, params
-        }.to change { OpeningType.count }.by(1)
+        }.to change { AddressType.count }.by(1)
       end
 
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
+      it "redirects to the edit path" do
         post :create, params
-      end
-
-      it "redirects to the show path" do
-        post :create, params
-        response.should redirect_to(admin_opening_type_path(assigns(:opening_type)))
+        response.should redirect_to(edit_admin_address_type_path(assigns(:address_type)))
       end
 
       it "responds to html" do
@@ -107,17 +93,12 @@ describe Admin::OpeningTypesController do
       end
     end
     context "that doesn't save ok" do
-      before{ OpeningType.any_instance.stub(save: false) }
-      
-      it "does not create an opening type" do
-        expect{ 
-          post :create, params
-        }.to_not change { OpeningType.count }
-      end
+      before{ AddressType.any_instance.stub(save: false) }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
+      it "does not create an address type" do
+        expect{
+          post :create, params
+        }.to_not change { AddressType.count }
       end
 
       it "rerenders the new template" do
@@ -144,20 +125,18 @@ describe Admin::OpeningTypesController do
     end
   end
 
-
-  it "purges the cache when a opening_type is destroyed" do
-    at = OpeningType.create!
+  it "removes address type on destroy" do
+    at = AddressType.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
-      response.should redirect_to(admin_opening_types_path)
-    }.to change { OpeningType.count }.by(-1)
+      response.should redirect_to(admin_address_types_path)
+    }.to change { AddressType.count }.by(-1)
   end
 
   describe "#index" do
-    it "assigns all opening_types to @opening_types" do
+    it "assigns all address_types to @address_types" do
       get :index
-      expect(assigns[:opening_types]).to eq(OpeningType.all)
+      expect(assigns[:address_types]).to eq(AddressType.all)
     end
 
     it "responds to html" do
@@ -172,19 +151,19 @@ describe Admin::OpeningTypesController do
   end
 
   describe "#show" do
-    let(:mock_opening_type){ OpeningType.new(id: 123, name: 'mock opening type') }
-    before{ 
-      OpeningType.stub(:find).and_return(mock_opening_type)
+    let(:mock_address_type){ AddressType.new(id: 123, name: 'mock address type') }
+    before{
+      AddressType.stub(:find).and_return(mock_address_type)
     }
 
-    it "gets the right opening_type" do
-      OpeningType.should_receive(:find).with('123').and_return(mock_opening_type)
+    it "gets the right address_type" do
+      AddressType.should_receive(:find).with('123').and_return(mock_address_type)
       get :show, id: 123
     end
 
-    it "assigns the opening_type" do
+    it "assigns the address_type" do
       get :show, id: 123
-      expect(assigns[:opening_type]).to eq(mock_opening_type)
+      expect(assigns[:address_type]).to eq(mock_address_type)
     end
 
     it "responds to html" do
@@ -200,9 +179,9 @@ describe Admin::OpeningTypesController do
 
   describe "#new" do
 
-    it "assigns a new opening_type" do
+    it "assigns a new address_type" do
       get :new
-      expect(assigns[:opening_type]).to be_a(OpeningType)
+      expect(assigns[:address_type]).to be_a(AddressType)
     end
 
 
@@ -218,16 +197,15 @@ describe Admin::OpeningTypesController do
   end
 
   describe "#edit" do
-    let(:mock_opening_type){ OpeningType.new(id: 123, name: 'mock opening type') }
-    before{ 
-      OpeningType.stub(:find).and_return(mock_opening_type)
+    let(:mock_address_type){ AddressType.new(id: 123, name: 'mock address type') }
+    before{
+      AddressType.stub(:find).and_return(mock_address_type)
     }
 
-    it "gets the right opening_type" do
-      OpeningType.should_receive(:find).with('123').and_return(mock_opening_type)
+    it "gets the right address_type" do
+      AddressType.should_receive(:find).with('123').and_return(mock_address_type)
       get :edit, id: 123
     end
   end
-
 
 end

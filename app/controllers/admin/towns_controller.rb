@@ -1,88 +1,73 @@
-class Admin::TownsController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class TownsController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :town, except: %i[index new create]
+    respond_to :html, :json
 
-  # GET /towns
-  # GET /towns.json
-  def index
-    @towns = Town.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @towns }
+    def index
+      @towns = Town.all
+      respond_with @towns
     end
-  end
 
-  # GET /towns/1
-  # GET /towns/1.json
-  def show
-    @town = Town.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @town }
-    end
-  end
-
-  # GET /towns/new
-  # GET /towns/new.json
-  def new
-    @town = Town.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @town }
-    end
-  end
-
-  # GET /towns/1/edit
-  def edit
-    @town = Town.find(params[:id])
-  end
-
-  # POST /towns
-  # POST /towns.json
-  def create
-    @town = Town.new(params[:town])
-
-    respond_to do |format|
-      if @town.save
-        purge_all_pages
-        format.html { redirect_to admin_town_path(@town), notice: 'Town was successfully created.' }
-        format.json { render json: @town, status: :created, location: admin_town_url(@town) }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @town.errors, status: :unprocessable_entity }
+    def show
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @town }
       end
     end
-  end
 
-  # PUT /towns/1
-  # PUT /towns/1.json
-  def update
-    @town = Town.find(params[:id])
+    def new
+      @town = Town.new
 
-    respond_to do |format|
-      if @town.update_attributes(params[:town])
-        purge_all_pages
-        format.html { redirect_to admin_town_path(@town), notice: 'Town was successfully updated.' }
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @town }
+      end
+    end
+
+    def edit
+      respond_with @town
+    end
+
+    def create
+      @town = Town.new(params[:town])
+
+      respond_to do |format|
+        if @town.save
+          message = 'Town was successfully created.'
+          format.html { redirect_to admin_town_path(@town), notice: message }
+          format.json { render json: @town, status: :created, location: admin_town_url(@town) }
+        else
+          render_error_response(format, template: :new, model: @town)
+        end
+      end
+    end
+
+    def update
+      respond_to do |format|
+        if @town.update_attributes(params[:town])
+          message = 'Town was successfully updated.'
+          format.html { redirect_to admin_town_path(@town), notice: message }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @town)
+        end
+      end
+    end
+
+    def destroy
+      @town.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_towns_url }
         format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @town.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /towns/1
-  # DELETE /towns/1.json
-  def destroy
-    @town = Town.find(params[:id])
-    @town.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_towns_url }
-      format.json { head :no_content }
+    def town
+      @town ||= Town.find(params[:id])
     end
   end
 end

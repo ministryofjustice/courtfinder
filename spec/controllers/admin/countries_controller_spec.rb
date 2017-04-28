@@ -1,32 +1,28 @@
 require 'spec_helper'
 
-describe Admin::FacilitiesController do
+describe Admin::CountriesController do
+
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
   describe "#update" do
-    let(:facility){ Facility.new(id: 123) }
+    let(:country){ Country.new(id: 123) }
     before{
-      Facility.stub(:find).and_return(facility)
-      facility.stub(id: 123)
+      Country.stub(:find).and_return(country)
+      country.stub(id: 123)
     }
 
-    let(:params){ { id: 123, facility: {name: 'new contact type'} } }
+    let(:params){ { id: 123, country: {name: 'new contact type'} } }
 
     context "that works" do
       before{
-        Facility.any_instance.stub(update_attributes: true)
+        Country.any_instance.stub(update_attributes: true)
       }
 
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :update, params
-      end
-
-      it "redirects to the show path" do
+      it "redirects to the edit path" do
         patch :update, params
-        response.should redirect_to(admin_facility_path(facility))
+        response.should redirect_to(edit_admin_country_path(country))
       end
 
       it "responds to html" do
@@ -42,13 +38,8 @@ describe Admin::FacilitiesController do
 
     context "that doesn't work" do
       before{
-        Facility.any_instance.stub(update_attributes: false)
+        Country.any_instance.stub(update_attributes: false)
       }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       context "a html request" do
         before{ params[:format] = :html }
@@ -76,23 +67,18 @@ describe Admin::FacilitiesController do
   end
 
   describe "#create" do
-    let(:params){ { facility: { name: 'new contact type', image_file: fixture_file_upload("assets/firstaid.png",'image/png') } } }
+    let(:params){ { country: {name: 'new contact type'} } }
 
     context "that saves ok" do
       it "creates an contact type" do
         expect{
           post :create, params
-        }.to change { Facility.count }.by(1)
+        }.to change { Country.count }.by(1)
       end
 
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
+      it "redirects to the edit path" do
         post :create, params
-      end
-
-      it "redirects to the show path" do
-        post :create, params
-        response.should redirect_to(admin_facility_path(assigns(:facility)))
+        response.should redirect_to(edit_admin_country_path(assigns(:country)))
       end
 
       it "responds to html" do
@@ -106,17 +92,12 @@ describe Admin::FacilitiesController do
       end
     end
     context "that doesn't save ok" do
-      before{ Facility.any_instance.stub(save: false) }
+      before{ Country.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
         expect{
           post :create, params
-        }.to_not change { Facility.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
+        }.to_not change { Country.count }
       end
 
       it "rerenders the new template" do
@@ -143,20 +124,18 @@ describe Admin::FacilitiesController do
     end
   end
 
-
-  it "purges the cache when a facility is destroyed" do
-    at = create(:facility)
+  it "purges the cache when a contact type is destroyed" do
+    at = Country.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
-      response.should redirect_to(admin_facilities_path)
-    }.to change { Facility.count }.by(-1)
+      response.should redirect_to(admin_countries_path)
+    }.to change { Country.count }.by(-1)
   end
 
   describe "#index" do
-    it "assigns all facilities to @facilities" do
+    it "assigns all countries to @countries" do
       get :index
-      expect(assigns[:facilities]).to eq(Facility.all)
+      expect(assigns[:countries]).to eq(Country.all)
     end
 
     it "responds to html" do
@@ -171,19 +150,19 @@ describe Admin::FacilitiesController do
   end
 
   describe "#show" do
-    let(:mock_facility){ Facility.new(id: 123, name: 'mock contact type') }
+    let(:mock_country){ Country.new(id: 123, name: 'mock contact type') }
     before{
-      Facility.stub(:find).and_return(mock_facility)
+      Country.stub(:find).and_return(mock_country)
     }
 
-    it "gets the right facility" do
-      Facility.should_receive(:find).with('123').and_return(mock_facility)
+    it "gets the right country" do
+      Country.should_receive(:find).with('123').and_return(mock_country)
       get :show, id: 123
     end
 
-    it "assigns the facility" do
+    it "assigns the country" do
       get :show, id: 123
-      expect(assigns[:facility]).to eq(mock_facility)
+      expect(assigns[:country]).to eq(mock_country)
     end
 
     it "responds to html" do
@@ -199,9 +178,9 @@ describe Admin::FacilitiesController do
 
   describe "#new" do
 
-    it "assigns a new facility" do
+    it "assigns a new country" do
       get :new
-      expect(assigns[:facility]).to be_a(Facility)
+      expect(assigns[:country]).to be_a(Country)
     end
 
 
@@ -217,33 +196,14 @@ describe Admin::FacilitiesController do
   end
 
   describe "#edit" do
-    let(:mock_facility){ Facility.new(id: 123, name: 'mock contact type') }
+    let(:mock_country){ Country.new(id: 123, name: 'mock contact type') }
     before{
-      Facility.stub(:find).and_return(mock_facility)
+      Country.stub(:find).and_return(mock_country)
     }
 
-    it "gets the right facility" do
-      Facility.should_receive(:find).with('123').and_return(mock_facility)
+    it "gets the right country" do
+      Country.should_receive(:find).with('123').and_return(mock_country)
       get :edit, id: 123
     end
   end
-
-  it "purges the cache when a contact type is destroyed" do
-    at = create(:facility)
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_facilities_path)
-    }.to change { Facility.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = create(:facility)
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_facilities_path)
-    }.to change { Facility.count }.by(-1)
-  end
-
 end

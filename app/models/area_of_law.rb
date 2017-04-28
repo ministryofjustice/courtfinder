@@ -49,6 +49,19 @@ class AreaOfLaw < ActiveRecord::Base
         find_by_name! area_of_law_name
       end
     end
+
+    def family_group
+      [AreaOfLaw::Name::CHILDREN,
+       AreaOfLaw::Name::DIVORCE,
+       AreaOfLaw::Name::ADOPTION,
+       AreaOfLaw::Name::CIVIL_PARTNERSHIP]
+    end
+
+    def civil_group
+      [AreaOfLaw::Name::MONEY_CLAIMS,
+       AreaOfLaw::Name::HOUSING_POSSESSION,
+       AreaOfLaw::Name::BANKRUPTCY]
+    end
   end
 
   attr_accessible :name, :old_id, :slug, :type_possession, :type_bankruptcy,

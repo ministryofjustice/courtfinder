@@ -9,28 +9,23 @@ describe Admin::CourtTypesController do
 
   describe "#update" do
     let(:court_type){ CourtType.new(id: 123) }
-    before{ 
-      CourtType.stub(:find).and_return(court_type) 
+    before{
+      CourtType.stub(:find).and_return(court_type)
       court_type.stub(id: 123)
     }
 
     let(:params){ { id: 123, court_type: {name: 'new court type'} } }
 
     context "that works" do
-      before{ 
+      before{
         CourtType.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       it "redirects to the edit path" do
         patch :update, params
         response.should redirect_to(edit_admin_court_type_path(court_type))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -43,23 +38,18 @@ describe Admin::CourtTypesController do
     end
 
     context "that doesn't work" do
-      before{ 
+      before{
         CourtType.any_instance.stub(update_attributes: false)
       }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
-
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -82,14 +72,9 @@ describe Admin::CourtTypesController do
 
     context "that saves ok" do
       it "creates an court type" do
-        expect{ 
+        expect{
           post :create, params
         }.to change { CourtType.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "redirects to the show path" do
@@ -109,16 +94,11 @@ describe Admin::CourtTypesController do
     end
     context "that doesn't save ok" do
       before{ CourtType.any_instance.stub(save: false) }
-      
+
       it "does not create an court type" do
-        expect{ 
+        expect{
           post :create, params
         }.to_not change { CourtType.count }
-      end
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
       end
 
       it "rerenders the new template" do
@@ -145,11 +125,9 @@ describe Admin::CourtTypesController do
     end
   end
 
-
-  it "purges the cache when a court_type is destroyed" do
+  it "removes court_type" do
     at = CourtType.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
       response.should redirect_to(admin_court_types_path)
     }.to change { CourtType.count }.by(-1)
@@ -178,7 +156,7 @@ describe Admin::CourtTypesController do
 
   describe "#show" do
     let(:court_type){ CourtType.create!(name: 'mock court type') }
-    before{ 
+    before{
       CourtType.stub(:find).and_return(court_type)
     }
 
@@ -220,7 +198,7 @@ describe Admin::CourtTypesController do
 
   describe "#edit" do
     let(:mock_court_type){ CourtType.new(id: 123, name: 'mock court type') }
-    before{ 
+    before{
       CourtType.stub(:find).and_return(mock_court_type)
     }
 

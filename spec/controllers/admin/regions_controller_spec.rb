@@ -1,35 +1,31 @@
 require 'spec_helper'
 
-describe Admin::TownsController do
+describe Admin::RegionsController do
 
   before :each do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
+
   describe "#update" do
-    let(:town){ Town.new(id: 123) }
-    before{ 
-      Town.stub(:find).and_return(town) 
-      town.stub(id: 123)
+    let(:region){ Region.new(id: 123) }
+    before{
+      Region.stub(:find).and_return(region)
+      region.stub(id: 123)
     }
 
-    let(:params){ { id: 123, town: {name: 'new town'} } }
+    let(:params){ { id: 123, region: {name: 'new region'} } }
 
     context "that works" do
-      before{ 
-        Town.any_instance.stub(update_attributes: true)
+      before{
+        Region.any_instance.stub(update_attributes: true)
       }
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       it "redirects to the show path" do
         patch :update, params
-        response.should redirect_to(admin_town_path(town))
+        response.should redirect_to(admin_region_path(region))
       end
-    
+
       it "responds to html" do
         patch :update, params.merge(format: :html)
         expect(response.content_type).to eq('text/html')
@@ -42,23 +38,18 @@ describe Admin::TownsController do
     end
 
     context "that doesn't work" do
-      before{ 
-        Town.any_instance.stub(update_attributes: false)
+      before{
+        Region.any_instance.stub(update_attributes: false)
       }
-
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        patch :update, params
-      end
 
       context "a html request" do
         before{ params[:format] = :html }
-  
+
         it "rerenders the edit path" do
           patch :update, params
           response.should render_template(:edit)
         end
-    
+
         it "responds with html" do
           patch :update, params.merge(format: :html)
           expect(response.content_type).to eq('text/html')
@@ -77,23 +68,18 @@ describe Admin::TownsController do
   end
 
   describe "#create" do
-    let(:params){ { town: {name: 'new town'} } }
+    let(:params){ { region: {name: 'new region'} } }
 
     context "that saves ok" do
-      it "creates a town" do
-        expect{ 
+      it "creates an region" do
+        expect{
           post :create, params
-        }.to change { Town.count }.by(1)
-      end
-
-      it "purges the cache" do
-        controller.should_receive(:purge_all_pages)
-        post :create, params
+        }.to change { Region.count }.by(1)
       end
 
       it "redirects to the show path" do
         post :create, params
-        response.should redirect_to(admin_town_path(assigns(:town)))
+        response.should redirect_to(admin_region_path(assigns(:region)))
       end
 
       it "responds to html" do
@@ -107,17 +93,12 @@ describe Admin::TownsController do
       end
     end
     context "that doesn't save ok" do
-      before{ Town.any_instance.stub(save: false) }
-      
-      it "does not create a town" do
-        expect{ 
-          post :create, params
-        }.to_not change { Town.count }
-      end
+      before{ Region.any_instance.stub(save: false) }
 
-      it "does not purge the cache" do
-        controller.should_not_receive(:purge_all_pages)
-        post :create, params
+      it "does not create an region" do
+        expect{
+          post :create, params
+        }.to_not change { Region.count }
       end
 
       it "rerenders the new template" do
@@ -144,20 +125,18 @@ describe Admin::TownsController do
     end
   end
 
-
-  it "purges the cache when a town is destroyed" do
-    at = Town.create!
+  it "remove region on destroy" do
+    at = Region.create!
     expect {
-      controller.should_receive(:purge_all_pages)
       post :destroy, id: at.id
-      response.should redirect_to(admin_towns_path)
-    }.to change { Town.count }.by(-1)
+      response.should redirect_to(admin_regions_path)
+    }.to change { Region.count }.by(-1)
   end
 
   describe "#index" do
-    it "assigns all towns to @towns" do
+    it "assigns all regions to @regions" do
       get :index
-      expect(assigns[:towns]).to eq(Town.all)
+      expect(assigns[:regions]).to eq(Region.all)
     end
 
     it "responds to html" do
@@ -172,19 +151,19 @@ describe Admin::TownsController do
   end
 
   describe "#show" do
-    let(:mock_town){ Town.new(id: 123, name: 'mock town') }
-    before{ 
-      Town.stub(:find).and_return(mock_town)
+    let(:mock_region){ Region.new(id: 123, name: 'mock region') }
+    before{
+      Region.stub(:find).and_return(mock_region)
     }
 
-    it "gets the right town" do
-      Town.should_receive(:find).with('123').and_return(mock_town)
+    it "gets the right region" do
+      Region.should_receive(:find).with('123').and_return(mock_region)
       get :show, id: 123
     end
 
-    it "assigns the town" do
+    it "assigns the region" do
       get :show, id: 123
-      expect(assigns[:town]).to eq(mock_town)
+      expect(assigns[:region]).to eq(mock_region)
     end
 
     it "responds to html" do
@@ -200,9 +179,9 @@ describe Admin::TownsController do
 
   describe "#new" do
 
-    it "assigns a new town" do
+    it "assigns a new region" do
       get :new
-      expect(assigns[:town]).to be_a(Town)
+      expect(assigns[:region]).to be_a(Region)
     end
 
 
@@ -218,32 +197,15 @@ describe Admin::TownsController do
   end
 
   describe "#edit" do
-    let(:mock_town){ Town.new(id: 123, name: 'mock town') }
-    before{ 
-      Town.stub(:find).and_return(mock_town)
+    let(:mock_region){ Region.new(id: 123, name: 'mock region') }
+    before{
+      Region.stub(:find).and_return(mock_region)
     }
 
-    it "gets the right town" do
-      Town.should_receive(:find).with('123').and_return(mock_town)
+    it "gets the right region" do
+      Region.should_receive(:find).with('123').and_return(mock_region)
       get :edit, id: 123
     end
   end
 
-  it "purges the cache when a town is destroyed" do
-    at = Town.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: at.id
-      response.should redirect_to(admin_towns_path)
-    }.to change { Town.count }.by(-1)
-  end
-
-  it "purges the cache when an object is destroyed" do
-    object = Town.create!
-    expect {
-      controller.should_receive(:purge_all_pages)
-      post :destroy, id: object.id
-      response.should redirect_to(admin_towns_path)
-    }.to change { Town.count }.by(-1)
-  end
 end

@@ -1,94 +1,74 @@
-class Admin::AreasController < Admin::ApplicationController
-  before_action :authorised?
+module Admin
+  class AreasController < Admin::ApplicationController
+    before_action :authorised?
+    before_action :area, only: %i[show edit update destroy]
+    respond_to :html, :json
 
-  # GET /admin/areas
-  # GET /admin/areas.json
-  def index
-    @areas = Area.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @areas }
+    def index
+      @areas = Area.all
+      respond_with @areas
     end
-  end
 
-  # GET /admin/areas/1
-  # GET /admin/areas/1.json
-  def show
-    @area = Area.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @area }
+    def show
+      respond_with @area
     end
-  end
 
-  # GET /admin/areas/new
-  # GET /admin/areas/new.json
-  def new
-    @area = Area.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @area }
+    def new
+      @area = Area.new
+      respond_with @area
     end
-  end
 
-  # GET /admin/areas/1/edit
-  def edit
-    @area = Area.find(params[:id])
-  end
+    def edit
+      respond_with @area
+    end
 
-  # POST /admin/areas
-  # POST /admin/areas.json
-  def create
-    @area = Area.new(params[:area])
+    def create
+      @area = Area.new(params[:area])
 
-    respond_to do |format|
-      if @area.save
-        purge_all_pages
-        format.html { redirect_to edit_admin_area_path(@area), notice: 'Area was successfully created.' }
-        format.json { render json: @area, status: :created, location: admin_area_url(@area) }
-      else
-        format.html { 
-          flash[:error] = 'Area could not be created'
-          render action: "new" 
-        }
-        format.json { render json: @area.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @area.save
+          format.html { redirect_to edit_path, notice: success_message('created') }
+          format.json { render json: @area, status: :created, location: admin_area_url(@area) }
+        else
+          render_error_response(format, template: :new, model: @area,
+                                        message: 'Area could not be created.')
+        end
       end
     end
-  end
 
-  # PUT /admin/areas/1
-  # PUT /admin/areas/1.json
-  def update
-    @area = Area.find(params[:id])
+    def update
+      respond_to do |format|
+        if @area.update_attributes(params[:area])
+          format.html { redirect_to edit_path, notice: success_message('updated') }
+          format.json { head :no_content }
+        else
+          render_error_response(format, template: :edit, model: @area,
+                                        message: 'Area could not be updated.')
+        end
+      end
+    end
 
-    respond_to do |format|
-      if @area.update_attributes(params[:area])
-        purge_all_pages
-        format.html { redirect_to edit_admin_area_path(@area), notice: 'Area was successfully updated.' }
+    def destroy
+      @area.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_areas_url }
         format.json { head :no_content }
-      else
-        format.html { 
-          flash[:error] = 'Area could not be updated'
-          render action: "edit" 
-        }
-        format.json { render json: @area.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /admin/areas/1
-  # DELETE /admin/areas/1.json
-  def destroy
-    @area = Area.find(params[:id])
-    @area.destroy
-    purge_all_pages
+    private
 
-    respond_to do |format|
-      format.html { redirect_to admin_areas_url }
-      format.json { head :no_content }
+    def area
+      @area ||= Area.find(params[:id])
+    end
+
+    def success_message(event)
+      "Area was successfully #{event}."
+    end
+
+    def edit_path
+      edit_admin_area_path(@area)
     end
   end
 end
