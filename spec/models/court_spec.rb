@@ -347,31 +347,28 @@ describe Court do
   end
 
   describe 'slug format validation' do
-    let(:court) { build(:court, name: test_name) }
+    let(:court) { create(:court, name: 'Court a') }
+
+    before { court.slug = test_slug }
+
     context 'lettters and underscore' do
-      let(:test_name) { 'Courjustice' }
+      let(:test_slug) { 'Courtjustice' }
       it { expect(court).to be_valid }
     end
 
-    context 'not allowed character' do
-      let(:test_name) { 'Court & justice' }
-      it 'removes & from slug' do
-        court.save
-        expect(court.reload.slug).to eql('court-justice')
-      end
-    end
-
-    context 'not allowed character' do
-      let(:test_name) { 'Court and justice1' }
+    context 'not allowed & character' do
+      let(:test_slug) { 'court-&-justice' }
       it { expect(court).not_to be_valid }
     end
 
-    context 'not allowed character' do
-      let(:test_name) { 'Court and justice?' }
-      it 'removes ? from slug' do
-        court.save
-        expect(court.reload.slug).to eql('court-and-justice')
-     end
+    context 'not allowed numeric character' do
+      let(:test_slug) { 'Court-and-justice1' }
+      it { expect(court).not_to be_valid }
+    end
+
+    context 'not allowed ? character' do
+      let(:test_slug) { 'court-and-justice?' }
+      it { expect(court).not_to be_valid }
     end
   end
 
@@ -385,5 +382,17 @@ describe Court do
     it { expect(court1.slug).to eql('common-court-name') }
     it { expect(court2.slug).to eql('common-court-name-a') }
     it { expect(court3.slug).to eql('common-court-name-b') }
+  end
+
+  describe 'name format validation' do
+    let(:court1) { build(:court, name: 'Common court name') }
+    let(:court2) { build(:court, name: 'Common 1') }
+    let(:court3) { build(:court, name: 'Common &') }
+    let(:court4) { build(:court, name: "Postal Magistrates' Court") }
+
+    it { expect(court1).to be_valid }
+    it { expect(court2).not_to be_valid }
+    it { expect(court3).not_to be_valid }
+    it { expect(court4).to be_valid }
   end
 end

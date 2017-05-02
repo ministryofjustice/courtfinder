@@ -43,6 +43,7 @@ feature 'manage courts address postal' do
       fill_in 'Name', with: "Court tribunal1"
       click_button 'Update'
       expect(page).to have_text 'Slug only alphabetic characters and hyphens are allowed'
+      expect(page).to have_text 'Name only alphabetic characters and apostrophes are allowed'
     end
 
     scenario 'Enter invalid character for slug' do

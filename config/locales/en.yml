@@ -63,6 +63,8 @@ en:
           attributes:
             slug:
               invalid: only alphabetic characters and hyphens are allowed
+            name:
+              invalid: only alphabetic characters and apostrophes are allowed
 
   simple_form:
     hints:
