@@ -7,7 +7,7 @@ feature 'Money claims and possession should show helpful messages' do
 
   let!(:money_claims_court) do
     create(:court,
-           name: 'County Court Money Claims Centre (CCMCC)',
+           name: 'County Court Money Claims Centre CCMCC',
            slug: 'county-court-money-claims-centre-ccmcc',
            areas_of_law: [money_claims_area])
     create(:court,

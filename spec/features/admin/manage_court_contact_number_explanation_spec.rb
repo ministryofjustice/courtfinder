@@ -6,7 +6,7 @@ feature 'Court Contact Explanation' do
   end
 
   context 'admin' do
-    let!(:court) { create(:court, name: 'the-court') }
+    let!(:court) { create(:court, name: 'the court') }
     let!(:user) { create(:user) }
     let(:long_explanation) do
       'Enquiries Explanation which is very very very very very long message and even loooongeeeer'
@@ -17,7 +17,7 @@ feature 'Court Contact Explanation' do
     end
 
     scenario 'edit a court and verify the change', js: true do
-      visit '/admin/courts/the-court/edit'
+      visit edit_admin_court_path(court)
       expect(page).to have_content('Editing court')
       click_link 'Contact Numbers'
       click_link 'Add contact information'
@@ -31,7 +31,7 @@ feature 'Court Contact Explanation' do
       click_button 'Update'
       expect(page).to have_content('Court was successfully updated')
 
-      visit '/admin/courts/the-court/edit'
+      visit edit_admin_court_path(court)
       expect(page).to have_content('Editing court')
 
       click_link 'Contact Numbers'
@@ -40,7 +40,7 @@ feature 'Court Contact Explanation' do
     end
 
     scenario 'validating explanation message', js: true do
-      visit '/admin/courts/the-court/edit'
+      visit edit_admin_court_path(court)
       expect(page).to have_content('Editing court')
       click_link 'Contact Numbers'
       click_link 'Add contact information'

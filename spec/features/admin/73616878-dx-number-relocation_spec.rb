@@ -7,7 +7,7 @@ feature 'DX number' do
   end
 
   context 'admin' do
-    let!(:court) { create(:court, name: 'the-court') }
+    let!(:court) { create(:court, name: 'the court') }
     let!(:user) { create(:user) }
 
     before do
@@ -16,8 +16,7 @@ feature 'DX number' do
     end
 
     scenario 'edit a court and verify the change', js: true do
-
-      visit '/admin/courts/the-court/edit'
+      visit edit_admin_court_path(court)
       expect(page).to have_content('Editing court')
       click_link 'Contact Numbers'
       click_link 'Add contact information'
@@ -30,7 +29,7 @@ feature 'DX number' do
       click_button 'Update'
       expect(page).to have_content('Court was successfully updated')
 
-      visit '/courts/the-court'
+      visit court_path(court)
       page.should have_content('DX 160040 Strand 4')
     end
 
@@ -38,14 +37,14 @@ feature 'DX number' do
 
   context 'legal professional user' do
     let!(:court) do
-      create(:court, name: 'the-court') do |court|
+      create(:court, name: 'the court') do |court|
         court.contacts << create(:contact, telephone: '2343', contact_type_id: ContactType.find_by_name('DX').id, court_id: court.id)
         court.contacts << create(:contact, telephone: '01 1234 56678', contact_type_id: ContactType.find_by_name('telephone').id, court_id: court.id)
       end
     end
 
     scenario 'see the DX number in the \'Legal professionals section\'' do
-      visit '/courts/the-court'
+      visit court_path(court)
       page.should have_content('Legal professionals')
       within(:css, "div.for-legal-professionals") do
         expect(page).to have_content('DX: 2343')

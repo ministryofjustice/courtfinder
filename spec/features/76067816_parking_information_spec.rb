@@ -2,14 +2,14 @@ require 'spec_helper'
 
 feature 'Adding simple parking information to a court' do
   context 'admin' do
-    let!(:court) { create(:court, name: 'the-court') }
+    let!(:court) { create(:court, name: 'the court') }
     let!(:user) { create(:user) }
 
     before do
       visit '/admin'
       sign_in user
 
-      visit '/admin/courts/the-court/edit'
+      visit edit_admin_court_path(court)
       expect(page.status_code).to eq(200)
       expect(page).to have_content('Editing court')
       click_link 'Parking'
