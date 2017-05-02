@@ -67,14 +67,16 @@ class Court < ActiveRecord::Base
 
   before_validation :add_uuid
   before_validation :convert_visiting_to_location
+  before_validation :transliterate_slug
 
   validates :name, presence: true
   validate :check_postcode_errors
 
+  validates_format_of :slug, with: /\A[a-zA-Z-]+\z/, allow_nil: true, if: :validate_slug?
   has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history, :finders]
+  friendly_id :slug_candidates, use: [:slugged, :history, :finders]
 
   geocoded_by latitude: :lat, longitude: :lng
 
@@ -220,6 +222,21 @@ class Court < ActiveRecord::Base
 
   def should_generate_new_friendly_id?
     slug.blank? || changed.include?('name')
+  end
+
+  def transliterate_slug
+    return if slug.blank?
+    self.slug = ActiveSupport::Inflector.transliterate(self.slug).try(:downcase)
+  end
+
+  def validate_slug?
+    changed.include?('slug')
+  end
+
+  def slug_candidates
+    candidates = [:name]
+    ('a'..'z').to_a.each{ |letter| candidates << [:name, letter] }
+    candidates
   end
 
   def resolve_leaflets

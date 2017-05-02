@@ -345,4 +345,45 @@ describe Court do
       expect(list).to be_empty
     end
   end
+
+  describe 'slug format validation' do
+    let(:court) { build(:court, name: test_name) }
+    context 'lettters and underscore' do
+      let(:test_name) { 'Courjustice' }
+      it { expect(court).to be_valid }
+    end
+
+    context 'not allowed character' do
+      let(:test_name) { 'Court & justice' }
+      it 'removes & from slug' do
+        court.save
+        expect(court.reload.slug).to eql('court-justice')
+      end
+    end
+
+    context 'not allowed character' do
+      let(:test_name) { 'Court and justice1' }
+      it { expect(court).not_to be_valid }
+    end
+
+    context 'not allowed character' do
+      let(:test_name) { 'Court and justice?' }
+      it 'removes ? from slug' do
+        court.save
+        expect(court.reload.slug).to eql('court-and-justice')
+     end
+    end
+  end
+
+  describe 'slug uniqueness' do
+    let(:court1) { create(:court, name: 'Common court name') }
+    let(:court2) { create(:court, name: 'Common court name') }
+    let(:court3) { create(:court, name: 'Common court name') }
+
+    before { court1; court2; court3 }
+
+    it { expect(court1.slug).to eql('common-court-name') }
+    it { expect(court2.slug).to eql('common-court-name-a') }
+    it { expect(court3.slug).to eql('common-court-name-b') }
+  end
 end
