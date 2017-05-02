@@ -88,8 +88,8 @@ describe Court do
     end
 
     it 'should write different uuids for each record it writes' do
-      court1 = create(:court, name: 'Court 1')
-      court2 = create(:court, name: 'Court 2')
+      court1 = create(:court, name: 'Court a')
+      court2 = create(:court, name: 'Court b')
       expect(court1.uuid).not_to be_nil
       expect(court1.uuid).not_to eq court2.uuid
     end
