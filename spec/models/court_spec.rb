@@ -389,10 +389,14 @@ describe Court do
     let(:court2) { build(:court, name: 'Common 1') }
     let(:court3) { build(:court, name: 'Common &') }
     let(:court4) { build(:court, name: "Postal Magistrates' Court") }
+    let(:court5) { build(:court, name: "Postal Magistrates (Court)") }
+    let(:court6) { build(:court, name: "Postal Magistrates - Court") }
 
     it { expect(court1).to be_valid }
     it { expect(court2).not_to be_valid }
     it { expect(court3).not_to be_valid }
     it { expect(court4).to be_valid }
+    it { expect(court5).to be_valid }
+    it { expect(court6).to be_valid }
   end
 end
