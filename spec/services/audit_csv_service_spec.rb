@@ -16,7 +16,7 @@ describe AuditCsvService do
       "field_name", "action", "value_before", "value_after"] }
     let(:user) { create :user }
     let(:court_facility) { create :court_facility, court: court }
-    let(:court) { create :court, name: 'Test court1' }
+    let(:court) { create :court, name: 'Test court a' }
 
     context 'no records' do
       it 'return csv with sctructure' do
@@ -27,7 +27,7 @@ describe AuditCsvService do
 
     context 'item type Court' do
       before do
-        court.update(name: 'Test court2')
+        court.update(name: 'Test court b')
       end
 
       it 'return csv with structure' do
@@ -37,11 +37,11 @@ describe AuditCsvService do
           last_version.created_at.to_s,
           user.email,
           'ip',
-          'Test court2',
+          'Test court b',
           'name',
           'update',
-          'Test court1',
-          'Test court2']
+          'Test court a',
+          'Test court b']
         )
       end
     end
@@ -59,7 +59,7 @@ describe AuditCsvService do
           last_version.created_at.to_s,
           user.email,
           'ip',
-          'Test court1',
+          'Test court a',
           'CourtFacility',
           'destroy',
           last_version.previous.try(:object),
@@ -80,7 +80,7 @@ describe AuditCsvService do
           last_version.created_at.to_s,
           user.email,
           'ip',
-          'Test court1',
+          'Test court a',
           'CourtFacility',
           'create',
           '[]',

@@ -88,8 +88,8 @@ describe Court do
     end
 
     it 'should write different uuids for each record it writes' do
-      court1 = create(:court, name: 'Court 1')
-      court2 = create(:court, name: 'Court 2')
+      court1 = create(:court, name: 'Court a')
+      court2 = create(:court, name: 'Court b')
       expect(court1.uuid).not_to be_nil
       expect(court1.uuid).not_to eq court2.uuid
     end
@@ -344,5 +344,59 @@ describe Court do
       list = Court.by_postcode_court_mapping(postcode_court.postcode, @court2.areas_of_law.last)
       expect(list).to be_empty
     end
+  end
+
+  describe 'slug format validation' do
+    let(:court) { create(:court, name: 'Court a') }
+
+    before { court.slug = test_slug }
+
+    context 'lettters and underscore' do
+      let(:test_slug) { 'Courtjustice' }
+      it { expect(court).to be_valid }
+    end
+
+    context 'not allowed & character' do
+      let(:test_slug) { 'court-&-justice' }
+      it { expect(court).not_to be_valid }
+    end
+
+    context 'not allowed numeric character' do
+      let(:test_slug) { 'Court-and-justice1' }
+      it { expect(court).not_to be_valid }
+    end
+
+    context 'not allowed ? character' do
+      let(:test_slug) { 'court-and-justice?' }
+      it { expect(court).not_to be_valid }
+    end
+  end
+
+  describe 'slug uniqueness' do
+    let(:court1) { create(:court, name: 'Common court name') }
+    let(:court2) { create(:court, name: 'Common court name') }
+    let(:court3) { create(:court, name: 'Common court name') }
+
+    before { court1; court2; court3 }
+
+    it { expect(court1.slug).to eql('common-court-name') }
+    it { expect(court2.slug).to eql('common-court-name-a') }
+    it { expect(court3.slug).to eql('common-court-name-b') }
+  end
+
+  describe 'name format validation' do
+    let(:court1) { build(:court, name: 'Common court name') }
+    let(:court2) { build(:court, name: 'Common 1') }
+    let(:court3) { build(:court, name: 'Common &') }
+    let(:court4) { build(:court, name: "Postal Magistrates' Court") }
+    let(:court5) { build(:court, name: "Postal Magistrates (Court)") }
+    let(:court6) { build(:court, name: "Postal Magistrates - Court") }
+
+    it { expect(court1).to be_valid }
+    it { expect(court2).not_to be_valid }
+    it { expect(court3).not_to be_valid }
+    it { expect(court4).to be_valid }
+    it { expect(court5).to be_valid }
+    it { expect(court6).to be_valid }
   end
 end

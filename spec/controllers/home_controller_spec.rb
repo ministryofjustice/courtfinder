@@ -3,7 +3,7 @@ require 'spec_helper'
 describe HomeController do
   render_views
 
-  let!(:court) { create(:court, old_id: 1, name: "A court of L.A.W.") }
+  let!(:court) { create(:court, old_id: 1, name: "A court of LAW") }
 
   context "landing page" do
     it "displays the landing page" do

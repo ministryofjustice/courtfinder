@@ -59,6 +59,12 @@ en:
           attributes:
             explanation:
               too_long: is too long (contains %{size} characters and maximum is 85 characters)
+        court:
+          attributes:
+            slug:
+              invalid: only alphabetic characters and hyphens are allowed
+            name:
+              invalid: only alphabetic characters and apostrophes are allowed
 
   simple_form:
     hints:
