@@ -64,7 +64,7 @@ en:
             slug:
               invalid: only alphabetic characters and hyphens are allowed
             name:
-              invalid: only alphabetic characters and apostrophes are allowed
+              invalid: only alphabetic characters, commas and apostrophes are allowed
 
   simple_form:
     hints:

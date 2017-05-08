@@ -73,7 +73,7 @@ class Court < ActiveRecord::Base
   validate :check_postcode_errors
 
   validates_format_of :slug, with: /\A[a-zA-Z-]+\z/, allow_nil: true, if: :validate_slug?
-  validates_format_of :name, with: /\A[a-zA-Z\s'\-\)\(]+\z/, allow_nil: true
+  validates_format_of :name, with: /\A[a-zA-Z\s'\-\)\(,]+\z/, allow_nil: true
   has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
 
   extend FriendlyId
