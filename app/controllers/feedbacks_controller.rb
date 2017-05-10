@@ -1,6 +1,5 @@
 class FeedbacksController < ApplicationController
-  def index
-  end
+  def index; end
 
   def new
     @feedback = Feedback.new
@@ -19,6 +18,5 @@ class FeedbacksController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 end

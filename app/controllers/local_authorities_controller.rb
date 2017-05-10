@@ -1,7 +1,5 @@
 class LocalAuthoritiesController < ApplicationController
 
-	def show
+  def show; end
 
-	end
-	
 end
