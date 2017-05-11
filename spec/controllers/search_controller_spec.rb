@@ -43,7 +43,7 @@ describe SearchController do
       CourtSearch.any_instance.stub(:errors).and_return([])
 
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
-      AreaOfLaw.should_receive(:find_by_name).and_return(@area)
+      AreaOfLaw.should_receive(:find_by).with(name: 'Children').and_return(@area)
 
       get :index, q: "bs1 6gr", area_of_law: 'Children'
       expect(response).to be_success
@@ -55,12 +55,12 @@ describe SearchController do
       CourtSearch.any_instance.stub(:errors).and_return(['no exact match'])
 
       @area = AreaOfLaw.create(name: 'Children', type_children: true, type_possession: false, type_bankruptcy: false, type_money_claims:false)
-      AreaOfLaw.should_receive(:find_by_name).and_return(@area)
+      AreaOfLaw.should_receive(:find_by).with(name: 'Children').and_return(@area)
 
       get :index, q: 'bs1 6gr', area_of_law: 'Children'
       expect(response).to be_success
       response.body.should include("Courts dealing with applications involving children for")
     end
   end
-  
+
 end
