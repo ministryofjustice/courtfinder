@@ -2,19 +2,13 @@ class ApplicationController < ActionController::Base
   WillPaginate.per_page = 50
 
   def after_sign_in_path_for(resource)
-    if resource
-      admin_path
-    else
-      root_url
-    end
+    return admin_path if resource
+    root_url
   end
 
   def after_sign_out_path_for(resource)
-    if resource
-      new_user_session_path
-    else
-      root_url
-    end
+    return new_user_session_path if resource
+    root_url
   end
 
   def set_vary_header
