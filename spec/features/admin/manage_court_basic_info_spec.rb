@@ -4,7 +4,7 @@ feature 'manage courts address postal' do
   before(:each) do
     court1
     visit '/admin'
-    sign_in create(:user, admin: true)
+    sign_in user
     click_link 'Manage All Courts and Tribunals'
   end
   let(:court1) do
@@ -13,58 +13,75 @@ feature 'manage courts address postal' do
       slug: "postal_magistrates_court")
   end
 
-  context 'slug' do
-    scenario 'Change the name and empty slug' do
-      click_link 'Courts or Tribunals'
-      page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
+  context 'admin' do
+    let(:user) { create(:user, admin: true) }
 
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
-      fill_in 'Name', with: "Postal Magistrates' Court test"
-      fill_in 'Slug', with: nil
-      click_button 'Update'
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql('postal-magistrates-court-test')
+    context 'slug' do
+      scenario 'Change the name and empty slug' do
+        click_link 'Courts or Tribunals'
+        page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
+
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
+        fill_in 'Name', with: "Postal Magistrates' Court test"
+        fill_in 'Slug', with: nil
+        click_button 'Update'
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql('postal-magistrates-court-test')
+      end
+
+      scenario 'Change the name only' do
+        click_link 'Courts or Tribunals'
+        page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
+
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
+        fill_in 'Name', with: "Postal Magistrates' Court test"
+        click_button 'Update'
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql('postal-magistrates-court-test')
+      end
+
+      scenario 'Enter court name with invalid character for slug' do
+        click_link 'Courts or Tribunals'
+        page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
+
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
+        fill_in 'Name', with: "Court tribunal1"
+        click_button 'Update'
+        expect(page).to have_text 'Slug only alphabetic characters and hyphens are allowed'
+        expect(page).to have_text 'Name only alphabetic characters, commas and apostrophes are allowed'
+      end
+
+      scenario 'Enter invalid character for slug' do
+        click_link 'Courts or Tribunals'
+        page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
+
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
+        fill_in 'Slug', with: "court-tribunal1"
+        click_button 'Update'
+        expect(page).to have_text 'Slug only alphabetic characters and hyphens are allowed'
+      end
+
+      scenario 'Welsh characters are transliterate to english' do
+        click_link 'Courts or Tribunals'
+        page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
+
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
+        fill_in 'Slug', with: "Êcourt-tribunal"
+        click_button 'Update'
+        expect(page).not_to have_text 'Slug only alphabetic characters and hyphens are allowed'
+        expect(find(:xpath, './/input[@id="court_slug"]').value).to eql('ecourt-tribunal')
+      end
     end
+  end
 
-    scenario 'Change the name only' do
+  context 'user' do
+    let(:user) { create(:user, admin: false) }
+
+    scenario 'is not abble to edit court name and slug' do
       click_link 'Courts or Tribunals'
       page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
-
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
-      fill_in 'Name', with: "Postal Magistrates' Court test"
-      click_button 'Update'
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql('postal-magistrates-court-test')
-    end
-
-    scenario 'Enter court name with invalid character for slug' do
-      click_link 'Courts or Tribunals'
-      page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
-
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
-      fill_in 'Name', with: "Court tribunal1"
-      click_button 'Update'
-      expect(page).to have_text 'Slug only alphabetic characters and hyphens are allowed'
-      expect(page).to have_text 'Name only alphabetic characters, commas and apostrophes are allowed'
-    end
-
-    scenario 'Enter invalid character for slug' do
-      click_link 'Courts or Tribunals'
-      page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
-
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
-      fill_in 'Slug', with: "court-tribunal1"
-      click_button 'Update'
-      expect(page).to have_text 'Slug only alphabetic characters and hyphens are allowed'
-    end
-
-    scenario 'Welsh characters are transliterate to english' do
-      click_link 'Courts or Tribunals'
-      page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
-
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
-      fill_in 'Slug', with: "Êcourt-tribunal"
-      click_button 'Update'
-      expect(page).not_to have_text 'Slug only alphabetic characters and hyphens are allowed'
-      expect(find(:xpath, './/input[@id="court_slug"]').value).to eql('ecourt-tribunal')
+      within(:xpath, './/div[@id="basic-info"]') do
+        expect(page).to have_field('Name', with: court1.name, disabled: true)
+        expect(page).to have_field('Slug', with: court1.slug, disabled: true)
+      end
     end
   end
 end
