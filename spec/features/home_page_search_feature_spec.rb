@@ -8,13 +8,6 @@ feature 'Search for court from home page' do
     CourtSearch.any_instance.stub(:results).and_return({courts: [court], found_in_area_of_law: 1 })
   end
 
-  scenario 'Auto complete should show when entering a search for a court', js: true do
-    visit '/'
-    fill_in 'search-main', with: court.name[0]
-    page.execute_script "$('#search-main').trigger('compositionupdate')"
-    expect(page).to have_content(court.name)
-  end
-
   scenario 'Postcode search wiithout selecting area of law should prompt user to select' do
     visit '/'
     fill_in 'search-main', with: 'SW11 4BG'
@@ -35,7 +28,7 @@ feature 'Search for court from home page' do
     visit '/'
     fill_in 'search-main', with: 'SW11 4BG'
     select 'Divorce', from: 'Area of law'
-    
+
     click_button 'Search'
 
     expect(current_url).to include('q=SW11+4BG')
