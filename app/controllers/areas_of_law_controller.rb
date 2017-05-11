@@ -1,6 +1,6 @@
 class AreasOfLawController < ApplicationController
 
-  before_filter :set_vary_header
+  before_action :set_vary_header
   respond_to :html, :json
 
   def index
@@ -11,10 +11,16 @@ class AreasOfLawController < ApplicationController
   def show
     @area_of_law = AreaOfLaw.find(params[:id])
 
-    if request.path != area_of_law_path(@area_of_law, format: params[:format])
-      redirect_to area_of_law_path(@area_of_law, format: params[:format]), status: :moved_permanently
+    if request.path != are_of_law_link
+      redirect_to are_of_law_link, status: :moved_permanently
     else
       respond_with @area_of_law
     end
+  end
+
+  private
+
+  def are_of_law_link
+    area_of_law_path(@area_of_law, format: params[:format])
   end
 end
