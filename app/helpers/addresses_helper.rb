@@ -1,13 +1,40 @@
 module AddressesHelper
   def format_address(addr)
-    add = "<p property='address' typeof='http://schema.org/PostalAddress'>"
-    add << "<span property='streetAddress'>#{addr.address_lines('<br />')}</span><br/>"
+    add = []
+    add << content_tag(:span, address_lines(addr), property: 'address', typeof: 'http://schema.org/PostalAddress')
     if addr.town
-      add << "<span property='addressLocality'>#{addr.town.name}</span><br/>" if addr.town.name.present?
-      add << "<span property='addressRegion'>#{addr.town.county.name}</span><br/>" if (addr.town.county.present? && addr.town.county.name.present?)
+      add << town_name(addr)
+      add << region(addr)
     end
-    add << "<span property='postalCode'>#{addr.postcode}</span></p>" if addr.postcode.present?
+    add << postcode(addr)
 
-    add.html_safe
+    content_tag :p, safe_join(add), property: 'address', typeof: 'http://schema.org/PostalAddress'
+  end
+
+  private
+
+  def town_name(addr)
+    return if addr.town.name.blank?
+    safe_join([content_tag(:span, addr.town.name, property: 'addressLocality'),
+               content_tag(:br)])
+  end
+
+  def region(addr)
+    return if addr.town.county.blank? && addr.town.county.name.blank?
+    safe_join([content_tag(:span, addr.town.county.name, property: 'addressRegion'),
+               content_tag(:br)])
+  end
+
+  def postcode(addr)
+    return if addr.postcode.blank?
+    safe_join([content_tag(:span, addr.postcode, property: 'postalCode'),
+               content_tag(:br)])
+  end
+
+  def address_lines(addr)
+    lines = addr.lines.map do |line|
+      content_tag :br, line
+    end
+    safe_join(lines)
   end
 end
