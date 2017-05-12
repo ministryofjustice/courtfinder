@@ -1,5 +1,6 @@
 module AddressesHelper
   def format_address(addr)
+    return if addr.blank?
     add = []
     add << content_tag(:span, address_lines(addr), property: 'address', typeof: 'http://schema.org/PostalAddress')
     if addr.town
@@ -20,7 +21,7 @@ module AddressesHelper
   end
 
   def region(addr)
-    return if addr.town.county.blank? && addr.town.county.name.blank?
+    return if addr.town.county.blank? || addr.town.county.name.blank?
     safe_join([content_tag(:span, addr.town.county.name, property: 'addressRegion'),
                content_tag(:br)])
   end
