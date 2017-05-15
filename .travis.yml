@@ -15,6 +15,7 @@ addons:
     - xvfb
 services: postgres
 script:
+  - bundle exec rubocop app/models app/helpers app/controllers app/forms
   - bundle exec rake db:migrate
   - DISPLAY=localhost:1.0 xvfb-run bundle exec rake spec
 env:
