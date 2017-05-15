@@ -21,7 +21,7 @@ class CourtType < ActiveRecord::Base
   has_paper_trail meta: { ip: :ip }
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history, :finders]
+  friendly_id :name, use: %i[slugged history finders]
 
   include Rails.application.routes.url_helpers
 

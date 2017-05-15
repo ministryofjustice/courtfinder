@@ -19,7 +19,7 @@ class EmergencyMessage < ActiveRecord::Base
   def only_one_record_allowed
     if EmergencyMessage.count == 1
       errors.add(:base, "You can create only one emergency message")
-      return false
+      false
     end
   end
 

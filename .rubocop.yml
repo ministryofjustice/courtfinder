@@ -57,6 +57,9 @@ Rails/FilePath:
   Exclude:
     - spec/routing/**/*
 
+Rails/HasAndBelongsToMany:
+ Enabled: false
+
 # private/protected/public
 Style/AccessModifierIndentation:
   EnforcedStyle: indent
@@ -127,6 +130,10 @@ Style/TrivialAccessors:
 
 # Let us have has_visiting_address?
 Style/PredicateName:
+  Enabled: false
+
+# Disabling Parenthesize the param ->
+Lint/AmbiguousBlockAssociation:
   Enabled: false
 
 # Prefer sensible naming to comments everywhere.

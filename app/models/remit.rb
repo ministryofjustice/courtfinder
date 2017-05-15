@@ -15,5 +15,5 @@ class Remit < ActiveRecord::Base
   has_many :jurisdictions
   has_many :local_authorities, through: :jurisdictions
   attr_accessible :court_id, :area_of_law_id
-  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
+  has_paper_trail ignore: %i[created_at updated_at], meta: { ip: :ip }
 end
