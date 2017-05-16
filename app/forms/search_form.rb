@@ -4,7 +4,7 @@ class SearchForm
   include ActiveModel::Validations
 
   validates :q, presence: true
-  validates :area_of_law, presence: true, if: :postcode_search
+  validates :area_of_law, presence: true, if: :is_postcode_search?
 
   def initialize(params = {})
     params.each { |k, v| instance_variable_set("@#{k}", v) }
@@ -21,7 +21,7 @@ class SearchForm
 
   attr_accessor :q, :area_of_law
 
-  def postcode_search
+  def is_postcode_search?
     court_search.postcode_search?
   end
 
