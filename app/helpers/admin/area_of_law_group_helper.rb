@@ -1,2 +1,4 @@
-module Admin::AreaOfLawGroupHelper
+module Admin
+  module AreaOfLawGroupHelper
+  end
 end

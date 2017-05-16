@@ -1,6 +1,6 @@
 class UuidGenerator
 
-  @@uuid_pattern = %r{
+  UUID_PATTERN = %r{
         \A
         [a-f\d]{8}
         -
@@ -16,14 +16,12 @@ class UuidGenerator
         \z
       }x
 
-
   def generate
     @uuid = SecureRandom.uuid
-    unless @uuid =~ @@uuid_pattern
+    unless @uuid =~ UUID_PATTERN
       raise "UUID #{@uuid} does not validate against gov.uk regex!"
     end
     @uuid
   end
-  
 
 end

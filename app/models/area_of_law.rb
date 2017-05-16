@@ -26,13 +26,13 @@ require 'cgi'
 class AreaOfLaw < ActiveRecord::Base
 
   module Name
-    ADOPTION           = 'Adoption'
-    BANKRUPTCY         = 'Bankruptcy'
-    CHILDREN           = 'Children'
-    DIVORCE            = 'Divorce'
-    HOUSING_POSSESSION = 'Housing possession'
-    MONEY_CLAIMS       = 'Money claims'
-    CIVIL_PARTNERSHIP  = 'Civil partnership'
+    ADOPTION           = 'Adoption'.freeze
+    BANKRUPTCY         = 'Bankruptcy'.freeze
+    CHILDREN           = 'Children'.freeze
+    DIVORCE            = 'Divorce'.freeze
+    HOUSING_POSSESSION = 'Housing possession'.freeze
+    MONEY_CLAIMS       = 'Money claims'.freeze
+    CIVIL_PARTNERSHIP  = 'Civil partnership'.freeze
   end
 
   class << self
@@ -46,7 +46,7 @@ class AreaOfLaw < ActiveRecord::Base
       civil_partnership:  Name::CIVIL_PARTNERSHIP
     }.each do |method_name, area_of_law_name|
       define_method method_name do
-        find_by_name! area_of_law_name
+        find_by!(name: area_of_law_name)
       end
     end
 
@@ -78,7 +78,7 @@ class AreaOfLaw < ActiveRecord::Base
   default_scope -> { order('areas_of_law.name') }
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history, :finders]
+  friendly_id :name, use: %i[slugged history finders]
 
   include Rails.application.routes.url_helpers
 

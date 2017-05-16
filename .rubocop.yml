@@ -14,8 +14,16 @@ AllCops:
     - 'spec/rails_helper.rb'
     - 'lib/tasks/cucumber.rake'
     - 'features/support/env.rb'
-    - 'script/cucumber'
-    - 'lib/log_stuff.rb'
+    - 'script/*'
+    - 'lib/**/*'
+    - 'spec/**/*'
+    - 'support/**/*'
+    - '*.rake'
+    - 'config/**/*'
+    - 'services/*'
+    - 'app/views/**/*'
+    - 'config.ru'
+    - 'Gemfile'
 
 Rails:
   Enabled: true
@@ -56,6 +64,9 @@ RSpec/DescribeClass:
 Rails/FilePath:
   Exclude:
     - spec/routing/**/*
+
+Rails/HasAndBelongsToMany:
+ Enabled: false
 
 # private/protected/public
 Style/AccessModifierIndentation:
@@ -127,6 +138,10 @@ Style/TrivialAccessors:
 
 # Let us have has_visiting_address?
 Style/PredicateName:
+  Enabled: false
+
+# Disabling Parenthesize the param ->
+Lint/AmbiguousBlockAssociation:
   Enabled: false
 
 # Prefer sensible naming to comments everywhere.

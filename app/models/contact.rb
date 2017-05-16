@@ -22,11 +22,11 @@ class Contact < ActiveRecord::Base
   validates :telephone, presence: true, contact: true
   validate :explanation_length
 
-  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
+  has_paper_trail ignore: %i[created_at updated_at], meta: { ip: :ip }
 
   default_scope { order(:sort) }
-  scope :with_telephones, -> { where("contact_type_id != ?", ContactType.find_by_name('DX')) }
-  scope :with_dx_numbers, -> { where("contact_type_id = ?", ContactType.find_by_name('DX')) }
+  scope :with_telephones, -> { where("contact_type_id != ?", ContactType.find_by(name: 'DX')) }
+  scope :with_dx_numbers, -> { where("contact_type_id = ?", ContactType.find_by(name: 'DX')) }
 
   def contact_type_name
     contact_type.name.blank? ? "another service" : contact_type.name
@@ -38,9 +38,7 @@ class Contact < ActiveRecord::Base
     if explanation && explanation.size > 85
       errors.add(:number_explanation,
         I18n.t('activerecord.errors.models.contact.attributes.explanation.too_long',
-          size: explanation.size
-        )
-      )
+          size: explanation.size))
     end
   end
 

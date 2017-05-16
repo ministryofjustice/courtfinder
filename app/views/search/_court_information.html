@@ -1,8 +1,8 @@
 <div class="court-name-and-address">
   <% qs = {} %>
-  <% qs[:from] = @search.q if @search.postcode_search? %>
+  <% qs[:from] = @search.q if @search.postcode_search %>
   <%= link_to(court.name, court_path(court, qs), class: "court-title") %>
-  <% if @search.postcode_search? && court.respond_to?(:distance) %>
+  <% if @search.postcode_search && court.respond_to?(:distance) %>
     <br /><small><%= court.distance.to_f.round(2) %> miles from <%= @search.q %></small>
   <% end %>
   <% if court.addresses.count > 0 %>

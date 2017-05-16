@@ -37,6 +37,7 @@
 
 class Court < ActiveRecord::Base
   include Concerns::Court::LocalAuthorities
+  include Concerns::Court::LocalAuthoritiesLists
   include Concerns::Court::PostcodeCourts
 
   belongs_to :area
@@ -72,19 +73,18 @@ class Court < ActiveRecord::Base
   validates :name, presence: true
   validate :check_postcode_errors
 
-  validates_format_of :slug, with: /\A[a-zA-Z-]+\z/, allow_nil: true, if: :validate_slug?
-  validates_format_of :name, with: /\A[a-zA-Z\s'\-\)\(,]+\z/, allow_nil: true
-  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
+  validates :slug, format: /\A[a-zA-Z-]+\z/, allow_nil: true, if: :validate_slug?
+  validates :name, format: /\A[a-zA-Z\s'\-\)\(,]+\z/, allow_nil: true
+  has_paper_trail ignore: %i[created_at updated_at], meta: { ip: :ip }
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :history, :finders]
+  friendly_id :slug_candidates, use: %i[slugged history finders]
 
   geocoded_by latitude: :lat, longitude: :lng
 
   mount_uploader :image_file, CourtImagesUploader
 
-  acts_as_gmappable process_geocoding: ->(obj) { obj.addresses.first.address_line_1.present? },
-                    validation: false,
+  acts_as_gmappable validation: false,
                     process_geocoding: false
 
   def gmaps4rails_address
@@ -98,9 +98,10 @@ class Court < ActiveRecord::Base
   scope :visible,         -> { where(display: true) }
   scope :by_name,         -> { order('courts.name') }
   scope :by_area_of_law, lambda { |area_of_law|
+    return if area_of_law.blank?
     select('courts.*, lower(courts.name)').
       joins(:areas_of_law).uniq.
-      where(areas_of_law: { name: area_of_law }) if area_of_law.present?
+      where(areas_of_law: { name: area_of_law })
   }
   scope :search, ->(q) { where('courts.name ilike ?', "%#{q.downcase}%") if q.present? }
   scope :for_local_authority, lambda { |local_authority|
@@ -110,7 +111,7 @@ class Court < ActiveRecord::Base
   scope :for_local_authority_and_area_of_law, lambda { |local_authority, area_of_law|
     joins(:local_authorities).
       where("local_authorities.name" => local_authority,
-            "remits.area_of_law_id" => "#{area_of_law.id}").
+            "remits.area_of_law_id" => area_of_law.id.to_s).
       order(:name)
   }
   scope :by_postcode_court_mapping, lambda { |postcode, area_of_law = nil|
@@ -157,7 +158,8 @@ class Court < ActiveRecord::Base
   end
 
   def existing_postcode_court(postcode)
-    PostcodeCourt.where("lower(postcode) = ?", postcode).first
+    ps_courts = PostcodeCourt.where("lower(postcode) = ?", postcode)
+    ps_courts.first
   end
 
   def check_postcode_errors
@@ -165,7 +167,7 @@ class Court < ActiveRecord::Base
   end
 
   def visiting_addresses
-    addresses.to_a.select { |a| AddressType.find(a.address_type_id).try(:name) != "Postal" }
+    addresses.to_a.reject { |a| AddressType.find(a.address_type_id).try(:name) == "Postal" }
   end
 
   def has_visiting_address?
@@ -227,7 +229,7 @@ class Court < ActiveRecord::Base
 
   def transliterate_slug
     return if slug.blank?
-    self.slug = ActiveSupport::Inflector.transliterate(self.slug).try(:downcase)
+    self.slug = ActiveSupport::Inflector.transliterate(slug).try(:downcase)
   end
 
   def validate_slug?
@@ -236,17 +238,16 @@ class Court < ActiveRecord::Base
 
   def slug_candidates
     candidates = [:name]
-    ('a'..'z').to_a.each{ |letter| candidates << [:name, letter] }
+    ('a'..'z').to_a.each { |letter| candidates << [:name, letter] }
     candidates
   end
 
   def resolve_leaflets
-    case
-    when good_court_type_size? && court_type.include?("crown court")
+    if good_court_type_size? && court_type.include?("crown court")
       leaflets_list
-    when good_court_type_size? && court_type.include?("magistrates court")
+    elsif good_court_type_size? && court_type.include?("magistrates court")
       leaflets_list.take(3)
-    when any_cft_courts?
+    elsif any_cft_courts?
       leaflets_list.take(1)
     else
       leaflets_list

@@ -21,9 +21,6 @@ Courtfinder::Application.routes.draw do
     get '/' => :index, :as => :areas_of_law
     get '/:id' => :show, :as => :area_of_law
   end
-  scope 'search', :controller => :search do
-    get '/' => :index, :as => :search
-  end
   scope 'regions', :controller => :regions do
     get '/' => :index, :as => :regions
     get '/:id' => :show, :as => :region

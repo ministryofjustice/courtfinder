@@ -4,7 +4,7 @@ class NotificationsMailer < ActionMailer::Base
 
   def new_message(message)
     @message = message
-    mail(:subject => "New feedback from courtfinder for: #{message['referrer']}")
+    mail(subject: "New feedback from courtfinder for: #{message['referrer']}")
   end
 
 end

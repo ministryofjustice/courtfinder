@@ -27,7 +27,7 @@ class Facility < ActiveRecord::Base
   def image_file_validations
     if image_file.blank?
       errors.add(:image_file, image_validation_messages[:blank])
-    elsif image_file.file.extension.downcase != 'png'
+    elsif !image_file.file.extension.casecmp('png').zero?
       errors.add(:image_file, image_validation_messages[:extension])
     elsif image_file.path.include?('/tmp/') && image_file.width != 50 && image_file.height != 50
       errors.add(:image_file, image_validation_messages[:dimension])
