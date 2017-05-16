@@ -14,8 +14,16 @@ AllCops:
     - 'spec/rails_helper.rb'
     - 'lib/tasks/cucumber.rake'
     - 'features/support/env.rb'
-    - 'script/cucumber'
-    - 'lib/log_stuff.rb'
+    - 'script/*'
+    - 'lib/**/*'
+    - 'spec/**/*'
+    - 'support/**/*'
+    - '*.rake'
+    - 'config/**/*'
+    - 'services/*'
+    - 'app/views/**/*'
+    - 'config.ru'
+    - 'Gemfile'
 
 Rails:
   Enabled: true
