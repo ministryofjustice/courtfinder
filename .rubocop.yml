@@ -1,3 +1,4 @@
+
 AllCops:
   TargetRubyVersion: 2.1
   # Exclude anything that isn't really part of our code.
@@ -52,12 +53,6 @@ Metrics/MethodLength:
     - 'spec/**/*'
     - 'app/models/ability.rb'
     - 'config/initializers/markdown_handler.rb'
-
-# No need to check for describe class param in support files.
-RSpec/DescribeClass:
-  Exclude:
-    - spec/support/**/*
-    - spec/views/**/*
 
 Rails/FilePath:
   Exclude:
@@ -168,13 +163,6 @@ Style/WordArray:
   Exclude:
     - 'spec/**/*'
 
-RSpec/NestedGroups:
-  Max: 10
-
-RSpec/ExpectActual:
-  Exclude:
-    - 'spec/routing/**/*'
-
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
@@ -191,14 +179,6 @@ Metrics/ClassLength:
 Rails/HttpPositionalArguments:
   Enabled: false
 
-RSpec/MultipleExpectations:
-  Exclude:
-    - 'spec/features/**/*'
-
-RSpec/ExampleLength:
-  Exclude:
-    - 'spec/**/*'
-
 Style/NumericPredicate:
   Exclude:
     - 'spec/**/*'
@@ -207,10 +187,3 @@ Rails/OutputSafety:
   Exclude:
     - 'app/helpers/yaml_helper.rb'
 
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/services/health_status/deployment_spec.rb'
-    - 'spec/services/health_status/health_check_spec.rb'
-    - 'spec/services/zendesk_sender_spec.rb'
-
-# require: rubocop-rspec
