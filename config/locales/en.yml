@@ -66,6 +66,11 @@ en:
             name:
               invalid: only alphabetic characters, commas and apostrophes are allowed
 
+  errors:
+    contact_validator:
+      invalid_phone_format: is invalid. Please enter one phone number per entry. %{value} is not a valid phone number. Please enter a valid phone number, only digits and spaces allowed, up to 12 numbers.
+      phone_entered: is invalid. Phone number %{value} is already entered for %{service}.
+
   simple_form:
     hints:
       court:
