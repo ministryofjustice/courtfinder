@@ -219,8 +219,7 @@ class CourtSearch
     partial_or_full.call(postcode, client)
   rescue RestClient::BadRequest
     bad_request_error
-  rescue RestClient::ResourceNotFound, RestClient::ServerBrokeConnection,
-         RestClient::RequestFailed
+  rescue StandardError
     via_mapit(postcode) { partial_or_full }
   end
 
