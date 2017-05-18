@@ -19,7 +19,6 @@ AllCops:
     - 'support/**/*'
     - '/**/*.rake'
     - 'config/**/*'
-    - 'services/*'
     - 'app/views/**/*'
     - 'config.ru'
     - 'Gemfile'
