@@ -92,12 +92,12 @@ describe Location::LocationGenerator do
 
     describe 'when there is one court' do
       it "should find a court" do
-        Court.should_receive(:find_by_name).with('County Court Money Claims Centre').and_return(court)
+        Court.should_receive(:find_by).with(name: 'County Court Money Claims Centre').and_return(court)
         location_generator.load(file_with_one_entry)
       end
 
       it "should update the longitude and latitude" do
-        Court.stub(:find_by_name).with('County Court Money Claims Centre').and_return(court)
+        Court.stub(:find_by).with(name: 'County Court Money Claims Centre').and_return(court)
         court.should_receive(:update_attributes).with({latitude: 53.48150, longitude: -2.28044}).and_return(:true)
         location_generator.load(file_with_one_entry)
       end
@@ -105,14 +105,15 @@ describe Location::LocationGenerator do
 
     describe 'when there is more courts' do
       it "should find two courts" do
-        Court.should_receive(:find_by_name).twice.and_return(court)
+        Court.should_receive(:find_by).twice.and_return(court)
         location_generator.load(file_with_two_entries)
       end
+
       it "should update the longitude and latitude" do
-          Court.stub(:find_by_name).and_return(court)
-          court.should_receive(:update_attributes).twice.and_return(:true)
-          location_generator.load(file_with_two_entries)
-        end
+        Court.stub(:find_by).and_return(court)
+        court.should_receive(:update_attributes).twice.and_return(:true)
+        location_generator.load(file_with_two_entries)
+      end
     end
   end
 end
