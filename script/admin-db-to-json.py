@@ -189,13 +189,13 @@ class Data:
 
     def opening_times_for_court(self, slug):
         cur = self.conn.cursor()
-        sql = """SELECT ot.name, ott.name
+        sql = """SELECT ot.name, ott.name, ot.sort
                    FROM opening_times as ot, courts as c, opening_types as ott
                   WHERE ot.court_id = c.id
                     AND ott.id = ot.opening_type_id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
-        opening_times = [ r[1]+': '+r[0] for r in cur.fetchall()]
+        opening_times = [ { 'sort':r[2], 'opening_time': r[1]+': '+r[0] } for r in cur.fetchall()]
         return opening_times
 
     def court_types_for_court(self, slug):
