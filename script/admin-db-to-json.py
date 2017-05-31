@@ -56,7 +56,7 @@ class Data:
                 self.logger.critical("__init__: Could not open bucket {}, '{}'"
                                      .format(bucket, e.message))
                 raise e
-                
+
         else:
             self.output_dir = output_dir
 
@@ -69,10 +69,10 @@ class Data:
         for row in rows:
             admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet = row
             if name == None or slug == None:
-                message = ("- %s\n\tslug: %s, lat: %s, lon: %s" 
+                message = ("- %s\n\tslug: %s, lat: %s, lon: %s"
                            % (name, slug, lat, lon))
                 self.logger.warning("courts: name or slug is empty, '{}'"
-                                     .format(message)) 
+                                     .format(message))
                 continue
             aols = self.areas_of_law_for_court(slug)
             addresses = self.addresses_for_court(slug)
@@ -189,13 +189,13 @@ class Data:
 
     def opening_times_for_court(self, slug):
         cur = self.conn.cursor()
-        sql = """SELECT ot.name, ott.name
+        sql = """SELECT ot.name, ott.name, ot.sort
                    FROM opening_times as ot, courts as c, opening_types as ott
                   WHERE ot.court_id = c.id
                     AND ott.id = ot.opening_type_id
                     AND c.slug = '%s'""" % slug
         cur.execute(sql)
-        opening_times = [ r[1]+': '+r[0] for r in cur.fetchall()]
+        opening_times = [ { 'sort':r[2], 'opening_time': r[1]+': '+r[0] } for r in cur.fetchall()]
         return opening_times
 
     def court_types_for_court(self, slug):
@@ -340,7 +340,7 @@ class Data:
         self.logger.debug("s3_upload: Uploading data to s3 file '{}', key '{}', ..."
                              .format(filename, k.key))
 
-    
+
     def setup_logging(self,
                       log_level='INFO',
                       log_format='json',
@@ -393,7 +393,7 @@ def main():
         logger = logging.getLogger("courtfinder::admin-db-to-json:")
         logger.critical("There was an argparse error running the command, exiting...")
         sys.exit(1)
-    
+
     obj = Data(options.host, options.user, options.password, options.database, options.output,
                options.access, options.secret, options.bucket)
     obj.courts()
