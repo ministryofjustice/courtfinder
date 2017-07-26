@@ -72,6 +72,9 @@ class Court < ActiveRecord::Base
 
   validates :name, presence: true
   validate :check_postcode_errors
+  validates_uniqueness_of :court_number, allow_nil: true
+  validates_uniqueness_of :cci_code, allow_nil: true
+  validates_uniqueness_of :magistrate_court_location_code, allow_nil: true
 
   validates :slug, format: /\A[a-zA-Z-]+\z/, allow_nil: true, if: :validate_slug?
   validates :name, format: /\A[a-zA-Z\s'\-\)\(,]+\z/, allow_nil: true
