@@ -64,10 +64,10 @@ class Data:
         self.logger.info("courts: Creating list of courts...")
         all_courts = []
         cur = self.conn.cursor()
-        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet FROM courts")
+        cur.execute("SELECT id, name, display, court_number, slug, latitude, longitude, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet, magistrate_court_location_code FROM courts")
         rows = cur.fetchall()
         for row in rows:
-            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet = row
+            admin_id, name, display, court_number, slug, lat, lon, image_file, alert, parking_onsite, parking_offsite, parking_blue_badge, directions, cci_code, created_at, updated_at, info, hide_aols, info_leaflet, prosecution_leaflet, defence_leaflet, juror_leaflet, magistrate_court_location_code = row
             if name == None or slug == None:
                 message = ("- %s\n\tslug: %s, lat: %s, lon: %s"
                            % (name, slug, lat, lon))
@@ -125,6 +125,8 @@ class Data:
                 court_object['directions'] = directions
             if cci_code not in (None, ""):
                 court_object['cci_code'] = cci_code
+            if magistrate_court_location_code not in (None, ""):
+                court_object['magistrate_code'] = magistrate_court_location_code
             if created_at not in (None, ""):
                 court_object['created_at'] = created_at
             if updated_at not in (None, ""):
