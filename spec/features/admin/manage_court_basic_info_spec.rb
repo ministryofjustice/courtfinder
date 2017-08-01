@@ -87,30 +87,6 @@ feature 'manage courts address postal' do
         expect(find(:xpath, './/input[@id="court_cci_code"]').value).to eql('123')
         expect(find(:xpath, './/input[@id="court_magistrate_court_location_code"]').value).to eql('789')
       end
-
-      context 'uniquness of codes' do
-        before { create(:court, cci_code: 111) }
-
-        scenario 'Validate uniquness of location codes' do
-          click_link 'Courts or Tribunals'
-          page.find(:xpath, ".//a[@href='#{edit_admin_court_path(court1.slug)}']").click
-
-          expect(find(:xpath, './/input[@id="court_slug"]').value).to eql(court1.slug)
-          fill_in 'Crown Court code', with: "3253"
-          fill_in 'County Court code', with: "3253"
-          fill_in 'Magistrates’ Court code', with: "3253"
-
-          click_button 'Update'
-          expect(page).to have_text("Court was successfully updated.")
-          expect(find(:xpath, './/input[@id="court_court_number"]').value).to eql('3253')
-          expect(find(:xpath, './/input[@id="court_cci_code"]').value).to eql('3253')
-          expect(find(:xpath, './/input[@id="court_magistrate_court_location_code"]').value).to eql('3253')
-
-          fill_in 'Crown Court code', with: "111"
-          click_button 'Update'
-          expect(page).not_to have_text("Court was successfully updated.")
-        end
-      end
     end
   end
 
