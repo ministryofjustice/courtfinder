@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320114259) do
+ActiveRecord::Schema.define(version: 20170731141025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,40 +159,41 @@ ActiveRecord::Schema.define(version: 20170320114259) do
   end
 
   create_table "courts", force: :cascade do |t|
-    t.string   "name",                  limit: 255
+    t.string   "name",                           limit: 255
     t.integer  "court_number"
     t.text     "info"
-    t.datetime "created_at",                                                        null: false
-    t.datetime "updated_at",                                                        null: false
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
     t.integer  "area_id"
-    t.integer  "cci_identifier"
     t.integer  "cci_code"
     t.integer  "old_id"
     t.integer  "old_court_type_id"
-    t.string   "slug",                  limit: 255
+    t.string   "slug",                           limit: 255
     t.integer  "old_postal_address_id"
     t.integer  "old_court_address_id"
     t.decimal  "latitude"
     t.decimal  "longitude"
     t.integer  "old_image_id"
-    t.string   "image",                 limit: 255
-    t.string   "image_description",     limit: 255
-    t.string   "image_file",            limit: 255
+    t.string   "image",                          limit: 255
+    t.string   "image_description",              limit: 255
+    t.string   "image_file",                     limit: 255
     t.boolean  "display"
     t.boolean  "gmaps"
-    t.string   "alert",                 limit: 255
+    t.string   "alert",                          limit: 255
     t.text     "info_leaflet"
     t.text     "defence_leaflet"
     t.text     "prosecution_leaflet"
     t.text     "juror_leaflet"
+    t.integer  "cci_identifier"
     t.text     "directions"
-    t.string   "parking_onsite",        limit: 255
-    t.string   "parking_offsite",       limit: 255
-    t.string   "parking_blue_badge",    limit: 255
+    t.string   "parking_onsite",                 limit: 255
+    t.string   "parking_offsite",                limit: 255
+    t.string   "parking_blue_badge",             limit: 255
     t.string   "uuid"
     t.string   "gov_uk_md5"
-    t.datetime "gov_uk_updated_at",                 default: '1970-01-01 00:00:00'
-    t.boolean  "hide_aols",                         default: false
+    t.datetime "gov_uk_updated_at",                          default: '1970-01-01 00:00:00'
+    t.boolean  "hide_aols",                                  default: false
+    t.string   "magistrate_court_location_code"
   end
 
   add_index "courts", ["slug"], name: "index_courts_on_slug", using: :btree
@@ -261,6 +262,15 @@ ActiveRecord::Schema.define(version: 20170320114259) do
   end
 
   add_index "local_authorities", ["name"], name: "index_local_authorities_on_name", using: :btree
+
+  create_table "official_postcodes", force: :cascade do |t|
+    t.string "postcode"
+    t.string "sector"
+    t.string "district"
+    t.string "area"
+  end
+
+  add_index "official_postcodes", ["postcode"], name: "index_official_postcodes_on_postcode", unique: true, using: :btree
 
   create_table "opening_times", force: :cascade do |t|
     t.string   "name",            limit: 255
