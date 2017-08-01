@@ -413,35 +413,4 @@ describe Court do
       expect(ps_court).to eql(postcode_court)
     end
   end
-
-  describe 'court locaion' do
-    context 'court_number' do
-      before { create(:court, court_number: 1) }
-
-      it { expect(build(:court, court_number: 2)).to be_valid }
-      it { expect(build(:court, court_number: 1)).not_to be_valid }
-    end
-
-    context 'cci_code' do
-      before { create(:court, cci_code: 1) }
-
-      it { expect(build(:court, cci_code: 2)).to be_valid }
-      it { expect(build(:court, cci_code: 1)).not_to be_valid }
-    end
-
-    context 'magistrate_court_location_code' do
-      before { create(:court, magistrate_court_location_code: 1) }
-
-      it { expect(build(:court, magistrate_court_location_code: 2)).to be_valid }
-      it { expect(build(:court, magistrate_court_location_code: 1)).not_to be_valid }
-    end
-
-    context 'all in one' do
-      it "can be same in same court" do
-        court = build(:court, court_number: 1, cci_code: 1, magistrate_court_location_code: 1)
-        expect(court).to be_valid
-      end
-    end
-
-  end
 end
