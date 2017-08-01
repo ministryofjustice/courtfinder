@@ -8,6 +8,7 @@ gem 'byebug'
 gem 'pry'
 gem 'pry-nav'
 gem 'awesome_print'
+gem 'uk_postcode'
 
 group :development, :test do
   gem 'faker'
