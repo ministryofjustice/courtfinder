@@ -12,8 +12,8 @@ namespace :postcodes do
       next if i == 1
       begin
         OfficialPostcode.create(
-          postcode: row[0],
-          sector: row[1],
+          postcode: row[0].delete(' '),
+          sector: row[1].delete(' '),
           district: row[2],
           area: row[3]
         )
