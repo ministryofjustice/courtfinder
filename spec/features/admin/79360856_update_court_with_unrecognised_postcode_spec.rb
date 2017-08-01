@@ -22,7 +22,7 @@ feature 'update court with unrecognised postcode' do
     stub_request(:get, 'http://mapit.mysociety.org/postcode/SW1A+2AA').
       to_return status: 404, body: '{"code": 404, "error": "No Postcode matches the given query."}'
 
-    fill_in 'Court number', with: '42'
+    fill_in 'Crown Court code', with: '42'
     click_on 'Update'
 
     expect(page).to have_content('Court was successfully updated.')
