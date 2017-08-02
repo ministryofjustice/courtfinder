@@ -405,6 +405,7 @@ describe Court do
   end
 
   describe 'existing_postcode_court' do
+    let!(:official_postcode) { create :official_postcode, postcode: 'N1 3LE' }
     let!(:postcode_court) { create :postcode_court, postcode: 'N1 3LE', court: court }
     let(:court) { create :court }
 

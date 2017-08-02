@@ -17,12 +17,11 @@ class PostcodeCourt < ActiveRecord::Base
 
   validates :postcode, :court, presence: true
   validates :postcode, postcode: true, if: ->(f) { f.postcode.present? }
-  validates :postcode, uniqueness: true
+  validates :postcode, uniqueness: { scope: :court_id }
 
   before_save :force_upcase_postcode
 
   def force_upcase_postcode
     self.postcode = UKPostcode.parse(postcode.try(:upcase)).to_s
   end
-
 end
