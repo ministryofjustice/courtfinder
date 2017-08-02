@@ -58,7 +58,7 @@ class Court < ActiveRecord::Base
     :emails_attributes, :court_facilities_attributes, :image, :image_file,
     :remove_image_file, :display, :alert, :info_leaflet, :defence_leaflet,
     :prosecution_leaflet, :juror_leaflet, :postcode_list, :directions, :parking_onsite,
-    :parking_offsite, :parking_blue_badge, :hide_aols
+    :parking_offsite, :parking_blue_badge, :hide_aols, :magistrate_court_location_code
 
   accepts_nested_attributes_for :addresses, allow_destroy: true
   accepts_nested_attributes_for :opening_times, allow_destroy: true

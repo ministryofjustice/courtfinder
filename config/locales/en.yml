@@ -33,7 +33,9 @@ en:
       court:
         image_file: Court photo
         info: Visitor information
-        cci_code: CCI code
+        court_number: Crown Court code
+        cci_code: County Court code
+        magistrate_court_location_code: Magistrates’ Court code
         display: Open for business
         alert: Message
       address:
