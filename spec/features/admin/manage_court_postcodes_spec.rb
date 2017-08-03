@@ -10,9 +10,10 @@ feature 'manage courts postcodes' do
   let(:court1) { create(:court, :civil, name: "Abergavenny Magistrates' Court") }
   let(:court2) { create(:court, :civil, name: "Grantham Magistrates' Court") }
   let(:court3) { create(:court, :civil, name: "Manchester County Court") }
-  let!(:postcode_court1) { create(:postcode_court, court: court1, postcode: 'A54329') }
-  let!(:postcode_court2) { create(:postcode_court, court: court2, postcode: '54330') }
-  let!(:postcode_court3) { create(:postcode_court, court: court3, postcode: '54331') }
+  let!(:postcode_court1) { create(:postcode_court, court: court1) }
+  let!(:postcode_court2) { create(:postcode_court, court: court2) }
+  let!(:postcode_court3) { create(:postcode_court, court: court3) }
+  let!(:official_postcode) { create(:official_postcode, postcode: 'N10 3QS') }
 
   scenario 'Moving postcodes', js: true  do
     click_link "Civil courts"
@@ -45,6 +46,6 @@ feature 'manage courts postcodes' do
     end
     expect(page).to have_text('Court was successfully updated.')
     expect(court1.reload.postcode_courts.count).to eql(2)
-    expect(court1.postcode_courts.last.postcode).to eql('N103QS')
+    expect(court1.postcode_courts.last.postcode).to eql('N10 3QS')
   end
 end

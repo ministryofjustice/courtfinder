@@ -18,8 +18,8 @@ module Concerns
         end
 
         def self.postcode_court_matcher(postcode)
-          PostcodeCourt.where("court_id IS NOT NULL AND ? like lower(postcode) || '%'",
-            postcode.gsub(/\s+/, "").downcase).
+          PostcodeCourt.where("court_id IS NOT NULL AND ? like postcode || '%'",
+            postcode).
             order('-length(postcode)').first
         end
       end
