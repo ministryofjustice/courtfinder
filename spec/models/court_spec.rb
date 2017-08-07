@@ -147,13 +147,13 @@ describe Court do
       end
 
       it "should return a comma separated list of postcodes the court has jurisdiction over" do
-        @london_court.postcode_list.should == 'SE153AN, SE19NH'
+        @london_court.postcode_list.should == 'SE1 9NH, SE15 3AN'
       end
-
-      it "should not allow the same postcode to be assigned to more than one court" do
-        pc = @county_court.postcode_courts.new(:postcode => 'SE19NH')
-        pc.should_not be_valid
-      end
+      # TODO: allow this in ticket RST-451
+      # it "should not allow the same postcode to be assigned to more than one court" do
+      #   pc = @county_court.postcode_courts.new(:postcode => 'SE19NH')
+      #   pc.should_not be_valid
+      # end
     end
 
     describe 'Find court by local authority name' do

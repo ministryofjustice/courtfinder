@@ -16,7 +16,8 @@ class PostcodeCourt < ActiveRecord::Base
   belongs_to :court
 
   validates :postcode, :court, presence: true
-  validates :postcode, postcode: true, if: ->(f) { f.postcode.present? }
+  # TODO: allow this in ticket RST-451
+  # validates :postcode, postcode: true, if: ->(f) { f.postcode.present? }
   validates :postcode, uniqueness: { scope: :court_id }
 
   before_save :force_upcase_postcode
