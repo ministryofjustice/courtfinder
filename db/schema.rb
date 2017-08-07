@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170726133512) do
+ActiveRecord::Schema.define(version: 20170731141025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,15 @@ ActiveRecord::Schema.define(version: 20170726133512) do
   end
 
   add_index "local_authorities", ["name"], name: "index_local_authorities_on_name", using: :btree
+
+  create_table "official_postcodes", force: :cascade do |t|
+    t.string "postcode"
+    t.string "sector"
+    t.string "district"
+    t.string "area"
+  end
+
+  add_index "official_postcodes", ["postcode"], name: "index_official_postcodes_on_postcode", unique: true, using: :btree
 
   create_table "opening_times", force: :cascade do |t|
     t.string   "name"

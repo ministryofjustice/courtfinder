@@ -8,6 +8,7 @@
 #  court_name   :string(255)
 #  court_id     :integer
 #
+require 'postcode_validator'
 
 class PostcodeCourt < ActiveRecord::Base
   attr_accessible :postcode, :court, :court_id
@@ -15,12 +16,13 @@ class PostcodeCourt < ActiveRecord::Base
   belongs_to :court
 
   validates :postcode, :court, presence: true
-  validates :postcode, format: /[A-Za-z0-9]/, uniqueness: true
+  # TODO: allow this in ticket RST-451
+  # validates :postcode, postcode: true, if: ->(f) { f.postcode.present? }
+  validates :postcode, uniqueness: { scope: :court_id }
 
   before_save :force_upcase_postcode
 
   def force_upcase_postcode
-    self.postcode = postcode.try(:upcase)
+    self.postcode = UKPostcode.parse(postcode.try(:upcase)).to_s
   end
-
 end

@@ -515,6 +515,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
+    uk_postcode (2.1.2)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.3)
@@ -608,8 +609,12 @@ DEPENDENCIES
   spring-commands-rspec
   timecop
   uglifier (>= 1.0.3)
+  uk_postcode
   unicorn
   vcr
   verbs
   webmock (~> 3.0)
   will_paginate
+
+BUNDLED WITH
+   1.15.1

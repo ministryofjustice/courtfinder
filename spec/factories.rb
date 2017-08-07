@@ -9,7 +9,7 @@ FactoryGirl.define do
   end
 
   factory :postcode_court do
-    postcode Faker::Address.postcode
+    postcode { FactoryGirl.create(:official_postcode).postcode }
     sequence(:court_number)
     sequence(:court_name, 'a') {|n| "Court #{n}"}
   end
@@ -84,4 +84,14 @@ FactoryGirl.define do
   factory :emergency_message do
   end
 
+  factory :official_postcode do
+    postcode { generate(:postcode) }
+    sector 'AB10 1'
+    district 'AB10'
+    area 'AB'
+  end
+
+  sequence :postcode do |n|
+    "AB#{n} 1AB"
+  end
 end
