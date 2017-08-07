@@ -142,18 +142,18 @@ describe Court do
     describe "Postcode courts" do
       before(:each) do
         @london_court = create(:court, :name => "London Court")
-        @london_court.postcode_courts.create(:postcode => 'SE19NH')
-        @london_court.postcode_courts.create(:postcode => 'SE153AN')
+        @london_court.postcode_courts.create(:postcode => 'SE1 9NH')
+        @london_court.postcode_courts.create(:postcode => 'SE15 3AN')
       end
 
       it "should return a comma separated list of postcodes the court has jurisdiction over" do
         @london_court.postcode_list.should == 'SE1 9NH, SE15 3AN'
       end
-      # TODO: allow this in ticket RST-451
-      # it "should not allow the same postcode to be assigned to more than one court" do
-      #   pc = @county_court.postcode_courts.new(:postcode => 'SE19NH')
-      #   pc.should_not be_valid
-      # end
+
+      it "should not allow the same postcode to be assigned to more than one court" do
+        pc = @county_court.postcode_courts.new(:postcode => 'SE19NH')
+        pc.should_not be_valid
+      end
     end
 
     describe 'Find court by local authority name' do
