@@ -13,4 +13,26 @@
  *= require admin/pagination
  *= require admin/layout
  *= require admin/datatables.min
+ *= require ../components/tagify/jquery.tagify.css
  */
+
+
+.tagify {
+  height: 67px;
+  background-color: white;
+  overflow: scroll;
+  padding: 5px;
+  border: 1px solid #ccc;
+  min-width: 550px;
+}
+
+div.tagify-input-container {
+  padding: 0;
+  border: 0;
+  width: auto;
+}
+
+input.tagify-input {
+  border: 1px solid #fff;
+  width: 30px;
+}
