@@ -60,6 +60,7 @@ Courtfinder::Application.routes.draw do
         get :complete
       end
     end
+    get 'official_postcodes/validate/:postcode', to: 'official_postcodes#validate'
 
     resources :court_types
 
