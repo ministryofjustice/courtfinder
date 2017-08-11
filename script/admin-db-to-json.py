@@ -165,7 +165,8 @@ class Data:
                         emails e
                   WHERE e.court_id = c.id
                     AND e.contact_type_id = ct.id
-                    AND c.slug = '%s'""" % slug
+                    AND c.slug = '%s'
+                    ORDER BY sort ASC""" % slug
         cur.execute(sql)
         emails = [{ "description": r[1], "address": r[0] } for r in cur.fetchall()]
         return emails
