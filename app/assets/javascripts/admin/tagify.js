@@ -1,6 +1,6 @@
 
 $('textarea[name="court[postcode_list]"]').tagify({
-  placeholder: 'Add postcode',
+  placeholder: 'Add Postcode',
   addNewDelimiter: [13],
   addCb: validateTag,
 })

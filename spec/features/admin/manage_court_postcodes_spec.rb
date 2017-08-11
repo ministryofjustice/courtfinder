@@ -36,12 +36,11 @@ feature 'manage courts postcodes' do
   scenario 'Adding postcodes to court', js: true  do
     click_link "Civil courts"
 
-    field = find(:xpath,".//form[@id='edit_court_#{court1.id}']//input[@data-default='Add Postcode']")
-    field.trigger('click')
-    field.set('N103QS')
-    page.find(:xpath, ".//div[@id='court_postcode_list_tagsinput']").click
-
-    within(:xpath,".//form[@id='edit_court_#{court1.id}']") do
+    within :xpath, ".//form[@id='edit_court_#{court1.id}']"  do
+      field = find(:xpath,".//input[@placeholder='Add Postcode']")
+      field.trigger('click')
+      field.set('N103QS')
+      page.find(:xpath, ".//div[@class='tagify']").click
       click_button("Save")
     end
     expect(page).to have_text('Court was successfully updated.')
