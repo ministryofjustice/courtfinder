@@ -58,6 +58,7 @@ gem 'uglifier', '>= 1.0.3'
 #end
 
 gem 'jquery-rails', '~> 4.3' # Rails unobtrusive scripting adapter for jQuery
+gem 'jquery-ui-rails'
 gem 'friendly_id', '~> 5.2' # Custom addresses instead of Ids
 gem 'will_paginate'         # Paging
 gem 'simple_form', '~> 3.1' # Build forms with ease
