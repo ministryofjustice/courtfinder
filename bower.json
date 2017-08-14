@@ -1,0 +1,6 @@
+{
+  "name": "courtfinder",
+  "dependencies": {
+    "tagify": "^0.1.0",
+  }
+}

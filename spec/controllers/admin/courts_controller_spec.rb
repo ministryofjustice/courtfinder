@@ -27,6 +27,7 @@ describe Admin::CourtsController do
           response.should redirect_to(edit_admin_court_path(@court.reload))
         end
       end
+
       context "a json request" do
         before{ params[:format] = :json }
 
@@ -51,6 +52,7 @@ describe Admin::CourtsController do
             expect(response).to redirect_to(params[:redirect_url])
           end
         end
+
         context "without a redirect_url param" do
           it "rerenders the edit template" do
             patch :update, params
@@ -65,6 +67,15 @@ describe Admin::CourtsController do
           patch :update, params
           expect(response.status).to eq(422)
         end
+      end
+    end
+
+    context 'with invalid postcode_court' do
+      let(:params){ {id: @court.id, court: { name: 'Another court of law', postcode_list:  "N102LZ" }} }
+
+      it "render_template" do
+        patch :update, params
+        expect(response.status).to eq(200)
       end
     end
   end

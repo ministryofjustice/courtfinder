@@ -28,8 +28,9 @@ module Concerns
 
       def ingest_new_postcode_courts(postcodes)
         postcodes.split(",").map do |postcode|
-          postcode = postcode.gsub(/[^0-9a-z ]/i, "").downcase
+          postcode = UKPostcode.parse(postcode).to_s
           postcode_court = existing_postcode_court(postcode)
+
           if postcode_court
             add_pc_court(postcode_court, postcode)
           else
