@@ -34,7 +34,7 @@ module Concerns
           if postcode_court
             add_pc_court(postcode_court, postcode)
           else
-            @new_postcode_courts << PostcodeCourt.new(postcode: postcode)
+            validate_and_add_new_pc_court(postcode)
           end
         end
       end
@@ -46,6 +46,18 @@ module Concerns
           @postcode_errors << "Post code \"#{postcode}\" is already assigned to #{pc.court.name}.
             Please remove it from this court before assigning it to #{name}."
         end
+      end
+
+      def validate_and_add_new_pc_court(postcode)
+        if OfficialPostcode.is_valid_postcode?(postcode)
+          @new_postcode_courts << PostcodeCourt.new(postcode: postcode)
+          return
+        end
+        message = I18n.t(
+          'activerecord.errors.models.postcode_court.attributes.postcode.invalid',
+          postcode: postcode
+        )
+        @postcode_errors << message
       end
     end
   end

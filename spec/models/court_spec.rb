@@ -156,6 +156,18 @@ describe Court do
       end
     end
 
+    describe "postcode_list" do
+      it "will not raise an exception" do
+        expect { @court1.postcode_list = 'N10' }.to_not raise_error(ActiveRecord::RecordNotSaved)
+      end
+
+      it "will add error message" do
+        @court1.update(postcode_list: 'N10')
+        err_message = { postcode_courts: ["Postcode \"N10\" is not valid, please check it's validity"] }
+        expect(@court1.errors.messages).to eql(err_message)
+      end
+    end
+
     describe 'Find court by local authority name' do
       include CourtLocalAuthorityHelper
 

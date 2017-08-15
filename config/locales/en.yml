@@ -70,7 +70,7 @@ en:
         postcode_court:
           attributes:
             postcode:
-              invalid: Postcode is not valid, please check it's validity
+              invalid: Postcode "%{postcode}" is not valid, please check it's validity
 
   errors:
     contact_validator:

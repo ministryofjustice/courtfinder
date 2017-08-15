@@ -56,8 +56,6 @@ module Admin
       else
         render_update_error_response
       end
-    rescue ActiveRecord::RecordNotSaved => e
-      process_update_exception(e)
     end
 
     def destroy
@@ -130,14 +128,6 @@ module Admin
       area_of_law = AreaOfLaw.where(id: params[:area_of_law_id]).first
       return area_of_law if area_of_law.present?
       AreaOfLaw.where(name: AreaOfLaw::Name::CHILDREN).first
-    end
-
-    def process_update_exception(e)
-      if e.message.include?('postcode_court')
-        message = I18n.t('activerecord.errors.models.postcode_court.attributes.postcode.invalid')
-        @court.errors.add(:postcode, message)
-      end
-      render_update_error_response
     end
   end
 end
