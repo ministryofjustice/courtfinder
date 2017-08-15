@@ -13,6 +13,6 @@
  *= require admin/pagination
  *= require admin/layout
  *= require admin/datatables.min
- *= require ../components/tagify/jquery.tagify.css
+ *= require tagify/jquery.tagify.css
  *= require admin/tagify.css
  */

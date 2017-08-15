@@ -13,7 +13,7 @@
 //= require ckeditor-jquery
 //= require admin/courts
 //= require jquery.tagsinput.js
-//= require ../components/tagify/jquery.tagify.min.js
+//= require tagify/jquery.tagify.min.js
 //= require admin/moj.local_authorities
 //= require admin/datatables.min
 //= require admin/fixedheader
