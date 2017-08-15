@@ -33,8 +33,8 @@ module Concerns
 
           if postcode_court
             add_pc_court(postcode_court, postcode)
-          else
-            validate_and_add_new_pc_court(postcode)
+          elsif validate_pc_court(postcode)
+            @new_postcode_courts << PostcodeCourt.new(postcode: postcode)
           end
         end
       end
@@ -48,16 +48,14 @@ module Concerns
         end
       end
 
-      def validate_and_add_new_pc_court(postcode)
-        if OfficialPostcode.is_valid_postcode?(postcode)
-          @new_postcode_courts << PostcodeCourt.new(postcode: postcode)
-          return
-        end
+      def validate_pc_court(postcode)
+        return true if OfficialPostcode.is_valid_postcode?(postcode)
         message = I18n.t(
           'activerecord.errors.models.postcode_court.attributes.postcode.invalid',
           postcode: postcode
         )
         @postcode_errors << message
+        false
       end
     end
   end
