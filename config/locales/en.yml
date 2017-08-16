@@ -67,6 +67,10 @@ en:
               invalid: only alphabetic characters and hyphens are allowed
             name:
               invalid: only alphabetic characters, commas and apostrophes are allowed
+        postcode_court:
+          attributes:
+            postcode:
+              invalid: Postcode "%{postcode}" is not valid, please check it's validity
 
   errors:
     contact_validator:

@@ -28,10 +28,10 @@ namespace :postcodes do
 
   def create_postcode(row)
     OfficialPostcode.create(
-      postcode: row[0],
-      sector: row[1],
-      district: row[2],
-      area: row[3]
+      postcode: row[0].strip,
+      sector: row[1].strip,
+      district: row[2].strip,
+      area: row[3].strip
     )
   end
 end

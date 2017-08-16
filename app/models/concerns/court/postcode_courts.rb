@@ -28,11 +28,12 @@ module Concerns
 
       def ingest_new_postcode_courts(postcodes)
         postcodes.split(",").map do |postcode|
-          postcode = postcode.gsub(/[^0-9a-z ]/i, "").downcase
+          postcode = UKPostcode.parse(postcode).to_s
           postcode_court = existing_postcode_court(postcode)
+
           if postcode_court
             add_pc_court(postcode_court, postcode)
-          else
+          elsif validate_pc_court(postcode)
             @new_postcode_courts << PostcodeCourt.new(postcode: postcode)
           end
         end
@@ -45,6 +46,16 @@ module Concerns
           @postcode_errors << "Post code \"#{postcode}\" is already assigned to #{pc.court.name}.
             Please remove it from this court before assigning it to #{name}."
         end
+      end
+
+      def validate_pc_court(postcode)
+        return true if OfficialPostcode.is_valid_postcode?(postcode)
+        message = I18n.t(
+          'activerecord.errors.models.postcode_court.attributes.postcode.invalid',
+          postcode: postcode
+        )
+        @postcode_errors << message
+        false
       end
     end
   end
