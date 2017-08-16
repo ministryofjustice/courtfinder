@@ -1,0 +1,4 @@
+{
+  "allow_root": true,
+  "directory": "vendor/assets/bower_components"
+}
