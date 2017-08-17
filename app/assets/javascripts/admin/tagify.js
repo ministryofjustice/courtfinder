@@ -9,7 +9,6 @@ $('form.js-postcode-tag-form').on('submit', function(event){
   if(!confirm('Do you really want to save changes?')){
     event.preventDefault();
   }
-
 });
 
 function validateTag(tags) {
@@ -25,7 +24,6 @@ function validateTag(tags) {
   .fail(function() {
     removeTag($(self), postcode)
   })
-
 }
 
 function removeTag(tag){
