@@ -70,7 +70,6 @@ gem 'devise_invitable'      # Authentication invites
 gem 'rmagick', require: false # Resize uploaded images
 gem 'carrierwave', '~> 1.0'
 gem 'fog'
-gem 'gmaps4rails', '1.5.7' # Maps and directions
 gem 'unicorn'
 gem 'haml-rails', '~>0.5.3' # Leaner markup with Haml.info
 gem 'rdiscount'             # Enable Markdown in Haml
