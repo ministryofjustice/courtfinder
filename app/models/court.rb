@@ -84,7 +84,6 @@ class Court < ActiveRecord::Base
 
   mount_uploader :image_file, CourtImagesUploader
 
-
   # Scope methods
   scope :visible,         -> { where(display: true) }
   scope :by_name,         -> { order('courts.name') }
