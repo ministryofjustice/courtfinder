@@ -8,7 +8,7 @@
 
 ### ImageMagick
 
-Court photos are resized when uploaded. This requires an install of ImageMagick on your environment. Install manually using from [http://www.imagemagick.org/script/index.php] or [http://cactuslab.com/imagemagick/].
+Court photos are resized when uploaded. This requires an install of ImageMagick on your environment. Install manually using from [http://www.imagemagick.org/script/index.php].
 
 Then run:
 
@@ -17,6 +17,26 @@ Then run:
 Note the path to ImageMagick and run the following line (replacing with your path to ImageMagick) before running bundle install. The below example is based on a `which convert` output of `/opt/ImageMagick/bin/convert`:
 
     export PKG_CONFIG_PATH="/opt/ImageMagick/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+##### How to install ImageMagick and RMagick on macOS
+
+RMagick is currently working only with ImageMagick 6.
+
+Uninstall newer versions
+
+    brew uninstall imagemagick
+
+Install and link ImageMagick 6
+
+    brew install imagemagick@6 && brew link imagemagick@6 --force
+
+Export PKG_CONFIG_PATH
+
+    export PKG_CONFIG_PATH="`Magick-config --prefix`/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+Run bundle install
+
+_Check the [rmagick readme](https://github.com/rmagick/rmagick#things-that-can-go-wrong) for further troubleshooting._
 
 ### Data
 
