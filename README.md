@@ -4,13 +4,6 @@
 [![Code Climate](https://codeclimate.com/github/ministryofjustice/courtfinder/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/courtfinder)
 [![Test Coverage](https://codeclimate.com/github/ministryofjustice/courtfinder/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/courtfinder)
 
-## *** IMPORTANT NOTICE ***
-Until further notice we are treating the *old_prod_working* branch as the default
-branch. Ensure all changes are made on this branch.
-
-For further information and deployment instructions please refer to the [ops 
-manual](https://opsmanual.dsd.io/run_books/courtfinder.html#non-master-branch-approach-use-this-until-further-notice).
-
 ## Set-up
 
 ### ImageMagick
