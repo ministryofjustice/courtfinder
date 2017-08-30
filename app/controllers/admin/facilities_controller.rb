@@ -1,7 +1,7 @@
 module Admin
   class FacilitiesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :facility, except: %i[index new create]
+    before_action :facility, except: [:index, :new, :create]
     respond_to :html, :json
 
     def index

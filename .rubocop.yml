@@ -62,12 +62,12 @@ Rails/HasAndBelongsToMany:
  Enabled: false
 
 # private/protected/public
-Style/AccessModifierIndentation:
+Layout/AccessModifierIndentation:
   EnforcedStyle: indent
 
 # Just indent parameters by two spaces. It's less volatile if methods change,
 # and there's less busy work lining things up.
-Style/AlignParameters:
+Layout/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 Style/ClassAndModuleChildren:
@@ -84,7 +84,7 @@ Style/CollectionMethods:
     find_all: 'select'
 
 # Chain methods with trailing dots.
-Style/DotPosition:
+Layout/DotPosition:
   EnforcedStyle: trailing
 
 # No, we don't prefer each_with_object
@@ -92,13 +92,13 @@ Style/EachWithObject:
   Enabled: false
 
 # Prefer blank line after class/module start.
-Style/EmptyLinesAroundClassBody:
+Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
-Style/EmptyLinesAroundModuleBody:
+Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
-Style/EmptyLinesAroundBlockBody:
+Layout/EmptyLinesAroundBlockBody:
   Enabled: false
 
 # We have a mixture at the moment, so don't enforce anything.
@@ -160,8 +160,10 @@ Style/PercentLiteralDelimiters:
 
 # %w doesn't always make for clearer test data
 Style/WordArray:
-  Exclude:
-    - 'spec/**/*'
+  EnforcedStyle: brackets
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
 
 Metrics/BlockLength:
   Exclude:
@@ -187,3 +189,5 @@ Rails/OutputSafety:
   Exclude:
     - 'app/helpers/yaml_helper.rb'
 
+Rails/ApplicationRecord:
+  Enabled: false

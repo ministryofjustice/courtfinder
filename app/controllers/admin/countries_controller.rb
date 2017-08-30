@@ -1,7 +1,7 @@
 module Admin
   class CountriesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :country, only: %i[show edit update destroy]
+    before_action :country, only: [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
     def index

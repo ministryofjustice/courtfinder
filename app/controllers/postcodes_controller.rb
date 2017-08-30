@@ -1,7 +1,7 @@
 class PostcodesController < ApplicationController
   respond_to :csv
 
-  before_action :set_vary_header, only: %i[index show]
+  before_action :set_vary_header, only: [:index, :show]
 
   def repossession
     @postcode_courts = PostcodeCourt.includes(:court).all
