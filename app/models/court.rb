@@ -75,10 +75,10 @@ class Court < ActiveRecord::Base
 
   validates :slug, format: /\A[a-zA-Z-]+\z/, allow_nil: true, if: :validate_slug?
   validates :name, format: /\A[a-zA-Z\s'\-\)\(,]+\z/, allow_nil: true
-  has_paper_trail ignore: %i[created_at updated_at], meta: { ip: :ip }
+  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: %i[slugged history finders]
+  friendly_id :slug_candidates, use: [:slugged, :history, :finders]
 
   geocoded_by latitude: :lat, longitude: :lng
 
@@ -245,7 +245,7 @@ class Court < ActiveRecord::Base
   end
 
   def leaflets_list
-    %w[visitor defence prosecution juror]
+    ['visitor', 'defence', 'prosecution', 'juror']
   end
 
   def good_court_type_size?

@@ -1,7 +1,7 @@
 module Admin
   class LocalAuthoritiesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :local_authority, except: %i[index new create complete]
+    before_action :local_authority, except: [:index, :new, :create, :complete]
     respond_to :html, :json
 
     def index

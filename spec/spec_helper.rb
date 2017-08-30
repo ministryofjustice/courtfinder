@@ -19,7 +19,6 @@ Dir[Rails.root.join("lib/**/*.rb")].each {|f| require f}
 Faker::Config.locale = 'en-gb'
 
 Capybara.javascript_driver = :webkit
-# Capybara.javascript_driver = :selenium
 # This is here so missing images from plugins are not failing tests.
 Capybara.raise_server_errors = false
 

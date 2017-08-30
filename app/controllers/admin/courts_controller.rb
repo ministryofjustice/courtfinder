@@ -1,7 +1,7 @@
 module Admin
   class CourtsController < Admin::ApplicationController
-    before_action :authorised?, only: %i[audit audit_csv destroy]
-    before_action :court, only: %i[show edit update destroy]
+    before_action :authorised?, only: [:audit, :audit_csv, :destroy]
+    before_action :court, only: [:show, :edit, :update, :destroy]
     before_action :set_flash_message, only: :update
 
     def index

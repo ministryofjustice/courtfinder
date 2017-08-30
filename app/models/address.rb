@@ -26,7 +26,7 @@ class Address < ActiveRecord::Base
     :address_line_4, :dx, :name, :postcode, :town_id, :address_type_id, :is_primary, :town
   validates :address_line_1, :town, presence: true
 
-  has_paper_trail ignore: %i[created_at updated_at], meta: { ip: :ip }
+  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
 
   scope :visiting, ->() { where(address_type_id: AddressType.find_by(name: "Visiting").try(:id)) }
   scope :postal, ->() { where(address_type_id: AddressType.find_by(name: "Postal").try(:id)) }

@@ -15,5 +15,5 @@ class Region < ActiveRecord::Base
   attr_accessible :name
 
   extend FriendlyId
-  friendly_id :name, use: %i[slugged history finders]
+  friendly_id :name, use: [:slugged, :history, :finders]
 end

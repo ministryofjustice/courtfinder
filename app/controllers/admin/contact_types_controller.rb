@@ -1,7 +1,7 @@
 module Admin
   class ContactTypesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :contact_type, only: %i[show edit update destroy]
+    before_action :contact_type, only: [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
     def index

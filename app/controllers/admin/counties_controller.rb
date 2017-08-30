@@ -1,7 +1,7 @@
 module Admin
   class CountiesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :county, only: %i[show edit update destroy]
+    before_action :county, only: [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
     def index

@@ -1,7 +1,7 @@
 module Admin
   class CourtTypesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :court_type, only: %i[show edit update destroy]
+    before_action :court_type, only: [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
     def index

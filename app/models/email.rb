@@ -19,7 +19,7 @@ class Email < ActiveRecord::Base
   attr_accessible :address, :sort, :contact_type_id
   before_save :strip_whitespace
 
-  has_paper_trail ignore: %i[created_at updated_at], meta: { ip: :ip }
+  has_paper_trail ignore: [:created_at, :updated_at], meta: { ip: :ip }
   validates :address, presence: true
   validates :address, email: true, if: ->(f) { f.address.present? }
 
