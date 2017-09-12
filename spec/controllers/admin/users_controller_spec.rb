@@ -30,9 +30,9 @@ describe Admin::UsersController do
   end
 
   describe "#show" do
-    let(:mock_user){ User.new }
-    before{
-      allow(User).to receive(:find).and_return( mock_user )
+    let(:mock_user) { User.new }
+    before {
+      allow(User).to receive(:find).and_return(mock_user)
     }
     it "gets the user by id" do
       expect(User).to receive(:find).with('123').and_return(mock_user)
@@ -56,13 +56,13 @@ describe Admin::UsersController do
   end
 
   describe "#update" do
-    let(:mock_user){ double('user', update_attributes: success) }
-    before{
-      allow(User).to receive(:find).and_return( mock_user )
+    let(:mock_user) { double('user', update_attributes: success) }
+    before {
+      allow(User).to receive(:find).and_return(mock_user)
     }
     context "with valid params" do
-      let(:success){ true }
-      let(:params){
+      let(:success) { true }
+      let(:params) {
         {
           id: 123,
           user: { name: 'user name' }
@@ -74,7 +74,6 @@ describe Admin::UsersController do
         patch(:update, params)
       end
 
-
       it "redirects to the individual user path" do
         patch :update, params
         expect(response).to redirect_to(admin_user_path(mock_user))
@@ -82,8 +81,8 @@ describe Admin::UsersController do
     end
 
     context "with invalid params" do
-      let(:success){ false }
-      let(:params){
+      let(:success) { false }
+      let(:params) {
         {
           id: 123,
           user: { name: '' }
@@ -91,9 +90,8 @@ describe Admin::UsersController do
       }
 
       it "does not update a new User" do
-        expect{ post(:update, params) }.to_not change(User, :count)
+        expect { post(:update, params) }.to_not change(User, :count)
       end
-
 
       it "re-renders the edit template" do
         patch :update, params
@@ -102,15 +100,13 @@ describe Admin::UsersController do
     end
   end
 
-
-
   describe "#destroy" do
-    let(:mock_user){ double('user', destroy: success) }
-    let(:success){ true }
-    let(:params){ {id: 123} }
+    let(:mock_user) { double('user', destroy: success) }
+    let(:success) { true }
+    let(:params) { { id: 123 } }
 
-    before{
-      allow(User).to receive(:find).and_return( mock_user )
+    before {
+      allow(User).to receive(:find).and_return(mock_user)
     }
     it "tries to destroy the User" do
       expect(mock_user).to receive(:destroy).and_return(true)
@@ -118,7 +114,7 @@ describe Admin::UsersController do
     end
 
     context "when it successfully destroys the user" do
-      let(:success){ true }
+      let(:success) { true }
 
       it "redirects to the index" do
         delete(:destroy, params)
@@ -127,7 +123,7 @@ describe Admin::UsersController do
     end
 
     context "when it cannot destroy the user" do
-      let(:success){ false }
+      let(:success) { false }
       it 'flashes an error' do
         delete(:destroy, params)
         expect(flash[:error]).to_not be_empty

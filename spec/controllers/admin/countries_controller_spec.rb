@@ -7,16 +7,16 @@ describe Admin::CountriesController do
   end
 
   describe "#update" do
-    let(:country){ Country.new(id: 123) }
-    before{
+    let(:country) { Country.new(id: 123) }
+    before {
       Country.stub(:find).and_return(country)
       country.stub(id: 123)
     }
 
-    let(:params){ { id: 123, country: {name: 'new contact type'} } }
+    let(:params) { { id: 123, country: { name: 'new contact type' } } }
 
     context "that works" do
-      before{
+      before {
         Country.any_instance.stub(update_attributes: true)
       }
 
@@ -37,12 +37,12 @@ describe Admin::CountriesController do
     end
 
     context "that doesn't work" do
-      before{
+      before {
         Country.any_instance.stub(update_attributes: false)
       }
 
       context "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit path" do
           patch :update, params
@@ -56,7 +56,7 @@ describe Admin::CountriesController do
       end
 
       context "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
         it "responds to json" do
           patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
@@ -67,11 +67,11 @@ describe Admin::CountriesController do
   end
 
   describe "#create" do
-    let(:params){ { country: {name: 'new contact type'} } }
+    let(:params) { { country: { name: 'new contact type' } } }
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect{
+        expect {
           post :create, params
         }.to change { Country.count }.by(1)
       end
@@ -92,10 +92,10 @@ describe Admin::CountriesController do
       end
     end
     context "that doesn't save ok" do
-      before{ Country.any_instance.stub(save: false) }
+      before { Country.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
-        expect{
+        expect {
           post :create, params
         }.to_not change { Country.count }
       end
@@ -150,8 +150,8 @@ describe Admin::CountriesController do
   end
 
   describe "#show" do
-    let(:mock_country){ Country.new(id: 123, name: 'mock contact type') }
-    before{
+    let(:mock_country) { Country.new(id: 123, name: 'mock contact type') }
+    before {
       Country.stub(:find).and_return(mock_country)
     }
 
@@ -183,7 +183,6 @@ describe Admin::CountriesController do
       expect(assigns[:country]).to be_a(Country)
     end
 
-
     it "responds to html" do
       get :new, format: :html
       expect(response.content_type).to eq('text/html')
@@ -196,8 +195,8 @@ describe Admin::CountriesController do
   end
 
   describe "#edit" do
-    let(:mock_country){ Country.new(id: 123, name: 'mock contact type') }
-    before{
+    let(:mock_country) { Country.new(id: 123, name: 'mock contact type') }
+    before {
       Country.stub(:find).and_return(mock_country)
     }
 

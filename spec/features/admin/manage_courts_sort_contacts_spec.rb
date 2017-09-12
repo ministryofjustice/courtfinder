@@ -2,22 +2,22 @@ require 'spec_helper'
 
 feature 'Sort contact numbers' do
   let!(:contact_types) do
-end
+  end
 
   context 'admin' do
     let(:court) { create(:court, name: 'the court') }
     let!(:user) { create(:user) }
-    let(:contact_type_second) {create(:contact_type, name: 'Second')}
-    let(:contact_type_first) {create(:contact_type, name: 'First')}
-    let(:contact_type_dx) {create(:contact_type, name: 'DX')}
-    let(:contact_type_fax) {create(:contact_type, name: 'Fax')}
-    let(:contact_type_enquiries) {create(:contact_type, name: 'Enquiries')}
+    let(:contact_type_second) { create(:contact_type, name: 'Second') }
+    let(:contact_type_first) { create(:contact_type, name: 'First') }
+    let(:contact_type_dx) { create(:contact_type, name: 'DX') }
+    let(:contact_type_fax) { create(:contact_type, name: 'Fax') }
+    let(:contact_type_enquiries) { create(:contact_type, name: 'Enquiries') }
 
-    let!(:contact_second) {create(:contact, telephone: 1, court_id: court.id, contact_type_id: contact_type_second.id, sort: 1)}
-    let!(:contact_first) {create(:contact, telephone: 2, court_id: court.id, contact_type_id: contact_type_first.id, sort: 2)}
-    let!(:contact_enquiries) {create(:contact, telephone: 3, court_id: court.id, contact_type_id: contact_type_enquiries.id, sort: 3)}
-    let!(:contact_dx) {create(:contact, telephone: 4, court_id: court.id, contact_type_id: contact_type_dx.id, sort: 4)}
-    let!(:contact_fax) {create(:contact, telephone: 5, court_id: court.id, contact_type_id: contact_type_fax.id, sort: 5)}
+    let!(:contact_second) { create(:contact, telephone: 1, court_id: court.id, contact_type_id: contact_type_second.id, sort: 1) }
+    let!(:contact_first) { create(:contact, telephone: 2, court_id: court.id, contact_type_id: contact_type_first.id, sort: 2) }
+    let!(:contact_enquiries) { create(:contact, telephone: 3, court_id: court.id, contact_type_id: contact_type_enquiries.id, sort: 3) }
+    let!(:contact_dx) { create(:contact, telephone: 4, court_id: court.id, contact_type_id: contact_type_dx.id, sort: 4) }
+    let!(:contact_fax) { create(:contact, telephone: 5, court_id: court.id, contact_type_id: contact_type_fax.id, sort: 5) }
 
     before do
       visit '/admin'
@@ -46,7 +46,7 @@ end
       click_button 'Update'
       expect(page).to have_content('Court was successfully updated')
 
-      #Check sort is saved
+      # Check sort is saved
       visit edit_admin_court_path(court)
       expect(page).to have_content('Editing court')
       click_link 'Contact Numbers'

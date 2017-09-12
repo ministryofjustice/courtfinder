@@ -12,7 +12,7 @@ feature 'Area of law landing pages', skip: 'not needed anymore' do
     old = "/search/#{area_of_law.to_param}"
     area_of_law.name = 'New Area Of Law'
     area_of_law.save
-    
+
     visit old
 
     expect(current_path).to eq('/search/new-area-of-law')
@@ -34,6 +34,5 @@ feature 'Area of law landing pages', skip: 'not needed anymore' do
     visit "/search/#{area_of_law.to_param}"
     expect(page).to have_select('area_of_law', selected: area_of_law.name)
   end
-
 
 end

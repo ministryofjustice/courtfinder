@@ -5,18 +5,17 @@ describe Admin::CountiesController do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
-
   describe "#update" do
-    let(:county){ County.new(id: 123) }
-    before{
+    let(:county) { County.new(id: 123) }
+    before {
       County.stub(:find).and_return(county)
       county.stub(id: 123)
     }
 
-    let(:params){ { id: 123, county: {name: 'new contact type'} } }
+    let(:params) { { id: 123, county: { name: 'new contact type' } } }
 
     context "that works" do
-      before{
+      before {
         County.any_instance.stub(update_attributes: true)
       }
 
@@ -37,12 +36,12 @@ describe Admin::CountiesController do
     end
 
     context "that doesn't work" do
-      before{
+      before {
         County.any_instance.stub(update_attributes: false)
       }
 
       context "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit path" do
           patch :update, params
@@ -56,7 +55,7 @@ describe Admin::CountiesController do
       end
 
       context "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
         it "responds to json" do
           patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
@@ -67,11 +66,11 @@ describe Admin::CountiesController do
   end
 
   describe "#create" do
-    let(:params){ { county: {name: 'new contact type'} } }
+    let(:params) { { county: { name: 'new contact type' } } }
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect{
+        expect {
           post :create, params
         }.to change { County.count }.by(1)
       end
@@ -92,10 +91,10 @@ describe Admin::CountiesController do
       end
     end
     context "that doesn't save ok" do
-      before{ County.any_instance.stub(save: false) }
+      before { County.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
-        expect{
+        expect {
           post :create, params
         }.to_not change { County.count }
       end
@@ -150,8 +149,8 @@ describe Admin::CountiesController do
   end
 
   describe "#show" do
-    let(:mock_county){ County.new(id: 123, name: 'mock contact type') }
-    before{
+    let(:mock_county) { County.new(id: 123, name: 'mock contact type') }
+    before {
       County.stub(:find).and_return(mock_county)
     }
 
@@ -195,8 +194,8 @@ describe Admin::CountiesController do
   end
 
   describe "#edit" do
-    let(:mock_county){ County.new(id: 123, name: 'mock contact type') }
-    before{
+    let(:mock_county) { County.new(id: 123, name: 'mock contact type') }
+    before {
       County.stub(:find).and_return(mock_county)
     }
 

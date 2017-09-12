@@ -7,16 +7,16 @@ describe Admin::TownsController do
   end
 
   describe "#update" do
-    let(:town){ Town.new(id: 123) }
-    before{
+    let(:town) { Town.new(id: 123) }
+    before {
       Town.stub(:find).and_return(town)
       town.stub(id: 123)
     }
 
-    let(:params){ { id: 123, town: {name: 'new town'} } }
+    let(:params) { { id: 123, town: { name: 'new town' } } }
 
     context "that works" do
-      before{
+      before {
         Town.any_instance.stub(update_attributes: true)
       }
 
@@ -37,12 +37,12 @@ describe Admin::TownsController do
     end
 
     context "that doesn't work" do
-      before{
+      before {
         Town.any_instance.stub(update_attributes: false)
       }
 
       context "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit path" do
           patch :update, params
@@ -56,7 +56,7 @@ describe Admin::TownsController do
       end
 
       context "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
         it "responds to json" do
           patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
@@ -67,11 +67,11 @@ describe Admin::TownsController do
   end
 
   describe "#create" do
-    let(:params){ { town: {name: 'new town'} } }
+    let(:params) { { town: { name: 'new town' } } }
 
     context "that saves ok" do
       it "creates a town" do
-        expect{
+        expect {
           post :create, params
         }.to change { Town.count }.by(1)
       end
@@ -92,10 +92,10 @@ describe Admin::TownsController do
       end
     end
     context "that doesn't save ok" do
-      before{ Town.any_instance.stub(save: false) }
+      before { Town.any_instance.stub(save: false) }
 
       it "does not create a town" do
-        expect{
+        expect {
           post :create, params
         }.to_not change { Town.count }
       end
@@ -142,8 +142,8 @@ describe Admin::TownsController do
   end
 
   describe "#show" do
-    let(:mock_town){ Town.new(id: 123, name: 'mock town') }
-    before{
+    let(:mock_town) { Town.new(id: 123, name: 'mock town') }
+    before {
       Town.stub(:find).and_return(mock_town)
     }
 
@@ -175,7 +175,6 @@ describe Admin::TownsController do
       expect(assigns[:town]).to be_a(Town)
     end
 
-
     it "responds to html" do
       get :new, format: :html
       expect(response.content_type).to eq('text/html')
@@ -188,8 +187,8 @@ describe Admin::TownsController do
   end
 
   describe "#edit" do
-    let(:mock_town){ Town.new(id: 123, name: 'mock town') }
-    before{
+    let(:mock_town) { Town.new(id: 123, name: 'mock town') }
+    before {
       Town.stub(:find).and_return(mock_town)
     }
 

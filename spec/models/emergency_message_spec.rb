@@ -11,13 +11,13 @@ require "spec_helper"
 
 describe EmergencyMessage do
   before(:each) do
-    EmergencyMessage.destroy_all()
-    @message = create(:emergency_message, :message => "Test message", :show => false)
+    EmergencyMessage.destroy_all
+    @message = create(:emergency_message, message: "Test message", show: false)
   end
 
   describe "fetching" do
     it "should return 1 result" do
-      @message2 = build(:emergency_message, :message => "Another Test message", :show => false)
+      @message2 = build(:emergency_message, message: "Another Test message", show: false)
       expect(@message2.save).to be_falsey
     end
   end

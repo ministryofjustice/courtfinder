@@ -4,10 +4,10 @@ describe CourtsController, pending: 'controller not used anymore' do
   render_views
 
   before :each do
-    @ct_magistrate = create(:court_type, :name => "Magistrates Court")
-    @ct_county = create(:court_type, :name => "County Court")
+    @ct_magistrate = create(:court_type, name: "Magistrates Court")
+    @ct_county = create(:court_type, name: "County Court")
 
-    @court = create(:court, :name => 'A court of LAW', :latitude => nil, :longitude => nil).reload
+    @court = create(:court, name: 'A court of LAW', latitude: nil, longitude: nil).reload
   end
 
   context "a list of courts" do
@@ -25,48 +25,48 @@ describe CourtsController, pending: 'controller not used anymore' do
     before :each do
       CourtSearch.any_instance.stub(:latlng_from_postcode).and_return([51.37831, -0.10178])
 
-      @at_visiting = create(:address_type, :name => "Visiting")
-      @at_postal = create(:address_type, :name => "Postal")
-      @town = create(:town, :name => "London")
-      @ct_family = create(:court_type, :name => "Family Court")
-      @ct_tribunal = create(:court_type, :name => "Tribunal")
-      @ct_crown = create(:court_type, :name => "Crown Court")
+      @at_visiting = create(:address_type, name: "Visiting")
+      @at_postal = create(:address_type, name: "Postal")
+      @town = create(:town, name: "London")
+      @ct_family = create(:court_type, name: "Family Court")
+      @ct_tribunal = create(:court_type, name: "Tribunal")
+      @ct_crown = create(:court_type, name: "Crown Court")
 
-      @visiting_address = create(:address, :address_line_1 => "Some street", :postcode => "CR0 2RB", :address_type_id => @at_visiting.id, :town_id => @town.id)
-      @postal_address = create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+      @visiting_address = create(:address, address_line_1: "Some street", postcode: "CR0 2RB", address_type_id: @at_visiting.id, town_id: @town.id)
+      @postal_address = create(:address, address_line_1: "Some other street", address_type_id: @at_postal.id, town_id: @town.id)
 
       VCR.use_cassette('postcode_found') do
-        @county_court = create(:court, :name => 'And Justice For All County Court',
-                                           :info_leaflet => "some useful info",
-                                           :court_type_ids => [@ct_county.id], :display => true,
-                                           :address_ids => [@visiting_address.id, @postal_address.id])
+        @county_court = create(:court, name: 'And Justice For All County Court',
+                                       info_leaflet: "some useful info",
+                                       court_type_ids: [@ct_county.id], display: true,
+                                       address_ids: [@visiting_address.id, @postal_address.id])
       end
-      @family_court = create(:court, :name => 'Capita Family Court',
-                                         :latitude => nil, :longitude => nil,
-                                         :info_leaflet => "some useful info",
-                                         :court_type_ids => [@ct_family.id], :display => true)
-      @tribunal = create(:court, :name => 'Capita Tribunal',
-                                     :latitude => nil, :longitude => nil,
-                                     :info_leaflet => "some useful info",
-                                     :court_type_ids => [@ct_tribunal.id], :display => true)
-      @magistrates_court = create(:court, :name => 'Capita Magistrates Court',
-                                              :latitude => nil, :longitude => nil,
-                                              :info_leaflet => "some useful info",
-                                              :court_type_ids => [@ct_magistrate.id], :display => true)
-      @crown_court = create(:court, :name => 'Capita Crown Court',
-                                        :latitude => nil, :longitude => nil,
-                                        :info_leaflet => "some useful info",
-                                        :court_type_ids => [@ct_crown.id], :display => true) do |court|
-        court.addresses.create(:address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+      @family_court = create(:court, name: 'Capita Family Court',
+                                     latitude: nil, longitude: nil,
+                                     info_leaflet: "some useful info",
+                                     court_type_ids: [@ct_family.id], display: true)
+      @tribunal = create(:court, name: 'Capita Tribunal',
+                                 latitude: nil, longitude: nil,
+                                 info_leaflet: "some useful info",
+                                 court_type_ids: [@ct_tribunal.id], display: true)
+      @magistrates_court = create(:court, name: 'Capita Magistrates Court',
+                                          latitude: nil, longitude: nil,
+                                          info_leaflet: "some useful info",
+                                          court_type_ids: [@ct_magistrate.id], display: true)
+      @crown_court = create(:court, name: 'Capita Crown Court',
+                                    latitude: nil, longitude: nil,
+                                    info_leaflet: "some useful info",
+                                    court_type_ids: [@ct_crown.id], display: true) do |court|
+        court.addresses.create(address_line_1: "Some other street", address_type_id: @at_postal.id, town_id: @town.id)
       end
-      @combined_court = create(:court, :name => 'Capita Combined Court',
-                                           :latitude => nil, :longitude => nil,
-                                           :info_leaflet => "some useful info",
-                                           :court_type_ids => [@ct_county.id, @ct_crown.id], :display => true)
-      @typeless_court = create(:court, :name => 'Capita Typeless Court',
-                                           :latitude => nil, :longitude => nil,
-                                           :info_leaflet => "some useful info",
-                                           :display => true)
+      @combined_court = create(:court, name: 'Capita Combined Court',
+                                       latitude: nil, longitude: nil,
+                                       info_leaflet: "some useful info",
+                                       court_type_ids: [@ct_county.id, @ct_crown.id], display: true)
+      @typeless_court = create(:court, name: 'Capita Typeless Court',
+                                       latitude: nil, longitude: nil,
+                                       info_leaflet: "some useful info",
+                                       display: true)
     end
 
     xit "should set a vary header" do
@@ -85,7 +85,7 @@ describe CourtsController, pending: 'controller not used anymore' do
     end
 
     pending "groups multiple phone numbers of the same type for a court on one line" do
-      #Need a better way to test the full string joining two numbers with or
+      # Need a better way to test the full string joining two numbers with or
       @county_court.contacts.create(telephone: "0800 800 8080")
       @county_court.contacts.create(telephone: "0800 800 8081")
       get :show, id: @county_court.slug
@@ -109,10 +109,10 @@ describe CourtsController, pending: 'controller not used anymore' do
 
       xit "json api returns correct information" do
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"},
-                                              "@id"=>"/courts/a-court-of-law",
-                                              "name"=>"A court of LAW",
-                                              "@type"=>["Courthouse"]}
+        JSON.parse(response.body).should == { "@context" => { "@vocab" => "http://schema.org/" },
+                                              "@id" => "/courts/a-court-of-law",
+                                              "name" => "A court of LAW",
+                                              "@type" => ["Courthouse"] }
       end
 
       context 'for a court on the prime meridian' do
@@ -122,30 +122,30 @@ describe CourtsController, pending: 'controller not used anymore' do
 
         xit "json api returns correct information" do
           get :show, id: @court.slug, format: :json
-          JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/","geo"=>"http://www.w3.org/2003/01/geo/wgs84_pos#"},
-                                                "@id"=>"/courts/a-court-of-law",
-                                                "name"=>"A court of LAW",
-                                                "geo:latitude"=>"50.0",
-                                                "geo:longitude"=>"0.0",
-                                                "@type"=>["Courthouse"]}
+          JSON.parse(response.body).should == { "@context" => { "@vocab" => "http://schema.org/", "geo" => "http://www.w3.org/2003/01/geo/wgs84_pos#" },
+                                                "@id" => "/courts/a-court-of-law",
+                                                "name" => "A court of LAW",
+                                                "geo:latitude" => "50.0",
+                                                "geo:longitude" => "0.0",
+                                                "@type" => ["Courthouse"] }
         end
       end
 
       xit "json api returns correct extra information" do
-        @court.update_attributes(:info => 'some information')
+        @court.update_attributes(info: 'some information')
         get :show, id: @court.slug, format: :json
-        JSON.parse(response.body).should == {"@context"=>{"@vocab"=>"http://schema.org/"},
-                                              "@id"=>"/courts/a-court-of-law",
-                                              "name"=>"A court of LAW",
-                                              "@type"=>["Courthouse"],
-                                              "description"=>"some information"}
+        JSON.parse(response.body).should == { "@context" => { "@vocab" => "http://schema.org/" },
+                                              "@id" => "/courts/a-court-of-law",
+                                              "name" => "A court of LAW",
+                                              "@type" => ["Courthouse"],
+                                              "description" => "some information" }
       end
 
       xit "doesn't return an error if a court's town has no county or no image_file_url" do
-        @visiting = create(:address_type, :name => "Visiting")
-        @town = create(:town, :name => "London")
-        @court1 = create(:court, :slug => "blah", :name => 'County Court', :display => true) do |court|
-          @visiting_address = court.addresses.create(:address_line_1 => "Some street", :address_type_id => @visiting.id, :town_id => @town.id)
+        @visiting = create(:address_type, name: "Visiting")
+        @town = create(:town, name: "London")
+        @court1 = create(:court, slug: "blah", name: 'County Court', display: true) do |court|
+          @visiting_address = court.addresses.create(address_line_1: "Some street", address_type_id: @visiting.id, town_id: @town.id)
         end
         get :show, id: @court1.slug, format: :json
         response.should be_successful

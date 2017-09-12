@@ -1,22 +1,24 @@
 shared_examples "a search with area of law" do |area_of_law_name|
 
-  let!(:children) { create(:area_of_law, name: 'Children', type_children: true ) }
-  let!(:divorce) { create(:area_of_law, name: 'Divorce', type_divorce: true ) }
-  let!(:adoption) { create(:area_of_law, name: 'Adoption', type_adoption: true ) }
-  let!(:at_visiting) { create(:address_type, :name => "Visiting") }
-  let!(:town) { create(:town, :name => "London") }
-  let!(:visiting_address) { create(:address, :address_line_1 => "Some street",
-    :address_type_id => at_visiting.id, :postcode => 'SE19NH', :town_id => town.id) }
+  let!(:children) { create(:area_of_law, name: 'Children', type_children: true) }
+  let!(:divorce) { create(:area_of_law, name: 'Divorce', type_divorce: true) }
+  let!(:adoption) { create(:area_of_law, name: 'Adoption', type_adoption: true) }
+  let!(:at_visiting) { create(:address_type, name: "Visiting") }
+  let!(:town) { create(:town, name: "London") }
+  let!(:visiting_address) {
+    create(:address, address_line_1: "Some street",
+                     address_type_id: at_visiting.id, postcode: 'SE19NH', town_id: town.id)
+  }
 
   context "Chosen area of law is #{area_of_law_name}" do
     include CourtLocalAuthorityHelper
 
-  	let!(:area) { AreaOfLaw.find_by_name(area_of_law_name)}
+    let!(:area) { AreaOfLaw.find_by(name: area_of_law_name) }
     # Location: http://mapit.service.dsd.io/nearest/4326/-0.110768,51449126: SW2 2YH (Inside the Lambeth Borough Council)
     let!(:court7) do
       VCR.use_cassette('postcode_found') do
         create(:court, court_number: 434, name: "#{area.name} Court A", display: true, areas_of_law: [area],
-                                      :address_ids => [visiting_address.id])
+                       address_ids: [visiting_address.id])
       end
     end
     let!(:local_authority) { LocalAuthority.create(name: 'Lambeth Borough Council') }
@@ -29,7 +31,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
       RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
       # Location: http://mapit.service.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
       VCR.use_cassette('postcode_found') do
-        court_search = CourtSearch.new('SE240NG', {:area_of_law => area.name})
+        court_search = CourtSearch.new('SE240NG', area_of_law: area.name)
         expect(court_search.results.fetch(:found_in_area_of_law)).to eq 1
         expect(court_search.results.fetch(:courts)).to eq [court7]
       end
@@ -39,12 +41,12 @@ shared_examples "a search with area of law" do |area_of_law_name|
       # Location:51.451373,-0.106004 (Inside the Lambeth Borough Council)
       let(:court9) do
         VCR.use_cassette('postcode_found') do
-        create(:court,
-               court_number: 435,
-               name: "#{area.name} Court B",
-               display: true,
-               areas_of_law: [area],
-               :address_ids => [@visiting_address3.id])
+          create(:court,
+            court_number: 435,
+            name: "#{area.name} Court B",
+            display: true,
+            areas_of_law: [area],
+            address_ids: [@visiting_address3.id])
         end
       end
 
@@ -54,7 +56,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
 
       it 'should return multiple courts sorted by distance' do
         VCR.use_cassette('multiple_courts') do
-          court_search = CourtSearch.new('SE240NG', {area_of_law: area.name})
+          court_search = CourtSearch.new('SE240NG', area_of_law: area.name)
           results = court_search.results
           expect(results.fetch(:found_in_area_of_law)).to be > 0
           expect(results.fetch(:courts)).to eq [court7, court9]
@@ -68,7 +70,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
           VCR.use_cassette('multiple_courts') do
             court7.update_attribute(:longitude, nil)
             court7.update_attribute(:latitude, nil)
-            court_search = CourtSearch.new('SE240NG', {area_of_law: area.name})
+            court_search = CourtSearch.new('SE240NG', area_of_law: area.name)
             results = court_search.results
             expect(results.fetch(:found_in_area_of_law)).to be > 0
             expect(results.fetch(:courts)).to eq [court9, court7]
@@ -83,14 +85,14 @@ shared_examples "a search with area of law" do |area_of_law_name|
       let!(:court10) do
         VCR.use_cassette('postcode_found') do
           create(:court, name: 'The Nearest Court', display: true, areas_of_law: [area],
-                                     :address_ids => [@visiting_address1.id])
+                         address_ids: [@visiting_address1.id])
         end
       end
 
       let!(:court11) do
         VCR.use_cassette('postcode_found') do
           create(:court, name: 'Second Nearest Court', display: true, areas_of_law: [area],
-                                     :address_ids => [@visiting_address1.id])
+                         address_ids: [@visiting_address1.id])
         end
       end
 
@@ -101,7 +103,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
 
       it "if the postcode is not found in the Postcode to court mapping, then just default to distance search" do
         VCR.use_cassette('postcode_not_found') do
-          court_search = CourtSearch.new('NE128AQ', {area_of_law: area.name})
+          court_search = CourtSearch.new('NE128AQ', area_of_law: area.name)
           expect(court_search.results.fetch(:found_in_area_of_law)).to be > 0
           court_search.results.fetch(:courts).should == [court10, court11]
         end

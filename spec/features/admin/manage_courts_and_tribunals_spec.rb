@@ -19,20 +19,20 @@ feature 'manage courts and tribunals' do
     end
 
     expect(page).to have_xpath(".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr", count: 1)
-    line = page.find(:xpath,".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr")
+    line = page.find(:xpath, ".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr")
     expect(line.text).to eql("Grantham Magistrates' Court")
   end
 
-  scenario 'find court by using quick search', js: true  do
+  scenario 'find court by using quick search', js: true do
     click_link 'Manage All Courts and Tribunals'
     expect(page).to have_xpath(".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr", count: 3)
 
-    line = page.find(:xpath,".//input[@type='search']")
+    line = page.find(:xpath, ".//input[@type='search']")
     line.set('Manchester')
 
     line.trigger('keyPress')
     expect(page).to have_xpath(".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr", count: 1)
-    line = page.find(:xpath,".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr")
+    line = page.find(:xpath, ".//table[@class='areaOfLaw dataTable no-footer']/tbody/tr")
     expect(line.text).to eql("Manchester County Court")
   end
 

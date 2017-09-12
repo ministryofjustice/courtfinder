@@ -14,5 +14,5 @@ feature 'Check the Money (MCOL) / Possession (PCOL) Claims paragraphs no longer 
   scenario 'Check PCOL paragraph has gone' do
     visit '/courts/st-albans-county-court'
     expect(page).to have_no_content("to repossess a property or evict a tenant.")
-  end    
+  end
 end

@@ -21,7 +21,7 @@ describe Admin::AreasOfLawController do
 
       it "responds with :ok" do
         get :index
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
 
@@ -33,20 +33,20 @@ describe Admin::AreasOfLawController do
 
       it "responds with :ok" do
         get :index, format: :json
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
   end
 
   describe "#update" do
-    let(:area){ area_of_law = AreaOfLaw.create!(name: 'the north') }
-    let(:params){ {id: area.id, area_of_law: {}} }
+    let(:area) { area_of_law = AreaOfLaw.create!(name: 'the north') }
+    let(:params) { { id: area.id, area_of_law: {} } }
 
     context "when it works" do
-      before{ area.stub(update_attributes: true) }
+      before { area.stub(update_attributes: true) }
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "redirects to the index path" do
           patch :update, params
@@ -60,7 +60,7 @@ describe Admin::AreasOfLawController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "reponds with json" do
           patch :update, params
@@ -75,10 +75,10 @@ describe Admin::AreasOfLawController do
     end
 
     context "when it doesn't work" do
-      before{ AreaOfLaw.any_instance.stub(update_attributes: false) }
+      before { AreaOfLaw.any_instance.stub(update_attributes: false) }
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit template" do
           patch :update, params
@@ -92,7 +92,7 @@ describe Admin::AreasOfLawController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "reponds with json" do
           patch :update, params
@@ -109,14 +109,14 @@ describe Admin::AreasOfLawController do
 
   describe "#create" do
     context "that works" do
-      let(:params){ {area_of_law: {name: '22 Acacia Avenue'}} }
+      let(:params) { { area_of_law: { name: '22 Acacia Avenue' } } }
 
       it "creates a new Area" do
-        expect{ post :create, params }.to change(AreaOfLaw, :count).by(1)
+        expect { post :create, params }.to change(AreaOfLaw, :count).by(1)
       end
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "redirects to the index" do
           post :create, params
@@ -130,7 +130,7 @@ describe Admin::AreasOfLawController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "responds with json" do
           post :create, params
@@ -146,15 +146,15 @@ describe Admin::AreasOfLawController do
     end
 
     context "that doesn't work" do
-      let(:params){ {area_of_law: {name: 'something'}}  }
-      before{ AreaOfLaw.any_instance.stub(save: false)}
+      let(:params) { { area_of_law: { name: 'something' } } }
+      before { AreaOfLaw.any_instance.stub(save: false) }
 
       it "does not create an Area" do
-        expect{ post :create, params }.to_not change(AreaOfLaw, :count)
+        expect { post :create, params }.to_not change(AreaOfLaw, :count)
       end
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "re-renders the new template" do
           post :create, params
@@ -168,7 +168,7 @@ describe Admin::AreasOfLawController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "responds with json" do
           post :create, params
@@ -184,7 +184,7 @@ describe Admin::AreasOfLawController do
   end
 
   describe "#edit" do
-    let(:area){ AreaOfLaw.create(name: '22 Acacia Avenue') }
+    let(:area) { AreaOfLaw.create(name: '22 Acacia Avenue') }
 
     it "finds the right area" do
       AreaOfLaw.should_receive(:find).with(area.id.to_s).and_return(area)
@@ -211,7 +211,7 @@ describe Admin::AreasOfLawController do
 
       it "responds with :ok" do
         get :new, format: :html
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
 
@@ -223,13 +223,13 @@ describe Admin::AreasOfLawController do
 
       it "responds with :ok" do
         get :new, format: :json
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
   end
 
   describe "#show" do
-    let(:area){ AreaOfLaw.create(name: 'Somewhere') }
+    let(:area) { AreaOfLaw.create(name: 'Somewhere') }
 
     it "finds the right area" do
       AreaOfLaw.should_receive(:find).with(area.id.to_s).and_return(area)
@@ -249,7 +249,7 @@ describe Admin::AreasOfLawController do
 
       it "responds with :ok" do
         get :show, id: area.id, format: :html
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
 
@@ -261,7 +261,7 @@ describe Admin::AreasOfLawController do
 
       it "responds with :ok" do
         get :show, id: area.id, format: :json
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
   end

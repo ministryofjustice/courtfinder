@@ -51,9 +51,9 @@ RSpec.describe HealthCheckController, type: :controller do
     it { is_expected.to have_http_status(:success) }
 
     context 'returned schema' do
-      let(:keys) { %w(version_number build_date commit_id build_tag) }
+      let(:keys) { ['version_number', 'build_date', 'commit_id', 'build_tag'] }
 
-      subject { JSON.parse(response.body)}
+      subject { JSON.parse(response.body) }
 
       it 'matches ping.json schema names' do
         expect(subject.keys).to eq keys

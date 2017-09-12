@@ -6,18 +6,17 @@ describe Admin::RegionsController do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
-
   describe "#update" do
-    let(:region){ Region.new(id: 123) }
-    before{
+    let(:region) { Region.new(id: 123) }
+    before {
       Region.stub(:find).and_return(region)
       region.stub(id: 123)
     }
 
-    let(:params){ { id: 123, region: {name: 'new region'} } }
+    let(:params) { { id: 123, region: { name: 'new region' } } }
 
     context "that works" do
-      before{
+      before {
         Region.any_instance.stub(update_attributes: true)
       }
 
@@ -38,12 +37,12 @@ describe Admin::RegionsController do
     end
 
     context "that doesn't work" do
-      before{
+      before {
         Region.any_instance.stub(update_attributes: false)
       }
 
       context "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit path" do
           patch :update, params
@@ -57,7 +56,7 @@ describe Admin::RegionsController do
       end
 
       context "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
         it "responds to json" do
           patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
@@ -68,11 +67,11 @@ describe Admin::RegionsController do
   end
 
   describe "#create" do
-    let(:params){ { region: {name: 'new region'} } }
+    let(:params) { { region: { name: 'new region' } } }
 
     context "that saves ok" do
       it "creates an region" do
-        expect{
+        expect {
           post :create, params
         }.to change { Region.count }.by(1)
       end
@@ -93,10 +92,10 @@ describe Admin::RegionsController do
       end
     end
     context "that doesn't save ok" do
-      before{ Region.any_instance.stub(save: false) }
+      before { Region.any_instance.stub(save: false) }
 
       it "does not create an region" do
-        expect{
+        expect {
           post :create, params
         }.to_not change { Region.count }
       end
@@ -151,8 +150,8 @@ describe Admin::RegionsController do
   end
 
   describe "#show" do
-    let(:mock_region){ Region.new(id: 123, name: 'mock region') }
-    before{
+    let(:mock_region) { Region.new(id: 123, name: 'mock region') }
+    before {
       Region.stub(:find).and_return(mock_region)
     }
 
@@ -184,7 +183,6 @@ describe Admin::RegionsController do
       expect(assigns[:region]).to be_a(Region)
     end
 
-
     it "responds to html" do
       get :new, format: :html
       expect(response.content_type).to eq('text/html')
@@ -197,8 +195,8 @@ describe Admin::RegionsController do
   end
 
   describe "#edit" do
-    let(:mock_region){ Region.new(id: 123, name: 'mock region') }
-    before{
+    let(:mock_region) { Region.new(id: 123, name: 'mock region') }
+    before {
       Region.stub(:find).and_return(mock_region)
     }
 

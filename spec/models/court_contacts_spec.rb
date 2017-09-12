@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Court do
   before(:each) do
-    @court1 = FactoryGirl.create(:court, :name => "London Court")
+    @court1 = FactoryGirl.create(:court, name: "London Court")
     @helpdesk = FactoryGirl.create(:contact_type)
   end
 
@@ -33,7 +33,7 @@ describe Court do
     end
 
     it "should allow a valid explanation to be added" do
-      dummy_explanation = (0...40).map { ('a'..'z').to_a[rand(26)] }.join #Random String of 40 Characters
+      dummy_explanation = (0...40).map { ('a'..'z').to_a[rand(26)] }.join # Random String of 40 Characters
       @court1.contacts.create(telephone: "0206 082 1890", contact_type_id: @helpdesk.id, explanation: "Test explanation")
       @court1.contacts.count.should == 1
     end

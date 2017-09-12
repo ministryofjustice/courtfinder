@@ -6,18 +6,17 @@ describe Admin::CourtTypesController do
     sign_in User.create!(name: 'hello', admin: true, email: 'lol@biz.info', password: 'irrelevant')
   end
 
-
   describe "#update" do
-    let(:court_type){ CourtType.new(id: 123) }
-    before{
+    let(:court_type) { CourtType.new(id: 123) }
+    before {
       CourtType.stub(:find).and_return(court_type)
       court_type.stub(id: 123)
     }
 
-    let(:params){ { id: 123, court_type: {name: 'new court type'} } }
+    let(:params) { { id: 123, court_type: { name: 'new court type' } } }
 
     context "that works" do
-      before{
+      before {
         CourtType.any_instance.stub(update_attributes: true)
       }
 
@@ -38,12 +37,12 @@ describe Admin::CourtTypesController do
     end
 
     context "that doesn't work" do
-      before{
+      before {
         CourtType.any_instance.stub(update_attributes: false)
       }
 
       context "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit path" do
           patch :update, params
@@ -57,7 +56,7 @@ describe Admin::CourtTypesController do
       end
 
       context "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
         it "responds to json" do
           patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
@@ -68,11 +67,11 @@ describe Admin::CourtTypesController do
   end
 
   describe "#create" do
-    let(:params){ { court_type: {name: 'new court type'} } }
+    let(:params) { { court_type: { name: 'new court type' } } }
 
     context "that saves ok" do
       it "creates an court type" do
-        expect{
+        expect {
           post :create, params
         }.to change { CourtType.count }.by(1)
       end
@@ -93,10 +92,10 @@ describe Admin::CourtTypesController do
       end
     end
     context "that doesn't save ok" do
-      before{ CourtType.any_instance.stub(save: false) }
+      before { CourtType.any_instance.stub(save: false) }
 
       it "does not create an court type" do
-        expect{
+        expect {
           post :create, params
         }.to_not change { CourtType.count }
       end
@@ -134,8 +133,8 @@ describe Admin::CourtTypesController do
   end
 
   describe "#index" do
-    let(:ordered_court_types){ double('ordered court types') }
-    let(:mock_court_types){ double('all court types', order: ordered_court_types) }
+    let(:ordered_court_types) { double('ordered court types') }
+    let(:mock_court_types) { double('all court types', order: ordered_court_types) }
 
     it "assigns all court_types to @court_types" do
       expect(CourtType).to receive(:all).and_return(mock_court_types)
@@ -155,8 +154,8 @@ describe Admin::CourtTypesController do
   end
 
   describe "#show" do
-    let(:court_type){ CourtType.create!(name: 'mock court type') }
-    before{
+    let(:court_type) { CourtType.create!(name: 'mock court type') }
+    before {
       CourtType.stub(:find).and_return(court_type)
     }
 
@@ -188,7 +187,6 @@ describe Admin::CourtTypesController do
       expect(assigns[:court_type]).to be_a(CourtType)
     end
 
-
     it "responds to html" do
       get :new, format: :html
       expect(response.content_type).to eq('text/html')
@@ -197,8 +195,8 @@ describe Admin::CourtTypesController do
   end
 
   describe "#edit" do
-    let(:mock_court_type){ CourtType.new(id: 123, name: 'mock court type') }
-    before{
+    let(:mock_court_type) { CourtType.new(id: 123, name: 'mock court type') }
+    before {
       CourtType.stub(:find).and_return(mock_court_type)
     }
 

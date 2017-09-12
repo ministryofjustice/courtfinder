@@ -6,7 +6,7 @@ describe Facility do
   describe 'dimension validation' do
     let(:facility) { build(:facility, name: 'baby', image_file: image_file) }
     context 'valid' do
-      let(:image_file) { File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png") }
+      let(:image_file) { File.open("#{Rails.root}/spec/fixtures/assets/firstaid.png") }
 
       it { expect(facility).to be_valid }
       it 'save image_path to image_file_path' do
@@ -17,7 +17,7 @@ describe Facility do
     end
 
     context 'invalid' do
-      let(:image_file) { File.open("#{ Rails.root }/spec/fixtures/assets/test.png") }
+      let(:image_file) { File.open("#{Rails.root}/spec/fixtures/assets/test.png") }
 
       it { expect(facility).not_to be_valid }
     end
