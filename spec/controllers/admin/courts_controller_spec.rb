@@ -17,9 +17,9 @@ describe Admin::CourtsController do
     let(:params) { { id: @court.id, court: { name: 'Another court of law' } } }
 
     context "that works" do
-      before {
+      before do
         Court.any_instance.stub(update_attributes: true)
-      }
+      end
 
       context "a html request" do
         it "redirects to the edit path" do
@@ -39,9 +39,9 @@ describe Admin::CourtsController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         Court.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         context "with a redirect_url param" do
@@ -101,9 +101,9 @@ describe Admin::CourtsController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         Court.any_instance.stub(save: false)
-      }
+      end
 
       context "a html request" do
         it "rerenders the new template" do
@@ -123,10 +123,10 @@ describe Admin::CourtsController do
   end
 
   it "remove record when destroyed" do
-    expect {
+    expect do
       post :destroy, id: @court.id
       response.should redirect_to(admin_courts_path)
-    }.to change { Court.count }.by(-1)
+    end.to change { Court.count }.by(-1)
   end
 
   describe "#new" do
@@ -236,10 +236,10 @@ describe Admin::CourtsController do
     let(:court) { instance_double('Court', id: 2, remits: [remit]) }
     let(:remit) { instance_double('Remit', area_of_law_id: 3) }
 
-    before {
+    before do
       allow(Court).to receive(:by_name).and_return([court])
       allow(AreaOfLaw).to receive(:all).and_return('all areas of law')
-    }
+    end
     it "gets one page of courts by name" do
       get :areas_of_law
     end
@@ -262,10 +262,10 @@ describe Admin::CourtsController do
 
   describe "#court_types" do
     let(:mock_courts_by_name) { double('courts by name', paginate: 'paginated courts by name') }
-    before {
+    before do
       Court.stub(:by_name).and_return(mock_courts_by_name)
       CourtType.stub(:order).and_return('all court types')
-    }
+    end
     it "gets one page of courts by name" do
       mock_courts_by_name.should_receive(:paginate).with(page: '1', per_page: 30).and_return 'paginated courts by name'
       get :court_types, page: 1
@@ -288,9 +288,9 @@ describe Admin::CourtsController do
   end
 
   describe "#civil" do
-    before {
+    before do
       Court.stub_chain(:by_area_of_law, :by_name, :paginate).and_return('courts')
-    }
+    end
     it "assigns courts" do
       get :civil
       expect(assigns(:courts)).to eq('courts')

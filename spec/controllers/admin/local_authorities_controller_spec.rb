@@ -46,11 +46,11 @@ describe Admin::LocalAuthoritiesController do
 
   describe "#create" do
     context "with valid params" do
-      let(:params) {
+      let(:params) do
         {
           local_authority: { name: 'Authority name' }
         }
-      }
+      end
 
       it "creates a new LocalAuthority" do
         expect { post(:create, params) }.to change(LocalAuthority, :count).by(1)
@@ -63,11 +63,11 @@ describe Admin::LocalAuthoritiesController do
     end
 
     context "with invalid params" do
-      let(:params) {
+      let(:params) do
         {
           local_authority: { name: '' }
         }
-      }
+      end
 
       it "does not create a new LocalAuthority" do
         expect { post(:create, params) }.to_not change(LocalAuthority, :count)
@@ -82,17 +82,17 @@ describe Admin::LocalAuthoritiesController do
 
   describe "#update" do
     let(:mock_authority) { double('local authority', update_attributes: success) }
-    before {
+    before do
       allow(LocalAuthority).to receive(:find).and_return(mock_authority)
-    }
+    end
     context "with valid params" do
       let(:success) { true }
-      let(:params) {
+      let(:params) do
         {
           id: 123,
           local_authority: { name: 'Authority name' }
         }
-      }
+      end
 
       it "updates the LocalAuthority" do
         mock_authority.should_receive(:update_attributes).and_return(true)
@@ -107,12 +107,12 @@ describe Admin::LocalAuthoritiesController do
 
     context "with invalid params" do
       let(:success) { false }
-      let(:params) {
+      let(:params) do
         {
           id: 123,
           local_authority: { name: '' }
         }
-      }
+      end
 
       it "does not update a new LocalAuthority" do
         expect { post(:update, params) }.to_not change(LocalAuthority, :count)
@@ -127,9 +127,9 @@ describe Admin::LocalAuthoritiesController do
 
   describe "#edit" do
     let(:mock_authority) { LocalAuthority.new }
-    before {
+    before do
       LocalAuthority.stub(:find).and_return(mock_authority)
-    }
+    end
     it "gets the local authority by id" do
       LocalAuthority.should_receive(:find).with('123').and_return(mock_authority)
       get :edit, id: 123
@@ -155,9 +155,9 @@ describe Admin::LocalAuthoritiesController do
     let(:success) { true }
     let(:params) { { id: 123 } }
 
-    before {
+    before do
       LocalAuthority.stub(:find).and_return(mock_authority)
-    }
+    end
     it "tries to destroy the LocalAuthority" do
       mock_authority.should_receive(:destroy).and_return(true)
       delete(:destroy, params)

@@ -31,9 +31,9 @@ describe Admin::UsersController do
 
   describe "#show" do
     let(:mock_user) { User.new }
-    before {
+    before do
       allow(User).to receive(:find).and_return(mock_user)
-    }
+    end
     it "gets the user by id" do
       expect(User).to receive(:find).with('123').and_return(mock_user)
       get :show, id: 123
@@ -57,17 +57,17 @@ describe Admin::UsersController do
 
   describe "#update" do
     let(:mock_user) { double('user', update_attributes: success) }
-    before {
+    before do
       allow(User).to receive(:find).and_return(mock_user)
-    }
+    end
     context "with valid params" do
       let(:success) { true }
-      let(:params) {
+      let(:params) do
         {
           id: 123,
           user: { name: 'user name' }
         }
-      }
+      end
 
       it "updates the User" do
         expect(mock_user).to receive(:update_attributes).and_return(true)
@@ -82,12 +82,12 @@ describe Admin::UsersController do
 
     context "with invalid params" do
       let(:success) { false }
-      let(:params) {
+      let(:params) do
         {
           id: 123,
           user: { name: '' }
         }
-      }
+      end
 
       it "does not update a new User" do
         expect { post(:update, params) }.to_not change(User, :count)
@@ -105,9 +105,9 @@ describe Admin::UsersController do
     let(:success) { true }
     let(:params) { { id: 123 } }
 
-    before {
+    before do
       allow(User).to receive(:find).and_return(mock_user)
-    }
+    end
     it "tries to destroy the User" do
       expect(mock_user).to receive(:destroy).and_return(true)
       delete(:destroy, params)

@@ -268,10 +268,10 @@ describe Admin::AreasController do
 
   it "remove area on destroy" do
     at = Area.create!(name: 'somewhere')
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_areas_path)
-    }.to change { Area.count }.by(-1)
+    end.to change { Area.count }.by(-1)
   end
 
 end

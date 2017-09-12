@@ -8,17 +8,17 @@ describe Admin::CourtTypesController do
 
   describe "#update" do
     let(:court_type) { CourtType.new(id: 123) }
-    before {
+    before do
       CourtType.stub(:find).and_return(court_type)
       court_type.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, court_type: { name: 'new court type' } } }
 
     context "that works" do
-      before {
+      before do
         CourtType.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the edit path" do
         patch :update, params
@@ -37,9 +37,9 @@ describe Admin::CourtTypesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         CourtType.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -71,9 +71,9 @@ describe Admin::CourtTypesController do
 
     context "that saves ok" do
       it "creates an court type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { CourtType.count }.by(1)
+        end.to change { CourtType.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -95,9 +95,9 @@ describe Admin::CourtTypesController do
       before { CourtType.any_instance.stub(save: false) }
 
       it "does not create an court type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { CourtType.count }
+        end.to_not change { CourtType.count }
       end
 
       it "rerenders the new template" do
@@ -126,10 +126,10 @@ describe Admin::CourtTypesController do
 
   it "removes court_type" do
     at = CourtType.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_court_types_path)
-    }.to change { CourtType.count }.by(-1)
+    end.to change { CourtType.count }.by(-1)
   end
 
   describe "#index" do
@@ -155,9 +155,9 @@ describe Admin::CourtTypesController do
 
   describe "#show" do
     let(:court_type) { CourtType.create!(name: 'mock court type') }
-    before {
+    before do
       CourtType.stub(:find).and_return(court_type)
-    }
+    end
 
     it "gets the right court_type" do
       CourtType.should_receive(:find).with(court_type.id.to_s).and_return(court_type)
@@ -196,9 +196,9 @@ describe Admin::CourtTypesController do
 
   describe "#edit" do
     let(:mock_court_type) { CourtType.new(id: 123, name: 'mock court type') }
-    before {
+    before do
       CourtType.stub(:find).and_return(mock_court_type)
-    }
+    end
 
     it "gets the right court_type" do
       CourtType.should_receive(:find).with('123').and_return(mock_court_type)

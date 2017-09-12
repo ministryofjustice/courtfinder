@@ -17,14 +17,14 @@ describe PostcodeCourt do
     let(:postcode_code) { 'ab101ab' }
     subject { PostcodeCourt.new(court: court, postcode: postcode_code) }
 
-    before {
+    before do
       OfficialPostcode.create(
         postcode: 'AB10 1AB',
         sector: 'AB10 1',
         district: 'AB10',
         area: 'AB'
       )
-    }
+    end
 
     it 'forces the postcode to uppercase and correct format' do
       subject.save!

@@ -9,17 +9,17 @@ describe Admin::AddressTypesController do
 
   describe "#update" do
     let(:address_type) { AddressType.new(id: 123) }
-    before {
+    before do
       AddressType.stub(:find).and_return(address_type)
       address_type.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, address_type: { name: 'new address type' } } }
 
     context "that works" do
-      before {
+      before do
         AddressType.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the edit path" do
         patch :update, params
@@ -38,9 +38,9 @@ describe Admin::AddressTypesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         AddressType.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -72,9 +72,9 @@ describe Admin::AddressTypesController do
 
     context "that saves ok" do
       it "creates an address type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { AddressType.count }.by(1)
+        end.to change { AddressType.count }.by(1)
       end
 
       it "redirects to the edit path" do
@@ -96,9 +96,9 @@ describe Admin::AddressTypesController do
       before { AddressType.any_instance.stub(save: false) }
 
       it "does not create an address type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { AddressType.count }
+        end.to_not change { AddressType.count }
       end
 
       it "rerenders the new template" do
@@ -127,10 +127,10 @@ describe Admin::AddressTypesController do
 
   it "removes address type on destroy" do
     at = AddressType.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_address_types_path)
-    }.to change { AddressType.count }.by(-1)
+    end.to change { AddressType.count }.by(-1)
   end
 
   describe "#index" do
@@ -152,9 +152,9 @@ describe Admin::AddressTypesController do
 
   describe "#show" do
     let(:mock_address_type) { AddressType.new(id: 123, name: 'mock address type') }
-    before {
+    before do
       AddressType.stub(:find).and_return(mock_address_type)
-    }
+    end
 
     it "gets the right address_type" do
       AddressType.should_receive(:find).with('123').and_return(mock_address_type)
@@ -197,9 +197,9 @@ describe Admin::AddressTypesController do
 
   describe "#edit" do
     let(:mock_address_type) { AddressType.new(id: 123, name: 'mock address type') }
-    before {
+    before do
       AddressType.stub(:find).and_return(mock_address_type)
-    }
+    end
 
     it "gets the right address_type" do
       AddressType.should_receive(:find).with('123').and_return(mock_address_type)

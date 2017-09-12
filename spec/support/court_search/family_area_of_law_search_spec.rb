@@ -5,10 +5,10 @@ shared_examples "a search with area of law" do |area_of_law_name|
   let!(:adoption) { create(:area_of_law, name: 'Adoption', type_adoption: true) }
   let!(:at_visiting) { create(:address_type, name: "Visiting") }
   let!(:town) { create(:town, name: "London") }
-  let!(:visiting_address) {
+  let!(:visiting_address) do
     create(:address, address_line_1: "Some street",
                      address_type_id: at_visiting.id, postcode: 'SE19NH', town_id: town.id)
-  }
+  end
 
   context "Chosen area of law is #{area_of_law_name}" do
     include CourtLocalAuthorityHelper

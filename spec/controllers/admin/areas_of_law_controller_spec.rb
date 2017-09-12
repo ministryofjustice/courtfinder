@@ -268,10 +268,10 @@ describe Admin::AreasOfLawController do
 
   it "remove area_of_law on destroy" do
     at = AreaOfLaw.create!(name: 'somewhere')
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_areas_of_law_path)
-    }.to change { AreaOfLaw.count }.by(-1)
+    end.to change { AreaOfLaw.count }.by(-1)
   end
 
 end

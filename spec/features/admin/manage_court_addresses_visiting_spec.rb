@@ -11,31 +11,31 @@ feature 'manage courts addresses' do
 
   # Address type Visiting
   let!(:address_type_visiting) { create(:address_type, name: "Visiting") }
-  let(:court2) {
+  let(:court2) do
     build(:court, :civil,
       name: "Visiting Magistrates' Court",
       slug: "visiting_magistrates_court")
-  }
+  end
 
-  let!(:address_court2) {
+  let!(:address_court2) do
     create(:address, court: court2,
                      address_type_id: address_type_visiting["id"],
                      postcode: 'M60 9DJ', address_line_1: "AD1", town: town1)
-  }
+  end
 
   # Address type Postal and visiting
   let!(:address_type_postal_and_visiting) { create(:address_type, name: "Postal and visiting") }
-  let(:court3) {
+  let(:court3) do
     build(:court, :civil,
       name: "Postal and Visiting Magistrates' Court",
       slug: "postal_and_visiting_magistrates_court")
-  }
+  end
 
-  let!(:address_court3) {
+  let!(:address_court3) do
     create(:address, court: court3,
                      address_type_id: address_type_postal_and_visiting["id"],
                      postcode: 'M60 9DJ', address_line_1: "AD1", town: town1)
-  }
+  end
 
   scenario 'Check visiting lat & lng' do
     court2.addresses << address_court2

@@ -270,9 +270,9 @@ describe Admin::AddressesController do
 
   it "remove address on destroyed" do
     at = Address.create!(address_line_1: 'Room 101', town: Town.create!)
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_addresses_path)
-    }.to change { Address.count }.by(-1)
+    end.to change { Address.count }.by(-1)
   end
 end

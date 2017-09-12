@@ -8,17 +8,17 @@ describe Admin::CountriesController do
 
   describe "#update" do
     let(:country) { Country.new(id: 123) }
-    before {
+    before do
       Country.stub(:find).and_return(country)
       country.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, country: { name: 'new contact type' } } }
 
     context "that works" do
-      before {
+      before do
         Country.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the edit path" do
         patch :update, params
@@ -37,9 +37,9 @@ describe Admin::CountriesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         Country.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -71,9 +71,9 @@ describe Admin::CountriesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { Country.count }.by(1)
+        end.to change { Country.count }.by(1)
       end
 
       it "redirects to the edit path" do
@@ -95,9 +95,9 @@ describe Admin::CountriesController do
       before { Country.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { Country.count }
+        end.to_not change { Country.count }
       end
 
       it "rerenders the new template" do
@@ -126,10 +126,10 @@ describe Admin::CountriesController do
 
   it "purges the cache when a contact type is destroyed" do
     at = Country.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_countries_path)
-    }.to change { Country.count }.by(-1)
+    end.to change { Country.count }.by(-1)
   end
 
   describe "#index" do
@@ -151,9 +151,9 @@ describe Admin::CountriesController do
 
   describe "#show" do
     let(:mock_country) { Country.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       Country.stub(:find).and_return(mock_country)
-    }
+    end
 
     it "gets the right country" do
       Country.should_receive(:find).with('123').and_return(mock_country)
@@ -196,9 +196,9 @@ describe Admin::CountriesController do
 
   describe "#edit" do
     let(:mock_country) { Country.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       Country.stub(:find).and_return(mock_country)
-    }
+    end
 
     it "gets the right country" do
       Country.should_receive(:find).with('123').and_return(mock_country)

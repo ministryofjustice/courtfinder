@@ -203,9 +203,9 @@ describe Admin::AreaOfLawGroupsController do
 
   it "delete area_of_law_group on destroyed" do
     at = AreaOfLawGroup.create!(name: 'somewhere')
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_area_of_law_groups_path)
-    }.to change { AreaOfLawGroup.count }.by(-1)
+    end.to change { AreaOfLawGroup.count }.by(-1)
   end
 end

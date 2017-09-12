@@ -75,10 +75,10 @@ describe Address do
       let(:town) { Town.new(name: 'Testington') }
       let(:county) { County.new(name: 'Testshire') }
 
-      before {
+      before do
         subject.town = town
         subject.town.send(:county=, county)
-      }
+      end
 
       it "includes the name of the town and county" do
         expect(subject.full('|')).to include('Testington|Testshire')
@@ -90,9 +90,9 @@ describe Address do
     end
 
     describe "any blank element" do
-      before {
+      before do
         subject.address_line_2 = nil
-      }
+      end
       it "gets removed" do
         expect(subject.full('|')).to_not match(/\|\s*\|/)
       end

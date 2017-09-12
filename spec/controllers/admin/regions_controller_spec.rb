@@ -8,17 +8,17 @@ describe Admin::RegionsController do
 
   describe "#update" do
     let(:region) { Region.new(id: 123) }
-    before {
+    before do
       Region.stub(:find).and_return(region)
       region.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, region: { name: 'new region' } } }
 
     context "that works" do
-      before {
+      before do
         Region.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the show path" do
         patch :update, params
@@ -37,9 +37,9 @@ describe Admin::RegionsController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         Region.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -71,9 +71,9 @@ describe Admin::RegionsController do
 
     context "that saves ok" do
       it "creates an region" do
-        expect {
+        expect do
           post :create, params
-        }.to change { Region.count }.by(1)
+        end.to change { Region.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -95,9 +95,9 @@ describe Admin::RegionsController do
       before { Region.any_instance.stub(save: false) }
 
       it "does not create an region" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { Region.count }
+        end.to_not change { Region.count }
       end
 
       it "rerenders the new template" do
@@ -126,10 +126,10 @@ describe Admin::RegionsController do
 
   it "remove region on destroy" do
     at = Region.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_regions_path)
-    }.to change { Region.count }.by(-1)
+    end.to change { Region.count }.by(-1)
   end
 
   describe "#index" do
@@ -151,9 +151,9 @@ describe Admin::RegionsController do
 
   describe "#show" do
     let(:mock_region) { Region.new(id: 123, name: 'mock region') }
-    before {
+    before do
       Region.stub(:find).and_return(mock_region)
-    }
+    end
 
     it "gets the right region" do
       Region.should_receive(:find).with('123').and_return(mock_region)
@@ -196,9 +196,9 @@ describe Admin::RegionsController do
 
   describe "#edit" do
     let(:mock_region) { Region.new(id: 123, name: 'mock region') }
-    before {
+    before do
       Region.stub(:find).and_return(mock_region)
-    }
+    end
 
     it "gets the right region" do
       Region.should_receive(:find).with('123').and_return(mock_region)

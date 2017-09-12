@@ -8,17 +8,17 @@ describe Admin::TownsController do
 
   describe "#update" do
     let(:town) { Town.new(id: 123) }
-    before {
+    before do
       Town.stub(:find).and_return(town)
       town.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, town: { name: 'new town' } } }
 
     context "that works" do
-      before {
+      before do
         Town.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the show path" do
         patch :update, params
@@ -37,9 +37,9 @@ describe Admin::TownsController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         Town.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -71,9 +71,9 @@ describe Admin::TownsController do
 
     context "that saves ok" do
       it "creates a town" do
-        expect {
+        expect do
           post :create, params
-        }.to change { Town.count }.by(1)
+        end.to change { Town.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -95,9 +95,9 @@ describe Admin::TownsController do
       before { Town.any_instance.stub(save: false) }
 
       it "does not create a town" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { Town.count }
+        end.to_not change { Town.count }
       end
 
       it "rerenders the new template" do
@@ -143,9 +143,9 @@ describe Admin::TownsController do
 
   describe "#show" do
     let(:mock_town) { Town.new(id: 123, name: 'mock town') }
-    before {
+    before do
       Town.stub(:find).and_return(mock_town)
-    }
+    end
 
     it "gets the right town" do
       Town.should_receive(:find).with('123').and_return(mock_town)
@@ -188,9 +188,9 @@ describe Admin::TownsController do
 
   describe "#edit" do
     let(:mock_town) { Town.new(id: 123, name: 'mock town') }
-    before {
+    before do
       Town.stub(:find).and_return(mock_town)
-    }
+    end
 
     it "gets the right town" do
       Town.should_receive(:find).with('123').and_return(mock_town)
@@ -200,9 +200,9 @@ describe Admin::TownsController do
 
   it "remove town on destroy" do
     at = Town.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_towns_path)
-    }.to change { Town.count }.by(-1)
+    end.to change { Town.count }.by(-1)
   end
 end

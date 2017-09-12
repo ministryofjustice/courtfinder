@@ -93,9 +93,9 @@ describe CourtSearch, pending: 'not used anymore' do
 
   xit "should propagate exceptions to the controller" do
     RestClient::Resource.any_instance.should_receive(:get).and_raise(StandardError)
-    expect {
+    expect do
       CourtSearch.new('EC1M 5UQ').results
-    }.to raise_error(StandardError)
+    end.to raise_error(StandardError)
   end
 
   xit "should get initialized with proper timeout values" do
@@ -142,10 +142,10 @@ describe CourtSearch, pending: 'not used anymore' do
     let!(:at_visiting) { create(:address_type, name: "Visiting") }
     let!(:town) { create(:town, name: "London") }
 
-    let!(:visiting_address) {
+    let!(:visiting_address) do
       create(:address, address_line_1: "Some street",
                        address_type_id: at_visiting.id, postcode: 'EH22 4AD', town_id: town.id)
-    }
+    end
 
     xit "should limit search to a maximum of 20 results" do
       VCR.use_cassette('postcode_found') do

@@ -8,17 +8,17 @@ describe Admin::ContactTypesController do
 
   describe "#update" do
     let(:contact_type) { ContactType.new(id: 123) }
-    before {
+    before do
       ContactType.stub(:find).and_return(contact_type)
       contact_type.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, contact_type: { name: 'new contact type' } } }
 
     context "that works" do
-      before {
+      before do
         ContactType.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the show path" do
         patch :update, params
@@ -37,9 +37,9 @@ describe Admin::ContactTypesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         ContactType.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -71,9 +71,9 @@ describe Admin::ContactTypesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { ContactType.count }.by(1)
+        end.to change { ContactType.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -95,9 +95,9 @@ describe Admin::ContactTypesController do
       before { ContactType.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { ContactType.count }
+        end.to_not change { ContactType.count }
       end
 
       it "rerenders the new template" do
@@ -126,10 +126,10 @@ describe Admin::ContactTypesController do
 
   it "remove contact type on destroy" do
     at = ContactType.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_contact_types_path)
-    }.to change { ContactType.count }.by(-1)
+    end.to change { ContactType.count }.by(-1)
   end
 
   describe "#index" do
@@ -151,9 +151,9 @@ describe Admin::ContactTypesController do
 
   describe "#show" do
     let(:mock_contact_type) { ContactType.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       ContactType.stub(:find).and_return(mock_contact_type)
-    }
+    end
 
     it "gets the right contact_type" do
       ContactType.should_receive(:find).with('123').and_return(mock_contact_type)
@@ -196,9 +196,9 @@ describe Admin::ContactTypesController do
 
   describe "#edit" do
     let(:mock_contact_type) { ContactType.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       ContactType.stub(:find).and_return(mock_contact_type)
-    }
+    end
 
     it "gets the right contact_type" do
       ContactType.should_receive(:find).with('123').and_return(mock_contact_type)

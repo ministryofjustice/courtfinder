@@ -7,17 +7,17 @@ describe Admin::FacilitiesController do
 
   describe "#update" do
     let(:facility) { Facility.new(id: 123) }
-    before {
+    before do
       Facility.stub(:find).and_return(facility)
       facility.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, facility: { name: 'new contact type' } } }
 
     context "that works" do
-      before {
+      before do
         Facility.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the show path" do
         patch :update, params
@@ -36,9 +36,9 @@ describe Admin::FacilitiesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         Facility.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -70,9 +70,9 @@ describe Admin::FacilitiesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { Facility.count }.by(1)
+        end.to change { Facility.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -94,9 +94,9 @@ describe Admin::FacilitiesController do
       before { Facility.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { Facility.count }
+        end.to_not change { Facility.count }
       end
 
       it "rerenders the new template" do
@@ -142,9 +142,9 @@ describe Admin::FacilitiesController do
 
   describe "#show" do
     let(:mock_facility) { Facility.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       Facility.stub(:find).and_return(mock_facility)
-    }
+    end
 
     it "gets the right facility" do
       Facility.should_receive(:find).with('123').and_return(mock_facility)
@@ -187,9 +187,9 @@ describe Admin::FacilitiesController do
 
   describe "#edit" do
     let(:mock_facility) { Facility.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       Facility.stub(:find).and_return(mock_facility)
-    }
+    end
 
     it "gets the right facility" do
       Facility.should_receive(:find).with('123').and_return(mock_facility)

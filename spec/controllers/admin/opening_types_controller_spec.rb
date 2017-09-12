@@ -8,17 +8,17 @@ describe Admin::OpeningTypesController do
 
   describe "#update" do
     let(:opening_type) { OpeningType.new(id: 123) }
-    before {
+    before do
       OpeningType.stub(:find).and_return(opening_type)
       opening_type.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, opening_type: { name: 'new opening type' } } }
 
     context "that works" do
-      before {
+      before do
         OpeningType.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the show path" do
         patch :update, params
@@ -37,9 +37,9 @@ describe Admin::OpeningTypesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         OpeningType.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -71,9 +71,9 @@ describe Admin::OpeningTypesController do
 
     context "that saves ok" do
       it "creates an opening type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { OpeningType.count }.by(1)
+        end.to change { OpeningType.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -95,9 +95,9 @@ describe Admin::OpeningTypesController do
       before { OpeningType.any_instance.stub(save: false) }
 
       it "does not create an opening type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { OpeningType.count }
+        end.to_not change { OpeningType.count }
       end
 
       it "rerenders the new template" do
@@ -143,9 +143,9 @@ describe Admin::OpeningTypesController do
 
   describe "#show" do
     let(:mock_opening_type) { OpeningType.new(id: 123, name: 'mock opening type') }
-    before {
+    before do
       OpeningType.stub(:find).and_return(mock_opening_type)
-    }
+    end
 
     it "gets the right opening_type" do
       OpeningType.should_receive(:find).with('123').and_return(mock_opening_type)
@@ -188,9 +188,9 @@ describe Admin::OpeningTypesController do
 
   describe "#edit" do
     let(:mock_opening_type) { OpeningType.new(id: 123, name: 'mock opening type') }
-    before {
+    before do
       OpeningType.stub(:find).and_return(mock_opening_type)
-    }
+    end
 
     it "gets the right opening_type" do
       OpeningType.should_receive(:find).with('123').and_return(mock_opening_type)

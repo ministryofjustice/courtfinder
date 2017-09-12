@@ -10,17 +10,17 @@ feature 'manage courts address postal' do
 
   # Address type Postal
   let(:address_type_postal) { create(:address_type, name: "Postal") }
-  let(:court1) {
+  let(:court1) do
     build(:court, :civil,
       name: "Postal Magistrates' Court",
       slug: "postal_magistrates_court")
-  }
+  end
 
-  let(:address_court1) {
+  let(:address_court1) do
     create(:address, court: court1,
                      address_type_id: address_type_postal["id"],
                      postcode: 'M60 9DJ', address_line_1: "AD1", town: town1)
-  }
+  end
 
   scenario 'Check postal lat  & lng' do
     court1.addresses << address_court1

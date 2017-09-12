@@ -7,17 +7,17 @@ describe Admin::CountiesController do
 
   describe "#update" do
     let(:county) { County.new(id: 123) }
-    before {
+    before do
       County.stub(:find).and_return(county)
       county.stub(id: 123)
-    }
+    end
 
     let(:params) { { id: 123, county: { name: 'new contact type' } } }
 
     context "that works" do
-      before {
+      before do
         County.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the edit path" do
         patch :update, params
@@ -36,9 +36,9 @@ describe Admin::CountiesController do
     end
 
     context "that doesn't work" do
-      before {
+      before do
         County.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
         before { params[:format] = :html }
@@ -70,9 +70,9 @@ describe Admin::CountiesController do
 
     context "that saves ok" do
       it "creates an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to change { County.count }.by(1)
+        end.to change { County.count }.by(1)
       end
 
       it "redirects to the edit path" do
@@ -94,9 +94,9 @@ describe Admin::CountiesController do
       before { County.any_instance.stub(save: false) }
 
       it "does not create an contact type" do
-        expect {
+        expect do
           post :create, params
-        }.to_not change { County.count }
+        end.to_not change { County.count }
       end
 
       it "rerenders the new template" do
@@ -125,10 +125,10 @@ describe Admin::CountiesController do
 
   it "remove county on destroy" do
     at = County.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_counties_path)
-    }.to change { County.count }.by(-1)
+    end.to change { County.count }.by(-1)
   end
 
   describe "#index" do
@@ -150,9 +150,9 @@ describe Admin::CountiesController do
 
   describe "#show" do
     let(:mock_county) { County.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       County.stub(:find).and_return(mock_county)
-    }
+    end
 
     it "gets the right county" do
       County.should_receive(:find).with('123').and_return(mock_county)
@@ -195,9 +195,9 @@ describe Admin::CountiesController do
 
   describe "#edit" do
     let(:mock_county) { County.new(id: 123, name: 'mock contact type') }
-    before {
+    before do
       County.stub(:find).and_return(mock_county)
-    }
+    end
 
     it "gets the right county" do
       County.should_receive(:find).with('123').and_return(mock_county)
