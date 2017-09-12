@@ -39,7 +39,7 @@ describe Admin::AreasOfLawController do
   end
 
   describe "#update" do
-    let(:area) { area_of_law = AreaOfLaw.create!(name: 'the north') }
+    let(:area) { create(:area_of_law, name: 'the north') }
     let(:params) { { id: area.id, area_of_law: {} } }
 
     context "when it works" do

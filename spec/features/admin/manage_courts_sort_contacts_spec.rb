@@ -38,10 +38,10 @@ feature 'Sort contact numbers' do
       # Order should be Enquries/First/Second/DX/Fax
       # We force Enquires to be first - and place Fax & DX at the end
       uk = find('#contactNumbers').text
-      uk.index("Enquiries").should < uk.index("First")
-      uk.index("First").should < uk.index("Second")
-      uk.index("Second").should < uk.index("Fax")
-      uk.index("Fax").should < uk.index("DX")
+      expect(uk.index("Enquiries")).to be < uk.index("First")
+      expect(uk.index("First")).to be < uk.index("Second")
+      expect(uk.index("Second")).to be < uk.index("Fax")
+      expect(uk.index("Fax")).to be < uk.index("DX")
 
       click_button 'Update'
       expect(page).to have_content('Court was successfully updated')
@@ -55,10 +55,10 @@ feature 'Sort contact numbers' do
       expect(page).to have_content('edit contacts')
 
       uk = find('#contactNumbers').text
-      uk.index("Enquiries").should < uk.index("First")
-      uk.index("First").should < uk.index("Second")
-      uk.index("Second").should < uk.index("Fax")
-      uk.index("Fax").should < uk.index("DX")
+      expect(uk.index("Enquiries")).to be < uk.index("First")
+      expect(uk.index("First")).to be < uk.index("Second")
+      expect(uk.index("Second")).to be < uk.index("Fax")
+      expect(uk.index("Fax")).to be < uk.index("DX")
 
     end
   end

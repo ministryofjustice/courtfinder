@@ -28,7 +28,7 @@ shared_examples "a search with area of law" do |area_of_law_name|
     end
 
     it "should return only one search result if the postcode is found in the Postcode to court mapping" do
-      RestClient.log = "#{Rails.root}/log/mapit_postcodes.log"
+      RestClient.log = Rails.root.join('log', 'mapit_postcodes.log').to_s
       # Location: http://mapit.service.dsd.io/point/4326/-0.103709,51.452335 => SE24 0NG (Inside the Lambeth Borough Council)
       VCR.use_cassette('postcode_found') do
         court_search = CourtSearch.new('SE240NG', area_of_law: area.name)
@@ -68,8 +68,8 @@ shared_examples "a search with area of law" do |area_of_law_name|
       context 'when one of the multiple courts does not have long/lat' do
         it 'should return multiple courts sorted by distance including a court which did not have long/lat' do
           VCR.use_cassette('multiple_courts') do
-            court7.update_attribute(:longitude, nil)
-            court7.update_attribute(:latitude, nil)
+            court7.update(:longitude, nil)
+            court7.update(:latitude, nil)
             court_search = CourtSearch.new('SE240NG', area_of_law: area.name)
             results = court_search.results
             expect(results.fetch(:found_in_area_of_law)).to be > 0

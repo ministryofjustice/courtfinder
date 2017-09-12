@@ -390,7 +390,11 @@ describe Court do
       let(:court2) { create(:court, name: 'Common court name') }
       let(:court3) { create(:court, name: 'Common court name') }
 
-      before { court1; court2; court3 }
+      before do
+        court1
+        court2
+        court3
+      end
 
       it { expect(court1.slug).to eql('common-court-name') }
       it { expect(court2.slug).to eql('common-court-name-a') }

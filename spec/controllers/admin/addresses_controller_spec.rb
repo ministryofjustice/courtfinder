@@ -39,7 +39,7 @@ describe Admin::AddressesController do
   end
 
   describe "#update" do
-    let(:address) { address = Address.create!(address_line_1: 'Room 101', town: Town.create!) }
+    let(:address) { create(:address, address_line_1: 'Room 101', town: Town.create!) }
     let(:params) { { id: address.id, address: {} } }
 
     context "when it works" do

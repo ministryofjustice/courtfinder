@@ -39,7 +39,7 @@ describe Admin::AreasController do
   end
 
   describe "#update" do
-    let(:area) { area = Area.create!(name: 'the north') }
+    let(:area) { create(:area, name: 'the north') }
     let(:params) { { id: area.id, area: {} } }
 
     context "when it works" do

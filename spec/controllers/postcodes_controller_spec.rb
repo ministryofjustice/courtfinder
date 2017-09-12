@@ -28,7 +28,7 @@ describe PostcodesController, pending: 'controller not used anymore' do
     end
 
     it 'returns a question mark for no cci_number' do
-      court.update_attribute(:cci_code, nil)
+      court.update(:cci_code, nil)
       get :repossession, format: :csv
 
       data = response.body.split("\n")

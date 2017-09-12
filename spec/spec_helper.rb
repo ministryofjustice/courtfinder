@@ -13,8 +13,12 @@ require 'headless'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| puts "requiring #{f}"; require f }
-Dir[Rails.root.join("lib/**/*.rb")].each { |f| require f }
+
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each do |f|
+  puts "requiring #{f}"
+  require f
+end
+Dir[Rails.root.join('lib', '**', '*.rb')].each { |f| require f }
 
 Faker::Config.locale = 'en-gb'
 
@@ -104,8 +108,9 @@ VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/cassettes'
   config.hook_into :webmock
   config.ignore_hosts '127.0.0.1', 'codeclimate.com'
-  puts "VRC is logging to #{Rails.root}\/log\/vcr.log"
-  config.debug_logger = File.open("#{Rails.root}\/log\/vcr.log", 'w')
+  vcr_log_path = Rails.root.join('log', 'vcr.log')
+  puts "VRC is logging to #{vcr_log_path}"
+  config.debug_logger = File.open(Rails.root.join('log', 'vcr.log').to_s, 'w')
   config.allow_http_connections_when_no_cassette = false
 end
 

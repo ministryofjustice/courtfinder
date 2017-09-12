@@ -89,10 +89,10 @@ describe CourtsController, pending: 'controller not used anymore' do
       @county_court.contacts.create(telephone: "0800 800 8080")
       @county_court.contacts.create(telephone: "0800 800 8081")
       get :show, id: @county_court.slug
-      expect(response.body).to match /Phone/m
-      expect(response.body).to match /0800 800 8081/m
-      expect(response.body).to match /a> or <a href/m
-      expect(response.body).to match /0800 800 8080/m
+      expect(response.body).to match(/Phone/m)
+      expect(response.body).to match(/0800 800 8081/m)
+      expect(response.body).to match(/a> or <a href/m)
+      expect(response.body).to match(/0800 800 8080/m)
     end
 
     context "API" do

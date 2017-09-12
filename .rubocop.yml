@@ -16,7 +16,6 @@ AllCops:
     - 'lib/tasks/cucumber.rake'
     - 'features/support/env.rb'
     - 'script/*'
-    # - 'spec/**/*'
     - 'support/**/*'
     - '/**/*.rake'
     - 'config/**/*'
