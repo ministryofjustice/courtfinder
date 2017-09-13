@@ -16,7 +16,6 @@ AllCops:
     - 'lib/tasks/cucumber.rake'
     - 'features/support/env.rb'
     - 'script/*'
-    - 'spec/**/*'
     - 'support/**/*'
     - '/**/*.rake'
     - 'config/**/*'
@@ -44,8 +43,6 @@ Metrics/AbcSize:
 # but not in the code
 Style/BlockDelimiters:
   Enabled: true
-  Exclude:
-    - 'spec/**/*'
 
 # Don't worry about long methods in specs.
 Metrics/MethodLength:

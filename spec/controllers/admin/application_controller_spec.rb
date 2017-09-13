@@ -11,9 +11,8 @@ describe Admin::ApplicationController do
       ActionDispatch::Request.any_instance.stub(:remote_ip).and_return('1.1.1.1')
 
       data = controller.send(:info_for_paper_trail)
-      expect(data).to include( ip: '1.1.1.1' )
+      expect(data).to include(ip: '1.1.1.1')
     end
-
 
   end
 end

@@ -27,7 +27,6 @@ describe Admin::LocalAuthoritiesController do
     end
   end
 
-
   describe "#new" do
     it "assigns @local_authority" do
       get :new, id: 123
@@ -47,14 +46,14 @@ describe Admin::LocalAuthoritiesController do
 
   describe "#create" do
     context "with valid params" do
-      let(:params){
+      let(:params) do
         {
           local_authority: { name: 'Authority name' }
         }
-      }
+      end
 
       it "creates a new LocalAuthority" do
-        expect{ post(:create, params) }.to change(LocalAuthority, :count).by(1)
+        expect { post(:create, params) }.to change(LocalAuthority, :count).by(1)
       end
 
       it "redirects to the index" do
@@ -64,14 +63,14 @@ describe Admin::LocalAuthoritiesController do
     end
 
     context "with invalid params" do
-      let(:params){
+      let(:params) do
         {
           local_authority: { name: '' }
         }
-      }
+      end
 
       it "does not create a new LocalAuthority" do
-        expect{ post(:create, params) }.to_not change(LocalAuthority, :count)
+        expect { post(:create, params) }.to_not change(LocalAuthority, :count)
       end
 
       it "re-renders the new template" do
@@ -82,18 +81,18 @@ describe Admin::LocalAuthoritiesController do
   end
 
   describe "#update" do
-    let(:mock_authority){ double('local authority', update_attributes: success) }
-    before{
-      allow(LocalAuthority).to receive(:find).and_return( mock_authority )
-    }
+    let(:mock_authority) { double('local authority', update_attributes: success) }
+    before do
+      allow(LocalAuthority).to receive(:find).and_return(mock_authority)
+    end
     context "with valid params" do
-      let(:success){ true }
-      let(:params){
+      let(:success) { true }
+      let(:params) do
         {
           id: 123,
-          local_authority: {  name: 'Authority name' }
+          local_authority: { name: 'Authority name' }
         }
-      }
+      end
 
       it "updates the LocalAuthority" do
         mock_authority.should_receive(:update_attributes).and_return(true)
@@ -107,16 +106,16 @@ describe Admin::LocalAuthoritiesController do
     end
 
     context "with invalid params" do
-      let(:success){ false }
-      let(:params){
+      let(:success) { false }
+      let(:params) do
         {
           id: 123,
           local_authority: { name: '' }
         }
-      }
+      end
 
       it "does not update a new LocalAuthority" do
-        expect{ post(:update, params) }.to_not change(LocalAuthority, :count)
+        expect { post(:update, params) }.to_not change(LocalAuthority, :count)
       end
 
       it "re-renders the edit template" do
@@ -127,10 +126,10 @@ describe Admin::LocalAuthoritiesController do
   end
 
   describe "#edit" do
-    let(:mock_authority){ LocalAuthority.new }
-    before{
-      LocalAuthority.stub(:find).and_return( mock_authority )
-    }
+    let(:mock_authority) { LocalAuthority.new }
+    before do
+      LocalAuthority.stub(:find).and_return(mock_authority)
+    end
     it "gets the local authority by id" do
       LocalAuthority.should_receive(:find).with('123').and_return(mock_authority)
       get :edit, id: 123
@@ -152,20 +151,20 @@ describe Admin::LocalAuthoritiesController do
   end
 
   describe "#destroy" do
-    let(:mock_authority){ double('local authority', destroy: success) }
-    let(:success){ true }
-    let(:params){ {id: 123} }
+    let(:mock_authority) { double('local authority', destroy: success) }
+    let(:success) { true }
+    let(:params) { { id: 123 } }
 
-    before{
-      LocalAuthority.stub(:find).and_return( mock_authority )
-    }
+    before do
+      LocalAuthority.stub(:find).and_return(mock_authority)
+    end
     it "tries to destroy the LocalAuthority" do
       mock_authority.should_receive(:destroy).and_return(true)
       delete(:destroy, params)
     end
 
     context "when it successfully destroys the local authority" do
-      let(:success){ true }
+      let(:success) { true }
 
       it 'flashes a notice' do
         delete(:destroy, params)
@@ -179,7 +178,7 @@ describe Admin::LocalAuthoritiesController do
     end
 
     context "when it cannot destroy the local authority" do
-      let(:success){ false }
+      let(:success) { false }
       it 'flashes an error' do
         delete(:destroy, params)
         expect(flash[:error]).to_not be_empty

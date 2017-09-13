@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe PostcodesController, pending: 'controller not used anymore' do
-  
+
   describe "GET 'repossession'" do
-    
+
     let!(:court) { create(:court, cci_code: 10) }
-    let!(:postcode_court) { create(:postcode_court, court: court )}
+    let!(:postcode_court) { create(:postcode_court, court: court) }
 
     it 'returns http success' do
       get :repossession, format: :csv
@@ -24,15 +24,15 @@ describe PostcodesController, pending: 'controller not used anymore' do
       get :repossession, format: :csv
 
       data = response.body.split("\n")
-      data[1].should eq([postcode_court.postcode,court_path(court),court.name,court.cci_code].join(','))  
+      data[1].should eq([postcode_court.postcode, court_path(court), court.name, court.cci_code].join(','))
     end
 
     it 'returns a question mark for no cci_number' do
-      court.update_attribute(:cci_code, nil)
+      court.update(:cci_code, nil)
       get :repossession, format: :csv
 
       data = response.body.split("\n")
-      data[1].last.should eq('?')  
+      data[1].last.should eq('?')
     end
   end
 

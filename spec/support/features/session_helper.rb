@@ -2,7 +2,6 @@ module Features
   module SessionHelpers
 
     def sign_in(user = nil, password = nil)
-
       expect(page).to have_content('Sign in')
 
       password ||= password || 'password123'

@@ -2,9 +2,9 @@ require 'spec_helper'
 
 feature 'manage the local authorities for civil and family courts' do
   before(:each) do
-    areas_of_law = %w(Children Divorce Adoption).map { |name| create :area_of_law, name: name }
+    areas_of_law = ['Children', 'Divorce', 'Adoption'].map { |name| create :area_of_law, name: name }
     @court = create :court, areas_of_law: areas_of_law
-    @local_authorities = 3.times.map { create :local_authority }
+    @local_authorities = Array.new(3) { create :local_authority }
 
     visit '/admin'
     sign_in create(:user)

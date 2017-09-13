@@ -6,7 +6,7 @@ describe Admin::EmergencyMessagesController do
 
   before :each do
     sign_in user
-    EmergencyMessage.destroy_all()
+    EmergencyMessage.destroy_all
   end
 
   it "displays the emergency message screen" do
@@ -16,7 +16,7 @@ describe Admin::EmergencyMessagesController do
   end
 
   describe "#update" do
-    let(:params){{ id: message.id, message: { name: 'Emergency message', show: true }}}
+    let(:params) { { id: message.id, message: { name: 'Emergency message', show: true } } }
 
     context "that works" do
       it "does the update" do
@@ -31,7 +31,7 @@ describe Admin::EmergencyMessagesController do
       end
     end
     context "a json request" do
-      before{ params[:format] = :json }
+      before { params[:format] = :json }
 
       it "responds with no content" do
         patch :update, params

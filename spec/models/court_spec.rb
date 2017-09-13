@@ -40,33 +40,33 @@ require "spec_helper"
 describe Court do
   describe 'with basic setup' do
     before(:each) do
-      @court1 = create(:court, :name => "London Court")
-      @court2 = create(:court, :name => "Something else")
-      @ct_county = create(:court_type, :name => "County Court")
-      @ct_crown = create(:court_type, :name => "Crown Court")
-      @ct_magistrate = create(:court_type, :name => "Magistrates Court")
-      @ct_tribunal = create(:court_type, :name => "Tribunal")
-      @ct_family = create(:court_type, :name => "Family Court")
+      @court1 = create(:court, name: "London Court")
+      @court2 = create(:court, name: "Something else")
+      @ct_county = create(:court_type, name: "County Court")
+      @ct_crown = create(:court_type, name: "Crown Court")
+      @ct_magistrate = create(:court_type, name: "Magistrates Court")
+      @ct_tribunal = create(:court_type, name: "Tribunal")
+      @ct_family = create(:court_type, name: "Family Court")
 
-      @at_visiting = create(:address_type, :name => "Visiting")
-      @at_postal = create(:address_type, :name => "Postal")
+      @at_visiting = create(:address_type, name: "Visiting")
+      @at_postal = create(:address_type, name: "Postal")
 
-      @town = create(:town, :name => "London")
+      @town = create(:town, name: "London")
 
-      @visiting_address1 = create(:address, :address_line_1 => "Some street", :postcode => "SW1H9AJ", :address_type_id => @at_visiting.id, :town_id => @town.id)
-      @postal_address = create(:address, :address_line_1 => "Some other street", :address_type_id => @at_postal.id, :town_id => @town.id)
+      @visiting_address1 = create(:address, address_line_1: "Some street", postcode: "SW1H9AJ", address_type_id: @at_visiting.id, town_id: @town.id)
+      @postal_address = create(:address, address_line_1: "Some other street", address_type_id: @at_postal.id, town_id: @town.id)
 
       VCR.use_cassette('postcode_found') do
-        @county_court = create(:court, :name => 'Some County Court', :court_type_ids => [@ct_county.id],
-                                            :address_ids => [@visiting_address1.id, @postal_address.id])
+        @county_court = create(:court, name: 'Some County Court', court_type_ids: [@ct_county.id],
+                                       address_ids: [@visiting_address1.id, @postal_address.id])
       end
 
-      @crown_court = create(:court, :name => 'Some Crown Court', :court_type_ids => [@ct_crown.id],
-                                          :address_ids => [@postal_address.id])
+      @crown_court = create(:court, name: 'Some Crown Court', court_type_ids: [@ct_crown.id],
+                                    address_ids: [@postal_address.id])
 
-      @magistrates_court = create(:court, :name => 'Some Magistrates Court', :court_type_ids => [@ct_magistrate.id])
-      @tribunal = create(:court, :name => 'Some Tribunal', :court_type_ids => [@ct_tribunal.id])
-      @family_court = create(:court, :name => 'Some Family Court', :court_type_ids => [@ct_family.id])
+      @magistrates_court = create(:court, name: 'Some Magistrates Court', court_type_ids: [@ct_magistrate.id])
+      @tribunal = create(:court, name: 'Some Tribunal', court_type_ids: [@ct_tribunal.id])
+      @family_court = create(:court, name: 'Some Family Court', court_type_ids: [@ct_family.id])
 
       @leaflets_types = ["visitor", "defence", "prosecution", "juror"]
     end
@@ -141,9 +141,9 @@ describe Court do
 
     describe "Postcode courts" do
       before(:each) do
-        @london_court = create(:court, :name => "London Court")
-        @london_court.postcode_courts.create(:postcode => 'SE1 9NH')
-        @london_court.postcode_courts.create(:postcode => 'SE15 3AN')
+        @london_court = create(:court, name: "London Court")
+        @london_court.postcode_courts.create(postcode: 'SE1 9NH')
+        @london_court.postcode_courts.create(postcode: 'SE15 3AN')
       end
 
       it "should return a comma separated list of postcodes the court has jurisdiction over" do
@@ -151,7 +151,7 @@ describe Court do
       end
 
       it "should not allow the same postcode to be assigned to more than one court" do
-        pc = @county_court.postcode_courts.new(:postcode => 'SE19NH')
+        pc = @county_court.postcode_courts.new(postcode: 'SE19NH')
         pc.should_not be_valid
       end
     end
@@ -172,8 +172,8 @@ describe Court do
       include CourtLocalAuthorityHelper
 
       before(:each) do
-        @court7 = create(:court, :court_number => 434, :name => 'Children Court A', :display => true, :areas_of_law => [], :latitude => 51.449126, :longitude => -0.110768)
-        @local_authority = LocalAuthority.create(:name => 'Lambeth Borough Council')
+        @court7 = create(:court, court_number: 434, name: 'Children Court A', display: true, areas_of_law: [], latitude: 51.449126, longitude: -0.110768)
+        @local_authority = LocalAuthority.create(name: 'Lambeth Borough Council')
         @area_of_law = create(:area_of_law, name: "Children", type_children: true)
         add_local_authorities_to_court local_authorities: [@local_authority], court: @court7, area_of_law: @area_of_law
       end
@@ -190,7 +190,7 @@ describe Court do
           context 'when there are multiple courts' do
             it 'should return multiple courts sorted by name' do
 
-              @court9 = create(:court, :court_number => 435, :name => 'Children Court B', :display => true, :areas_of_law => [], :latitude => 51.451373, :longitude => -0.106004)
+              @court9 = create(:court, court_number: 435, name: 'Children Court B', display: true, areas_of_law: [], latitude: 51.451373, longitude: -0.106004)
               add_local_authorities_to_court local_authorities: [@local_authority], court: @court9, area_of_law: @area_of_law
 
               expect(Court.for_local_authority_and_area_of_law('Lambeth Borough Council', @area_of_law)).to eq [@court7, @court9]
@@ -232,7 +232,7 @@ describe Court do
       end
 
       describe '#children_local_authorities_list=' do
-        let(:local_authorities) { ['A', 'B'].map{ |name| create(:local_authority, name: "Local Authority #{name}") } }
+        let(:local_authorities) { ['A', 'B'].map { |name| create(:local_authority, name: "Local Authority #{name}") } }
 
         it 'assigns new local authorities from comma seperated list' do
           court.children_local_authorities_list = local_authorities.map(&:name).join(',')
@@ -313,14 +313,14 @@ describe Court do
 
           it 'updates the remit' do
             court.children_single_point_of_entry = true
-            expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_truthy
+            expect(court.remits.find_by!(area_of_law_id: children.id).single_point_of_entry).to be_truthy
           end
         end
 
         context 'when the court has no remit for Children' do
           it 'creates a remit with the appropriate value' do
             court.children_single_point_of_entry = true
-            expect(court.remits.find_by_area_of_law_id!(children.id).single_point_of_entry).to be_truthy
+            expect(court.remits.find_by!(area_of_law_id: children.id).single_point_of_entry).to be_truthy
           end
         end
       end
@@ -390,7 +390,11 @@ describe Court do
       let(:court2) { create(:court, name: 'Common court name') }
       let(:court3) { create(:court, name: 'Common court name') }
 
-      before { court1; court2; court3 }
+      before do
+        court1
+        court2
+        court3
+      end
 
       it { expect(court1.slug).to eql('common-court-name') }
       it { expect(court2.slug).to eql('common-court-name-a') }

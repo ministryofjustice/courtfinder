@@ -4,14 +4,14 @@ describe NotificationsMailer do
   before :each do
     NotificationsMailer.default to: "test@dsd.io"
     @form_params = {
-        :feedback => {
-            "rating" => 5,
-            "text" => "what a beautiful site",
-            "email" => "hermajesty@imperialawesomeness.com"
-            },
-        "browser" => "Chrome",
-        "service" => "Court finder",
-        "referrer" => "some-page-on-the-site"
+      :feedback => {
+        "rating" => 5,
+        "text" => "what a beautiful site",
+        "email" => "hermajesty@imperialawesomeness.com"
+      },
+      "browser" => "Chrome",
+      "service" => "Court finder",
+      "referrer" => "some-page-on-the-site"
     }
     @feedback_email = NotificationsMailer.new_message(@form_params)
   end

@@ -28,7 +28,6 @@ describe AreaOfLaw do
   it { should validate_presence_of(:name) }
   it { should belong_to(:group).class_name('AreaOfLawGroup') }
 
-
   let(:area) { create(:area_of_law, name: 'law1') }
 
   describe '#to_param' do

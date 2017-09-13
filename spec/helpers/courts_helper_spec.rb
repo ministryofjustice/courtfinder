@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CourtsHelper do
   describe "Court numbers display helper" do
-    let(:court1) { create(:court, name: 'London Court' ) }
+    let(:court1) { create(:court, name: 'London Court') }
     let(:court2) { create(:court, name: 'London Court', court_number: 2434) }
     let(:court3) { create(:court, name: 'London Court', cci_code: 980) }
     let(:court4) { create(:court, name: 'London Court', court_number: 2434, cci_code: 980) }
@@ -58,10 +58,10 @@ describe CourtsHelper do
   end
 
   describe "towns_with_county_where_duplicates_exist" do
-    let(:town1){ Town.new(name:'town 1') }
-    let(:town2){ Town.new(name:'town 2') }
-    let(:towns){ [town1, town2] }
-    before{ Town.stub(with_county_name: Town, with_duplicate_count: Town, select: towns) }
+    let(:town1) { Town.new(name: 'town 1') }
+    let(:town2) { Town.new(name: 'town 2') }
+    let(:towns) { [town1, town2] }
+    before { Town.stub(with_county_name: Town, with_duplicate_count: Town, select: towns) }
 
     it "gets the Towns with county name" do
       Town.should_receive(:with_county_name).and_return(Town)
@@ -81,9 +81,9 @@ describe CourtsHelper do
     describe "each returned town" do
 
       it "is mapped to a new TownDisambiguator" do
-        TownDisambiguator.should_receive( :new ).exactly(:once).ordered.with(town1).and_return('disambiguated town 1')
-        TownDisambiguator.should_receive( :new ).exactly(:once).ordered.with(town2).and_return('disambiguated town 2')
-        expect( helper.towns_with_county_where_duplicates_exist ).to eq( ['disambiguated town 1', 'disambiguated town 2'] )
+        TownDisambiguator.should_receive(:new).exactly(:once).ordered.with(town1).and_return('disambiguated town 1')
+        TownDisambiguator.should_receive(:new).exactly(:once).ordered.with(town2).and_return('disambiguated town 2')
+        expect(helper.towns_with_county_where_duplicates_exist).to eq(['disambiguated town 1', 'disambiguated town 2'])
       end
     end
   end
@@ -91,7 +91,7 @@ describe CourtsHelper do
   describe 'family_areas_of_law' do
     it "call selected areas of law" do
       expect(AreaOfLaw).to receive(:where).
-        with(name: ['Children','Divorce','Adoption', 'Civil partnership']).
+        with(name: ['Children', 'Divorce', 'Adoption', 'Civil partnership']).
         and_return []
       family_areas_of_law { |area, id| }
     end
