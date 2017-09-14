@@ -147,6 +147,7 @@ moj.Modules.admin = {
     return moj.Modules.admin.reSort(el);
   },
 
+
   isPrimaryAddress: function(el) {
     var primary;
     primary = el.siblings('fieldset').addBack().filter(function() {
@@ -156,19 +157,16 @@ moj.Modules.admin = {
   },
 
   initNewAddressBlock: function(el, newFields) {
-    var input, primary, type;
+    var input, primary;
     input = newFields.find('.court_addresses_is_primary input');
     primary = newFields.find('.court_addresses_primary');
-    type = newFields.find('.court_addresses_address_type');
 
     if (this.isPrimaryAddress(newFields)) {
       input.val(true);
-      primary.removeClass('hidden');
-      return type.addClass('hidden');
+      return primary.removeClass('hidden');
     } else {
       input.val(false);
-      primary.addClass('hidden');
-      return type.removeClass('hidden');
+      return primary.addClass('hidden');
     }
   }
 };
