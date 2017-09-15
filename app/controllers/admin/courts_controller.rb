@@ -38,7 +38,7 @@ module Admin
 
       respond_to do |format|
         if @court.save
-          message = 'Page was successfully created.'
+          message = 'Court was successfully created.'
           format.html { redirect_to edit_admin_court_path(@court), notice: message }
           format.json { render json: @court, status: :created, location: @court }
         else
