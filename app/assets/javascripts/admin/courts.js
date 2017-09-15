@@ -147,7 +147,6 @@ moj.Modules.admin = {
     return moj.Modules.admin.reSort(el);
   },
 
-
   isPrimaryAddress: function(el) {
     var primary;
     primary = el.siblings('fieldset').addBack().filter(function() {
