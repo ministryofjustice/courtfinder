@@ -17,6 +17,7 @@ AllCops:
     - 'features/support/env.rb'
     - 'script/*'
     - 'support/**/*'
+    - 'spec/spec_helper.rb'
     - '/**/*.rake'
     - 'config/**/*'
     - 'app/views/**/*'
@@ -147,6 +148,9 @@ IfUnlessModifier:
 # Allow safe assignment in conditions.
 Lint/AssignmentInCondition:
   AllowSafeAssignment: false
+
+Style/ConditionalAssignment:
+  EnforcedStyle: assign_inside_condition
 
 # Just a preference to use %w[] over %w()
 Style/PercentLiteralDelimiters:
