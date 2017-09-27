@@ -39,12 +39,8 @@ module Admin
     def flash_message
       if postcodes.blank?
         flash.now[:move_info] = 'No postcodes selected.'
-      elsif @not_updated_postcodes.blank? && @updated_postcodes.present?
-        flash.now[:move_info] = '%s postcode(s) moved successfully.' % postcodes.count.to_s
       else
-        valid = "#{@updated_postcodes.count} postcode(s) moved successfully."
-        not_valid = "#{@not_updated_postcodes.count} postcode(s) not moved because are not valid."
-        flash.now[:move_info] = "#{valid} #{not_valid}"
+        flash.now[:move_info] = updated_postcodes_message
       end
     end
 
@@ -55,16 +51,31 @@ module Admin
     end
 
     def update_postcode_courts(ps_courts)
-      @updated_postcodes = []
-      @not_updated_postcodes = []
-
       ps_courts.each do |ps_court|
         if ps_court.update(court_id: params[:move_to][:court].to_i)
-          @updated_postcodes << ps_court.postcode
+          updated_postcodes << ps_court.postcode
         else
-          @not_updated_postcodes << ps_court.postcode
+          not_updated_postcodes << ps_court.postcode
         end
       end
+    end
+
+    def updated_postcodes_message
+      if not_updated_postcodes.blank? && updated_postcodes.present?
+        '%s postcode(s) moved successfully.' % postcodes.count.to_s
+      else
+        valid = "#{updated_postcodes.count} postcode(s) moved successfully."
+        not_valid = "#{not_updated_postcodes.count} postcode(s) not moved because are not valid."
+        "#{valid} #{not_valid}"
+      end
+    end
+
+    def not_updated_postcodes
+      @not_updated_postcodes ||= []
+    end
+
+    def updated_postcodes
+      @updated_postcodes ||= []
     end
   end
 end
