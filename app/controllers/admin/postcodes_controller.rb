@@ -40,7 +40,7 @@ module Admin
       if postcodes.blank?
         flash.now[:move_info] = 'No postcodes selected.'
       else
-        flash.now[:move_info] = '%s postcode(s) moved successfully.' % postcodes.count.to_s
+        flash.now[:move_info] = updated_postcodes_message
       end
     end
 
@@ -52,8 +52,30 @@ module Admin
 
     def update_postcode_courts(ps_courts)
       ps_courts.each do |ps_court|
-        ps_court.update(court_id: params[:move_to][:court].to_i)
+        if ps_court.update(court_id: params[:move_to][:court].to_i)
+          updated_postcodes << ps_court.postcode
+        else
+          not_updated_postcodes << ps_court.postcode
+        end
       end
+    end
+
+    def updated_postcodes_message
+      if not_updated_postcodes.blank? && updated_postcodes.present?
+        '%s postcode(s) moved successfully.' % postcodes.count.to_s
+      else
+        valid = "#{updated_postcodes.count} postcode(s) moved successfully."
+        not_valid = "#{not_updated_postcodes.count} postcode(s) not moved because are not valid."
+        "#{valid} #{not_valid}"
+      end
+    end
+
+    def not_updated_postcodes
+      @not_updated_postcodes ||= []
+    end
+
+    def updated_postcodes
+      @updated_postcodes ||= []
     end
   end
 end
