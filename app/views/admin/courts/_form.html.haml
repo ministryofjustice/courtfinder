@@ -59,7 +59,7 @@
         = f.input :cci_code
         = f.input :magistrate_court_location_code
         %br
-        = f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>'.html_safe
+        = f.association :area
       #court-types
         %h2 Court types
         = f.association :court_types, :collection => CourtType.all, :as => :check_boxes, :label => false
