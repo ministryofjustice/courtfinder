@@ -22,7 +22,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-livereload'
   gem 'letter_opener'
-  gem 'rubocop', require: false
+  gem 'rubocop', '0.49.1', require: false
 end
 
 group :test do
