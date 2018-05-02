@@ -1,7 +1,7 @@
 module Admin
   class AreasController < Admin::ApplicationController
     before_action :authorised?
-    before_action :area, only: %i[show edit update destroy]
+    before_action :area, only: [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
     def index

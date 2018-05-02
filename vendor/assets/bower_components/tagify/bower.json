@@ -1,0 +1,34 @@
+{
+  "name": "tagify",
+  "version": "0.0.2",
+  "homepage": "https://github.com/decipherinc/tagify",
+  "authors": [
+    "Greg Goforth <ggoforth@decipherinc.com>",
+    "Christopher Hiller <chiller@decipherinc.com>"
+  ],
+  "description": "A simple UI control to turn any text input into a \"tagified\" UI control. The value of the input will be split on the specified delimiter and create one tag for each item in the list.",
+  "main": "jquery.tagify.js",
+  "keywords": [
+    "tagify",
+    "jquery",
+    "tag",
+    "tags"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "tests/",
+    "Gruntfile.js",
+    "tagify.jpg",
+    "CHANGELOG.md",
+    "package.json"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.7.0"
+  },
+  "devDependencies": {
+    "qunit": "~1.12.0",
+    "sinon-qunit": "~1.0.0",
+    "sinonjs": "~1.7.1"
+  }
+}

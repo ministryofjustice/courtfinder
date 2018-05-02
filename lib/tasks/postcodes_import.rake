@@ -1,16 +1,16 @@
+require 'open-uri'
+
 namespace :postcodes do
 
-  # rake postcodes:import['file_path']
-  desc "Load list of postcodes from a CSV file"
+  # rake postcodes:import['file_url']
+  desc "Load list of postcodes from a CSV file stored on S3"
   task :import, [:file_path] => :environment do |_t, args|
     file_path = args[:file_path]
-    i = 0
     imported = 0
 
     puts "running import from file #{file_path}"
-    CSV.foreach(file_path) do |row|
-      i += 1
-      next if i == 1
+    file = open(file_path)
+    CSV.foreach(file, :headers => :first_row) do |row|
       begin
         next if postcode_exist?(row[0])
         create_postcode(row)
@@ -28,10 +28,10 @@ namespace :postcodes do
 
   def create_postcode(row)
     OfficialPostcode.create(
-      postcode: row[0],
-      sector: row[1],
-      district: row[2],
-      area: row[3]
+      postcode: row[0].strip,
+      sector: row[1].strip,
+      district: row[2].strip,
+      area: row[3].strip
     )
   end
 end

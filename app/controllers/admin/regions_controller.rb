@@ -1,7 +1,7 @@
 module Admin
   class RegionsController < Admin::ApplicationController
     before_action :authorised?
-    before_action :region, except: %i[index new create]
+    before_action :region, except: [:index, :new, :create]
     respond_to :html, :json
 
     def index

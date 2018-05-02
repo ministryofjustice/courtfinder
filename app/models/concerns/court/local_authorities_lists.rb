@@ -4,7 +4,7 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        %i[children divorce adoption civil_partnership].each do |method_name|
+        [:children, :divorce, :adoption, :civil_partnership].each do |method_name|
           define_method :"#{method_name}_local_authorities" do
             area_local_authorities AreaOfLaw.send(method_name)
           end

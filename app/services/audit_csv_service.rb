@@ -25,7 +25,10 @@ module AuditCsvService
     attr_reader :version
 
     def csv_header
-      %w[datetime user_email ip_address court_name field_name action value_before value_after]
+      [
+        'datetime', 'user_email', 'ip_address', 'court_name', 'field_name',
+        'action', 'value_before', 'value_after'
+      ]
     end
 
     def author_email

@@ -11,7 +11,7 @@ FactoryGirl.define do
   factory :postcode_court do
     postcode { FactoryGirl.create(:official_postcode).postcode }
     sequence(:court_number)
-    sequence(:court_name, 'a') {|n| "Court #{n}"}
+    sequence(:court_name, 'a') { |n| "Court #{n}" }
   end
 
   factory :court_type do
@@ -28,25 +28,29 @@ FactoryGirl.define do
   end
 
   factory :area_of_law do
-    sequence(:name) {|n| 'Law Area' }
+    sequence(:name) { |_n| 'Law Area' }
+  end
+
+  factory :area do
+    sequence(:name) { |n| "Area #{n}" }
   end
 
   factory :feedback do
   end
 
   factory :contact_type do
-    name {'Helpdesk'}
+    name { 'Helpdesk' }
   end
 
   factory :contact do
   end
 
   factory :local_authority do
-    sequence(:name) {|i| "Local Authority #{i}"}
+    sequence(:name) { |i| "Local Authority #{i}" }
   end
 
   factory :area_of_law_group do
-    sequence(:name) {|n| "Group #{n}"}
+    sequence(:name) { |n| "Group #{n}" }
   end
 
   factory :user do
@@ -70,7 +74,8 @@ FactoryGirl.define do
   factory :facility do
     name 'Disabled access'
     image_description 'Wheelchair'
-    image_file File.open("#{ Rails.root }/spec/fixtures/assets/firstaid.png")
+
+    image_file File.open(Rails.root.join('spec', 'fixtures', 'assets', 'firstaid.png'))
   end
 
   factory :external_link do
@@ -78,7 +83,7 @@ FactoryGirl.define do
   end
 
   trait :civil do
-    areas_of_law {[create(:area_of_law, name: AreaOfLaw::Name::MONEY_CLAIMS)]}
+    areas_of_law { [create(:area_of_law, name: AreaOfLaw::Name::MONEY_CLAIMS)] }
   end
 
   factory :emergency_message do

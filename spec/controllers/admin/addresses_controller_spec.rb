@@ -21,7 +21,7 @@ describe Admin::AddressesController do
 
       it "responds with :ok" do
         get :index
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
 
@@ -33,20 +33,20 @@ describe Admin::AddressesController do
 
       it "responds with :ok" do
         get :index, format: :json
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
   end
 
   describe "#update" do
-    let(:address){ address = Address.create!(address_line_1: 'Room 101', town: Town.create!) }
-    let(:params){ {id: address.id, address: {}} }
+    let(:address) { create(:address, address_line_1: 'Room 101', town: Town.create!) }
+    let(:params) { { id: address.id, address: {} } }
 
     context "when it works" do
-      before{ address.stub(update_attributes: true) }
+      before { address.stub(update_attributes: true) }
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "redirects to the show path" do
           patch :update, params
@@ -60,7 +60,7 @@ describe Admin::AddressesController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "reponds with json" do
           patch :update, params
@@ -75,10 +75,10 @@ describe Admin::AddressesController do
     end
 
     context "when it doesn't work" do
-      before{ Address.any_instance.stub(update_attributes: false) }
+      before { Address.any_instance.stub(update_attributes: false) }
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit template" do
           patch :update, params
@@ -92,7 +92,7 @@ describe Admin::AddressesController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "reponds with json" do
           patch :update, params
@@ -109,15 +109,15 @@ describe Admin::AddressesController do
 
   describe "#create" do
     context "with valid params" do
-      let(:town){ Town.create }
-      let(:params){ {address: {address_line_1: '22 Acacia Avenue', town_id: town.id}} }
+      let(:town) { Town.create }
+      let(:params) { { address: { address_line_1: '22 Acacia Avenue', town_id: town.id } } }
 
       it "creates a new Address" do
-        expect{ post :create, params }.to change(Address, :count).by(1)
+        expect { post :create, params }.to change(Address, :count).by(1)
       end
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "redirects to show the new Address" do
           post :create, params
@@ -131,7 +131,7 @@ describe Admin::AddressesController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "responds with json" do
           post :create, params
@@ -147,14 +147,14 @@ describe Admin::AddressesController do
     end
 
     context "with invalid params" do
-      let(:params){ {address: {address_line_2: '22 Acacia Avenue'}}  }
+      let(:params) { { address: { address_line_2: '22 Acacia Avenue' } } }
 
       it "does not create an Address" do
-        expect{ post :create, params }.to_not change(Address, :count)
+        expect { post :create, params }.to_not change(Address, :count)
       end
 
       describe "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "re-renders the new template" do
           post :create, params
@@ -168,7 +168,7 @@ describe Admin::AddressesController do
       end
 
       describe "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
 
         it "responds with json" do
           post :create, params
@@ -184,8 +184,8 @@ describe Admin::AddressesController do
   end
 
   describe "#edit" do
-    let(:town){ Town.create(name: 'Testington') }
-    let(:address){ Address.create(address_line_1: '22 Acacia Avenue', town: town) }
+    let(:town) { Town.create(name: 'Testington') }
+    let(:address) { Address.create(address_line_1: '22 Acacia Avenue', town: town) }
 
     it "finds the right address" do
       Address.should_receive(:find).with(address.id.to_s).and_return(address)
@@ -212,7 +212,7 @@ describe Admin::AddressesController do
 
       it "responds with :ok" do
         get :new, format: :html
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
 
@@ -224,14 +224,14 @@ describe Admin::AddressesController do
 
       it "responds with :ok" do
         get :new, format: :json
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
   end
 
   describe "#show" do
-    let(:town){ Town.create(name: 'Testington') }
-    let(:address){ Address.create(address_line_1: '22 Acacia Avenue', town: town) }
+    let(:town) { Town.create(name: 'Testington') }
+    let(:address) { Address.create(address_line_1: '22 Acacia Avenue', town: town) }
 
     it "finds the right address" do
       Address.should_receive(:find).with(address.id.to_s).and_return(address)
@@ -251,7 +251,7 @@ describe Admin::AddressesController do
 
       it "responds with :ok" do
         get :show, id: address.id, format: :html
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
 
@@ -263,16 +263,16 @@ describe Admin::AddressesController do
 
       it "responds with :ok" do
         get :show, id: address.id, format: :json
-        expect( response.status ).to eq(200)
+        expect(response.status).to eq(200)
       end
     end
   end
 
   it "remove address on destroyed" do
     at = Address.create!(address_line_1: 'Room 101', town: Town.create!)
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_addresses_path)
-    }.to change { Address.count }.by(-1)
+    end.to change { Address.count }.by(-1)
   end
 end

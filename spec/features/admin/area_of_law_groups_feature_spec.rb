@@ -21,7 +21,7 @@ feature 'Manage area of law groups' do
     end
 
     scenario 'edit a group' do
-      group = create(:area_of_law_group, name: 'Existing group')
+      create(:area_of_law_group, name: 'Existing group')
       visit '/admin/area-of-law-groups'
       page.should have_content('Existing group')
       click_link 'Edit'

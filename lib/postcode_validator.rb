@@ -10,6 +10,14 @@ class PostcodeValidator < ActiveModel::EachValidator
     check_if_postcode_exists
   end
 
+  def valid?(postcode)
+    @value = postcode
+    @uk_parser = UKPostcode.parse(@value)
+    return false unless @uk_parser.valid?
+    return false if find_postcode.blank?
+    true
+  end
+
   private
 
   def validate_poscode_format

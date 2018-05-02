@@ -13,16 +13,18 @@ require 'spec_helper'
 
 describe PostcodeCourt do
   describe 'being saved' do
-    let(:court){ create(:court) }
+    let(:court) { create(:court) }
     let(:postcode_code) { 'ab101ab' }
     subject { PostcodeCourt.new(court: court, postcode: postcode_code) }
 
-     before { OfficialPostcode.create(
+    before do
+      OfficialPostcode.create(
         postcode: 'AB10 1AB',
         sector: 'AB10 1',
         district: 'AB10',
         area: 'AB'
-      ) }
+      )
+    end
 
     it 'forces the postcode to uppercase and correct format' do
       subject.save!
@@ -30,31 +32,30 @@ describe PostcodeCourt do
     end
 
     context 'validates' do
-      # TODO: allow this in ticket RST-451
-      # context 'postcode format' do
-      #   let(:postcode_code) { 'yo165r' }
-      #   it { expect(subject).not_to be_valid }
-      # end
+      context 'postcode format' do
+        let(:postcode_code) { 'yo165r' }
+        it { expect(subject).not_to be_valid }
+      end
 
-      # context 'existence of postcode' do
-      #   let(:postcode_code) { 'AB10 1AC' }
-      #   it { expect(subject).not_to be_valid }
-      # end
+      context 'existence of postcode' do
+        let(:postcode_code) { 'AB10 1AC' }
+        it { expect(subject).not_to be_valid }
+      end
 
-      # context 'existence of sector' do
-      #   let(:postcode_code) { 'AB10 1' }
-      #   it { expect(subject).to be_valid }
-      # end
+      context 'existence of sector' do
+        let(:postcode_code) { 'AB10 1' }
+        it { expect(subject).to be_valid }
+      end
 
-      # context 'existence of district' do
-      #   let(:postcode_code) { 'AB10' }
-      #   it { expect(subject).to be_valid }
-      # end
+      context 'existence of district' do
+        let(:postcode_code) { 'AB10' }
+        it { expect(subject).to be_valid }
+      end
 
-      # context 'existence of area' do
-      #   let(:postcode_code) { 'AB' }
-      #   it { expect(subject).to be_valid }
-      # end
+      context 'existence of area' do
+        let(:postcode_code) { 'AB' }
+        it { expect(subject).to be_valid }
+      end
     end
   end
 end

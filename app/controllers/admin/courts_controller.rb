@@ -1,7 +1,7 @@
 module Admin
   class CourtsController < Admin::ApplicationController
-    before_action :authorised?, only: %i[audit audit_csv destroy]
-    before_action :court, only: %i[show edit update destroy]
+    before_action :authorised?, only: [:audit, :audit_csv, :destroy]
+    before_action :court, only: [:show, :edit, :update, :destroy]
     before_action :set_flash_message, only: :update
 
     def index
@@ -38,7 +38,7 @@ module Admin
 
       respond_to do |format|
         if @court.save
-          message = 'Page was successfully created.'
+          message = 'Court was successfully created.'
           format.html { redirect_to edit_admin_court_path(@court), notice: message }
           format.json { render json: @court, status: :created, location: @court }
         else

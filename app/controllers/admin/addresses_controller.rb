@@ -1,7 +1,7 @@
 module Admin
   class AddressesController < Admin::ApplicationController
     before_action :authorised?
-    before_action :address, only: %i[show edit update destroy]
+    before_action :address, only: [:show, :edit, :update, :destroy]
     respond_to :html, :json
 
     def index

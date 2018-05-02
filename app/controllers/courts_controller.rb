@@ -3,7 +3,7 @@ class CourtsController < ApplicationController
   respond_to :html, :json, :csv
 
   before_action :find_court, except: [:index]
-  before_action :set_vary_header, only: %i[index show]
+  before_action :set_vary_header, only: [:index, :show]
 
   def index
     render root_url

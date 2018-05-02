@@ -28,7 +28,8 @@ describe Location::LocationGenerator do
 
   describe "#generate_location_for" do
     it "should retrieve the postcode from the first address of the court" do
-      court, address = double("court").as_null_object, double("address").as_null_object
+      court = double("court").as_null_object
+      address = double("address").as_null_object
 
       address.should_receive(:postcode).and_return("SE1 2AA")
       court.should_receive(:addresses).and_return([address])
@@ -44,7 +45,9 @@ describe Location::LocationGenerator do
     end
 
     it "should call find on a locator" do
-      locator, court, address = double('locator'), double('court').as_null_object, double("address").as_null_object
+      locator = double('locator')
+      court = double('court').as_null_object
+      address = double("address").as_null_object
       address.stub(:postcode).and_return("SE1 2AA")
       court.stub(:addresses).and_return([address])
 
@@ -54,13 +57,15 @@ describe Location::LocationGenerator do
     end
 
     it "should update the longitude and latitude" do
-      locator, court, address = double('locator'), double('court').as_null_object, double("address").as_null_object
+      locator = double('locator')
+      court = double('court').as_null_object
+      address = double("address").as_null_object
       address.stub(:postcode).and_return("SE1 2AA")
       court.stub(:addresses).and_return([address])
 
-      locator.stub(:find).with("SE1 2AA").and_return([51.504850118053500,-0.078692556073505])
+      locator.stub(:find).with("SE1 2AA").and_return([51.504850118053500, -0.078692556073505])
 
-      court.should_receive(:update_attributes).with({latitude: 51.5048501180535, longitude: -0.078692556073505}).and_return(true)
+      court.should_receive(:update_attributes).with(latitude: 51.5048501180535, longitude: -0.078692556073505).and_return(true)
       Location::LocationGenerator.new(locator).generate_location_for(court)
     end
   end
@@ -98,7 +103,7 @@ describe Location::LocationGenerator do
 
       it "should update the longitude and latitude" do
         Court.stub(:find_by).with(name: 'County Court Money Claims Centre').and_return(court)
-        court.should_receive(:update_attributes).with({latitude: 53.48150, longitude: -2.28044}).and_return(:true)
+        court.should_receive(:update_attributes).with(latitude: 53.48150, longitude: -2.28044).and_return(:true)
         location_generator.load(file_with_one_entry)
       end
     end

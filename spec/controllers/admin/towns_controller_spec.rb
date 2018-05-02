@@ -7,18 +7,18 @@ describe Admin::TownsController do
   end
 
   describe "#update" do
-    let(:town){ Town.new(id: 123) }
-    before{
+    let(:town) { Town.new(id: 123) }
+    before do
       Town.stub(:find).and_return(town)
       town.stub(id: 123)
-    }
+    end
 
-    let(:params){ { id: 123, town: {name: 'new town'} } }
+    let(:params) { { id: 123, town: { name: 'new town' } } }
 
     context "that works" do
-      before{
+      before do
         Town.any_instance.stub(update_attributes: true)
-      }
+      end
 
       it "redirects to the show path" do
         patch :update, params
@@ -37,12 +37,12 @@ describe Admin::TownsController do
     end
 
     context "that doesn't work" do
-      before{
+      before do
         Town.any_instance.stub(update_attributes: false)
-      }
+      end
 
       context "a html request" do
-        before{ params[:format] = :html }
+        before { params[:format] = :html }
 
         it "rerenders the edit path" do
           patch :update, params
@@ -56,7 +56,7 @@ describe Admin::TownsController do
       end
 
       context "a json request" do
-        before{ params[:format] = :json }
+        before { params[:format] = :json }
         it "responds to json" do
           patch :update, params.merge(format: :json)
           expect(response.content_type).to eq('application/json')
@@ -67,13 +67,13 @@ describe Admin::TownsController do
   end
 
   describe "#create" do
-    let(:params){ { town: {name: 'new town'} } }
+    let(:params) { { town: { name: 'new town' } } }
 
     context "that saves ok" do
       it "creates a town" do
-        expect{
+        expect do
           post :create, params
-        }.to change { Town.count }.by(1)
+        end.to change { Town.count }.by(1)
       end
 
       it "redirects to the show path" do
@@ -92,12 +92,12 @@ describe Admin::TownsController do
       end
     end
     context "that doesn't save ok" do
-      before{ Town.any_instance.stub(save: false) }
+      before { Town.any_instance.stub(save: false) }
 
       it "does not create a town" do
-        expect{
+        expect do
           post :create, params
-        }.to_not change { Town.count }
+        end.to_not change { Town.count }
       end
 
       it "rerenders the new template" do
@@ -142,10 +142,10 @@ describe Admin::TownsController do
   end
 
   describe "#show" do
-    let(:mock_town){ Town.new(id: 123, name: 'mock town') }
-    before{
+    let(:mock_town) { Town.new(id: 123, name: 'mock town') }
+    before do
       Town.stub(:find).and_return(mock_town)
-    }
+    end
 
     it "gets the right town" do
       Town.should_receive(:find).with('123').and_return(mock_town)
@@ -175,7 +175,6 @@ describe Admin::TownsController do
       expect(assigns[:town]).to be_a(Town)
     end
 
-
     it "responds to html" do
       get :new, format: :html
       expect(response.content_type).to eq('text/html')
@@ -188,10 +187,10 @@ describe Admin::TownsController do
   end
 
   describe "#edit" do
-    let(:mock_town){ Town.new(id: 123, name: 'mock town') }
-    before{
+    let(:mock_town) { Town.new(id: 123, name: 'mock town') }
+    before do
       Town.stub(:find).and_return(mock_town)
-    }
+    end
 
     it "gets the right town" do
       Town.should_receive(:find).with('123').and_return(mock_town)
@@ -201,9 +200,9 @@ describe Admin::TownsController do
 
   it "remove town on destroy" do
     at = Town.create!
-    expect {
+    expect do
       post :destroy, id: at.id
       response.should redirect_to(admin_towns_path)
-    }.to change { Town.count }.by(-1)
+    end.to change { Town.count }.by(-1)
   end
 end

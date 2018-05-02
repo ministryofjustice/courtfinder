@@ -1,19 +1,22 @@
 require 'spec_helper'
 
 describe AuditCsvService do
-  before {
+  before do
     PaperTrail.enabled = true
     PaperTrail.whodunnit = user.id
-  }
+  end
 
   after do
     PaperTrail.enabled = false
   end
 
   describe 'Generate CSV file for audit' do
-    let(:csv_header) {[
-      "datetime", "user_email", "ip_address", "court_name",
-      "field_name", "action", "value_before", "value_after"] }
+    let(:csv_header) do
+      [
+        "datetime", "user_email", "ip_address", "court_name",
+        "field_name", "action", "value_before", "value_after"
+      ]
+    end
     let(:user) { create :user }
     let(:court_facility) { create :court_facility, court: court }
     let(:court) { create :court, name: 'Test court a' }
@@ -34,15 +37,15 @@ describe AuditCsvService do
         csv = CSV.parse(AuditCsvService.generate)
         last_version = PaperTrail::Version.last
         expect(csv[1]).to eql([
-          last_version.created_at.to_s,
-          user.email,
-          'ip',
-          'Test court b',
-          'name',
-          'update',
-          'Test court a',
-          'Test court b']
-        )
+                                last_version.created_at.to_s,
+                                user.email,
+                                'ip',
+                                'Test court b',
+                                'name',
+                                'update',
+                                'Test court a',
+                                'Test court b'
+                              ])
       end
     end
 
@@ -56,15 +59,15 @@ describe AuditCsvService do
         csv = CSV.parse(AuditCsvService.generate)
         last_version = PaperTrail::Version.last
         expect(csv[1]).to eql([
-          last_version.created_at.to_s,
-          user.email,
-          'ip',
-          'Test court a',
-          'CourtFacility',
-          'destroy',
-          last_version.previous.try(:object),
-          '']
-        )
+                                last_version.created_at.to_s,
+                                user.email,
+                                'ip',
+                                'Test court a',
+                                'CourtFacility',
+                                'destroy',
+                                last_version.previous.try(:object),
+                                ''
+                              ])
       end
     end
 
@@ -77,15 +80,15 @@ describe AuditCsvService do
         csv = CSV.parse(AuditCsvService.generate)
         last_version = PaperTrail::Version.last
         expect(csv[1]).to eql([
-          last_version.created_at.to_s,
-          user.email,
-          'ip',
-          'Test court a',
-          'CourtFacility',
-          'create',
-          '[]',
-          "[\"description: Disabled access and toilet facilities\", \"court_id: #{court.id}\", \"id: #{court_facility.id}\"]"]
-        )
+                                last_version.created_at.to_s,
+                                user.email,
+                                'ip',
+                                'Test court a',
+                                'CourtFacility',
+                                'create',
+                                '[]',
+                                "[\"description: Disabled access and toilet facilities\", \"court_id: #{court.id}\", \"id: #{court_facility.id}\"]"
+                              ])
       end
     end
   end

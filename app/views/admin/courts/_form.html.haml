@@ -42,9 +42,9 @@
         %a{:href => "#facilities"} Facilities
       %li
         %a{:href => "#parking"} Parking
-      %li
-        %a{:href => "#further-info"} Further information
       - if current_user.admin
+        %li
+          %a{:href => "#further-info"} Additional Information
         %li
           %a{:href => "#visitor-info"} Specific visitor information
     .js-tabs-content
@@ -59,7 +59,7 @@
         = f.input :cci_code
         = f.input :magistrate_court_location_code
         %br
-        = f.association :area, :hint => 'Used on <a href="/regions" rel="help">Browse regions</a>'.html_safe
+        = f.association :area
       #court-types
         %h2 Court types
         = f.association :court_types, :collection => CourtType.all, :as => :check_boxes, :label => false
@@ -148,12 +148,12 @@
           %li
             %p Blue badge parking for disabled and mobility impaired people:
             = f.input :parking_blue_badge, as: :radio_buttons, label: false, collection: Court.blue_badge_parking_options, label_method: :label, value_method: :value
-
-      #further-info
-        %h2 Further information
-        %p Please only add concise details about this particular court, no contact details or guidance on going to court.
-        = f.input :info, :input_html => { :class => 'ckeditor' }
       - if current_user.admin
+        #further-info
+          %h2 Additional Information
+          %p Please only add concise details about this particular court, no contact details or guidance on going to court.
+          = f.input :info, :input_html => { :class => 'ckeditor' }
+
         #visitor-info
           %h2 Information leaflet updates
           %p Please add details that you wish to appear only for this court or tribunal and only on the information leaflet.
