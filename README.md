@@ -1,3 +1,7 @@
+# ** Unmaintained repository! **
+
+This app has been replaced by the [courtfinder-search](https://github.com/ministryofjustice/courtfinder-search).
+
 # Court Finder
 
 [![Build Status](https://api.shippable.com/projects/54325aba80088cee586d4ca6/badge?branchName=master)](https://app.shippable.com/projects/54325aba80088cee586d4ca6/builds/latest)
